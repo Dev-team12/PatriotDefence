@@ -3,6 +3,7 @@ package defencer.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import defencer.model.Instructor;
+import defencer.service.InstructorService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
@@ -45,10 +47,14 @@ public class InstructorController implements Initializable {
 
     private ObservableList<Instructor> instructors = FXCollections.observableArrayList();
 
+    private InstructorService instructorService;
+    private Long instructorId;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         insertTableInstructors();
         loadInstructors();
+        btnDelete.setOnAction(s -> delete());
     }
 
     private void loadInstructors() {
@@ -68,5 +74,42 @@ public class InstructorController implements Initializable {
         phone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         qualification.setCellValueFactory(new PropertyValueFactory<>("qualification"));
         name.setCellValueFactory(new PropertyValueFactory<>("note"));
+    }
+
+    /**
+     * Deletes given entity.
+     */
+    private void delete() {
+        try {
+            instructorService.deleteEntity(instructorId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @param instructor going to be update.
+     * @return already updated {@link Instructor}.
+     */
+    private Instructor update(Instructor instructor) {
+        try {
+            return instructorService.updateEntity(instructor);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @param instructor going to be create.
+     * @return already created {@link Instructor}.
+     */
+    private Instructor create(Instructor instructor) {
+        try {
+            return instructorService.createEntity(instructor);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

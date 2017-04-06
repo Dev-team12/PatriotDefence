@@ -1,38 +1,35 @@
 package defencer.service.impl;
 
 import defencer.model.Project;
-import defencer.service.BuildService;
+import defencer.service.ProjectService;
 
 import java.sql.SQLException;
-import java.util.List;
 
 /**
+ * Basic implementation of {@link ProjectService} interface.
+ *
  * @author igor on 22.11.16.
  */
-public class ProjectServiceImpl implements BuildService<Project> {
+public class ProjectServiceImpl extends CrudServiceImpl<Project> implements ProjectService {
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
-    public int createEntity(Project entity) throws SQLException {
-        return 0;
+    public Project createEntity(Project entity) throws SQLException {
+        return super.createEntity(entity);
     }
 
     @Override
-    public List<Project> getTwelfth() throws SQLException {
-        return null;
+    public void deleteEntity(Long id) throws SQLException {
+        super.deleteEntity(id);
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
-    public List<Project> getByValue(String value, String like) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public void deleteEntity(String like) throws SQLException {
-
-    }
-
-    @Override
-    public void updateEntity(String like, String name, String phone, String email, String description, String occupation, String projectName) throws SQLException {
-
+    public Project updateEntity(Project project) throws SQLException {
+        return super.updateEntity(project);
     }
 }

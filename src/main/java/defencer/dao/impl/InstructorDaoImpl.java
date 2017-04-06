@@ -1,15 +1,18 @@
 package defencer.dao.impl;
 
-import defencer.dao.InstuctorDao;
+import defencer.dao.InstructorDao;
 import defencer.model.Instructor;
+import defencer.model.Project;
 
 import java.util.List;
 
+
 /**
+ * Implementation of {@link InstructorDao} interface.
+ *
  * @author Igor Gnes on 3/30/17.
  */
-public class InstructorDaoImpl extends GrudDaoImpl<Instructor> implements InstuctorDao {
-
+public class InstructorDaoImpl extends GrudDaoImpl<Instructor> implements InstructorDao {
 
     /**
      * {@inheritDoc}.
@@ -24,11 +27,6 @@ public class InstructorDaoImpl extends GrudDaoImpl<Instructor> implements Instuc
      */
     @Override
     public Instructor findOne(Long id) {
-
-        return null;
-    }
-
-    private Long test(Long id) {
 
         return null;
     }
@@ -53,7 +51,7 @@ public class InstructorDaoImpl extends GrudDaoImpl<Instructor> implements Instuc
      * {@inheritDoc}.
      */
     @Override
-    public Instructor update(Long aLong) {
+    public Instructor update(Instructor instructor) {
         return null;
     }
 
@@ -78,6 +76,14 @@ public class InstructorDaoImpl extends GrudDaoImpl<Instructor> implements Instuc
      */
     @Override
     public Instructor findByPhone(String phone) {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public List<Project> findProjectByInstructor(Long id) {
         return null;
     }
 }

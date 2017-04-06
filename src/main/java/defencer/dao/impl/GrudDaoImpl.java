@@ -1,25 +1,26 @@
 package defencer.dao.impl;
 
-import defencer.dao.GrudDag;
+import defencer.dao.CrudDao;
 import defencer.model.AbstractEntity;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 /**
- * Basic implementation of {@link GrudDag} interface.
+ * Basic implementation of {@link CrudDao} interface.
  *
  * @param <T> param entity type.
  * @author Igor Gnes on 3/30/17.
  */
 @NoArgsConstructor
-public abstract class GrudDaoImpl<T extends AbstractEntity> implements GrudDag<T, Long> {
+public abstract class GrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
 
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public T save(T entity) {
-
-
         // TODO add code for save and return that user
         return entity;
     }
@@ -39,8 +40,11 @@ public abstract class GrudDaoImpl<T extends AbstractEntity> implements GrudDag<T
         return false;
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
-    public T update(Long id) {
+    public T update(T entity) {
         return null;
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
  * @param <ID> id id entity in database.
  * @author Igor Gnes on 3/30/17.
  */
-public interface GrudDag<T, ID extends Serializable> {
+public interface CrudDao<T, ID extends Serializable> {
 
     /**
      * Save a given entity.
@@ -45,10 +45,10 @@ public interface GrudDag<T, ID extends Serializable> {
     /**
      * Updates a given entity.
      *
-     * @param id must not be {@literal null}.
+     * @param entity must not be {@literal null}.
      * @return updated entity.
      */
-    T update(ID id);
+    T update(T entity);
 
     /**
      * Returns full list of name.
