@@ -8,7 +8,7 @@ import java.util.List;
  * @param <ID> id id entity in database.
  * @author Igor Gnes on 3/30/17.
  */
-public interface GrudDag<T, ID extends Serializable>{
+public interface GrudDag<T, ID extends Serializable> {
 
     /**
      * Save a given entity.
