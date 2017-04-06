@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<AnchorPane fx:id="root" maxHeight="646.0" maxWidth="421.0" minHeight="646.0" minWidth="421.0" prefHeight="646.0" prefWidth="421.0"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.ChoiceController">
+   <Pagination fx:id="showPhotos" layoutX="4.0" prefHeight="531.0" prefWidth="413.0"/>
+   <JFXButton fx:id="choicerInstructors" defaultButton="true" layoutX="114.0" layoutY="607.0" mnemonicParsing="false"
+              text="choice"/>
+   <Label fx:id="nameInstructors" alignment="CENTER" layoutY="579.0" prefHeight="15.0" prefWidth="421.0"
+          text="here name">
+      <font>
+         <Font name="System Bold" size="14.0"/>
+      </font>
+   </Label>
+   <JFXButton onAction="#closeAndClear" layoutX="246.0" layoutY="607.0" mnemonicParsing="false" prefHeight="25.0"
+           prefWidth="61.0" text="ok"/>
+</AnchorPane>

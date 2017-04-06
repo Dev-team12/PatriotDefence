@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="welcomeRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="446.0" prefWidth="797.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.WelcomePageController">
+   <ImageView fitHeight="458.0" fitWidth="812.0" layoutX="-7.0" layoutY="-5.0" pickOnBounds="true"
+              preserveRatio="true">
+      <Image url="/image/welcome.jpg"/>
+   </ImageView>
+   <JFXProgressBar fx:id="progressBar" layoutX="180.0" layoutY="328.0" prefWidth="500.0"/>
+</AnchorPane>
