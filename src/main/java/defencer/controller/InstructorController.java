@@ -3,7 +3,7 @@ package defencer.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import defencer.model.Instructor;
-import defencer.service.InstructorService;
+import defencer.service.factory.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,7 +22,6 @@ import java.util.ResourceBundle;
  * @author Igor Gnes on 4/6/17.
  */
 public class InstructorController implements Initializable {
-
 
     @FXML
     private TableColumn<Instructor, String> name;
@@ -47,7 +46,6 @@ public class InstructorController implements Initializable {
 
     private ObservableList<Instructor> instructors = FXCollections.observableArrayList();
 
-    private InstructorService instructorService;
     private Long instructorId;
 
     @Override
@@ -81,7 +79,7 @@ public class InstructorController implements Initializable {
      */
     private void delete() {
         try {
-            instructorService.deleteEntity(instructorId);
+            ServiceFactory.getInstructorService().deleteEntity(instructorId);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -93,7 +91,7 @@ public class InstructorController implements Initializable {
      */
     private Instructor update(Instructor instructor) {
         try {
-            return instructorService.updateEntity(instructor);
+            return ServiceFactory.getInstructorService().updateEntity(instructor);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -106,7 +104,7 @@ public class InstructorController implements Initializable {
      */
     private Instructor create(Instructor instructor) {
         try {
-            return instructorService.createEntity(instructor);
+            return ServiceFactory.getInstructorService().createEntity(instructor);
         } catch (SQLException e) {
             e.printStackTrace();
         }

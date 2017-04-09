@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Igor Gnes on 3/30/17.
  */
-public class InstructorDaoImpl extends GrudDaoImpl<Instructor> implements InstructorDao {
+public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements InstructorDao {
 
     /**
      * {@inheritDoc}.
@@ -35,7 +35,7 @@ public class InstructorDaoImpl extends GrudDaoImpl<Instructor> implements Instru
      * {@inheritDoc}.
      */
     @Override
-    public void delete(Instructor entity) {
+    public void delete(Long id) {
 
     }
 

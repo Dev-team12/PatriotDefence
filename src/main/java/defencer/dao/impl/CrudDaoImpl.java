@@ -2,7 +2,9 @@ package defencer.dao.impl;
 
 import defencer.dao.CrudDao;
 import defencer.model.AbstractEntity;
+import defencer.util.HibernateUtil;
 import lombok.NoArgsConstructor;
+import org.hibernate.Session;
 
 import java.util.List;
 
@@ -13,14 +15,20 @@ import java.util.List;
  * @author Igor Gnes on 3/30/17.
  */
 @NoArgsConstructor
-public abstract class GrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
+public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
 
+    private Session session = HibernateUtil.getSessionFactory().openSession();
 
     /**
      * {@inheritDoc}.
      */
     @Override
     public T save(T entity) {
+        session.beginTransaction();
+        session.save(entity);
+        session.getTransaction().commit();
+        HibernateUtil.shutdown();
+
         // TODO add code for save and return that user
         return entity;
     }
@@ -31,7 +39,7 @@ public abstract class GrudDaoImpl<T extends AbstractEntity> implements CrudDao<T
     }
 
     @Override
-    public void delete(T entity) {
+    public void delete(Long id) {
 
     }
 
