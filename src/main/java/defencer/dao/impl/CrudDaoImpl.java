@@ -28,21 +28,28 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
         session.save(entity);
         session.getTransaction().commit();
         HibernateUtil.shutdown();
-
-        // TODO add code for save and return that user
         return entity;
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public T findOne(Long id) {
         return null;
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public void delete(Long id) {
 
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public boolean exists(Long id) {
         return false;
@@ -56,6 +63,9 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
         return null;
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public List<T> getEntityNames() {
         return null;

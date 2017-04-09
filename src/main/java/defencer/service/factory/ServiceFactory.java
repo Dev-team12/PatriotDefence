@@ -12,14 +12,23 @@ import defencer.service.impl.PupilServiceImpl;
  */
 public class ServiceFactory {
 
+    /**
+     * @return InstructorService.
+     */
     public static InstructorService getInstructorService() {
         return new InstructorServiceImpl();
     }
 
+    /**
+     * @return ProjectService.
+     */
     public static ProjectService getProjectService() {
         return new ProjectServiceImpl();
     }
 
+    /**
+     * @return PupilService.
+     */
     public static PupilService getPupilService() {
         return new PupilServiceImpl();
     }

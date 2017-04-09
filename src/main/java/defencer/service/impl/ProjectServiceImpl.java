@@ -20,6 +20,9 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
         return super.createEntity(entity);
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public void deleteEntity(Long id) throws SQLException {
         super.deleteEntity(id);

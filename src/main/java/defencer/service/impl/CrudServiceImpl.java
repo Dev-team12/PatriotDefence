@@ -18,12 +18,17 @@ public class CrudServiceImpl<T extends AbstractEntity> implements CrudService<T,
 
     private final CrudDao<T, Long> crudDao = new CrudDaoImpl<>();
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
-
     public T createEntity(T entity) throws SQLException {
         return crudDao.save(entity);
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public void deleteEntity(Long id) throws SQLException {
         crudDao.delete(id);

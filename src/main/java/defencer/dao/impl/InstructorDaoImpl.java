@@ -27,7 +27,6 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
      */
     @Override
     public Instructor findOne(Long id) {
-
         return null;
     }
 

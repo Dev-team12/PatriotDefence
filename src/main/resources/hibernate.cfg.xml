@@ -5,9 +5,9 @@
 <hibernate-configuration>
   <session-factory>
     <property name="connection.url">
-      </property>
-    <property name="hibernate.connection.username"></property>
-    <property name="hibernate.connection.password"></property>
+      <![CDATA[jdbc:postgresql://ec2-54-75-229-201.eu-west-1.compute.amazonaws.com:5432/d8h0drjb9eoidt?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory&]]></property>
+    <property name="hibernate.connection.username">cmienhftbssytm</property>
+    <property name="hibernate.connection.password">3d33063c06d2d1a20bec8b1c099836b8245bbbdb9f9e2587cacb3802e699046e</property>
     <property name="connection.driver_class">org.postgresql.Driver</property>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
     <property name="current_session_context_class">thread</property>

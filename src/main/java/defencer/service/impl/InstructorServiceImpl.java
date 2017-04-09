@@ -17,6 +17,9 @@ import java.util.List;
  */
 public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implements InstructorService {
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public Instructor createEntity(Instructor instructor) throws SQLException {
         if (!this.emailAvailable(instructor)) {
@@ -49,18 +52,19 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
         return DaoFactory.getInstructorDao().findProjectByInstructor(id);
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public Instructor findByEmail(String email) {
         return DaoFactory.getInstructorDao().findByEmail(email);
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
-    public List<Instructor> getAll() throws SQLException {
-        return null;
-    }
-
-    @Override
-    public List<Instructor> getInstructorsName() throws SQLException {
+    public List<Instructor> getInstructorsNames() throws SQLException {
         return null;
     }
 

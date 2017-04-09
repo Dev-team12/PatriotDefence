@@ -21,10 +21,6 @@ public interface CrudService<T, ID extends Serializable> {
      */
     T createEntity(T entity) throws SQLException;
 
-    default List<T> getAll() throws SQLException {
-        return null;
-    }
-
     /**
      * @param id entity's id in database, mustn't be {@literal null}.
      * @throws SQLException if something went wrong during deleting.
@@ -38,7 +34,11 @@ public interface CrudService<T, ID extends Serializable> {
      */
     T updateEntity(T entity) throws SQLException;
 
-    default  List<Instructor> getInstructorsName() throws SQLException {
+    /**
+     * @return list with instructors names.
+     * @throws SQLException if found none.
+     */
+    default  List<Instructor> getInstructorsNames() throws SQLException {
         return null;
     }
 }
