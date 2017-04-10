@@ -1,6 +1,6 @@
 package defencer.service.impl;
 
-import defencer.dao.InstructorDao;
+import defencer.dao.factory.DaoFactory;
 import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Instructor;
 import defencer.model.Project;
@@ -17,8 +17,9 @@ import java.util.List;
  */
 public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implements InstructorService {
 
-    private InstructorDao instructorDao;
-
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public Instructor createEntity(Instructor instructor) throws SQLException {
         if (!this.emailAvailable(instructor)) {
@@ -48,21 +49,22 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      */
     @Override
     public List<Project> findProjectByInstructor(Long id) {
-        return instructorDao.findProjectByInstructor(id);
+        return DaoFactory.getInstructorDao().findProjectByInstructor(id);
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public Instructor findByEmail(String email) {
-        return null;
+        return DaoFactory.getInstructorDao().findByEmail(email);
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
-    public List<Instructor> getAll() throws SQLException {
-        return null;
-    }
-
-    @Override
-    public List<Instructor> getInstructorsName() throws SQLException {
+    public List<Instructor> getInstructorsNames() throws SQLException {
         return null;
     }
 

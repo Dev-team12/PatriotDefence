@@ -1,6 +1,7 @@
 package defencer.service.impl;
 
 import defencer.dao.CrudDao;
+import defencer.dao.impl.CrudDaoImpl;
 import defencer.model.AbstractEntity;
 import defencer.service.CrudService;
 
@@ -13,19 +14,24 @@ import java.sql.SQLException;
  *
  * @author Igor Gnes on 4/6/17.
  */
-public abstract class CrudServiceImpl<T extends AbstractEntity> implements CrudService<T, Long> {
+public class CrudServiceImpl<T extends AbstractEntity> implements CrudService<T, Long> {
 
-    private CrudDao<T, Long> crudDao;
+    private final CrudDao<T, Long> crudDao = new CrudDaoImpl<>();
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
-
     public T createEntity(T entity) throws SQLException {
         return crudDao.save(entity);
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public void deleteEntity(Long id) throws SQLException {
-
+        crudDao.delete(id);
     }
 
     /**
