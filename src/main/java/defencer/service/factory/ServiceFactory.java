@@ -8,6 +8,8 @@ import defencer.service.impl.ProjectServiceImpl;
 import defencer.service.impl.PupilServiceImpl;
 
 /**
+ * Own factory for service interface.
+ *
  * @author Igor Gnes on 4/9/17.
  */
 public class ServiceFactory {

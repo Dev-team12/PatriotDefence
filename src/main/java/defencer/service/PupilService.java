@@ -9,8 +9,7 @@ public interface PupilService {
 
     /**
      * @param id its given project id.
-     * @return {@link Pupil} by given project.
+     * @return {@link Pupil} by given project id.
      */
     Pupil findByProject(Long id);
-
 }

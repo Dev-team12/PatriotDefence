@@ -4,6 +4,7 @@ import defencer.model.Project;
 import defencer.service.ProjectService;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Basic implementation of {@link ProjectService} interface.
@@ -34,5 +35,10 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
     @Override
     public Project updateEntity(Project project) throws SQLException {
         return super.updateEntity(project);
+    }
+
+    @Override
+    public List<Project> findByPeriod() {
+        return null;
     }
 }
