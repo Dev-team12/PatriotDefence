@@ -39,7 +39,7 @@ public class InstructorController implements Initializable {
     @FXML
     private TableColumn<Instructor, String> status;
     @FXML
-    private JFXComboBox<String> comboBoxInstructors;
+    private JFXComboBox<String> searchBy;
     @FXML
     private TextField txtSearch;
     @FXML
@@ -57,11 +57,11 @@ public class InstructorController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         insertTableInstructors();
         loadInstructors();
-        comboBoxInstructors.setPromptText("Name");
-        comboBoxInstructors.setItems(FXCollections
+        searchBy.setPromptText("Name");
+        searchBy.setItems(FXCollections
                 .observableArrayList("Name", "Email", "Phone", "Qualification"));
 
-        btnFind.setOnAction(e -> System.out.println(comboBoxInstructors.getValue()));
+        btnFind.setOnAction(e -> System.out.println(searchBy.getValue()));
     }
 
     /**
@@ -148,7 +148,7 @@ public class InstructorController implements Initializable {
     private List<Instructor> search() {
         try {
             return ServiceFactory.getInstructorService()
-                    .searchEntity(comboBoxInstructors.getValue(), txtSearch.getText());
+                    .searchEntity(searchBy.getValue(), txtSearch.getText());
         } catch (SQLException e) {
             e.printStackTrace();
         }
