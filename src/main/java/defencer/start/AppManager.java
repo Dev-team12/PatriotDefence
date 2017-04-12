@@ -14,7 +14,7 @@ public class AppManager extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         final Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/test.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/InstructorPage.fxml"));
         stage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
         stage.setScene(scene);

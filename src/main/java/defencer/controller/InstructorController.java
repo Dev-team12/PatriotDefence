@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -24,17 +25,19 @@ import java.util.ResourceBundle;
 public class InstructorController implements Initializable {
 
     @FXML
+    private TableView<Instructor> table;
+    @FXML
     private TableColumn<Instructor, String> name;
     @FXML
     private TableColumn<Instructor, String> email;
     @FXML
     private TableColumn<Instructor, String> phone;
     @FXML
-    private TableColumn<Instructor, String> notes;
-    @FXML
     private TableColumn<Instructor, String> qualification;
     @FXML
-    private JFXComboBox comboBoxInstructors;
+    private TableColumn<Instructor, String> status;
+    @FXML
+    private JFXComboBox<String> comboBoxInstructors;
     @FXML
     private TextField textSearch;
     @FXML
@@ -44,7 +47,7 @@ public class InstructorController implements Initializable {
     @FXML
     private JFXButton btnUpdate;
 
-    private ObservableList<Instructor> instructors = FXCollections.observableArrayList();
+    private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
 
     private Long instructorId;
 
@@ -52,10 +55,23 @@ public class InstructorController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         insertTableInstructors();
         loadInstructors();
-        btnDelete.setOnAction(s -> delete());
+        comboBoxInstructors.setPromptText("Name");
+        comboBoxInstructors.setItems(FXCollections
+                .observableArrayList("Name", "Email", "Phone", "Qualification"));
     }
 
+    /**
+     * Load instructors into table.
+     */
     private void loadInstructors() {
+        final Instructor instructor = new Instructor();
+        instructor.setEmail("gmail.com");
+        instructor.setQualification("Instructor");
+        instructor.setPhone("093");
+        instructor.setFirstName("Alex");
+        instructor.setStatus("Free");
+        observableInstructors.addAll(instructor);
+        table.setItems(observableInstructors);
         //todo get and set in ObservableList all instructors from database
     }
 
@@ -67,11 +83,11 @@ public class InstructorController implements Initializable {
      * Insert value for table.
      */
     private void insertTableInstructors() {
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        name.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
-        phone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         qualification.setCellValueFactory(new PropertyValueFactory<>("qualification"));
-        name.setCellValueFactory(new PropertyValueFactory<>("note"));
+        status.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
     /**
