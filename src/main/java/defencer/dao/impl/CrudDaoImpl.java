@@ -6,6 +6,7 @@ import defencer.util.HibernateUtil;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -17,13 +18,12 @@ import java.util.List;
 @NoArgsConstructor
 public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
 
-    private Session session = HibernateUtil.getSessionFactory().openSession();
-
     /**
      * {@inheritDoc}.
      */
     @Override
     public T save(T entity) {
+        final Session session = getSession();
         session.beginTransaction();
         session.save(entity);
         session.getTransaction().commit();
@@ -36,6 +36,7 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
      */
     @Override
     public T findOne(Long id) {
+        final Session session = getSession();
         return null;
     }
 
@@ -44,7 +45,7 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
      */
     @Override
     public void delete(Long id) {
-
+        final Session session = getSession();
     }
 
     /**
@@ -52,6 +53,7 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
      */
     @Override
     public boolean exists(Long id) {
+        final Session session = getSession();
         return false;
     }
 
@@ -60,14 +62,23 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
      */
     @Override
     public T update(T entity) {
+        final Session session = getSession();
         return null;
     }
 
-    /**
-     * {@inheritDoc}.
-     */
     @Override
-    public List<T> getEntityNames() {
+    public List<T> getEntityForMonths() {
+        final Session session = getSession();
         return null;
+    }
+
+    @Override
+    public List<T> searchEntity(String param, String value) throws SQLException {
+        final Session session = getSession();
+        return null;
+    }
+
+    private Session getSession() {
+        return HibernateUtil.getSessionFactory().openSession();
     }
 }

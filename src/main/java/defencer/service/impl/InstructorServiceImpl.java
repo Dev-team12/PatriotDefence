@@ -32,22 +32,6 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      * {@inheritDoc}.
      */
     @Override
-    public void deleteEntity(Long id) throws SQLException {
-        super.deleteEntity(id);
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public Instructor updateEntity(Instructor instructor) throws SQLException {
-        return super.updateEntity(instructor);
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
     public List<Project> findProjectByInstructor(Long id) {
         return DaoFactory.getInstructorDao().findProjectByInstructor(id);
     }
@@ -58,14 +42,6 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
     @Override
     public Instructor findByEmail(String email) {
         return DaoFactory.getInstructorDao().findByEmail(email);
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public List<Instructor> getInstructorsNames() throws SQLException {
-        return null;
     }
 
     /**

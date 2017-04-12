@@ -15,6 +15,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -39,7 +41,7 @@ public class InstructorController implements Initializable {
     @FXML
     private JFXComboBox<String> comboBoxInstructors;
     @FXML
-    private TextField textSearch;
+    private TextField txtSearch;
     @FXML
     private JFXButton btnFind;
     @FXML
@@ -58,6 +60,8 @@ public class InstructorController implements Initializable {
         comboBoxInstructors.setPromptText("Name");
         comboBoxInstructors.setItems(FXCollections
                 .observableArrayList("Name", "Email", "Phone", "Qualification"));
+
+        btnFind.setOnAction(e -> System.out.println(comboBoxInstructors.getValue()));
     }
 
     /**
@@ -70,13 +74,11 @@ public class InstructorController implements Initializable {
         instructor.setPhone("093");
         instructor.setFirstName("Alex");
         instructor.setStatus("Free");
-        observableInstructors.addAll(instructor);
+        List<Instructor> list = new LinkedList<>();
+        list.add(instructor);
+
+        observableInstructors.addAll(list);
         table.setItems(observableInstructors);
-        //todo get and set in ObservableList all instructors from database
-    }
-
-    public void editInstructorList() {
-
     }
 
     /**
@@ -121,6 +123,32 @@ public class InstructorController implements Initializable {
     private Instructor create(Instructor instructor) {
         try {
             return ServiceFactory.getInstructorService().createEntity(instructor);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @return list of instructors for last months.
+     */
+    private List<Instructor> getInstructors() {
+
+        try {
+            return ServiceFactory.getInstructorService().getEntityForMonths();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @return search by selected parameters.
+     */
+    private List<Instructor> search() {
+        try {
+            return ServiceFactory.getInstructorService()
+                    .searchEntity(comboBoxInstructors.getValue(), txtSearch.getText());
         } catch (SQLException e) {
             e.printStackTrace();
         }

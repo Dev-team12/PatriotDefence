@@ -4,18 +4,21 @@
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:controller="defencer.controller.InstructorController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="461.0" prefWidth="679.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.InstructorController">
    <children>
-      <TableView fx:id="table" layoutY="49.0" prefHeight="412.0" prefWidth="679.0">
+      <TableView fx:id="table" layoutY="49.0" prefHeight="416.0" prefWidth="780.0">
         <columns>
-          <TableColumn fx:id="name" prefWidth="124.0" text="Name" />
-          <TableColumn fx:id="qualification" prefWidth="143.0" text="Qualification" />
-            <TableColumn fx:id="phone" prefWidth="174.0" text="Phone" />
-            <TableColumn fx:id="email" prefWidth="134.0" text="Email" />
-            <TableColumn fx:id="status" prefWidth="103.0" text="Status" />
+          <TableColumn fx:id="name" prefWidth="137.0" text="Name" />
+          <TableColumn fx:id="qualification" prefWidth="146.0" text="Qualification" />
+            <TableColumn fx:id="phone" prefWidth="178.0" text="Phone" />
+            <TableColumn fx:id="email" prefWidth="176.0" text="Email" />
+            <TableColumn fx:id="status" prefWidth="142.0" text="Status" />
         </columns>
       </TableView>
-      <JFXComboBox fx:id="comboBoxInstructors" layoutX="124.0" layoutY="14.0" prefHeight="27.0" prefWidth="143.0" />
-      <JFXButton fx:id="btnFind" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="104.0" text="Search by" />
+      <JFXComboBox fx:id="comboBoxInstructors" layoutX="312.0" layoutY="15.0" prefHeight="27.0" prefWidth="143.0" />
+      <JFXButton fx:id="btnFind" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="104.0" text="Search" />
+      <JFXTextField fx:id="txtSearch" layoutX="133.0" layoutY="16.0" />
+      <JFXButton fx:id="btnUpdate" layoutX="485.0" layoutY="15.0" prefHeight="27.0" prefWidth="67.0" text="Edit" />
+      <JFXButton fx:id="btnDelete" layoutX="577.0" layoutY="15.0" prefHeight="27.0" prefWidth="67.0" text="Delete" />
    </children>
 </AnchorPane>
