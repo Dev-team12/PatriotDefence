@@ -13,11 +13,10 @@ public class AppManager extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        final Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/pupilPage.fxml"));
-        stage.setTitle("Patriot Defence");
+        Parent root = FXMLLoader.load(getClass().getResource("/PupilPage.fxml"));
+        primaryStage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }
