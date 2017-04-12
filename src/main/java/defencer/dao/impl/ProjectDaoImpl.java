@@ -10,4 +10,5 @@ import defencer.model.Project;
  */
 public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
 
+
 }
