@@ -3,6 +3,8 @@ package defencer.dao.impl;
 import defencer.dao.InstructorDao;
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.util.HibernateUtil;
+import org.hibernate.Session;
 
 import java.util.List;
 
@@ -18,55 +20,8 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
      * {@inheritDoc}.
      */
     @Override
-    public Instructor save(Instructor instructor) {
-        return super.save(instructor);
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public Instructor findOne(Long id) {
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public void delete(Long id) {
-
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public boolean exists(Long aLong) {
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public Instructor update(Instructor instructor) {
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public List<Instructor> getEntityNames() {
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
     public Instructor findByEmail(String email) {
+        final Session session = getSession();
         return null;
     }
 
@@ -75,6 +30,7 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
      */
     @Override
     public Instructor findByPhone(String phone) {
+        final Session session = getSession();
         return null;
     }
 
@@ -83,6 +39,11 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
      */
     @Override
     public List<Project> findProjectByInstructor(Long id) {
+        final Session session = getSession();
         return null;
+    }
+
+    private Session getSession() {
+        return HibernateUtil.getSessionFactory().openSession();
     }
 }

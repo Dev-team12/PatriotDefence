@@ -1,6 +1,7 @@
 package defencer.dao;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -51,9 +52,13 @@ public interface CrudDao<T, ID extends Serializable> {
     T update(T entity);
 
     /**
-     * Returns full list of name.
-     *
-     * @return list of entity names.
+     * @return list of entity for last months.
      */
-    List<T> getEntityNames();
+    List<T> getEntityForMonths();
+
+    /**
+     * @return list of found entity by given param and value.
+     * @throws SQLException if were found none.
+     */
+    List<T> searchEntity(String param, String value) throws SQLException;
 }

@@ -7,13 +7,21 @@ import defencer.service.factory.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -21,8 +29,10 @@ import java.util.ResourceBundle;
  *
  * @author Igor Gnes on 4/6/17.
  */
-public class InstructorController implements Initializable {
+public class    InstructorController implements Initializable {
 
+    @FXML
+    private TableView<Instructor> table;
     @FXML
     private TableColumn<Instructor, String> name;
     @FXML
@@ -30,13 +40,15 @@ public class InstructorController implements Initializable {
     @FXML
     private TableColumn<Instructor, String> phone;
     @FXML
-    private TableColumn<Instructor, String> notes;
-    @FXML
     private TableColumn<Instructor, String> qualification;
     @FXML
-    private JFXComboBox comboBoxInstructors;
+    private TableColumn<Instructor, String> status;
     @FXML
-    private TextField textSearch;
+    private JFXComboBox<String> searchBy;
+    @FXML
+    private JFXButton btnAddOneMore;
+    @FXML
+    private TextField txtSearch;
     @FXML
     private JFXButton btnFind;
     @FXML
@@ -44,7 +56,8 @@ public class InstructorController implements Initializable {
     @FXML
     private JFXButton btnUpdate;
 
-    private ObservableList<Instructor> instructors = FXCollections.observableArrayList();
+    private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
+    private final Stage stage = new Stage();
 
     private Long instructorId;
 
@@ -52,26 +65,41 @@ public class InstructorController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         insertTableInstructors();
         loadInstructors();
-        btnDelete.setOnAction(s -> delete());
+        searchBy.setPromptText("Name");
+        searchBy.setItems(FXCollections
+                .observableArrayList("Name", "Email", "Phone", "Qualification"));
+
+        btnFind.setOnAction(e -> System.out.println(searchBy.getValue()));
+
+        btnAddOneMore.setOnAction(e -> newInstructor());
     }
 
+    /**
+     * Load instructors into table.
+     */
     private void loadInstructors() {
-        //todo get and set in ObservableList all instructors from database
-    }
+        final Instructor instructor = new Instructor();
+        instructor.setEmail("gmail.com");
+        instructor.setQualification("Instructor");
+        instructor.setPhone("093");
+        instructor.setFirstName("Alex");
+        instructor.setStatus("Free");
+        List<Instructor> list = new LinkedList<>();
+        list.add(instructor);
 
-    public void editInstructorList() {
-
+        observableInstructors.addAll(list);
+        table.setItems(observableInstructors);
     }
 
     /**
      * Insert value for table.
      */
     private void insertTableInstructors() {
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        name.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
-        phone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         qualification.setCellValueFactory(new PropertyValueFactory<>("qualification"));
-        name.setCellValueFactory(new PropertyValueFactory<>("note"));
+        status.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
     /**
@@ -109,5 +137,45 @@ public class InstructorController implements Initializable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * @return list of instructors for last months.
+     */
+    private List<Instructor> getInstructors() {
+
+        try {
+            return ServiceFactory.getInstructorService().getEntityForMonths();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @return search by selected parameters.
+     */
+    private List<Instructor> search() {
+        try {
+            return ServiceFactory.getInstructorService()
+                    .searchEntity(searchBy.getValue(), txtSearch.getText());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Open new page to add one more instructor.
+     *
+     * {@link SneakyThrows} here because i am totally sure that path to fxml is correct.
+     */
+    @SneakyThrows
+    private void newInstructor() {
+        Parent root = FXMLLoader.load(getClass().getResource("/NewInstructor.fxml"));
+        stage.setTitle("Patriot Defence");
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

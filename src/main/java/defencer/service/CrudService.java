@@ -1,7 +1,5 @@
 package defencer.service;
 
-import defencer.model.Instructor;
-
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
@@ -35,10 +33,14 @@ public interface CrudService<T, ID extends Serializable> {
     T updateEntity(T entity) throws SQLException;
 
     /**
-     * @return list with instructors names.
+     * @return list of entity for last months.
      * @throws SQLException if found none.
      */
-    default  List<Instructor> getInstructorsNames() throws SQLException {
-        return null;
-    }
+    List<T> getEntityForMonths() throws SQLException;
+
+    /**
+     * @return list of found entity by given param and value.
+     * @throws SQLException if were found none.
+     */
+    List<T> searchEntity(String param, String value) throws SQLException;
 }
