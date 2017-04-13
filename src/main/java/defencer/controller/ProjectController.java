@@ -7,11 +7,15 @@ import defencer.model.Project;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.util.LinkedList;
@@ -101,7 +105,17 @@ public class ProjectController implements Initializable {
         table.setItems(observableProjects);
     }
 
+    /**
+     * Open new page to add one more project.
+     *
+     * {@link SneakyThrows} here because i am totally sure that path to fxml is correct.
+     */
+    @SneakyThrows
     private void newProject() {
-
+        Parent root = FXMLLoader.load(getClass().getResource("/NewProject.fxml"));
+        stage.setTitle("Patriot Defence");
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

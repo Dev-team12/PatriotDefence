@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="root" fx:controller="defencer.controller.add.NewProjectController" maxHeight="-Infinity"
+            maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="632.0" prefWidth="273.0"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <Label layoutX="22.0" layoutY="14.0" text="Create new Project">
+      <font>
+         <Font name="System Bold" size="13.0"/>
+      </font>
+   </Label>
+   <ImageView fitHeight="85.0" fitWidth="121.0" layoutX="175.0" layoutY="11.0" pickOnBounds="true"
+              preserveRatio="true">
+      <Image url="/image/Patriot_Defence.png"/>
+   </ImageView>
+   <JFXTextField fx:id="place" layoutX="30.0" layoutY="140.0" maxWidth="218.0" minWidth="218.0" prefHeight="31.0"
+                 prefWidth="218.0" promptText="Place"/>
+   <JFXTextArea fx:id="description" layoutX="30.0" layoutY="526.0" maxWidth="218.0" minWidth="197.0" prefHeight="50.0"
+                prefWidth="218.0" promptText="Description" wrapText="true"/>
+   <JFXButton fx:id="btnCreate" defaultButton="true" layoutX="186.0" layoutY="593.0" prefHeight="25.0" prefWidth="61.0"
+              text="ok"/>
+   <JFXButton fx:id="btnCancel" layoutX="97.0" layoutY="593.0" text="cancel"/>
+   <JFXComboBox fx:id="comboInstructors" layoutX="30.0" layoutY="407.0" prefHeight="27.0" prefWidth="146.0"
+                promptText="Instructors"/>
+   <JFXButton fx:id="btnAddInstructor" layoutX="187.0" layoutY="407.0" prefHeight="25.0" prefWidth="61.0" text="Add"/>
+   <JFXTextArea fx:id="areaInstructors" layoutX="30.0" layoutY="450.0" prefHeight="50.0" prefWidth="218.0"
+                promptText="Selected instructors"/>
+   <JFXComboBox fx:id="comboCars" layoutX="30.0" layoutY="277.0" prefHeight="27.0" prefWidth="152.0" promptText="Car"/>
+   <JFXButton fx:id="btnAddCar" layoutX="187.0" layoutY="277.0" prefHeight="25.0" prefWidth="61.0" text="Add"/>
+   <JFXTextArea fx:id="areaCars" layoutX="30.0" layoutY="317.0" prefHeight="50.0" prefWidth="218.0"
+                promptText="Selected cars"/>
+   <JFXDatePicker fx:id="dataFrom" layoutX="30.0" layoutY="191.0" prefHeight="27.0" prefWidth="227.0"
+               promptText="Date from"/>
+   <JFXDatePicker fx:id="dataTo" layoutX="30.0" layoutY="234.0" prefHeight="27.0" prefWidth="227.0" promptText="Date to"/>
+   <JFXComboBox fx:id="projectName" layoutX="30.0" layoutY="103.0" prefHeight="31.0" prefWidth="218.0"
+                promptText="Name of project"/>
+</AnchorPane>
