@@ -7,11 +7,16 @@ import defencer.service.factory.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -24,7 +29,7 @@ import java.util.ResourceBundle;
  *
  * @author Igor Gnes on 4/6/17.
  */
-public class InstructorController implements Initializable {
+public class    InstructorController implements Initializable {
 
     @FXML
     private TableView<Instructor> table;
@@ -41,6 +46,8 @@ public class InstructorController implements Initializable {
     @FXML
     private JFXComboBox<String> searchBy;
     @FXML
+    private JFXButton btnAddOneMore;
+    @FXML
     private TextField txtSearch;
     @FXML
     private JFXButton btnFind;
@@ -50,6 +57,7 @@ public class InstructorController implements Initializable {
     private JFXButton btnUpdate;
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
+    private final Stage stage = new Stage();
 
     private Long instructorId;
 
@@ -62,6 +70,8 @@ public class InstructorController implements Initializable {
                 .observableArrayList("Name", "Email", "Phone", "Qualification"));
 
         btnFind.setOnAction(e -> System.out.println(searchBy.getValue()));
+
+        btnAddOneMore.setOnAction(e -> newInstructor());
     }
 
     /**
@@ -153,5 +163,19 @@ public class InstructorController implements Initializable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Open new page to add one more instructor.
+     *
+     * {@link SneakyThrows} here because i am totally sure that path to fxml is correct.
+     */
+    @SneakyThrows
+    private void newInstructor() {
+        Parent root = FXMLLoader.load(getClass().getResource("/NewInstructor.fxml"));
+        stage.setTitle("Patriot Defence");
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

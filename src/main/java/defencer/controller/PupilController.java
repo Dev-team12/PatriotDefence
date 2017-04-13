@@ -6,11 +6,16 @@ import defencer.model.Pupil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.util.LinkedList;
@@ -39,6 +44,8 @@ public class PupilController implements Initializable {
     @FXML
     private TextField txtSearch;
     @FXML
+    private JFXButton btnAddOneMore;
+    @FXML
     private JFXButton btnFind;
     @FXML
     private JFXButton btnDelete;
@@ -47,6 +54,7 @@ public class PupilController implements Initializable {
 
     private ObservableList<Pupil> observablePupils = FXCollections.observableArrayList();
 
+    private final Stage stage = new Stage();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -57,6 +65,8 @@ public class PupilController implements Initializable {
                 .observableArrayList("Name", "Email", "Phone", "Project", "Occupation"));
 
         btnFind.setOnAction(e -> System.out.println(searchBy.getValue()));
+
+        btnAddOneMore.setOnAction(e -> newPupil());
     }
 
     /**
@@ -85,5 +95,19 @@ public class PupilController implements Initializable {
         phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         occupation.setCellValueFactory(new PropertyValueFactory<>("occupation"));
         project.setCellValueFactory(new PropertyValueFactory<>("nameOfProject"));
+    }
+
+    /**
+     * Open new page to add one more pupil.
+     *
+     * {@link SneakyThrows} here because i am totally sure that path to fxml id correct.
+     */
+    @SneakyThrows
+    private void newPupil() {
+        Parent root = FXMLLoader.load(getClass().getResource("/NewPupil.fxml"));
+        stage.setTitle("Patriot Defence");
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }
