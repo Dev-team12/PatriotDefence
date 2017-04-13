@@ -30,6 +30,8 @@ public class HibernateUtil {
         return SESSION_FACTORY;
     }
 
+
+
     public static void shutdown() {
         getSessionFactory().close();
     }
