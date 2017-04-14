@@ -1,6 +1,9 @@
 package defencer.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OptimisticLockType;
 
 import java.io.Serializable;
@@ -15,8 +18,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @org.hibernate.annotations.Entity(optimisticLock = OptimisticLockType.DIRTY, dynamicUpdate = true)
-@Table(name = "pupil")
-public class Pupil extends AbstractEntity implements Serializable {
+@Table(name = "apprentice")
+public class Apprentice extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,9 @@
 package defencer.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OptimisticLockType;
 
 import java.io.Serializable;
@@ -24,14 +27,16 @@ public class Project extends AbstractEntity implements Serializable {
     private Long id;
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "time", nullable = false)
-    private String time;
+    @Column(name = "data_start", nullable = false)
+    private String dataFrom;
+    @Column(name = "data_finish", nullable = false)
+    private String dataTo;
     @Column(name = "place", nullable = false)
     private String place;
     @Column(name = "data_of_creation", nullable = false)
     private String dataOfCreation;
-    @Column(name = "resources", nullable = false)
-    private String resources;
+    @Column(name = "car", nullable = false)
+    private String car;
     @Column(name = "instructor_id", nullable = false)
     private int instructors;
     @Column(name = "author", nullable = false)

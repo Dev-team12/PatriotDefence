@@ -1,11 +1,11 @@
 package defencer.service.factory;
 
+import defencer.service.ApprenticeService;
 import defencer.service.InstructorService;
 import defencer.service.ProjectService;
-import defencer.service.PupilService;
+import defencer.service.impl.ApprenticeServiceImpl;
 import defencer.service.impl.InstructorServiceImpl;
 import defencer.service.impl.ProjectServiceImpl;
-import defencer.service.impl.PupilServiceImpl;
 
 /**
  * Own factory for service interface.
@@ -29,9 +29,9 @@ public class ServiceFactory {
     }
 
     /**
-     * @return PupilService.
+     * @return ApprenticeService.
      */
-    public static PupilService getPupilService() {
-        return new PupilServiceImpl();
+    public static ApprenticeService getPupilService() {
+        return new ApprenticeServiceImpl();
     }
 }

@@ -1,5 +1,6 @@
 package defencer.drawertest;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
@@ -23,35 +24,41 @@ import java.util.ResourceBundle;
 public class MainActivityController implements Initializable {
 
     @FXML
+    private AnchorPane root;
+    @FXML
     private JFXDrawer drawer;
-
     @FXML
     private AnchorPane currentLayout;
-
     @FXML
     private JFXHamburger hamburger;
-
     @FXML
     private ImageView home;
-
     @FXML
-    private AnchorPane root;
-
+    private JFXButton btbDashboard;
+    @FXML
+    private JFXButton btnLogout;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         try {
+            Pane adminDashboard = FXMLLoader.load(getClass().getResource("/home/AdminDashboard.fxml"));
+            changeStageTo(adminDashboard);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
             VBox box = FXMLLoader.load(getClass().getResource("/drawer/drawer.fxml"));
             drawer.setSidePane(box);
 
-        } catch (IOException ex) {
-            //Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        home.setOnMouseClicked(click -> {
+        btbDashboard.setOnMouseClicked(click -> {
             try {
-                Pane adminDashboard = FXMLLoader.load(getClass().getResource("/AdminDashboard.fxml"));
+                Pane adminDashboard = FXMLLoader.load(getClass().getResource("/home/AdminDashboard.fxml"));
                 changeStageTo(adminDashboard);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -69,11 +76,18 @@ public class MainActivityController implements Initializable {
             } else {
                 drawer.open();
             }
-
         });
 
+        btnLogout.setOnAction(e -> {
+            Pane adminDashboard = null;
+            try {
+                adminDashboard = FXMLLoader.load(getClass().getResource("/login.fxml"));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            changeStageTo(adminDashboard);
+        });
     }
-
 
     /**
      * This method changes current stage to stage,that was given as input parameter.
@@ -86,11 +100,9 @@ public class MainActivityController implements Initializable {
 
         currentLayout.getChildren().add(pane);
 
-        currentLayout.setRightAnchor(pane, 0.0);
-        currentLayout.setLeftAnchor(pane, 0.0);
-        currentLayout.setBottomAnchor(pane, 0.0);
-        currentLayout.setTopAnchor(pane, 0.0);
+        AnchorPane.setRightAnchor(pane, 0.0);
+        AnchorPane.setLeftAnchor(pane, 0.0);
+        AnchorPane.setBottomAnchor(pane, 0.0);
+        AnchorPane.setTopAnchor(pane, 0.0);
     }
-
-
 }

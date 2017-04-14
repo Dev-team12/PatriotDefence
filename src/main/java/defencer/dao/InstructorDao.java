@@ -31,4 +31,9 @@ public interface InstructorDao extends CrudDao<Instructor, Long> {
      * @return list of project with given instructor.
      */
     List<Project> findProjectByInstructor(Long id);
+
+
+
+
+    List<Instructor> getInstructors();
 }

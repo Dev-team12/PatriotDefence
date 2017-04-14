@@ -1,11 +1,11 @@
 package defencer.dao.factory;
 
+import defencer.dao.ApprenticeDao;
 import defencer.dao.InstructorDao;
 import defencer.dao.ProjectDao;
-import defencer.dao.PupilDao;
+import defencer.dao.impl.ApprenticeDaoImpl;
 import defencer.dao.impl.InstructorDaoImpl;
 import defencer.dao.impl.ProjectDaoImpl;
-import defencer.dao.impl.PupilDaoImpl;
 
 /**
  * Own factory for dao interface.
@@ -22,10 +22,10 @@ public class DaoFactory {
     }
 
     /**
-     * @return PupilDao.
+     * @return ApprenticeDao.
      */
-    public static PupilDao getPupilDao() {
-        return new PupilDaoImpl();
+    public static ApprenticeDao getPupilDao() {
+        return new ApprenticeDaoImpl();
     }
 
     /**

@@ -44,6 +44,11 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
         return DaoFactory.getInstructorDao().findByEmail(email);
     }
 
+    @Override
+    public List<Instructor> getInstructors() {
+        return DaoFactory.getInstructorDao().getInstructors();
+    }
+
     /**
      * Checks if supplied email is already in the database.
      *

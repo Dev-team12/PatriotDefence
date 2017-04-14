@@ -18,7 +18,6 @@ public class UserProfileActivityController implements Initializable {
     @FXML
     private ImageView userImage;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -38,11 +37,7 @@ public class UserProfileActivityController implements Initializable {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-
             event.setDropCompleted(true);
         });
     }
-
-
-
 }

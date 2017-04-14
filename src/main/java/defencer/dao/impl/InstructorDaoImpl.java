@@ -43,6 +43,11 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
         return null;
     }
 
+    @Override
+    public List<Instructor> getInstructors() {
+        return null;
+    }
+
     private Session getSession() {
         return HibernateUtil.getSessionFactory().openSession();
     }

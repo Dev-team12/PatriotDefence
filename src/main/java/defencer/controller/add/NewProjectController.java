@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import defencer.model.Project;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +12,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 /**
@@ -60,6 +62,8 @@ public class NewProjectController implements Initializable {
                 .observableArrayList("AB 1715", "AB 1212"));
 
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
+
+        btnCreate.setOnAction(e -> System.out.println(": " + dataFrom.getValue()));
     }
 
     /**
@@ -75,5 +79,18 @@ public class NewProjectController implements Initializable {
         areaCars.clear();
         dataFrom.setPromptText("Date from");
         dataTo.setPromptText("Date to");
+    }
+
+    /**
+     * @param project is selected {@link Project} for set in edit form.
+     */
+    public void editCurrentProject(Project project) {
+        projectName.setValue(project.getName());
+        place.setText(project.getPlace());
+        description.setText(project.getDescription());
+        dataFrom.setValue(LocalDate.parse(project.getDataFrom()));
+        dataTo.setValue(LocalDate.parse(project.getDataTo()));
+        areaInstructors.setText(String.valueOf(project.getInstructors()));
+        areaCars.setText(project.getCar());
     }
 }
