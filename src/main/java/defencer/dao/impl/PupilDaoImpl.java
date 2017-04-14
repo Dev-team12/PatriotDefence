@@ -1,7 +1,7 @@
 package defencer.dao.impl;
 
 import defencer.dao.PupilDao;
-import defencer.model.Pupil;
+import defencer.model.Apprentice;
 
 
 /**
@@ -9,13 +9,13 @@ import defencer.model.Pupil;
  *
  * @author Igor Gnes on 4/9/17.
  */
-public class PupilDaoImpl extends CrudDaoImpl<Pupil> implements PupilDao {
+public class PupilDaoImpl extends CrudDaoImpl<Apprentice> implements PupilDao {
 
     /**
      * {@inheritDoc}.
      */
     @Override
-    public Pupil findByProject(Long id) {
+    public Apprentice findByProject(Long id) {
         return null;
     }
 }

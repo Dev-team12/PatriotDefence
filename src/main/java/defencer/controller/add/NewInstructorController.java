@@ -3,6 +3,7 @@ package defencer.controller.add;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import defencer.model.Instructor;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,7 +40,7 @@ public class NewInstructorController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         role.setItems(FXCollections
-                .observableArrayList("Admin", "Kordunator", "User"));
+                .observableArrayList("Chief Operating Officer", "Coordinator", "Instructor"));
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
     }
 
@@ -53,5 +54,17 @@ public class NewInstructorController implements Initializable {
         phone.clear();
         qualification.clear();
         role.setPromptText("Role");
+    }
+
+    /**
+     * @param instructor is selected {@link Instructor} for set in edit form.
+     */
+    public void editCurrentInstructor(Instructor instructor) {
+        firstName.setText(instructor.getFirstName());
+        lastName.setText(instructor.getLastName());
+        email.setText(instructor.getEmail());
+        phone.setText(instructor.getPhone());
+        qualification.setText(instructor.getQualification());
+        role.setValue("Coordinator");
     }
 }

@@ -2,7 +2,7 @@ package defencer.service.impl;
 
 
 import defencer.dao.factory.DaoFactory;
-import defencer.model.Pupil;
+import defencer.model.Apprentice;
 import defencer.service.PupilService;
 
 /**
@@ -10,13 +10,13 @@ import defencer.service.PupilService;
  *
  * @author igor on 06.12.16.
  */
-public class PupilServiceImpl extends CrudServiceImpl<Pupil> implements PupilService {
+public class PupilServiceImpl extends CrudServiceImpl<Apprentice> implements PupilService {
 
     /**
      * {@inheritDoc}.
      */
     @Override
-    public Pupil findByProject(Long id) {
+    public Apprentice findByProject(Long id) {
         return DaoFactory.getPupilDao().findByProject(id);
     }
 }
