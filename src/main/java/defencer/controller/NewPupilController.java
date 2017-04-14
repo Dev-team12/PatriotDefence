@@ -1,8 +1,7 @@
-package defencer.controller.add;
+package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import defencer.model.Apprentice;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
@@ -13,7 +12,7 @@ import java.util.ResourceBundle;
 /**
  * @author Igor Gnes on 4/12/17.
  */
-public class NewApprenticeController implements Initializable {
+public class NewPupilController implements Initializable {
 
     @FXML
     private AnchorPane root;
@@ -47,16 +46,5 @@ public class NewApprenticeController implements Initializable {
         phone.clear();
         occupation.clear();
         projectName.clear();
-    }
-
-    /**
-     * @param apprentice is selected {@link Apprentice} for set in edit form.
-     */
-    public void editCurrentApprentice(Apprentice apprentice) {
-        firstName.setText(apprentice.getName());
-        email.setText(apprentice.getEmail());
-        phone.setText(apprentice.getPhone());
-        occupation.setText(apprentice.getOccupation());
-        projectName.setText(apprentice.getNameOfProject());
     }
 }

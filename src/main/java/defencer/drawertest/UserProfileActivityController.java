@@ -1,4 +1,4 @@
-package defencer.drawerTest;
+package defencer.drawertest;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,7 +34,7 @@ public class UserProfileActivityController implements Initializable {
             System.out.println(event.getDragboard().getFiles().get(0).getAbsolutePath());
 
             try {
-                userImage.setImage(new Image(event.getDragboard().getFiles().get(0).toURI().toURL().toString()) );
+                userImage.setImage(new Image(event.getDragboard().getFiles().get(0).toURI().toURL().toString()));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }

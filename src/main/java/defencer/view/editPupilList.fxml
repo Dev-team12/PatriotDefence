@@ -24,7 +24,7 @@
          <Font name="System Bold" size="13.0"/>
       </font>
    </Label>
-   <Label layoutX="110.0" layoutY="40.0" text="Edit apprentice">
+   <Label layoutX="110.0" layoutY="40.0" text="Edit pupil">
       <font>
          <Font name="System Bold" size="13.0"/>
       </font>

@@ -2,24 +2,19 @@ package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import defencer.controller.add.NewApprenticeController;
-import defencer.model.Apprentice;
+import defencer.model.Pupil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -30,20 +25,20 @@ import java.util.ResourceBundle;
 /**
  * @author Igor Gnes on 4/12/17.
  */
-public class ApprenticeController implements Initializable {
+public class PupilController implements Initializable {
 
     @FXML
-    private TableView<Apprentice> table;
+    private TableView<Pupil> table;
     @FXML
-    private TableColumn<Apprentice, String> name;
+    private TableColumn<Pupil, String> name;
     @FXML
-    private TableColumn<Apprentice, String> email;
+    private TableColumn<Pupil, String> email;
     @FXML
-    private TableColumn<Apprentice, String> phone;
+    private TableColumn<Pupil, String> phone;
     @FXML
-    private TableColumn<Apprentice, String> occupation;
+    private TableColumn<Pupil, String> occupation;
     @FXML
-    private TableColumn<Apprentice, String> project;
+    private TableColumn<Pupil, String> project;
     @FXML
     private JFXComboBox<String> searchBy;
     @FXML
@@ -57,7 +52,8 @@ public class ApprenticeController implements Initializable {
     @FXML
     private JFXButton btnUpdate;
 
-    private ObservableList<Apprentice> observableApprentices = FXCollections.observableArrayList();
+    private ObservableList<Pupil> observablePupils = FXCollections.observableArrayList();
+
     private final Stage stage = new Stage();
 
     @Override
@@ -77,17 +73,17 @@ public class ApprenticeController implements Initializable {
      * Load instructors into table.
      */
     private void loadPupils() {
-        final Apprentice apprentice = new Apprentice();
-        apprentice.setName("Alex");
-        apprentice.setEmail("gmail.com");
-        apprentice.setOccupation("Apprentice");
-        apprentice.setPhone("093");
-        apprentice.setNameOfProject("CLS");
-        List<Apprentice> list = new LinkedList<>();
-        list.add(apprentice);
+        final Pupil pupil = new Pupil();
+        pupil.setName("Alex");
+        pupil.setEmail("gmail.com");
+        pupil.setOccupation("Pupil");
+        pupil.setPhone("093");
+        pupil.setNameOfProject("CLS");
+        List<Pupil> list = new LinkedList<>();
+        list.add(pupil);
 
-        observableApprentices.addAll(list);
-        table.setItems(observableApprentices);
+        observablePupils.addAll(list);
+        table.setItems(observablePupils);
     }
 
     /**
@@ -108,35 +104,10 @@ public class ApprenticeController implements Initializable {
      */
     @SneakyThrows
     private void newPupil() {
-        Parent root = FXMLLoader.load(getClass().getResource("/entity/add/NewApprentice.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/NewPupil.fxml"));
         stage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.show();
-    }
-
-
-    /**
-     * Opens page for editing selected parameters.
-     */
-    @SneakyThrows
-    public void editApprentice(ActionEvent event) {
-
-        final FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/entity/add/NewApprentice.fxml"));
-        Parent parent = fxmlLoader.load();
-        NewApprenticeController newApprenticeController = fxmlLoader.getController();
-
-        final Apprentice apprentice = table.getSelectionModel().getSelectedItem();
-
-        newApprenticeController.editCurrentApprentice(apprentice);
-
-        final Stage stage = new Stage();
-        Scene value = new Scene(parent);
-        stage.setScene(value);
-        stage.initModality(Modality.WINDOW_MODAL);
-        Window window = ((Node) event.getSource()).getScene().getWindow();
-        stage.initOwner(window);
         stage.show();
     }
 }

@@ -1,9 +1,8 @@
-package defencer.controller.add;
+package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
@@ -38,8 +37,6 @@ public class NewInstructorController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        role.setItems(FXCollections
-                .observableArrayList("Admin", "Kordunator", "User"));
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
     }
 
@@ -52,6 +49,6 @@ public class NewInstructorController implements Initializable {
         email.clear();
         phone.clear();
         qualification.clear();
-        role.setPromptText("Role");
+        role.setValue("Role");
     }
 }

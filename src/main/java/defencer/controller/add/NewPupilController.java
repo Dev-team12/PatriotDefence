@@ -1,9 +1,7 @@
 package defencer.controller.add;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
@@ -14,32 +12,28 @@ import java.util.ResourceBundle;
 /**
  * @author Igor Gnes on 4/12/17.
  */
-public class NewInstructorController implements Initializable {
+public class NewPupilController implements Initializable {
 
     @FXML
     private AnchorPane root;
     @FXML
-    private JFXButton btnAddInstructor;
+    private JFXButton btnAddPupil;
     @FXML
     private JFXButton btnCancel;
     @FXML
     private JFXTextField firstName;
     @FXML
-    private JFXTextField lastName;
-    @FXML
     private JFXTextField email;
     @FXML
     private JFXTextField phone;
     @FXML
-    private JFXTextField qualification;
+    private JFXTextField occupation;
     @FXML
-    private JFXComboBox<String> role;
+    private JFXTextField projectName;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        role.setItems(FXCollections
-                .observableArrayList("Admin", "Kordunator", "User"));
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
     }
 
@@ -48,10 +42,9 @@ public class NewInstructorController implements Initializable {
      */
     private void clear() {
         firstName.clear();
-        lastName.clear();
         email.clear();
         phone.clear();
-        qualification.clear();
-        role.setPromptText("Role");
+        occupation.clear();
+        projectName.clear();
     }
 }

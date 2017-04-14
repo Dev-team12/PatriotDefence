@@ -2,25 +2,20 @@ package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import defencer.controller.add.NewInstructorController;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -39,9 +34,7 @@ public class    InstructorController implements Initializable {
     @FXML
     private TableView<Instructor> table;
     @FXML
-    private TableColumn<Instructor, String> firstName;
-    @FXML
-    private TableColumn<Instructor, String> lastName;
+    private TableColumn<Instructor, String> name;
     @FXML
     private TableColumn<Instructor, String> email;
     @FXML
@@ -50,8 +43,6 @@ public class    InstructorController implements Initializable {
     private TableColumn<Instructor, String> qualification;
     @FXML
     private TableColumn<Instructor, String> status;
-    @FXML
-    private TableColumn<Instructor, String> role;
     @FXML
     private JFXComboBox<String> searchBy;
     @FXML
@@ -67,8 +58,6 @@ public class    InstructorController implements Initializable {
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
     private final Stage stage = new Stage();
-
-    private static final int ROLE = 12;
 
     private Long instructorId;
 
@@ -86,30 +75,6 @@ public class    InstructorController implements Initializable {
     }
 
     /**
-     * Opens page for editing selected parameters.
-     */
-    @SneakyThrows
-    public void editInstructor(ActionEvent event) {
-
-        final FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/entity/add/newInstructor.fxml"));
-        Parent parent = fxmlLoader.load();
-        NewInstructorController newInstructorController = fxmlLoader.getController();
-
-        final Instructor instructor = table.getSelectionModel().getSelectedItem();
-
-        newInstructorController.editCurrentInstructor(instructor);
-
-        final Stage stage = new Stage();
-        Scene value = new Scene(parent);
-        stage.setScene(value);
-        stage.initModality(Modality.WINDOW_MODAL);
-        Window window = ((Node) event.getSource()).getScene().getWindow();
-        stage.initOwner(window);
-        stage.show();
-    }
-
-    /**
      * Load instructors into table.
      */
     private void loadInstructors() {
@@ -118,9 +83,7 @@ public class    InstructorController implements Initializable {
         instructor.setQualification("Instructor");
         instructor.setPhone("093");
         instructor.setFirstName("Alex");
-        instructor.setLastName("Borchuck");
         instructor.setStatus("Free");
-        instructor.setRole(ROLE);
         List<Instructor> list = new LinkedList<>();
         list.add(instructor);
 
@@ -132,14 +95,11 @@ public class    InstructorController implements Initializable {
      * Insert value for table.
      */
     private void insertTableInstructors() {
-        firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        name.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
         phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         qualification.setCellValueFactory(new PropertyValueFactory<>("qualification"));
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
-        role.setCellValueFactory(new PropertyValueFactory<>("role"));
-
     }
 
     /**
@@ -212,7 +172,7 @@ public class    InstructorController implements Initializable {
      */
     @SneakyThrows
     private void newInstructor() {
-        Parent root = FXMLLoader.load(getClass().getResource("/entity/add/NewInstructor.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/NewInstructor.fxml"));
         stage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
         stage.setScene(scene);

@@ -1,6 +1,6 @@
 package defencer.dao;
 
-import defencer.model.Apprentice;
+import defencer.model.Pupil;
 
 /**
  * @author Igor Gnes on 4/9/17.
@@ -9,7 +9,7 @@ public interface PupilDao {
 
     /**
      * @param id its given project id.
-     * @return {@link Apprentice} by given project.
+     * @return {@link Pupil} by given project.
      */
-    Apprentice findByProject(Long id);
+    Pupil findByProject(Long id);
 }

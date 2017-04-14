@@ -8,7 +8,7 @@
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="438.0" prefWidth="268.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="defencer.controller.add.NewInstructorController">
+            fx:controller="defencer.controller.NewInstructorController">
    <Label layoutX="16.0" layoutY="14.0" text="Add new instructors">
       <font>
          <Font name="System Bold" size="13.0"/>
@@ -19,7 +19,7 @@
    <JFXButton fx:id="btnCancel" cancelButton="true" layoutX="107.0" layoutY="390.0" mnemonicParsing="false"
               text="cancel"/>
    <ImageView fitHeight="85.0" fitWidth="121.0" layoutX="177.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="/image/PatriotDefence-logo.png" />
+      <Image url="/image/Patriot_Defence logo.png"/>
    </ImageView>
    <JFXTextField fx:id="firstName" layoutX="26.0" layoutY="111.0" maxWidth="264.0" minWidth="218.0" prefHeight="31.0"
                  prefWidth="218.0" promptText="First name"/>

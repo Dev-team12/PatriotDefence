@@ -3,23 +3,18 @@ package defencer.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import defencer.controller.add.NewProjectController;
 import defencer.model.Project;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -37,13 +32,11 @@ public class ProjectController implements Initializable {
     @FXML
     private TableColumn<Project, String> name;
     @FXML
-    private TableColumn<Project, String> dataStart;
-    @FXML
-    private TableColumn<Project, String> dataFinish;
+    private TableColumn<Project, String> time;
     @FXML
     private TableColumn<Project, String> place;
     @FXML
-    private TableColumn<Project, String> car;
+    private TableColumn<Project, String> resources;
     @FXML
     private TableColumn<Project, String> instructors;
     @FXML
@@ -85,10 +78,9 @@ public class ProjectController implements Initializable {
      */
     private void insertProjectTable() {
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        dataStart.setCellValueFactory(new PropertyValueFactory<>("dataFrom"));
-        dataFinish.setCellValueFactory(new PropertyValueFactory<>("dataTo"));
+        time.setCellValueFactory(new PropertyValueFactory<>("time"));
         place.setCellValueFactory(new PropertyValueFactory<>("place"));
-        car.setCellValueFactory(new PropertyValueFactory<>("car"));
+        resources.setCellValueFactory(new PropertyValueFactory<>("resources"));
         instructors.setCellValueFactory(new PropertyValueFactory<>("instructors"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         author.setCellValueFactory(new PropertyValueFactory<>("author"));
@@ -101,10 +93,9 @@ public class ProjectController implements Initializable {
         final Project project = new Project();
         project.setName("CLS");
         project.setPlace("Rivne");
-        project.setDataFrom("2017-04-05");
-        project.setDataTo("2017-04-12");
+        project.setTime("12.04.2017");
         project.setInstructors(test);
-        project.setCar("Bysik");
+        project.setResources("Mac book");
         project.setDescription("Mega Project");
         project.setAuthor("Alex");
         List<Project> list = new LinkedList<>();
@@ -121,34 +112,10 @@ public class ProjectController implements Initializable {
      */
     @SneakyThrows
     private void newProject() {
-        Parent root = FXMLLoader.load(getClass().getResource("/entity/add/NewProject.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/NewProject.fxml"));
         stage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.show();
-    }
-
-    /**
-     * Opens page for editing selected parameters.
-     */
-    @SneakyThrows
-    public void editProject(ActionEvent event) {
-
-        final FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/entity/add/NewProject.fxml"));
-        Parent parent = fxmlLoader.load();
-        NewProjectController newProjectController = fxmlLoader.getController();
-
-        final Project project = table.getSelectionModel().getSelectedItem();
-
-        newProjectController.editCurrentProject(project);
-
-        final Stage stage = new Stage();
-        Scene value = new Scene(parent);
-        stage.setScene(value);
-        stage.initModality(Modality.WINDOW_MODAL);
-        Window window = ((Node) event.getSource()).getScene().getWindow();
-        stage.initOwner(window);
         stage.show();
     }
 }
