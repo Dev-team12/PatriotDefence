@@ -15,8 +15,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @org.hibernate.annotations.Entity(optimisticLock = OptimisticLockType.DIRTY, dynamicUpdate = true)
-@Table(name = "pupil")
-public class Pupil extends AbstractEntity implements Serializable {
+@Table(name = "apprentice")
+public class Apprentice extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
