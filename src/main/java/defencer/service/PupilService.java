@@ -1,6 +1,6 @@
 package defencer.service;
 
-import defencer.model.Pupil;
+import defencer.model.Apprentice;
 
 /**
  * @author Igor Gnes on 4/6/17.
@@ -9,7 +9,7 @@ public interface PupilService {
 
     /**
      * @param id its given project id.
-     * @return {@link Pupil} by given project id.
+     * @return {@link Apprentice} by given project id.
      */
-    Pupil findByProject(Long id);
+    Apprentice findByProject(Long id);
 }
