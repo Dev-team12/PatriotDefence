@@ -63,6 +63,8 @@ public class InstructorController implements Initializable {
     @FXML
     private JFXButton btnDelete;
     @FXML
+    private JFXButton btnEdit;
+    @FXML
     private JFXButton btnUpdate;
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
@@ -82,6 +84,8 @@ public class InstructorController implements Initializable {
         btnFind.setOnAction(e -> System.out.println(searchBy.getValue()));
 
         btnAddOneMore.setOnAction(e -> newInstructor());
+
+        btnEdit.setOnAction(this::editInstructor);
     }
 
     /**

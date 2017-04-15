@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0"
-            prefWidth="780.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="defencer.controller.ApprenticeController">
-    <TableView fx:id="table" layoutY="49.0" prefHeight="416.0" prefWidth="780.0">
-      <columns>
-          <TableColumn fx:id="name" prefWidth="137.0" text="Name"/>
-          <TableColumn fx:id="occupation" prefWidth="146.0" text="Occupation"/>
-          <TableColumn fx:id="phone" prefWidth="178.0" text="Phone"/>
-          <TableColumn fx:id="email" prefWidth="176.0" text="Email"/>
-          <TableColumn fx:id="project" prefWidth="142.0" text="Project"/>
-      </columns>
-    </TableView>
-    <JFXComboBox fx:id="searchBy" layoutX="183.0" layoutY="16.0" prefHeight="27.0" prefWidth="143.0"/>
-    <JFXButton fx:id="btnFind" layoutX="338.0" layoutY="16.0" prefHeight="27.0" prefWidth="104.0" text="Search"/>
-    <JFXTextField fx:id="txtSearch" layoutX="14.0" layoutY="16.0" promptText="Type..."/>
-    <JFXButton onAction="#editApprentice" layoutX="533.0" layoutY="17.0" prefHeight="27.0" prefWidth="67.0" text="Edit"/>
-    <JFXButton fx:id="btnDelete" layoutX="626.0" layoutY="18.0" prefHeight="27.0" prefWidth="67.0" text="Delete"/>
-    <JFXButton fx:id="btnAddOneMore" layoutX="442.0" layoutY="17.0" prefHeight="27.0" prefWidth="75.0" text="Add"/>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.ApprenticeController">
+   <children>
+       <TableView fx:id="table" layoutY="49.0" prefHeight="416.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="49.0">
+         <columns>
+             <TableColumn fx:id="name" prefWidth="137.0" text="Name" />
+             <TableColumn fx:id="occupation" prefWidth="146.0" text="Occupation" />
+             <TableColumn fx:id="phone" prefWidth="178.0" text="Phone" />
+             <TableColumn fx:id="email" prefWidth="176.0" text="Email" />
+             <TableColumn fx:id="project" prefWidth="142.0" text="Project" />
+         </columns>
+       </TableView>
+       <JFXComboBox fx:id="searchBy" layoutX="319.0" layoutY="17.0" prefHeight="27.0" prefWidth="143.0" AnchorPane.rightAnchor="422.0" />
+       <JFXButton fx:id="btnFind" layoutX="453.0" layoutY="17.0" prefHeight="27.0" prefWidth="75.0" text="Search" AnchorPane.rightAnchor="320.0" />
+       <JFXTextField fx:id="txtSearch" layoutX="14.0" layoutY="16.0" prefHeight="25.0" prefWidth="172.0" promptText="Type..." AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="594.0" />
+       <JFXButton layoutX="632.0" layoutY="17.0" onAction="#editApprentice" prefHeight="27.0" prefWidth="67.0" text="Edit" AnchorPane.rightAnchor="116.0" />
+       <JFXButton fx:id="btnDelete" layoutX="699.0" layoutY="17.0" prefHeight="27.0" prefWidth="67.0" text="Delete" AnchorPane.rightAnchor="14.0" />
+       <JFXButton fx:id="btnAddOneMore" layoutX="557.0" layoutY="17.0" prefHeight="27.0" prefWidth="75.0" text="Add" AnchorPane.rightAnchor="218.0" />
+   </children>
 </AnchorPane>

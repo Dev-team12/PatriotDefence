@@ -27,7 +27,7 @@ public class DrawerActivityController implements Initializable {
     @FXML
     private JFXButton apprenticeButton;
     @FXML
-    private JFXButton btnProject;
+    private JFXButton projectButton;
     @FXML
     private ImageView logoutButton;
 
@@ -40,7 +40,7 @@ public class DrawerActivityController implements Initializable {
 
         profileButton.setOnMouseClicked(click -> mouseClickButton(profileButton));
 
-        btnProject.setOnAction(click -> mouseClickButton(btnProject));
+        projectButton.setOnAction(click -> mouseClickButton(projectButton));
 
         logoutButton.setOnMouseClicked(click -> logout());
     }
@@ -93,7 +93,7 @@ public class DrawerActivityController implements Initializable {
                 // NotificationUtil.warningAlert("Drawer","u clicked pupilButton",10.0);
                 break;
 
-            case "btnProject":
+            case "projectButton":
 
                 AnchorPane projectPane = null;
                 try {
