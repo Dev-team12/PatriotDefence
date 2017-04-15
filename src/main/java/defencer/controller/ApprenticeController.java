@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import defencer.controller.add.NewApprenticeController;
 import defencer.model.Apprentice;
+import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -55,10 +56,9 @@ public class ApprenticeController implements Initializable {
     @FXML
     private JFXButton btnDelete;
     @FXML
-    private JFXButton btnUpdate;
+    private JFXButton btnEdit;
 
     private ObservableList<Apprentice> observableApprentices = FXCollections.observableArrayList();
-    private final Stage stage = new Stage();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -71,6 +71,8 @@ public class ApprenticeController implements Initializable {
         btnFind.setOnAction(e -> System.out.println(searchBy.getValue()));
 
         btnAddOneMore.setOnAction(e -> newPupil());
+
+        btnEdit.setOnAction(this::editApprentice);
     }
 
     /**
@@ -109,6 +111,7 @@ public class ApprenticeController implements Initializable {
     @SneakyThrows
     private void newPupil() {
         Parent root = FXMLLoader.load(getClass().getResource("/entity/add/NewApprentice.fxml"));
+        final Stage stage = new Stage();
         stage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -120,7 +123,7 @@ public class ApprenticeController implements Initializable {
      * Opens page for editing selected parameters.
      */
     @SneakyThrows
-    public void editApprentice(ActionEvent event) {
+    private void editApprentice(ActionEvent event) {
 
         final FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/entity/add/NewApprentice.fxml"));
@@ -128,7 +131,10 @@ public class ApprenticeController implements Initializable {
         NewApprenticeController newApprenticeController = fxmlLoader.getController();
 
         final Apprentice apprentice = table.getSelectionModel().getSelectedItem();
-
+        if (apprentice == null) {
+            NotificationUtil.warningAlert("Warning", "Select apprentice firstly", NotificationUtil.SHORT);
+            return;
+        }
         newApprenticeController.editCurrentApprentice(apprentice);
 
         final Stage stage = new Stage();

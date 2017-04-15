@@ -2,9 +2,9 @@ package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextField;
 import defencer.controller.add.NewProjectController;
 import defencer.model.Project;
+import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -51,8 +51,6 @@ public class ProjectController implements Initializable {
     @FXML
     private TableColumn<Project, String> author;
     @FXML
-    private JFXTextField txtSearch;
-    @FXML
     private JFXComboBox<String> searchBy;
     @FXML
     private JFXButton btnAddOneMore;
@@ -61,23 +59,23 @@ public class ProjectController implements Initializable {
     @FXML
     private JFXButton btnDelete;
     @FXML
-    private JFXButton btnUpdate;
+    private JFXButton btnEdit;
 
     private ObservableList<Project> observableProjects = FXCollections.observableArrayList();
-    private final Stage stage = new Stage();
-    private final int test = 12;
+    private static final int TEST = 12;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         insertProjectTable();
         loadProjects();
-        searchBy.setPromptText("Name");
         searchBy.setItems(FXCollections
-                .observableArrayList("Name", "Place", "Time", "Author"));
+                .observableArrayList("СLS", "LRPM", "CLSI", "UTLS", "BLS", "EMR", "IDC"));
 
         btnFind.setOnAction(e -> System.out.println(searchBy.getValue()));
 
         btnAddOneMore.setOnAction(e -> newProject());
+
+        btnEdit.setOnAction(this::editProject);
     }
 
     /**
@@ -103,7 +101,7 @@ public class ProjectController implements Initializable {
         project.setPlace("Rivne");
         project.setDataFrom("2017-04-05");
         project.setDataTo("2017-04-12");
-        project.setInstructors(test);
+        project.setInstructors(TEST);
         project.setCar("Bysik");
         project.setDescription("Mega Project");
         project.setAuthor("Alex");
@@ -122,6 +120,7 @@ public class ProjectController implements Initializable {
     @SneakyThrows
     private void newProject() {
         Parent root = FXMLLoader.load(getClass().getResource("/entity/add/NewProject.fxml"));
+        Stage stage = new Stage();
         stage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -140,7 +139,10 @@ public class ProjectController implements Initializable {
         NewProjectController newProjectController = fxmlLoader.getController();
 
         final Project project = table.getSelectionModel().getSelectedItem();
-
+        if (project == null) {
+            NotificationUtil.warningAlert("Warning", "Select project firstly", NotificationUtil.SHORT);
+            return;
+        }
         newProjectController.editCurrentProject(project);
 
         final Stage stage = new Stage();

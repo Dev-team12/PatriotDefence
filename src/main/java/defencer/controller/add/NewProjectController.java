@@ -53,7 +53,7 @@ public class NewProjectController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         projectName.setItems(FXCollections
-                .observableArrayList("CLS", "BLS"));
+                .observableArrayList("СLS", "LRPM", "CLSI", "UTLS", "BLS", "EMR", "IDC"));
 
         comboInstructors.setItems(FXCollections
                 .observableArrayList("Igor", "Dima", "Nikita"));

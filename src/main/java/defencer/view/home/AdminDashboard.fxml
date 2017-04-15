@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.home.AdminDashboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="922.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.home.AdminDashboardController">
    <children>
-      <Text layoutX="22.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total instructors: " />
-      <Text layoutX="222.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Apprentice:  " />
-      <Text layoutX="385.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Projects for months: " />
-      <Text layoutX="586.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apprentice for months" />
-      <Text layoutX="69.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17" />
-      <Text layoutX="272.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17" />
-      <Text layoutX="426.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17" />
-      <Text layoutX="648.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17" />
-      <PieChart fx:id="pieChartProject" layoutX="14.0" layoutY="57.0" prefHeight="305.0" prefWidth="350.0" />
-      <PieChart fx:id="pieChartInstructor" layoutX="385.0" layoutY="57.0" prefHeight="305.0" prefWidth="350.0" />
+      <Text layoutX="67.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total instructors: " AnchorPane.bottomAnchor="382.0" AnchorPane.leftAnchor="67.0" AnchorPane.rightAnchor="746.42333984375" AnchorPane.topAnchor="21.0" />
+      <Text layoutX="260.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Apprentice:  " AnchorPane.bottomAnchor="383.0" AnchorPane.leftAnchor="260.0" AnchorPane.rightAnchor="548.85302734375" AnchorPane.topAnchor="20.0" />
+      <Text layoutX="500.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Projects for months: " AnchorPane.bottomAnchor="386.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="293.65673828125" AnchorPane.topAnchor="17.0" />
+      <Text layoutX="716.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apprentice for months" AnchorPane.bottomAnchor="387.2578125" AnchorPane.leftAnchor="715.68701171875" AnchorPane.rightAnchor="68.31298828125" AnchorPane.topAnchor="17.431640625" />
+      <Text layoutX="114.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17" AnchorPane.bottomAnchor="365.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="794.5302734375" AnchorPane.topAnchor="38.0" />
+      <Text layoutX="296.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17" AnchorPane.bottomAnchor="366.0" AnchorPane.leftAnchor="296.0" AnchorPane.rightAnchor="612.5302734375" AnchorPane.topAnchor="37.0" />
+      <Text layoutX="557.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17" AnchorPane.bottomAnchor="369.0" AnchorPane.leftAnchor="557.0" AnchorPane.rightAnchor="351.5302734375" AnchorPane.topAnchor="34.0" />
+      <Text layoutX="778.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17" AnchorPane.bottomAnchor="371.2578125" AnchorPane.leftAnchor="778.0" AnchorPane.rightAnchor="130.5302734375" AnchorPane.topAnchor="33.431640625" />
+      <PieChart fx:id="pieChartProject" layoutX="478.0" layoutY="75.0" prefHeight="319.0" prefWidth="435.0" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="75.0" />
+      <PieChart fx:id="pieChartInstructor" layoutX="11.0" layoutY="72.0" prefHeight="319.0" prefWidth="435.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="72.0" />
    </children>
 </AnchorPane>
