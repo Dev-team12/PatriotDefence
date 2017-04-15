@@ -66,9 +66,8 @@ public class InstructorController implements Initializable {
     private JFXButton btnUpdate;
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
-    private final Stage stage = new Stage();
 
-    private static final int ROLE = 12;
+    private static final Long ROLE = 12L;
 
     private Long instructorId;
 
@@ -121,9 +120,11 @@ public class InstructorController implements Initializable {
         instructor.setLastName("Borchuck");
         instructor.setStatus("Free");
         instructor.setRole(ROLE);
+
         List<Instructor> list = new LinkedList<>();
         list.add(instructor);
 
+//        final List<Instructor> instructors = getInstructors();
         observableInstructors.addAll(list);
         table.setItems(observableInstructors);
     }
@@ -184,12 +185,7 @@ public class InstructorController implements Initializable {
      */
     private List<Instructor> getInstructors() {
 
-        try {
-            return ServiceFactory.getInstructorService().getEntityForMonths();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return ServiceFactory.getInstructorService().getInstructors();
     }
 
     /**
@@ -213,6 +209,7 @@ public class InstructorController implements Initializable {
     @SneakyThrows
     private void newInstructor() {
         Parent root = FXMLLoader.load(getClass().getResource("/entity/add/NewInstructor.fxml"));
+        final Stage stage = new Stage();
         stage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
         stage.setScene(scene);

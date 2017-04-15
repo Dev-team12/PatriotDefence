@@ -1,5 +1,6 @@
 package defencer.drawertest;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,37 +21,28 @@ import java.util.ResourceBundle;
 public class DrawerActivityController implements Initializable {
 
     @FXML
+    private JFXButton profileButton;
+    @FXML
+    private JFXButton instructorButton;
+    @FXML
+    private JFXButton apprenticeButton;
+    @FXML
+    private JFXButton btnProject;
+    @FXML
     private ImageView logoutButton;
-
-    @FXML
-    private Button pupilButton;
-
-    @FXML
-    private Button instructorButton;
-
-    @FXML
-    private Button profileButton;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        pupilButton.setOnMouseClicked(click -> {
-            mouseClickButton(pupilButton);
-        });
+        apprenticeButton.setOnMouseClicked(click -> mouseClickButton(apprenticeButton));
 
-        instructorButton.setOnMouseClicked(click -> {
-            mouseClickButton(instructorButton);
-        });
+        instructorButton.setOnMouseClicked(click -> mouseClickButton(instructorButton));
 
-        profileButton.setOnMouseClicked(click -> {
-            mouseClickButton(profileButton);
-        });
+        profileButton.setOnMouseClicked(click -> mouseClickButton(profileButton));
 
-        logoutButton.setOnMouseClicked(click -> {
-            logout();
-        });
+        btnProject.setOnAction(click -> mouseClickButton(btnProject));
 
+        logoutButton.setOnMouseClicked(click -> logout());
     }
 
 
@@ -64,16 +56,15 @@ public class DrawerActivityController implements Initializable {
             case "profileButton":
                 AnchorPane userPane = null;
                 try {
-                    userPane = FXMLLoader.load(getClass().getResource("/entity/userProfile.fxml"));
+                    userPane = FXMLLoader.load(getClass().getResource("/userProfile.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 changeStageTo(userPane, (AnchorPane) button.getScene().lookup("#currentLayout"));
 
-               // NotificationUtil.errornAlert("Drawer","u clicked profileButton",10.0);
+                // NotificationUtil.errornAlert("Drawer","u clicked profileButton",10.0);
                 break;
-
 
             case "instructorButton":
                 AnchorPane instructorPane = null;
@@ -89,26 +80,38 @@ public class DrawerActivityController implements Initializable {
                 break;
 
 
-            case "pupilButton":
-                AnchorPane pupilPane = null;
+            case "apprenticeButton":
+                AnchorPane apprenticePane = null;
                 try {
-                    pupilPane = FXMLLoader.load(getClass().getResource("/entity/PupilPage.fxml"));
+                    apprenticePane = FXMLLoader.load(getClass().getResource("/entity/ApprenticePage.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                changeStageTo(pupilPane, (AnchorPane) button.getScene().lookup("#currentLayout"));
+                changeStageTo(apprenticePane, (AnchorPane) button.getScene().lookup("#currentLayout"));
 
-               // NotificationUtil.warningAlert("Drawer","u clicked pupilButton",10.0);
+                // NotificationUtil.warningAlert("Drawer","u clicked pupilButton",10.0);
                 break;
 
+            case "btnProject":
+
+                AnchorPane projectPane = null;
+                try {
+                    projectPane = FXMLLoader.load(getClass().getResource("/entity/ProjectPage.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                changeStageTo(projectPane, (AnchorPane) button.getScene().lookup("#currentLayout"));
+
+                // NotificationUtil.warningAlert("Drawer","u clicked pupilButton",10.0);
+                break;
 
             default:
                 ((JFXDrawer) button.getScene().lookup("#drawer")).close();
                 break;
         }
     }
-
 
     /**
      * This method changes current stage.
@@ -121,14 +124,13 @@ public class DrawerActivityController implements Initializable {
 
         anchorPane.getChildren().add(pane);
 
-        anchorPane.setRightAnchor(pane, 0.0);
-        anchorPane.setLeftAnchor(pane, 0.0);
-        anchorPane.setBottomAnchor(pane, 0.0);
-        anchorPane.setTopAnchor(pane, 0.0);
+        AnchorPane.setRightAnchor(pane, 0.0);
+        AnchorPane.setLeftAnchor(pane, 0.0);
+        AnchorPane.setBottomAnchor(pane, 0.0);
+        AnchorPane.setTopAnchor(pane, 0.0);
 
         ((JFXDrawer) pane.getScene().lookup("#drawer")).close();
     }
-
 
     /**
      * This method changes stage root element to logout fxml.

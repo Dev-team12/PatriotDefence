@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="767.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.ProjectController">
-   <children>
-      <TableView fx:id="table" layoutY="61.0" prefHeight="499.0" prefWidth="767.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="61.0">
-        <columns>
-          <TableColumn fx:id="name" prefWidth="113.0" text="Name" />
-          <TableColumn fx:id="time" prefWidth="101.0" text="Time" />
-            <TableColumn fx:id="place" prefWidth="81.0" text="Place" />
-            <TableColumn fx:id="resources" prefWidth="88.0" text="Resources" />
-            <TableColumn fx:id="instructors" prefWidth="101.0" text="Instructors" />
-            <TableColumn fx:id="description" prefWidth="146.0" text="Description" />
-            <TableColumn fx:id="author" prefWidth="141.0" text="Author" />
-        </columns>
-      </TableView>
-      <JFXTextField fx:id="txtSearch" layoutX="14.0" layoutY="14.0" promptText="Type..." AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="618.0" />
-      <JFXComboBox fx:id="searchBy" layoutX="185.0" layoutY="13.0" prefHeight="27.0" prefWidth="133.0" promptText="Name" AnchorPane.rightAnchor="449.0" />
-      <JFXButton fx:id="btnFind" layoutX="339.0" layoutY="13.0" prefHeight="27.0" prefWidth="74.0" text="Search" AnchorPane.rightAnchor="354.0" />
-      <JFXButton fx:id="btnAddOneMore" layoutX="421.0" layoutY="13.0" prefHeight="27.0" prefWidth="74.0" text="Add" AnchorPane.rightAnchor="272.0" />
-      <JFXButton fx:id="btnUpdate" layoutX="502.0" layoutY="13.0" prefHeight="27.0" prefWidth="74.0" text="Edit" AnchorPane.rightAnchor="191.0" />
-      <JFXButton fx:id="btnDelete" layoutX="593.0" layoutY="13.0" prefHeight="27.0" prefWidth="74.0" text="Delete" AnchorPane.rightAnchor="100.0" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0"
+            prefWidth="865.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="defencer.controller.ProjectController">
+    <TableView fx:id="table" layoutY="61.0" prefHeight="507.0" prefWidth="865.0" AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="61.0">
+      <columns>
+          <TableColumn fx:id="name" prefWidth="113.0" text="Name"/>
+          <TableColumn fx:id="dataStart" prefWidth="101.0" text="Start"/>
+          <TableColumn fx:id="dataFinish" prefWidth="90.0" text="Finish"/>
+          <TableColumn fx:id="place" prefWidth="109.0" text="Place"/>
+          <TableColumn fx:id="car" prefWidth="106.0" text="Cars"/>
+          <TableColumn fx:id="instructors" prefWidth="117.0" text="Instructors"/>
+          <TableColumn fx:id="description" prefWidth="115.0" text="Description"/>
+          <TableColumn fx:id="author" prefWidth="112.0" text="Author"/>
+      </columns>
+    </TableView>
+    <JFXTextField fx:id="txtSearch" layoutX="14.0" layoutY="14.0" promptText="Type..."/>
+    <JFXComboBox fx:id="searchBy" layoutX="185.0" layoutY="13.0" prefHeight="27.0" prefWidth="133.0" promptText="Name"/>
+    <JFXButton fx:id="btnFind" layoutX="339.0" layoutY="13.0" prefHeight="27.0" prefWidth="74.0" text="Search"/>
+    <JFXButton fx:id="btnAddOneMore" layoutX="421.0" layoutY="13.0" prefHeight="27.0" prefWidth="74.0" text="Add"/>
+    <JFXButton layoutX="502.0" layoutY="13.0" onAction="#editProject" prefHeight="27.0" prefWidth="74.0" text="Edit"/>
+    <JFXButton fx:id="btnDelete" layoutX="593.0" layoutY="13.0" prefHeight="27.0" prefWidth="74.0" text="Delete"/>
 </AnchorPane>

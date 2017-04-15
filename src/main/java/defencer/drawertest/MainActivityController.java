@@ -31,10 +31,19 @@ public class MainActivityController implements Initializable {
     @FXML
     private JFXHamburger hamburger;
     @FXML
+    private JFXButton btbDashboard;
+    @FXML
     private JFXButton btnLogout;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        try {
+            Pane adminDashboard = FXMLLoader.load(getClass().getResource("/home/AdminDashboard.fxml"));
+            changeStageTo(adminDashboard);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             VBox box = FXMLLoader.load(getClass().getResource("/drawer/drawer.fxml"));
@@ -43,6 +52,15 @@ public class MainActivityController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        btbDashboard.setOnMouseClicked(click -> {
+            try {
+                Pane adminDashboard = FXMLLoader.load(getClass().getResource("/home/AdminDashboard.fxml"));
+                changeStageTo(adminDashboard);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburger);
         transition.setRate(-1);

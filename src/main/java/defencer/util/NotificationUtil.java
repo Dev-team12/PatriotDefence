@@ -4,14 +4,12 @@ import javafx.geometry.Pos;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
-
 /**
  * @author Nikita on 14.04.2017.
  */
 public class NotificationUtil{
 
     private static final Pos DEFAULT_POSITION = Pos.BOTTOM_RIGHT;
-
 
     /**
      * Creating information notification.
@@ -27,7 +25,6 @@ public class NotificationUtil{
         notifications.showInformation();
     }
 
-
     /**
      * Creating error notification.
      */
@@ -42,7 +39,6 @@ public class NotificationUtil{
         notifications.showError();
     }
 
-
     /**
      * Creating warning notification.
      */
@@ -56,5 +52,4 @@ public class NotificationUtil{
                 .position(DEFAULT_POSITION);
         notifications.showWarning();
     }
-
 }
