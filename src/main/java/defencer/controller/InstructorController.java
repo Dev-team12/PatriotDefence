@@ -121,7 +121,6 @@ public class InstructorController implements Initializable {
         List<Instructor> list = new LinkedList<>();
         list.add(instructor);
 
-//        final List<Instructor> instructors = getInstructors();
         observableInstructors.addAll(list);
         table.setItems(observableInstructors);
     }
