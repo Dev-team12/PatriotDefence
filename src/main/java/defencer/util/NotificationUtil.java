@@ -28,7 +28,7 @@ public class NotificationUtil{
     /**
      * Creating error notification.
      */
-    public static void errornAlert(String title, String message, Double duration) {
+    public static void errorAlert(String title, String message, Double duration) {
 
         Notifications notifications = Notifications.create()
                 .title(title)
@@ -50,6 +50,8 @@ public class NotificationUtil{
                 .graphic(null)
                 .hideAfter(Duration.seconds(duration))
                 .position(DEFAULT_POSITION);
+        System.out.println(notifications);
+
         notifications.showWarning();
     }
 }

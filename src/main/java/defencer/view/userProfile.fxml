@@ -10,34 +10,34 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.drawertest.UserProfileActivityController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.UserProfileActivityController">
    <children>
       <ImageView fx:id="userImage" fitHeight="262.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
          <image>
             <Image url="/image/userProfile.jpg" />
          </image>
       </ImageView>
-      <Label prefHeight="71.0" prefWidth="284.0" text="Игорь Гнесь" AnchorPane.leftAnchor="293.0" AnchorPane.rightAnchor="244.0" AnchorPane.topAnchor="14.0">
+      <Label fx:id="nameLabel" prefHeight="71.0" prefWidth="357.0" text="Игорь Гнесь" AnchorPane.leftAnchor="293.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font size="49.0" />
          </font>
       </Label>
-      <Label layoutX="293.0" layoutY="94.0" prefHeight="36.0" prefWidth="502.0" text="Квалификация:юла-бла-бла" AnchorPane.leftAnchor="293.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="94.0">
+      <Label layoutX="286.0" layoutY="94.0" prefHeight="36.0" prefWidth="502.0" text="Квалификация:юла-бла-бла" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="94.0">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="289.0" layoutY="143.0" prefHeight="36.0" prefWidth="502.0" text="Телефон:+38062608591977" AnchorPane.leftAnchor="289.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="143.0">
+      <Label fx:id="phoneNumber" layoutX="286.0" layoutY="145.0" prefHeight="36.0" prefWidth="502.0" text="Телефон:+38062608591977" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="145.0">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="285.0" layoutY="187.0" prefHeight="36.0" prefWidth="502.0" text="E-mail:n.a.m@bk.ru" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="187.0">
+      <Label fx:id="EMail" layoutX="286.0" layoutY="187.0" prefHeight="36.0" prefWidth="502.0" text="E-mail:n.a.m@bk.ru" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="187.0">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label text="Свободен" textFill="#28ff0c" AnchorPane.leftAnchor="613.0" AnchorPane.topAnchor="33.0">
+      <Label layoutX="651.0" layoutY="32.0" text="Свободен" textFill="#28ff0c" AnchorPane.leftAnchor="651.0" AnchorPane.topAnchor="32.0">
          <font>
             <Font size="24.0" />
          </font>

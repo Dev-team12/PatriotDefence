@@ -1,4 +1,4 @@
-package defencer.drawertest;
+package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
@@ -73,6 +73,7 @@ public class MainActivityController implements Initializable {
             } else {
                 drawer.open();
             }
+
         });
 
         btnLogout.setOnAction(e -> {
