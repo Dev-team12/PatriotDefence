@@ -44,8 +44,12 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
      * {@inheritDoc}.
      */
     @Override
-    public void delete(Long id) {
+    public void delete(T entity) {
         final Session session = getSession();
+        session.beginTransaction();
+        session.delete(entity);
+        session.getTransaction().commit();
+        session.close();
     }
 
     /**

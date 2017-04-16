@@ -24,6 +24,7 @@ import javafx.stage.Window;
 import lombok.SneakyThrows;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -69,6 +70,8 @@ public class ApprenticeController implements Initializable {
         btnAddOneMore.setOnAction(e -> newPupil());
 
         btnEdit.setOnAction(this::editApprentice);
+
+        btnDelete.setOnAction(e -> deleteApprentice());
     }
 
     /**
@@ -105,7 +108,6 @@ public class ApprenticeController implements Initializable {
         stage.show();
     }
 
-
     /**
      * Opens page for editing selected parameters.
      */
@@ -138,5 +140,21 @@ public class ApprenticeController implements Initializable {
      */
     private List<Apprentice> getApprentice() {
         return ServiceFactory.getApprenticeService().getApprentice(); // todo last months
+    }
+
+    /**
+     * Deletes selected apprentice.
+     */
+    private void deleteApprentice() {
+        final Apprentice apprentice = table.getSelectionModel().getSelectedItem();
+        if (apprentice == null) {
+            NotificationUtil.warningAlert("Warning", "Select apprentice firstly", NotificationUtil.SHORT);
+            return;
+        }
+        try {
+            ServiceFactory.getApprenticeService().deleteEntity(apprentice);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

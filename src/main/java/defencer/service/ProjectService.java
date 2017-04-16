@@ -2,7 +2,6 @@ package defencer.service;
 
 import defencer.model.Project;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -18,5 +17,5 @@ public interface ProjectService extends CrudService<Project, Long> {
     /**
      * @return list of projects for last months.
      */
-    List<Project> getProjectsForLastMonths() throws SQLException;
+    List<Project> getProjectsForLastMonths();
 }

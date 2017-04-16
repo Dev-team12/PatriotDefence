@@ -20,7 +20,7 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
     }
 
     @Override
-    public List<Project> getProjectsForLastMonths() throws SQLException {
+    public List<Project> getProjectsForLastMonths() {
         return DaoFactory.getProjectDao().getProjectForLastMonths();
     }
 

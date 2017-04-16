@@ -75,6 +75,8 @@ public class ProjectController implements Initializable {
         btnAddOneMore.setOnAction(e -> newProject());
 
         btnEdit.setOnAction(this::editProject);
+
+        btnDelete.setOnAction(e -> deleteProject());
     }
 
     /**
@@ -145,11 +147,22 @@ public class ProjectController implements Initializable {
      * @return list of project for last months.
      */
     private List<Project> getProject() {
+        return ServiceFactory.getProjectService().getProjectsForLastMonths();
+    }
+
+    /**
+     * Deletes selected project.
+     */
+    private void deleteProject() {
+        final Project project = table.getSelectionModel().getSelectedItem();
+        if (project == null) {
+            NotificationUtil.warningAlert("Warning", "Select project firstly", NotificationUtil.SHORT);
+            return;
+        }
         try {
-            return ServiceFactory.getProjectService().getProjectsForLastMonths();
+            ServiceFactory.getProjectService().deleteEntity(project);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
     }
 }

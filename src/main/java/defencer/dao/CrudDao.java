@@ -33,7 +33,7 @@ public interface CrudDao<T, ID extends Serializable> {
      *
      * @param entity must not be {@literal null}.
      */
-    void delete(ID entity);
+    void delete(T entity);
 
     /**
      * Check whether entity already exists.

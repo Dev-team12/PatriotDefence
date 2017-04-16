@@ -20,10 +20,10 @@ public interface CrudService<T, ID extends Serializable> {
     T createEntity(T entity) throws SQLException;
 
     /**
-     * @param id entity's id in database, mustn't be {@literal null}.
+     * @param entity mustn't be {@literal null}.
      * @throws SQLException if something went wrong during deleting.
      */
-    void deleteEntity(ID id) throws SQLException;
+    void deleteEntity(T entity) throws SQLException;
 
     /**
      * Update a given entity.

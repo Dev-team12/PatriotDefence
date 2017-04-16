@@ -75,6 +75,8 @@ public class InstructorController implements Initializable {
         btnAddOneMore.setOnAction(e -> newInstructor());
 
         btnEdit.setOnAction(this::editInstructor);
+
+        btnDelete.setOnAction(e -> deleteInstructor());
     }
 
     /**
@@ -126,11 +128,16 @@ public class InstructorController implements Initializable {
     }
 
     /**
-     * Deletes given entity.
+     * Deletes selected instructor.
      */
-    private void delete() {
+    private void deleteInstructor() {
+        final Instructor instructor = table.getSelectionModel().getSelectedItem();
+        if (instructor == null) {
+            NotificationUtil.warningAlert("Warning", "Select instructor firstly", NotificationUtil.SHORT);
+            return;
+        }
         try {
-            ServiceFactory.getInstructorService().deleteEntity(instructorId);
+            ServiceFactory.getInstructorService().deleteEntity(instructor);
         } catch (SQLException e) {
             e.printStackTrace();
         }
