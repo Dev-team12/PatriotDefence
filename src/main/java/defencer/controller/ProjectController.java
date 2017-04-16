@@ -101,7 +101,6 @@ public class ProjectController implements Initializable {
         project.setPlace("Rivne");
         project.setDataFrom("2017-04-05");
         project.setDataTo("2017-04-12");
-        project.setInstructors(TEST);
         project.setCar("Bysik");
         project.setDescription("Mega Project");
         project.setAuthor("Alex");
@@ -131,7 +130,7 @@ public class ProjectController implements Initializable {
      * Opens page for editing selected parameters.
      */
     @SneakyThrows
-    public void editProject(ActionEvent event) {
+    private void editProject(ActionEvent event) {
 
         final FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/entity/add/NewProject.fxml"));

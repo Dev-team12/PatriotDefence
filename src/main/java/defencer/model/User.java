@@ -5,19 +5,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OptimisticLockType;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
- * @author Igor Gnes on 3/30/17.
+ * @author Igor Gnes on 4/16/17.
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @org.hibernate.annotations.Entity(optimisticLock = OptimisticLockType.DIRTY, dynamicUpdate = true)
-@Table(name = "instructor")
-public class Instructor extends AbstractEntity implements Serializable {
+@Table(name = "users")
+public class User extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,18 +27,7 @@ public class Instructor extends AbstractEntity implements Serializable {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @Column(name = "qualification")
-    private String qualification;
-    @Column(name = "role")
-    private Long role;
-    @Column(name = "phone")
-    private String phone;
-    @Column(name = "project_id")
-    private int projectId;
-    @Column(name = "status")
-    private String status;
-    @Column(name = "email")
-    private String email;
-    @Column(name = "password")
-    private String password;
+    @Column(name = "second_name")
+    private String secondName;
+
 }

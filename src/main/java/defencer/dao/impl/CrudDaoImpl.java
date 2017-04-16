@@ -2,6 +2,8 @@ package defencer.dao.impl;
 
 import defencer.dao.CrudDao;
 import defencer.model.AbstractEntity;
+import defencer.model.Instructor;
+import defencer.model.User;
 import defencer.util.HibernateUtil;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
@@ -27,7 +29,7 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
         session.beginTransaction();
         session.save(entity);
         session.getTransaction().commit();
-        HibernateUtil.shutdown();
+        session.close();
         return entity;
     }
 
@@ -63,18 +65,22 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
     @Override
     public T update(T entity) {
         final Session session = getSession();
-        return null;
+        session.beginTransaction();
+        session.update(entity);
+        session.getTransaction().commit();
+        session.close();
+        return entity;
     }
 
     @Override
     public List<T> getEntityForMonths() {
-        final Session session = getSession();
+//        final Session session = getSession();
         return null;
     }
 
     @Override
     public List<T> searchEntity(String param, String value) throws SQLException {
-        final Session session = getSession();
+//        final Session session = getSession();
         return null;
     }
 

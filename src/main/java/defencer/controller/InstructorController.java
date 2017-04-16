@@ -2,6 +2,7 @@ package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
 import defencer.controller.add.NewInstructorController;
+import defencer.controller.update.UpdateInstructorController;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
@@ -21,6 +22,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import lombok.SneakyThrows;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -65,17 +69,20 @@ public class InstructorController implements Initializable {
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
 
     private static final Long ROLE = 12L;
-
+    public static boolean LOAD_TABLE = false;
     private Long instructorId;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         insertTableInstructors();
+
         loadInstructors();
 
         btnAddOneMore.setOnAction(e -> newInstructor());
 
         btnEdit.setOnAction(this::editInstructor);
+
+        btnDelete.setOnAction(e -> loadInstructors());
     }
 
     /**
@@ -85,16 +92,16 @@ public class InstructorController implements Initializable {
     private void editInstructor(ActionEvent event) {
 
         final FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/entity/add/newInstructor.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/entity/update/UpdateInstructor.fxml"));
         Parent parent = fxmlLoader.load();
-        NewInstructorController newInstructorController = fxmlLoader.getController();
+        UpdateInstructorController updateInstructorController = fxmlLoader.getController();
 
         final Instructor instructor = table.getSelectionModel().getSelectedItem();
         if (instructor == null) {
             NotificationUtil.warningAlert("Warning", "Select instructor firstly", NotificationUtil.SHORT);
             return;
         }
-        newInstructorController.editCurrentInstructor(instructor);
+        updateInstructorController.editCurrentInstructor(instructor);
 
         final Stage stage = new Stage();
         Scene value = new Scene(parent);
@@ -121,7 +128,9 @@ public class InstructorController implements Initializable {
         List<Instructor> list = new LinkedList<>();
         list.add(instructor);
 
-        observableInstructors.addAll(list);
+        final List<Instructor> instructors = getInstructors();
+
+        observableInstructors.addAll(instructors);
         table.setItems(observableInstructors);
     }
 
@@ -150,36 +159,9 @@ public class InstructorController implements Initializable {
     }
 
     /**
-     * @param instructor going to be update.
-     * @return already updated {@link Instructor}.
-     */
-    private Instructor update(Instructor instructor) {
-        try {
-            return ServiceFactory.getInstructorService().updateEntity(instructor);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * @param instructor going to be create.
-     * @return already created {@link Instructor}.
-     */
-    private Instructor create(Instructor instructor) {
-        try {
-            return ServiceFactory.getInstructorService().createEntity(instructor);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
      * @return list of instructors for last months.
      */
     private List<Instructor> getInstructors() {
-
         return ServiceFactory.getInstructorService().getInstructors();
     }
 
@@ -196,5 +178,10 @@ public class InstructorController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    @Scheduled(fixedRate = 2000)
+    public void loadInstructorTable() {
+        loadInstructors();
     }
 }

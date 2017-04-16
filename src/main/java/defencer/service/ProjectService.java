@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Igor Gnes on 4/6/17.
  */
-public interface ProjectService {
+public interface ProjectService extends CrudService<Project, Long>{
 
     /**
      * @return list of project by period.

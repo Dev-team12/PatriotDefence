@@ -4,7 +4,10 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import defencer.controller.InstructorController;
+import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.service.factory.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +15,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -64,6 +69,34 @@ public class NewProjectController implements Initializable {
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
 
         btnCreate.setOnAction(e -> System.out.println(": " + dataFrom.getValue()));
+
+        btnCreate.setOnAction(e -> prepareAdding());
+    }
+
+    /**
+     * @param project is selected {@link Project} for set in edit form.
+     */
+    public void editCurrentProject(Project project) {
+        projectName.setValue(project.getName());
+        place.setText(project.getPlace());
+        description.setText(project.getDescription());
+        dataFrom.setValue(LocalDate.parse(project.getDataFrom()));
+        dataTo.setValue(LocalDate.parse(project.getDataTo()));
+        areaCars.setText(project.getCar());
+    }
+
+    private void prepareAdding() {
+        final Project project = new Project();
+        project.setName(projectName.getValue());
+        project.setDataFrom(String.valueOf(dataFrom.getValue()));
+        project.setDataTo(String.valueOf(dataTo.getValue()));
+        project.setCar(areaCars.getText());
+        project.setPlace(place.getText());
+        project.setDescription(description.getText());
+        project.setAuthor("Igor");
+        project.setDataOfCreation(String.valueOf(LocalDate.now()));
+        create(project);
+        root.getScene().getWindow().hide();
     }
 
     /**
@@ -82,15 +115,15 @@ public class NewProjectController implements Initializable {
     }
 
     /**
-     * @param project is selected {@link Project} for set in edit form.
+     * @param project going to be create.
+     * @return already created {@link Project}.
      */
-    public void editCurrentProject(Project project) {
-        projectName.setValue(project.getName());
-        place.setText(project.getPlace());
-        description.setText(project.getDescription());
-        dataFrom.setValue(LocalDate.parse(project.getDataFrom()));
-        dataTo.setValue(LocalDate.parse(project.getDataTo()));
-        areaInstructors.setText(String.valueOf(project.getInstructors()));
-        areaCars.setText(project.getCar());
+    private Project create(Project project) {
+        try {
+            return ServiceFactory.getProjectService().createEntity(project);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

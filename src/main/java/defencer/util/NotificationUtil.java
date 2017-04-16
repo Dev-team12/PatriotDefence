@@ -45,7 +45,6 @@ public class NotificationUtil{
      * Creating warning notification.
      */
     public static void warningAlert(String title, String message, Double duration) {
-
         Notifications notifications = Notifications.create()
                 .title(title)
                 .text(message)

@@ -3,6 +3,7 @@ package defencer.service.impl;
 import defencer.model.Project;
 import defencer.service.ProjectService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -15,5 +16,13 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
     @Override
     public List<Project> findByPeriod() {
         return null;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public Project createEntity(Project project) throws SQLException {
+        return super.createEntity(project);
     }
 }

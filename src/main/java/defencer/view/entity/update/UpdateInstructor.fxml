@@ -8,13 +8,13 @@
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="438.0" prefWidth="268.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="defencer.controller.add.NewInstructorController">
+            fx:controller="defencer.controller.update.UpdateInstructorController">
    <Label layoutX="16.0" layoutY="14.0" text="Add new instructors">
       <font>
          <Font name="System Bold" size="13.0"/>
       </font>
    </Label>
-   <JFXButton fx:id="btnAddInstructor" defaultButton="true" layoutX="185.0" layoutY="390.0" mnemonicParsing="false"
+   <JFXButton fx:id="btnUpdateInstructor" defaultButton="true" layoutX="185.0" layoutY="390.0" mnemonicParsing="false"
               prefHeight="25.0" prefWidth="63.0" text="ok"/>
    <JFXButton fx:id="btnCancel" cancelButton="true" layoutX="107.0" layoutY="390.0" mnemonicParsing="false"
               text="cancel"/>

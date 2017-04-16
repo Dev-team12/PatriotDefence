@@ -7,6 +7,7 @@ import defencer.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -22,7 +23,12 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
     @Override
     public Instructor findByEmail(String email) {
         final Session session = getSession();
-        return null;
+        session.beginTransaction();
+        System.out.println(email);
+        final Query query = session.createQuery("from Instructor where email = :email");
+        query.setParameter("email", email);
+        session.getTransaction().commit();
+        return null;// todo create something.
     }
 
     /**
@@ -47,8 +53,7 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
     public List<Instructor> getInstructors() {
         final Session session = getSession();
         final Query query = session.createQuery("from Instructor");
-        final List list = query.list();
-        return list;
+        return query.list();
     }
 
     private Session getSession() {

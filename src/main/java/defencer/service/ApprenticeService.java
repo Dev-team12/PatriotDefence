@@ -5,7 +5,7 @@ import defencer.model.Apprentice;
 /**
  * @author Igor Gnes on 4/6/17.
  */
-public interface ApprenticeService {
+public interface ApprenticeService extends CrudService<Apprentice, Long>{
 
     /**
      * @param id its given project id.

@@ -31,7 +31,7 @@ public class ServiceFactory {
     /**
      * @return ApprenticeService.
      */
-    public static ApprenticeService getPupilService() {
+    public static ApprenticeService getApprenticeService() {
         return new ApprenticeServiceImpl();
     }
 }
