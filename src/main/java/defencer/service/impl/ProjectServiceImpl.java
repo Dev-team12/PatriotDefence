@@ -1,5 +1,6 @@
 package defencer.service.impl;
 
+import defencer.dao.factory.DaoFactory;
 import defencer.model.Project;
 import defencer.service.ProjectService;
 
@@ -14,8 +15,13 @@ import java.util.List;
 public class ProjectServiceImpl extends CrudServiceImpl<Project> implements ProjectService {
 
     @Override
-    public List<Project> findByPeriod() {
+    public List<Project> findByPeriod(Long months) {
         return null;
+    }
+
+    @Override
+    public List<Project> getProjectsForLastMonths() throws SQLException {
+        return DaoFactory.getProjectDao().getProjectForLastMonths();
     }
 
     /**

@@ -1,15 +1,18 @@
 package defencer.controller.add;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import defencer.model.Apprentice;
 import defencer.service.factory.ServiceFactory;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 /**
@@ -32,25 +35,17 @@ public class NewApprenticeController implements Initializable {
     @FXML
     private JFXTextField occupation;
     @FXML
-    private JFXTextField projectName;
+    private JFXComboBox<String> projectName;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        projectName.setItems(FXCollections
+                .observableArrayList("СLS", "LRPM", "CLSI", "UTLS", "BLS", "EMR", "IDC"));
+
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
 
         btnCreate.setOnAction(e -> prepareAdding());
-    }
-
-    /**
-     * @param apprentice is selected {@link Apprentice} for set in edit form.
-     */
-    public void editCurrentApprentice(Apprentice apprentice) {
-        firstName.setText(apprentice.getName());
-        email.setText(apprentice.getEmail());
-        phone.setText(apprentice.getPhone());
-        occupation.setText(apprentice.getOccupation());
-        projectName.setText(apprentice.getNameOfProject());
     }
 
     /**
@@ -61,17 +56,20 @@ public class NewApprenticeController implements Initializable {
         email.clear();
         phone.clear();
         occupation.clear();
-        projectName.clear();
+        projectName.setPromptText("Project name");
     }
 
+    /**
+     * Prepare {@link Apprentice} to creating.
+     */
     private void prepareAdding() {
-
         final Apprentice apprentice = new Apprentice();
         apprentice.setName(firstName.getText());
         apprentice.setEmail(email.getText());
         apprentice.setPhone(phone.getText());
         apprentice.setOccupation(occupation.getText());
-        apprentice.setNameOfProject(projectName.getText());// todo select getValue(); from combo box
+        apprentice.setNameOfProject(projectName.getValue());
+        apprentice.setDateOfAdded(String.valueOf(LocalDate.now()));
         create(apprentice);
         root.getScene().getWindow().hide();
     }

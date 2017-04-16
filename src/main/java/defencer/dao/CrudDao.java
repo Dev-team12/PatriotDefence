@@ -52,11 +52,6 @@ public interface CrudDao<T, ID extends Serializable> {
     T update(T entity);
 
     /**
-     * @return list of entity for last months.
-     */
-    List<T> getEntityForMonths();
-
-    /**
      * @return list of found entity by given param and value.
      * @throws SQLException if were found none.
      */

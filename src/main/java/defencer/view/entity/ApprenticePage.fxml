@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.layout.*?>
@@ -24,6 +23,6 @@
        <JFXButton fx:id="btnDelete" layoutX="613.0" layoutY="17.0" prefHeight="27.0" prefWidth="67.0" text="Delete" AnchorPane.leftAnchor="613.0" />
        <JFXButton fx:id="btnAddOneMore" layoutX="444.0" layoutY="17.0" prefHeight="27.0" prefWidth="75.0" text="Add" AnchorPane.leftAnchor="444.0" />
       <JFXDatePicker layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="160.0" promptText="Period" AnchorPane.leftAnchor="14.0" />
-      <JFXComboBox fx:id="searchBy" layoutX="191.0" layoutY="14.0" prefHeight="27.0" prefWidth="133.0" promptText="Project" AnchorPane.leftAnchor="191.0" />
+      <JFXComboBox fx:id="comboProject" layoutX="191.0" layoutY="14.0" prefHeight="27.0" prefWidth="133.0" promptText="Project" AnchorPane.leftAnchor="191.0" />
    </children>
 </AnchorPane>

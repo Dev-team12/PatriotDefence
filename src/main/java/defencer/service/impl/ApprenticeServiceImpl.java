@@ -5,6 +5,8 @@ import defencer.dao.factory.DaoFactory;
 import defencer.model.Apprentice;
 import defencer.service.ApprenticeService;
 
+import java.util.List;
+
 /**
  * Basic implementation of {@link ApprenticeService} interface.
  *
@@ -17,6 +19,11 @@ public class ApprenticeServiceImpl extends CrudServiceImpl<Apprentice> implement
      */
     @Override
     public Apprentice findByProject(Long id) {
-        return DaoFactory.getPupilDao().findByProject(id);
+        return DaoFactory.getApprenticeDao().findByProject(id);
+    }
+
+    @Override
+    public List<Apprentice> getApprentice() {
+        return DaoFactory.getApprenticeDao().getApprentice();
     }
 }

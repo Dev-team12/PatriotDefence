@@ -23,7 +23,7 @@
          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
     </TableView>
-    <JFXComboBox fx:id="searchBy" layoutX="189.0" layoutY="14.0" prefHeight="27.0" prefWidth="133.0"
+    <JFXComboBox fx:id="comboProject" layoutX="189.0" layoutY="14.0" prefHeight="27.0" prefWidth="133.0"
                  promptText="Project" AnchorPane.leftAnchor="189.0"/>
     <JFXButton fx:id="btnFind" layoutX="350.0" layoutY="14.0" prefHeight="27.0" prefWidth="74.0" text="Search"
                AnchorPane.leftAnchor="350.0"/>

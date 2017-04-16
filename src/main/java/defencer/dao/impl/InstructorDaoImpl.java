@@ -7,8 +7,10 @@ import defencer.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import java.util.LinkedList;
 import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  * Implementation of {@link InstructorDao} interface.
@@ -24,11 +26,12 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
     public Instructor findByEmail(String email) {
         final Session session = getSession();
         session.beginTransaction();
-        System.out.println(email);
-        final Query query = session.createQuery("from Instructor where email = :email");
-        query.setParameter("email", email);
+        final Query emailQuery = session.createQuery("from Instructor where email = :email");
+        emailQuery.setParameter("email", email);
         session.getTransaction().commit();
-        return null;// todo create something.
+        final Instructor singleResult = (Instructor) emailQuery.getSingleResult();
+        session.close();
+        return singleResult;
     }
 
     /**
@@ -52,8 +55,11 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
     @Override
     public List<Instructor> getInstructors() {
         final Session session = getSession();
-        final Query query = session.createQuery("from Instructor");
-        return query.list();
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        final CriteriaQuery<Instructor> criteriaQuery = criteriaBuilder.createQuery(Instructor.class);
+        final Root<Instructor> root = criteriaQuery.from(Instructor.class);
+        criteriaQuery.select(root);
+        return session.createQuery(criteriaQuery).getResultList();
     }
 
     private Session getSession() {

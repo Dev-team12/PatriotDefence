@@ -1,7 +1,6 @@
 package defencer.start;
 
 import defencer.util.HibernateUtil;
-import defencer.util.NotificationUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

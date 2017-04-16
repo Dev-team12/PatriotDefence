@@ -3,7 +3,6 @@ package defencer.controller.add;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import defencer.controller.InstructorController;
 import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
@@ -12,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
-import lombok.val;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -52,6 +50,9 @@ public class NewInstructorController implements Initializable {
         btnAddInstructor.setOnAction(e -> prepareAdding());
     }
 
+    /**
+     * Prepare {@link Instructor} to creating.
+     */
     private void prepareAdding() {
         final Instructor instructor = new Instructor();
         instructor.setFirstName(firstName.getText());
@@ -61,7 +62,6 @@ public class NewInstructorController implements Initializable {
         instructor.setQualification(qualification.getText());
         create(instructor);
         root.getScene().getWindow().hide();
-        InstructorController.LOAD_TABLE = true;
 //        instructor.setRole(role.getValue());
     }
 

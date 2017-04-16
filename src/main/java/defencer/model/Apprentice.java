@@ -31,11 +31,11 @@ public class Apprentice extends AbstractEntity implements Serializable {
     private String email;
     @Column(name = "phone", nullable = false)
     private String phone;
-    @Column(name = "description", nullable = false)
-    private String description;
     @Column(name = "occupation", nullable = false)
     private String occupation;
     @Column(name = "name_of_project", nullable = false)
     private String nameOfProject;
+    @Column(name = "date_of_added", nullable = false)
+    private String dateOfAdded;
 }
 

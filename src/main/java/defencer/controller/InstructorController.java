@@ -1,7 +1,6 @@
 package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
-import defencer.controller.add.NewInstructorController;
 import defencer.controller.update.UpdateInstructorController;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
@@ -22,13 +21,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import lombok.SneakyThrows;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -69,7 +64,6 @@ public class InstructorController implements Initializable {
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
 
     private static final Long ROLE = 12L;
-    public static boolean LOAD_TABLE = false;
     private Long instructorId;
 
     @Override
@@ -81,8 +75,6 @@ public class InstructorController implements Initializable {
         btnAddOneMore.setOnAction(e -> newInstructor());
 
         btnEdit.setOnAction(this::editInstructor);
-
-        btnDelete.setOnAction(e -> loadInstructors());
     }
 
     /**
@@ -116,21 +108,7 @@ public class InstructorController implements Initializable {
      * Load instructors into table.
      */
     private void loadInstructors() {
-        final Instructor instructor = new Instructor();
-        instructor.setEmail("gmail.com");
-        instructor.setQualification("Instructor");
-        instructor.setPhone("093");
-        instructor.setFirstName("Alex");
-        instructor.setLastName("Borchuck");
-        instructor.setStatus("Free");
-        instructor.setRole(ROLE);
-
-        List<Instructor> list = new LinkedList<>();
-        list.add(instructor);
-
-        final List<Instructor> instructors = getInstructors();
-
-        observableInstructors.addAll(instructors);
+        observableInstructors.addAll(getInstructors());
         table.setItems(observableInstructors);
     }
 
@@ -159,7 +137,7 @@ public class InstructorController implements Initializable {
     }
 
     /**
-     * @return list of instructors for last months.
+     * @return list of instructors.
      */
     private List<Instructor> getInstructors() {
         return ServiceFactory.getInstructorService().getInstructors();
@@ -178,10 +156,5 @@ public class InstructorController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }
-
-    @Scheduled(fixedRate = 2000)
-    public void loadInstructorTable() {
-        loadInstructors();
     }
 }

@@ -33,12 +33,6 @@ public interface CrudService<T, ID extends Serializable> {
     T updateEntity(T entity) throws SQLException;
 
     /**
-     * @return list of entity for last months.
-     * @throws SQLException if found none.
-     */
-    List<T> getEntityForMonths() throws SQLException;
-
-    /**
      * @return list of found entity by given param and value.
      * @throws SQLException if were found none.
      */

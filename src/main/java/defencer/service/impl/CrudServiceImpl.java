@@ -44,11 +44,6 @@ public class CrudServiceImpl<T extends AbstractEntity> implements CrudService<T,
     }
 
     @Override
-    public List<T> getEntityForMonths() throws SQLException {
-        return crudDao.getEntityForMonths();
-    }
-
-    @Override
     public List<T> searchEntity(String param, String value) throws SQLException {
         return crudDao.searchEntity(param, value);
     }

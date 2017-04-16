@@ -1,4 +1,4 @@
-package defencer.controller.add;
+package defencer.controller.update;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -18,9 +18,9 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 /**
- * @author Igor Gnes on 4/13/17.
+ * @author Igor Gnes on 4/16/17.
  */
-public class NewProjectController implements Initializable {
+public class UpdateProjectController implements Initializable {
 
     @FXML
     private AnchorPane root;
@@ -29,7 +29,7 @@ public class NewProjectController implements Initializable {
     @FXML
     private JFXTextArea description;
     @FXML
-    private JFXButton btnCreate;
+    private JFXButton btnUpdate;
     @FXML
     private JFXButton btnCancel;
     @FXML
@@ -54,6 +54,7 @@ public class NewProjectController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+
         projectName.setItems(FXCollections
                 .observableArrayList("СLS", "LRPM", "CLSI", "UTLS", "BLS", "EMR", "IDC"));
 
@@ -63,17 +64,15 @@ public class NewProjectController implements Initializable {
         comboCars.setItems(FXCollections
                 .observableArrayList("AB 1715", "AB 1212"));
 
+        btnUpdate.setOnAction(e -> prepareUpdating());
+
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
-
-        btnCreate.setOnAction(e -> System.out.println(": " + dataFrom.getValue()));
-
-        btnCreate.setOnAction(e -> prepareAdding());
     }
 
     /**
-     * Prepare {@link Project} to creating.
+     * Prepare {@link Project} to updating.
      */
-    private void prepareAdding() {
+    private void prepareUpdating() {
         final Project project = new Project();
         project.setName(projectName.getValue());
         project.setDataFrom(String.valueOf(dataFrom.getValue()));
@@ -82,33 +81,30 @@ public class NewProjectController implements Initializable {
         project.setPlace(place.getText());
         project.setDescription(description.getText());
         project.setAuthor("Igor");
-        project.setDataOfCreation(String.valueOf(LocalDate.now()));
-        create(project);
+        update(project);
         root.getScene().getWindow().hide();
     }
 
     /**
-     * Clear form fields after adding.
+     * @param project is selected {@link Project} for set in edit form.
      */
-    private void clear() {
-        projectName.setValue("Project name");
-        place.clear();
-        description.clear();
-        comboInstructors.setPromptText("Instructors");
-        areaInstructors.clear();
-        comboCars.setPromptText("Car");
-        areaCars.clear();
-        dataFrom.setPromptText("Date from");
-        dataTo.setPromptText("Date to");
+    public void editCurrentProject(Project project) {
+        projectName.setValue(project.getName());
+        place.setText(project.getPlace());
+        description.setText(project.getDescription());
+        dataFrom.setValue(LocalDate.parse(project.getDataFrom()));
+        dataTo.setValue(LocalDate.parse(project.getDataTo()));
+        areaCars.setText(project.getCar());
     }
 
     /**
-     * @param project going to be create.
-     * @return already created {@link Project}.
+     * @param project going to be update.
+     *
+     * @return already updated {@link Project}.
      */
-    private Project create(Project project) {
+    private Project update(Project project) {
         try {
-            return ServiceFactory.getProjectService().createEntity(project);
+            return ServiceFactory.getProjectService().updateEntity(project);
         } catch (SQLException e) {
             e.printStackTrace();
         }

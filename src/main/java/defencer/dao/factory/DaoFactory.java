@@ -24,7 +24,7 @@ public class DaoFactory {
     /**
      * @return ApprenticeDao.
      */
-    public static ApprenticeDao getPupilDao() {
+    public static ApprenticeDao getApprenticeDao() {
         return new ApprenticeDaoImpl();
     }
 

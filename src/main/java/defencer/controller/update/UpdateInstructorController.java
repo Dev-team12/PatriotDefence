@@ -3,7 +3,6 @@ package defencer.controller.update;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import defencer.controller.InstructorController;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
 import javafx.fxml.FXML;
@@ -43,10 +42,15 @@ public class UpdateInstructorController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        btnUpdateInstructor.setOnAction(e -> prepareAdding());
+        btnUpdateInstructor.setOnAction(e -> prepareUpdating());
+
+        btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
     }
 
-    private void prepareAdding() {
+    /**
+     * Prepare {@link Instructor} to updating.
+     */
+    private void prepareUpdating() {
         final Instructor instructor = new Instructor();
         instructor.setFirstName(firstName.getText());
         instructor.setLastName(lastName.getText());

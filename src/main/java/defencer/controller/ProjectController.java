@@ -2,8 +2,9 @@ package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import defencer.controller.add.NewProjectController;
+import defencer.controller.update.UpdateProjectController;
 import defencer.model.Project;
+import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +24,7 @@ import javafx.stage.Window;
 import lombok.SneakyThrows;
 
 import java.net.URL;
-import java.util.LinkedList;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -51,7 +52,7 @@ public class ProjectController implements Initializable {
     @FXML
     private TableColumn<Project, String> author;
     @FXML
-    private JFXComboBox<String> searchBy;
+    private JFXComboBox<String> comboProject;
     @FXML
     private JFXButton btnAddOneMore;
     @FXML
@@ -68,10 +69,8 @@ public class ProjectController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         insertProjectTable();
         loadProjects();
-        searchBy.setItems(FXCollections
+        comboProject.setItems(FXCollections
                 .observableArrayList("СLS", "LRPM", "CLSI", "UTLS", "BLS", "EMR", "IDC"));
-
-        btnFind.setOnAction(e -> System.out.println(searchBy.getValue()));
 
         btnAddOneMore.setOnAction(e -> newProject());
 
@@ -96,18 +95,7 @@ public class ProjectController implements Initializable {
      * Load projects into table.
      */
     private void loadProjects() {
-        final Project project = new Project();
-        project.setName("CLS");
-        project.setPlace("Rivne");
-        project.setDataFrom("2017-04-05");
-        project.setDataTo("2017-04-12");
-        project.setCar("Bysik");
-        project.setDescription("Mega Project");
-        project.setAuthor("Alex");
-        List<Project> list = new LinkedList<>();
-        list.add(project);
-
-        observableProjects.addAll(list);
+        observableProjects.addAll(getProject());
         table.setItems(observableProjects);
     }
 
@@ -133,16 +121,16 @@ public class ProjectController implements Initializable {
     private void editProject(ActionEvent event) {
 
         final FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/entity/add/NewProject.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/entity/update/NewProject.fxml"));
         Parent parent = fxmlLoader.load();
-        NewProjectController newProjectController = fxmlLoader.getController();
+        UpdateProjectController updateProjectController = fxmlLoader.getController();
 
         final Project project = table.getSelectionModel().getSelectedItem();
         if (project == null) {
             NotificationUtil.warningAlert("Warning", "Select project firstly", NotificationUtil.SHORT);
             return;
         }
-        newProjectController.editCurrentProject(project);
+        updateProjectController.editCurrentProject(project);
 
         final Stage stage = new Stage();
         Scene value = new Scene(parent);
@@ -151,5 +139,17 @@ public class ProjectController implements Initializable {
         Window window = ((Node) event.getSource()).getScene().getWindow();
         stage.initOwner(window);
         stage.show();
+    }
+
+    /**
+     * @return list of project for last months.
+     */
+    private List<Project> getProject() {
+        try {
+            return ServiceFactory.getProjectService().getProjectsForLastMonths();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

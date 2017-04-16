@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OptimisticLockType;
 
-import javax.persistence.*;
 import java.io.Serializable;
+import javax.persistence.*;
 
 /**
  * @author Igor Gnes on 4/16/17.
@@ -29,5 +29,4 @@ public class User extends AbstractEntity implements Serializable {
     private String lastName;
     @Column(name = "second_name")
     private String secondName;
-
 }
