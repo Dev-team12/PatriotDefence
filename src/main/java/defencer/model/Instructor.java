@@ -30,7 +30,7 @@ public class Instructor extends AbstractEntity implements Serializable {
     @Column(name = "qualification")
     private String qualification;
     @Column(name = "role")
-    private Long role;
+    private String role;
     @Column(name = "phone")
     private String phone;
     @Column(name = "project_id")

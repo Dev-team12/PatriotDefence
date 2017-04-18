@@ -5,6 +5,7 @@ import defencer.model.Project;
 import defencer.util.HibernateUtil;
 import org.hibernate.Session;
 
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,23 +18,34 @@ import javax.persistence.criteria.Root;
  */
 public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public List<Project> getProjectForLastMonths() {
+        int months = 1; // todo replace from view
+        LocalDate localDate = LocalDate.now().minusMonths(months);
         final Session session = getSession();
         session.beginTransaction();
-//        final Query projectQuery = session
-//                .createQuery("from Project where dataOfCreation between :lastMonths and :currentDate");
-//        projectQuery.setParameter("lastMonths", LocalDateTime.now().minusMonths(1));
-//        projectQuery.setParameter("currentDate", LocalDateTime.now());
-//        session.getTransaction().commit();
-
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        final CriteriaQuery<Project> criteriaQuery = criteriaBuilder.createQuery(Project.class);
-        final Root<Project> root = criteriaQuery.from(Project.class);
-        criteriaQuery.select(root);
-        return session.createQuery(criteriaQuery).getResultList();
+        final CriteriaQuery<Project> projectCriteriaQuery = criteriaBuilder.createQuery(Project.class);
+        final Root<Project> root = projectCriteriaQuery.from(Project.class);
+        final List<Project> projects = session.createQuery(projectCriteriaQuery
+                .where(criteriaBuilder
+                        .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(months)))).getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return projects;
     }
 
+    @Override
+    public void saveId(Long projectId) {
+
+    }
+
+    /**
+     * @return {@link Session} for next steps.
+     */
     private Session getSession() {
         return HibernateUtil.getSessionFactory().openSession();
     }

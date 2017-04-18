@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -26,12 +27,18 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
     public Instructor findByEmail(String email) {
         final Session session = getSession();
         session.beginTransaction();
-        final Query emailQuery = session.createQuery("from Instructor where email = :email");
-        emailQuery.setParameter("email", email);
+        Instructor instructor;
+        final Query emailQuery = session.createQuery("from Instructor where email = :email").setParameter("email", email);
+        try {
+            instructor = (Instructor) emailQuery.getSingleResult();
+        } catch (NoResultException e) {
+            session.getTransaction().commit();
+            session.close();
+            return null;
+        }
         session.getTransaction().commit();
-        final Instructor singleResult = (Instructor) emailQuery.getSingleResult();
         session.close();
-        return singleResult;
+        return instructor;
     }
 
     /**
@@ -52,16 +59,26 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
         return null;
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public List<Instructor> getInstructors() {
         final Session session = getSession();
+        session.beginTransaction();
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         final CriteriaQuery<Instructor> criteriaQuery = criteriaBuilder.createQuery(Instructor.class);
         final Root<Instructor> root = criteriaQuery.from(Instructor.class);
         criteriaQuery.select(root);
-        return session.createQuery(criteriaQuery).getResultList();
+        final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return instructorList;
     }
 
+    /**
+     * @return {@link Session} for next steps.
+     */
     private Session getSession() {
         return HibernateUtil.getSessionFactory().openSession();
     }

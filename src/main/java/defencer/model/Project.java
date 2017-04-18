@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OptimisticLockType;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import javax.persistence.*;
 
 /**
@@ -28,13 +29,13 @@ public class Project extends AbstractEntity implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "date_start", nullable = false)
-    private String dataFrom;
+    private LocalDate dateFrom;
     @Column(name = "date_finish", nullable = false)
-    private String dataTo;
+    private LocalDate dateTo;
     @Column(name = "place", nullable = false)
     private String place;
     @Column(name = "date_of_creation", nullable = false)
-    private String dataOfCreation;
+    private LocalDate dateOfCreation;
     @Column(name = "car", nullable = false)
     private String car;
     @Column(name = "author", nullable = false)

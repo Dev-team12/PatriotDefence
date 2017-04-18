@@ -80,6 +80,9 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
         return null;
     }
 
+    /**
+     * @return {@link Session} for next steps.
+     */
     private Session getSession() {
         return HibernateUtil.getSessionFactory().openSession();
     }

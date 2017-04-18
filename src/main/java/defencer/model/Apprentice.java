@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OptimisticLockType;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import javax.persistence.*;
 
 /**
@@ -25,17 +26,17 @@ public class Apprentice extends AbstractEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     private String email;
-    @Column(name = "phone", nullable = false)
+    @Column(name = "phone")
     private String phone;
-    @Column(name = "occupation", nullable = false)
+    @Column(name = "occupation")
     private String occupation;
-    @Column(name = "name_of_project", nullable = false)
+    @Column(name = "name_of_project")
     private String nameOfProject;
-    @Column(name = "date_of_added", nullable = false)
-    private String dateOfAdded;
+    @Column(name = "date_of_added")
+    private LocalDate dateOfAdded;
 }
 

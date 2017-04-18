@@ -12,6 +12,8 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -37,12 +39,14 @@ public class UpdateApprenticeController implements Initializable {
     private JFXComboBox<String> projectName;
 
     private Long apprenticeId;
+    private LocalDate localDate;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         projectName.setItems(FXCollections
-                .observableArrayList("СLS", "LRPM", "CLSI", "UTLS", "BLS", "EMR", "IDC"));
+                .observableArrayList(getProjectName()));
 
         btnUpdate.setOnAction(e -> prepareUpdating());
 
@@ -60,6 +64,7 @@ public class UpdateApprenticeController implements Initializable {
         apprentice.setOccupation(occupation.getText());
         apprentice.setNameOfProject(projectName.getValue());
         apprentice.setId(apprenticeId);
+        apprentice.setDateOfAdded(localDate);
         update(apprentice);
         root.getScene().getWindow().hide();
     }
@@ -74,6 +79,7 @@ public class UpdateApprenticeController implements Initializable {
         occupation.setText(apprentice.getOccupation());
         projectName.setValue(apprentice.getNameOfProject());
         apprenticeId = apprentice.getId();
+        localDate = apprentice.getDateOfAdded();
     }
 
     /**
@@ -87,5 +93,12 @@ public class UpdateApprenticeController implements Initializable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * @return all type of available projects.
+     */
+    private List<String> getProjectName() {
+        return ServiceFactory.getWiseacreService().getAvailableProject();
     }
 }

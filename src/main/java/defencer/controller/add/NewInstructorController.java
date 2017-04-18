@@ -44,7 +44,7 @@ public class NewInstructorController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         role.setItems(FXCollections
-                .observableArrayList("Chief Operating Officer", "Coordinator", "Instructor"));
+                .observableArrayList("Chief Officer", "Coordinator", "Instructor"));
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
 
         btnAddInstructor.setOnAction(e -> prepareAdding());
@@ -60,9 +60,9 @@ public class NewInstructorController implements Initializable {
         instructor.setEmail(email.getText());
         instructor.setPhone(phone.getText());
         instructor.setQualification(qualification.getText());
+        instructor.setRole(role.getValue());
         create(instructor);
         root.getScene().getWindow().hide();
-//        instructor.setRole(role.getValue());
     }
 
     /**
@@ -86,7 +86,7 @@ public class NewInstructorController implements Initializable {
             return ServiceFactory.getInstructorService().createEntity(instructor);
         } catch (SQLException | EntityAlreadyExistsException e) {
             System.out.println(e.getMessage());
-            NotificationUtil.warningAlert("Error", "fhfger", NotificationUtil.SHORT);
+            NotificationUtil.warningAlert("Error", e.getMessage(), NotificationUtil.SHORT);
         }
         return null;
     }

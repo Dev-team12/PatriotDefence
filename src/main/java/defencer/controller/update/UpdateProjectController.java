@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -51,18 +52,21 @@ public class UpdateProjectController implements Initializable {
     @FXML
     private JFXComboBox<String> projectName;
 
+    private Long projectId;
+    private LocalDate localDate;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
 
         projectName.setItems(FXCollections
-                .observableArrayList("СLS", "LRPM", "CLSI", "UTLS", "BLS", "EMR", "IDC"));
+                .observableArrayList(getProjectName()));
 
         comboInstructors.setItems(FXCollections
-                .observableArrayList("Igor", "Dima", "Nikita"));
+                .observableArrayList(getFreeInstructors()));
 
         comboCars.setItems(FXCollections
-                .observableArrayList("AB 1715", "AB 1212"));
+                .observableArrayList(getFreeCars()));
 
         btnUpdate.setOnAction(e -> prepareUpdating());
 
@@ -75,12 +79,14 @@ public class UpdateProjectController implements Initializable {
     private void prepareUpdating() {
         final Project project = new Project();
         project.setName(projectName.getValue());
-        project.setDataFrom(String.valueOf(dataFrom.getValue()));
-        project.setDataTo(String.valueOf(dataTo.getValue()));
+        project.setDateFrom(dataFrom.getValue());
+        project.setDateTo(dataTo.getValue());
         project.setCar(areaCars.getText());
         project.setPlace(place.getText());
         project.setDescription(description.getText());
-        project.setAuthor("Igor");
+        project.setAuthor("Igor"); // todo current user getFirstName
+        project.setId(projectId);
+        project.setDateOfCreation(localDate);
         update(project);
         root.getScene().getWindow().hide();
     }
@@ -92,9 +98,11 @@ public class UpdateProjectController implements Initializable {
         projectName.setValue(project.getName());
         place.setText(project.getPlace());
         description.setText(project.getDescription());
-        dataFrom.setValue(LocalDate.parse(project.getDataFrom()));
-        dataTo.setValue(LocalDate.parse(project.getDataTo()));
+        dataFrom.setValue(project.getDateFrom());
+        dataTo.setValue(project.getDateTo());
         areaCars.setText(project.getCar());
+        projectId = project.getId();
+        localDate = project.getDateOfCreation();
     }
 
     /**
@@ -109,5 +117,34 @@ public class UpdateProjectController implements Initializable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * @return free car's name for project.
+     */
+    private List<String> getFreeCars() {
+        final List<String> freeCar = ServiceFactory.getWiseacreService().getFreeCar();
+        if (freeCar.isEmpty()) {
+            comboCars.setPromptText("Cars are busy");
+        }
+        return freeCar;
+    }
+
+    /**
+     * @return free instructor's name for project.
+     */
+    private List<String> getFreeInstructors() {
+        final List<String> freeInstructors = ServiceFactory.getWiseacreService().getFreeInstructors();
+        if (freeInstructors.isEmpty()) {
+            comboInstructors.setPromptText("Instructors are busy");
+        }
+        return freeInstructors;
+    }
+
+    /**
+     * @return all type of available projects.
+     */
+    private List<String> getProjectName() {
+        return ServiceFactory.getWiseacreService().getAvailableProject();
     }
 }

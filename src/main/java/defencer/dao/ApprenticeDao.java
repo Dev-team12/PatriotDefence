@@ -15,5 +15,16 @@ public interface ApprenticeDao {
      */
     Apprentice findByProject(Long id);
 
+    /**
+     * @return list of {@link Apprentice} for last months.
+     */
     List<Apprentice> getApprentice();
+
+    /**
+     * Fetches {@link Apprentice} entity by provided email.
+     *
+     * @param email apprentice's email address, must not be {@literal null}.
+     * @return {@link Apprentice} entity associated with provided email, or {@literal null} if none found.
+     */
+    Apprentice findByEmail(String email);
 }

@@ -15,5 +15,15 @@ public interface ApprenticeService extends CrudService<Apprentice, Long> {
      */
     Apprentice findByProject(Long id);
 
-    List<Apprentice> getApprentice();
+    /**
+     * @return list of {@link Apprentice} for last months.
+     */
+    List<Apprentice> getApprenticeLastMonths();
+
+    /**
+     * @param email instructor's email address.
+     *
+     * @return instructor with given email.
+     */
+    Apprentice findByEmail(String email);
 }

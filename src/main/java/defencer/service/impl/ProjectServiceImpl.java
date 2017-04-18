@@ -14,11 +14,17 @@ import java.util.List;
  */
 public class ProjectServiceImpl extends CrudServiceImpl<Project> implements ProjectService {
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public List<Project> findByPeriod(Long months) {
         return null;
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public List<Project> getProjectsForLastMonths() {
         return DaoFactory.getProjectDao().getProjectForLastMonths();

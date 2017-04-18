@@ -3,8 +3,10 @@ package defencer.controller.add;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Apprentice;
 import defencer.service.factory.ServiceFactory;
+import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -41,7 +44,7 @@ public class NewApprenticeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         projectName.setItems(FXCollections
-                .observableArrayList("СLS", "LRPM", "CLSI", "UTLS", "BLS", "EMR", "IDC"));
+                .observableArrayList(getProjectName()));
 
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
 
@@ -69,7 +72,7 @@ public class NewApprenticeController implements Initializable {
         apprentice.setPhone(phone.getText());
         apprentice.setOccupation(occupation.getText());
         apprentice.setNameOfProject(projectName.getValue());
-        apprentice.setDateOfAdded(String.valueOf(LocalDate.now()));
+        apprentice.setDateOfAdded(LocalDate.now());
         create(apprentice);
         root.getScene().getWindow().hide();
     }
@@ -81,9 +84,17 @@ public class NewApprenticeController implements Initializable {
     private Apprentice create(Apprentice apprentice) {
         try {
             return ServiceFactory.getApprenticeService().createEntity(apprentice);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }  catch (SQLException | EntityAlreadyExistsException e) {
+            System.out.println(e.getMessage());
+            NotificationUtil.warningAlert("Error", e.getMessage(), NotificationUtil.SHORT);
         }
         return null;
+    }
+
+    /**
+     * @return all type of available projects.
+     */
+    private List<String> getProjectName() {
+        return ServiceFactory.getWiseacreService().getAvailableProject();
     }
 }

@@ -60,12 +60,11 @@ public class ApprenticeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        insertPupilTable();
+        insertApprenticeTable();
         loadApprentice();
-        comboProject.setItems(FXCollections
-                .observableArrayList("СLS", "LRPM", "CLSI", "UTLS", "BLS", "EMR", "IDC"));
 
-        btnFind.setOnAction(e -> System.out.println(comboProject.getValue()));
+        comboProject.setItems(FXCollections
+                .observableArrayList(getProjectName()));
 
         btnAddOneMore.setOnAction(e -> newPupil());
 
@@ -85,7 +84,7 @@ public class ApprenticeController implements Initializable {
     /**
      * Insert value for table.
      */
-    private void insertPupilTable() {
+    private void insertApprenticeTable() {
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
         phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
@@ -113,17 +112,15 @@ public class ApprenticeController implements Initializable {
      */
     @SneakyThrows
     private void editApprentice(ActionEvent event) {
-
-        final FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/entity/update/UpdateApprentice.fxml"));
-        Parent parent = fxmlLoader.load();
-        UpdateApprenticeController updateApprenticeController = fxmlLoader.getController();
-
         final Apprentice apprentice = table.getSelectionModel().getSelectedItem();
         if (apprentice == null) {
             NotificationUtil.warningAlert("Warning", "Select apprentice firstly", NotificationUtil.SHORT);
             return;
         }
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/entity/update/UpdateApprentice.fxml"));
+        Parent parent = fxmlLoader.load();
+        UpdateApprenticeController updateApprenticeController = fxmlLoader.getController();
         updateApprenticeController.editCurrentApprentice(apprentice);
 
         final Stage stage = new Stage();
@@ -139,7 +136,7 @@ public class ApprenticeController implements Initializable {
      * @return list of apprentice for last months.
      */
     private List<Apprentice> getApprentice() {
-        return ServiceFactory.getApprenticeService().getApprentice(); // todo last months
+        return ServiceFactory.getApprenticeService().getApprenticeLastMonths();
     }
 
     /**
@@ -153,8 +150,17 @@ public class ApprenticeController implements Initializable {
         }
         try {
             ServiceFactory.getApprenticeService().deleteEntity(apprentice);
+            observableApprentices.clear();
+            loadApprentice();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * @return all type of available projects.
+     */
+    private List<String> getProjectName() {
+        return ServiceFactory.getWiseacreService().getAvailableProject();
     }
 }

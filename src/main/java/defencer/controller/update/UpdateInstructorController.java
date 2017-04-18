@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
@@ -42,6 +43,9 @@ public class UpdateInstructorController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        role.setItems(FXCollections
+                .observableArrayList("Chief Officer", "Coordinator", "Instructor"));
+
         btnUpdateInstructor.setOnAction(e -> prepareUpdating());
 
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
@@ -58,6 +62,7 @@ public class UpdateInstructorController implements Initializable{
         instructor.setPhone(phone.getText());
         instructor.setQualification(qualification.getText());
         instructor.setId(instructorId);
+        instructor.setRole(role.getValue());
         update(instructor);
         root.getScene().getWindow().hide();
     }
@@ -71,7 +76,7 @@ public class UpdateInstructorController implements Initializable{
         email.setText(instructor.getEmail());
         phone.setText(instructor.getPhone());
         qualification.setText(instructor.getQualification());
-        role.setValue("Coordinator");
+        role.setPromptText(instructor.getRole());
         instructorId = instructor.getId();
     }
 

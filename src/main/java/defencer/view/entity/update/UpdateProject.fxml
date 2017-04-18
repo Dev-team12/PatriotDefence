@@ -16,7 +16,7 @@
    </Label>
    <ImageView fitHeight="85.0" fitWidth="121.0" layoutX="175.0" layoutY="11.0" pickOnBounds="true"
               preserveRatio="true">
-      <Image url="/image/PatriotDefenceLogo.png"/>
+      <Image url="/image/PatriotDefence.png"/>
    </ImageView>
    <JFXTextField fx:id="place" layoutX="30.0" layoutY="140.0" maxWidth="218.0" minWidth="218.0" prefHeight="31.0"
                  prefWidth="218.0" promptText="Place"/>
@@ -34,9 +34,9 @@
    <JFXButton fx:id="btnAddCar" layoutX="187.0" layoutY="277.0" prefHeight="25.0" prefWidth="61.0" text="Add"/>
    <JFXTextArea fx:id="areaCars" layoutX="30.0" layoutY="317.0" prefHeight="50.0" prefWidth="218.0"
                 promptText="Selected cars"/>
-   <DatePicker fx:id="dataFrom" layoutX="30.0" layoutY="191.0" prefHeight="27.0" prefWidth="227.0"
+   <JFXDatePicker fx:id="dataFrom" layoutX="30.0" layoutY="191.0" prefHeight="27.0" prefWidth="227.0"
                promptText="Date from"/>
-   <DatePicker fx:id="dataTo" layoutX="30.0" layoutY="234.0" prefHeight="27.0" prefWidth="227.0" promptText="Date to"/>
+   <JFXDatePicker fx:id="dataTo" layoutX="30.0" layoutY="234.0" prefHeight="27.0" prefWidth="227.0" promptText="Date to"/>
    <JFXComboBox fx:id="projectName" layoutX="30.0" layoutY="103.0" prefHeight="31.0" prefWidth="218.0"
                 promptText="Name of project"/>
 </AnchorPane>

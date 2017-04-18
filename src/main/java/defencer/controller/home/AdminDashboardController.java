@@ -14,34 +14,34 @@ import java.util.ResourceBundle;
  */
 public class AdminDashboardController implements Initializable {
 
-    private final int value = 12;
-
     @FXML
     private PieChart pieChartProject;
     @FXML
     private PieChart pieChartInstructor;
+
+    private static final int VALUE = 12;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         ObservableList<PieChart.Data> pieChartDataProject =
                 FXCollections.observableArrayList(
-                        new PieChart.Data("????", value),
-                        new PieChart.Data("????", value),
-                        new PieChart.Data("????", value),
-                        new PieChart.Data("????", value),
-                        new PieChart.Data("????", value));
+                        new PieChart.Data("Something", VALUE),
+                        new PieChart.Data("????", VALUE),
+                        new PieChart.Data("????", VALUE),
+                        new PieChart.Data("????", VALUE),
+                        new PieChart.Data("????", VALUE));
 
                 pieChartProject.setData(pieChartDataProject);
         pieChartProject.setTitle("Project Statistic");
 
         ObservableList<PieChart.Data> pieChartDataInstructor =
                 FXCollections.observableArrayList(
-                        new PieChart.Data("????", value),
-                        new PieChart.Data("????", value),
-                        new PieChart.Data("????", value),
-                        new PieChart.Data("????", value),
-                        new PieChart.Data("????", value));
+                        new PieChart.Data("????", VALUE),
+                        new PieChart.Data("????", VALUE),
+                        new PieChart.Data("????", VALUE),
+                        new PieChart.Data("????", VALUE),
+                        new PieChart.Data("????", VALUE));
 
                 pieChartInstructor.setData(pieChartDataInstructor);
         pieChartInstructor.setTitle("Instructor Statistic");

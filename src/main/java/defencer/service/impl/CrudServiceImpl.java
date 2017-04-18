@@ -43,6 +43,9 @@ public class CrudServiceImpl<T extends AbstractEntity> implements CrudService<T,
         return crudDao.update(entity);
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public List<T> searchEntity(String param, String value) throws SQLException {
         return crudDao.searchEntity(param, value);

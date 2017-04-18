@@ -63,9 +63,6 @@ public class InstructorController implements Initializable {
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
 
-    private static final Long ROLE = 12L;
-    private Long instructorId;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         insertTableInstructors();
@@ -84,17 +81,15 @@ public class InstructorController implements Initializable {
      */
     @SneakyThrows
     private void editInstructor(ActionEvent event) {
-
-        final FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/entity/update/UpdateInstructor.fxml"));
-        Parent parent = fxmlLoader.load();
-        UpdateInstructorController updateInstructorController = fxmlLoader.getController();
-
         final Instructor instructor = table.getSelectionModel().getSelectedItem();
         if (instructor == null) {
             NotificationUtil.warningAlert("Warning", "Select instructor firstly", NotificationUtil.SHORT);
             return;
         }
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/entity/update/UpdateInstructor.fxml"));
+        Parent parent = fxmlLoader.load();
+        UpdateInstructorController updateInstructorController = fxmlLoader.getController();
         updateInstructorController.editCurrentInstructor(instructor);
 
         final Stage stage = new Stage();
@@ -138,6 +133,8 @@ public class InstructorController implements Initializable {
         }
         try {
             ServiceFactory.getInstructorService().deleteEntity(instructor);
+            observableInstructors.clear();
+            loadInstructors();
         } catch (SQLException e) {
             e.printStackTrace();
         }

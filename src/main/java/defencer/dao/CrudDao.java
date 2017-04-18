@@ -19,7 +19,6 @@ public interface CrudDao<T, ID extends Serializable> {
      */
     T save(T entity);
 
-
     /**
      * Searching entity by its id.
      *

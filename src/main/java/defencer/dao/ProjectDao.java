@@ -13,4 +13,9 @@ public interface ProjectDao extends CrudDao<Project, Long> {
      * @return list of entity for last months.
      */
     List<Project> getProjectForLastMonths();
+
+    /**
+     * @param projectId for instructor and car.
+     */
+    void saveId(Long projectId);
 }

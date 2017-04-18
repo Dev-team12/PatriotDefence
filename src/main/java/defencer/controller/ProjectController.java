@@ -63,14 +63,13 @@ public class ProjectController implements Initializable {
     private JFXButton btnEdit;
 
     private ObservableList<Project> observableProjects = FXCollections.observableArrayList();
-    private static final int TEST = 12;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         insertProjectTable();
         loadProjects();
         comboProject.setItems(FXCollections
-                .observableArrayList("СLS", "LRPM", "CLSI", "UTLS", "BLS", "EMR", "IDC"));
+                .observableArrayList(getProjectName()));
 
         btnAddOneMore.setOnAction(e -> newProject());
 
@@ -84,8 +83,8 @@ public class ProjectController implements Initializable {
      */
     private void insertProjectTable() {
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        dataStart.setCellValueFactory(new PropertyValueFactory<>("dataFrom"));
-        dataFinish.setCellValueFactory(new PropertyValueFactory<>("dataTo"));
+        dataStart.setCellValueFactory(new PropertyValueFactory<>("dateFrom"));
+        dataFinish.setCellValueFactory(new PropertyValueFactory<>("dateTo"));
         place.setCellValueFactory(new PropertyValueFactory<>("place"));
         car.setCellValueFactory(new PropertyValueFactory<>("car"));
         instructors.setCellValueFactory(new PropertyValueFactory<>("instructors"));
@@ -121,17 +120,15 @@ public class ProjectController implements Initializable {
      */
     @SneakyThrows
     private void editProject(ActionEvent event) {
-
-        final FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/entity/update/NewProject.fxml"));
-        Parent parent = fxmlLoader.load();
-        UpdateProjectController updateProjectController = fxmlLoader.getController();
-
         final Project project = table.getSelectionModel().getSelectedItem();
         if (project == null) {
             NotificationUtil.warningAlert("Warning", "Select project firstly", NotificationUtil.SHORT);
             return;
         }
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/entity/update/UpdateProject.fxml"));
+        Parent parent = fxmlLoader.load();
+        UpdateProjectController updateProjectController = fxmlLoader.getController();
         updateProjectController.editCurrentProject(project);
 
         final Stage stage = new Stage();
@@ -161,8 +158,17 @@ public class ProjectController implements Initializable {
         }
         try {
             ServiceFactory.getProjectService().deleteEntity(project);
+            observableProjects.clear();
+            loadProjects();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * @return all type of available projects.
+     */
+    private List<String> getProjectName() {
+        return ServiceFactory.getWiseacreService().getAvailableProject();
     }
 }
