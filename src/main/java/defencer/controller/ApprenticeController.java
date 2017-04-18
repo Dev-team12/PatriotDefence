@@ -114,7 +114,7 @@ public class ApprenticeController implements Initializable {
     private void editApprentice(ActionEvent event) {
         final Apprentice apprentice = table.getSelectionModel().getSelectedItem();
         if (apprentice == null) {
-            NotificationUtil.warningAlert("Warning", "Select apprentice firstly", NotificationUtil.SHORT);
+            NotificationUtil.warningAlert("Warning", "Select apprentice first", NotificationUtil.SHORT);
             return;
         }
         final FXMLLoader fxmlLoader = new FXMLLoader();

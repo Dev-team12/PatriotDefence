@@ -83,7 +83,7 @@ public class InstructorController implements Initializable {
     private void editInstructor(ActionEvent event) {
         final Instructor instructor = table.getSelectionModel().getSelectedItem();
         if (instructor == null) {
-            NotificationUtil.warningAlert("Warning", "Select instructor firstly", NotificationUtil.SHORT);
+            NotificationUtil.warningAlert("Warning", "Select instructor first", NotificationUtil.SHORT);
             return;
         }
         final FXMLLoader fxmlLoader = new FXMLLoader();

@@ -153,7 +153,7 @@ public class ProjectController implements Initializable {
     private void deleteProject() {
         final Project project = table.getSelectionModel().getSelectedItem();
         if (project == null) {
-            NotificationUtil.warningAlert("Warning", "Select project firstly", NotificationUtil.SHORT);
+            NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);
             return;
         }
         try {
