@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="922.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.home.AdminDashboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="922.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.home.AdminDashboardController">
    <children>
-      <Text layoutX="67.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total instructors: " AnchorPane.bottomAnchor="382.0" AnchorPane.leftAnchor="67.0" AnchorPane.rightAnchor="746.42333984375" AnchorPane.topAnchor="21.0" />
-      <Text layoutX="260.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Apprentice:  " AnchorPane.bottomAnchor="383.0" AnchorPane.leftAnchor="260.0" AnchorPane.rightAnchor="548.85302734375" AnchorPane.topAnchor="20.0" />
-      <Text layoutX="500.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Projects for months: " AnchorPane.bottomAnchor="386.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="293.65673828125" AnchorPane.topAnchor="17.0" />
-      <Text layoutX="716.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apprentice for months" AnchorPane.bottomAnchor="387.2578125" AnchorPane.leftAnchor="715.68701171875" AnchorPane.rightAnchor="68.31298828125" AnchorPane.topAnchor="17.431640625" />
-      <Text layoutX="114.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17" AnchorPane.bottomAnchor="365.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="794.5302734375" AnchorPane.topAnchor="38.0" />
-      <Text layoutX="296.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17" AnchorPane.bottomAnchor="366.0" AnchorPane.leftAnchor="296.0" AnchorPane.rightAnchor="612.5302734375" AnchorPane.topAnchor="37.0" />
-      <Text layoutX="557.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17" AnchorPane.bottomAnchor="369.0" AnchorPane.leftAnchor="557.0" AnchorPane.rightAnchor="351.5302734375" AnchorPane.topAnchor="34.0" />
-      <Text layoutX="778.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17" AnchorPane.bottomAnchor="371.2578125" AnchorPane.leftAnchor="778.0" AnchorPane.rightAnchor="130.5302734375" AnchorPane.topAnchor="33.431640625" />
-      <PieChart fx:id="pieChartProject" layoutX="478.0" layoutY="75.0" prefHeight="319.0" prefWidth="435.0" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="75.0" />
-      <PieChart fx:id="pieChartInstructor" layoutX="11.0" layoutY="72.0" prefHeight="319.0" prefWidth="435.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="72.0" />
+      <Text fx:id="totalInstructors" layoutX="31.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total instructors: " AnchorPane.bottomAnchor="452.4140625" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="749.01513671875" AnchorPane.topAnchor="22.564453125">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text fx:id="totalApprentice" layoutX="239.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Apprentice:  " AnchorPane.bottomAnchor="452.4140625" AnchorPane.leftAnchor="239.0" AnchorPane.rightAnchor="535.03857421875" AnchorPane.topAnchor="22.564453125">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text fx:id="projectForMonths" layoutX="446.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Projects for months: " AnchorPane.bottomAnchor="451.4140625" AnchorPane.leftAnchor="446.0" AnchorPane.rightAnchor="308.16650390625" AnchorPane.topAnchor="23.564453125">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text fx:id="apprenticeForMonths" layoutX="679.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apprentice for months:" AnchorPane.bottomAnchor="451.4140625" AnchorPane.leftAnchor="679.0" AnchorPane.rightAnchor="62.94775390625" AnchorPane.topAnchor="23.564453125">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <BarChart fx:id="barChart" layoutX="31.0" layoutY="72.0" prefHeight="400.0" prefWidth="583.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
    </children>
 </AnchorPane>

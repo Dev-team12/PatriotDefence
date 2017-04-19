@@ -76,8 +76,8 @@ public class NewProjectController implements Initializable {
     private void prepareAdding() {
         final Project project = new Project();
         project.setName(projectName.getValue());
-        project.setDateFrom(dataFrom.getValue());
-        project.setDateTo(dataTo.getValue());
+        project.setDateStart(dataFrom.getValue());
+        project.setDateFinish(dataTo.getValue());
         project.setCar(areaCars.getText());
         project.setPlace(place.getText());
         project.setDescription(description.getText());

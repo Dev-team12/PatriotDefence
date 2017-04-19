@@ -79,8 +79,8 @@ public class UpdateProjectController implements Initializable {
     private void prepareUpdating() {
         final Project project = new Project();
         project.setName(projectName.getValue());
-        project.setDateFrom(dataFrom.getValue());
-        project.setDateTo(dataTo.getValue());
+        project.setDateStart(dataFrom.getValue());
+        project.setDateFinish(dataTo.getValue());
         project.setCar(areaCars.getText());
         project.setPlace(place.getText());
         project.setDescription(description.getText());
@@ -98,8 +98,8 @@ public class UpdateProjectController implements Initializable {
         projectName.setValue(project.getName());
         place.setText(project.getPlace());
         description.setText(project.getDescription());
-        dataFrom.setValue(project.getDateFrom());
-        dataTo.setValue(project.getDateTo());
+        dataFrom.setValue(project.getDateStart());
+        dataTo.setValue(project.getDateFinish());
         areaCars.setText(project.getCar());
         projectId = project.getId();
         localDate = project.getDateOfCreation();

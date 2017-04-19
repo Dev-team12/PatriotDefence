@@ -29,9 +29,9 @@ public class Project extends AbstractEntity implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "date_start", nullable = false)
-    private LocalDate dateFrom;
+    private LocalDate dateStart;
     @Column(name = "date_finish", nullable = false)
-    private LocalDate dateTo;
+    private LocalDate dateFinish;
     @Column(name = "place", nullable = false)
     private String place;
     @Column(name = "date_of_creation", nullable = false)

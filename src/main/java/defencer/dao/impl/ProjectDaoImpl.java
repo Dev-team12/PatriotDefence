@@ -33,6 +33,7 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         final List<Project> projects = session.createQuery(projectCriteriaQuery
                 .where(criteriaBuilder
                         .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(months)))).getResultList();
+
         session.getTransaction().commit();
         session.close();
         return projects;

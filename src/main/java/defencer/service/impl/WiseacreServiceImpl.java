@@ -5,6 +5,7 @@ import defencer.service.WiseacreService;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of {@link WiseacreService} interface.
@@ -41,5 +42,21 @@ public class WiseacreServiceImpl implements WiseacreService {
         List<String> freeInstructors = new LinkedList<>();
         DaoFactory.getWiseacreDao().getFreeInstructors().forEach(s -> freeInstructors.add(s.getFirstName()));
         return freeInstructors;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public Map<String, Long> getProjectStatistic() {
+        return DaoFactory.getWiseacreDao().getProjectStatistic();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public Map<String, Long> getInstructorStatistic() {
+        return DaoFactory.getWiseacreDao().getInstructorStatistic();
     }
 }
