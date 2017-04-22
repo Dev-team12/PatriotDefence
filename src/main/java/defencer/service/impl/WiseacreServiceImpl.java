@@ -141,4 +141,12 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
     public void deleteProject(AvailableProject project) throws SQLException {
         super.deleteEntity(project);
     }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public CurrentUser getCurrentUser(String email) {
+        return DaoFactory.getWiseacreDao().getCurrentUser(email);
+    }
 }

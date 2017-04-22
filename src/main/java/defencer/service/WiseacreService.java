@@ -2,6 +2,7 @@ package defencer.service;
 
 import defencer.model.AvailableProject;
 import defencer.model.Car;
+import defencer.model.CurrentUser;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -94,4 +95,9 @@ public interface WiseacreService {
      * @param project going to be delete.
      */
     void deleteProject(AvailableProject project) throws SQLException;
+
+    /**
+     * @return {@link CurrentUser}.
+     */
+    CurrentUser getCurrentUser(String email);
 }

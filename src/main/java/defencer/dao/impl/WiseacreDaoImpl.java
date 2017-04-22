@@ -244,6 +244,14 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
     }
 
     /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public CurrentUser getCurrentUser(String email) {
+        return null;
+    }
+
+    /**
      * @return {@link Session} for next steps.
      */
     private Session getCurrentSession() {
