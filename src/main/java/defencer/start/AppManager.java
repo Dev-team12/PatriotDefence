@@ -20,7 +20,7 @@ public class AppManager extends Application {
         primaryStage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        scene.getStylesheets().add("css/adminDashboard.css");
+        scene.getStylesheets().add("css/main.css");
         primaryStage.show();
     }
 

@@ -30,4 +30,9 @@ public class WorkDay extends AbstractEntity implements Serializable {
     private Long workDays;
     @Column(name = "date_of_creation")
     private LocalDate dateOfCreation;
+
+    public WorkDay(Long id, Long workDays) {
+        this.id = id;
+        this.workDays = workDays;
+    }
 }

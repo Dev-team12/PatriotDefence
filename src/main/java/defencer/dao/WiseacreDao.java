@@ -36,4 +36,34 @@ public interface WiseacreDao {
      * @return map with instructor's name and work days for last months.
      */
     Map<String, Long> getInstructorStatistic();
+
+    /**
+     * @return value of total instructors in Patriot Defence.
+     */
+    int getTotalInstructors();
+
+    /**
+     * @return value of total apprentice in Patriot Defence.
+     */
+    int getTotalApprentice();
+
+    /**
+     * @return value of created project for last months.
+     */
+    int getQuantityProjectForLastMonths();
+
+    /**
+     * @return value of added apprentice for last months.
+     */
+    int getQuantityApprenticeForLastMon();
+
+    /**
+     * @return list with cars' names and id for admin dashboard.
+     */
+    List<Car> getCarForAdminDashboard();
+
+    /**
+     * @return list with projects' names and id for admin dashboard.
+     */
+    List<AvailableProject> getProjectForAdminDashboard();
 }

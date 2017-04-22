@@ -1,8 +1,6 @@
 package defencer.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.OptimisticLockType;
 
 import java.io.Serializable;
@@ -14,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @org.hibernate.annotations.Entity(optimisticLock = OptimisticLockType.DIRTY, dynamicUpdate = true)
 @Table(name = "type_of_project")
@@ -24,5 +23,5 @@ public class AvailableProject extends AbstractEntity implements Serializable {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
     @Column(name = "name", nullable = false)
-    private String name;
+    private String projectName;
 }

@@ -1,5 +1,6 @@
 package defencer.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import javax.persistence.*;
  */
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @org.hibernate.annotations.Entity(optimisticLock = OptimisticLockType.DIRTY, dynamicUpdate = true)
@@ -29,4 +31,9 @@ public class User extends AbstractEntity implements Serializable {
     private String lastName;
     @Column(name = "second_name")
     private String secondName;
+
+    public User(Long id, String firstName) {
+        this.id = id;
+        this.firstName = firstName;
+    }
 }

@@ -41,4 +41,21 @@ public class Instructor extends AbstractEntity implements Serializable {
     private String email;
     @Column(name = "password")
     private String password;
+
+    public Instructor(Long id, String firstName) {
+        this.id = id;
+        this.firstName = firstName;
+    }
+
+    public Instructor(Long id, String firstName, String lastName, String qualification,
+                      String role, String phone, String status, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.qualification = qualification;
+        this.role = role;
+        this.phone = phone;
+        this.status = status;
+        this.email = email;
+    }
 }

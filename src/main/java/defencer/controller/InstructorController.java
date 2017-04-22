@@ -110,7 +110,7 @@ public class InstructorController implements Initializable {
     }
 
     /**
-     * Insert value for table.
+     * Insert values for table.
      */
     private void insertTableInstructors() {
         firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));

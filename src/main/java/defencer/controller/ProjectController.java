@@ -76,6 +76,13 @@ public class ProjectController implements Initializable {
         btnEdit.setOnAction(this::editProject);
 
         btnDelete.setOnAction(e -> deleteProject());
+
+        table.setOnMouseClicked(e -> {
+            if (e.getClickCount() >= 2) {
+                final Project project = table.getSelectionModel().getSelectedItem();
+                System.out.println(project.getName());
+            }
+        });
     }
 
     /**

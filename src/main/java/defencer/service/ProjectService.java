@@ -18,5 +18,4 @@ public interface ProjectService extends CrudService<Project, Long> {
      * @return list of projects for last months.
      */
     List<Project> getProjectsForLastMonths();
-
 }

@@ -38,5 +38,15 @@ public class Apprentice extends AbstractEntity implements Serializable {
     private String nameOfProject;
     @Column(name = "date_of_added")
     private LocalDate dateOfAdded;
+
+    public Apprentice(Long id, String name, String phone, String email,
+                      String occupation, String nameOfProject) {
+        this.id = id;
+        this.name = name;
+        this.email = phone;
+        this.phone = email;
+        this.occupation = occupation;
+        this.nameOfProject = nameOfProject;
+    }
 }
 

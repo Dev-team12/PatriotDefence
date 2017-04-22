@@ -27,7 +27,7 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
      */
     @Override
     public List<Project> getProjectsForLastMonths() {
-        return DaoFactory.getProjectDao().getProjectForLastMonths();
+        return DaoFactory.getProjectDao().getProjectForGivenPeriod();
     }
 
     /**

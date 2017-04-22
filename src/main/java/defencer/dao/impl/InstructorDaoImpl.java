@@ -69,7 +69,8 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         final CriteriaQuery<Instructor> criteriaQuery = criteriaBuilder.createQuery(Instructor.class);
         final Root<Instructor> root = criteriaQuery.from(Instructor.class);
-        criteriaQuery.select(root);
+        criteriaQuery.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"), root.get("qualification"),
+                root.get("role"), root.get("phone"), root.get("status"), root.get("email"));
         final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
         session.getTransaction().commit();
         session.close();

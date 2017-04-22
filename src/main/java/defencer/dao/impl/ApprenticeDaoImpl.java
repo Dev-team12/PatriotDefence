@@ -40,9 +40,11 @@ public class ApprenticeDaoImpl extends CrudDaoImpl<Apprentice> implements Appren
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         final CriteriaQuery<Apprentice> criteriaQuery = criteriaBuilder.createQuery(Apprentice.class);
         final Root<Apprentice> root = criteriaQuery.from(Apprentice.class);
-        final List<Apprentice> apprenticeList = session.createQuery(criteriaQuery
+        criteriaQuery.multiselect(root.get("id"), root.get("name"), root.get("phone"), root.get("email"), root.get("occupation"),
+                root.get("nameOfProject"))
                 .where(criteriaBuilder
-                        .between(root.get("dateOfAdded"), localDate, LocalDate.now().plusDays(months)))).getResultList();
+                        .between(root.get("dateOfAdded"), localDate, LocalDate.now().plusDays(months)));
+        final List<Apprentice> apprenticeList = session.createQuery(criteriaQuery).getResultList();
         session.getTransaction().commit();
         session.close();
         return apprenticeList;

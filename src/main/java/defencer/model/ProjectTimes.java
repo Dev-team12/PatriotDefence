@@ -30,4 +30,9 @@ public class ProjectTimes extends AbstractEntity implements Serializable {
     private Long projectTimes;
     @Column(name = "date_of_creation")
     private LocalDate dateOfCreation;
+
+    public ProjectTimes(Long id, Long projectTimes) {
+        this.id = id;
+        this.projectTimes = projectTimes;
+    }
 }

@@ -22,7 +22,7 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
      * {@inheritDoc}.
      */
     @Override
-    public List<Project> getProjectForLastMonths() {
+    public List<Project> getProjectForGivenPeriod() {
         int months = 1; // todo replace from view
         LocalDate localDate = LocalDate.now().minusMonths(months);
         final Session session = getSession();
@@ -30,10 +30,12 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         final CriteriaQuery<Project> projectCriteriaQuery = criteriaBuilder.createQuery(Project.class);
         final Root<Project> root = projectCriteriaQuery.from(Project.class);
-        final List<Project> projects = session.createQuery(projectCriteriaQuery
+        projectCriteriaQuery.multiselect(root.get("id"), root.get("name"), root.get("dateStart"),
+                root.get("dateFinish"), root.get("place"), root.get("author"), root.get("car"), root.get("description"))
                 .where(criteriaBuilder
-                        .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(months)))).getResultList();
-
+                        .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(months)));
+        final List<Project> projects = session.createQuery(projectCriteriaQuery).getResultList();
+        projects.forEach(s -> s.setName("# " + s.getId() + " " + s.getName()));
         session.getTransaction().commit();
         session.close();
         return projects;
