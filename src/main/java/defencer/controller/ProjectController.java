@@ -9,6 +9,7 @@ import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -73,14 +74,13 @@ public class ProjectController implements Initializable {
 
         btnAddOneMore.setOnAction(e -> newProject());
 
-        btnEdit.setOnAction(this::editProject);
-
         btnDelete.setOnAction(e -> deleteProject());
+
+        btnEdit.setOnAction(this::editProject);
 
         table.setOnMouseClicked(e -> {
             if (e.getClickCount() >= 2) {
-                final Project project = table.getSelectionModel().getSelectedItem();
-                System.out.println(project.getName());
+                // todo edit project
             }
         });
     }
