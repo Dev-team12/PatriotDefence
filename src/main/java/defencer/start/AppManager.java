@@ -15,13 +15,14 @@ public class AppManager extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        getConnectionForDatabase();
-        Parent root = FXMLLoader.load(getClass().getResource("/drawerMain.fxml"));
+//        getConnectionForDatabase();
+        Parent root = FXMLLoader.load(getClass().getResource("/PremierLeague.fxml"));
         primaryStage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         scene.getStylesheets().add("css/main.css");
         primaryStage.show();
+
     }
 
     private void getConnectionForDatabase() {
