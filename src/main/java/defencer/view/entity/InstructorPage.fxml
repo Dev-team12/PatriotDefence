@@ -17,12 +17,12 @@
             <TableColumn fx:id="status" prefWidth="124.0" text="Status" />
             <TableColumn fx:id="role" prefWidth="124.0" text="Role" />
            </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
        </TableView>
-      <JFXButton fx:id="btnDelete" layoutX="968.0" layoutY="14.0" prefHeight="27.0" prefWidth="74.0" text="Delete" AnchorPane.rightAnchor="14.0" />
-      <JFXButton fx:id="btnEdit" layoutX="894.0" layoutY="14.0" prefHeight="27.0" prefWidth="74.0" text="Edit" AnchorPane.rightAnchor="116.0" />
-      <JFXButton fx:id="btnAddOneMore" layoutX="820.0" layoutY="14.0" prefHeight="27.0" prefWidth="74.0" text="Add" AnchorPane.rightAnchor="218.0" />
-      <JFXButton fx:id="btnFind" layoutX="746.0" layoutY="14.0" prefHeight="27.0" prefWidth="74.0" text="Search" AnchorPane.rightAnchor="320.0" />
-      <JFXComboBox fx:id="searchBy" layoutX="613.0" layoutY="13.0" prefHeight="27.0" prefWidth="133.0" promptText="Name" AnchorPane.rightAnchor="422.0" />
-      <JFXTextField fx:id="txtSearch" layoutX="31.0" layoutY="14.0" prefHeight="25.0" prefWidth="435.0" promptText="Type..." AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="590.0" />
+      <JFXButton fx:id="btnDelete" layoutX="502.0" layoutY="13.0" prefHeight="27.0" prefWidth="74.0" text="Delete" AnchorPane.leftAnchor="502.0" />
+      <JFXButton fx:id="btnEdit" layoutX="400.0" layoutY="13.0" prefHeight="27.0" prefWidth="74.0" text="Edit" AnchorPane.leftAnchor="400.0" />
+      <JFXButton fx:id="btnAddOneMore" layoutX="300.0" layoutY="13.0" prefHeight="27.0" prefWidth="74.0" text="Add" AnchorPane.leftAnchor="300.0" />
    </children>
 </AnchorPane>

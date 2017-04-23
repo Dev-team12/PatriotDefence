@@ -17,7 +17,7 @@
    <JFXButton fx:id="btnAddPupil" defaultButton="true" layoutX="180.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="ok" />
    <JFXButton fx:id="btnCancel" cancelButton="true" layoutX="102.0" layoutY="359.0" mnemonicParsing="false" text="cancel" />
    <ImageView fitHeight="85.0" fitWidth="121.0" layoutX="177.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="/image/PatriotDefenceLogo.png" />
+      <Image url="/image/PatriotDefence.png" />
    </ImageView>
    <JFXTextField fx:id="firstName" layoutX="26.0" layoutY="111.0" maxWidth="264.0" minWidth="218.0" prefHeight="31.0" prefWidth="218.0" promptText="Name" />
    <JFXTextField fx:id="email" layoutX="26.0" layoutY="159.0" maxWidth="264.0" minWidth="218.0" prefHeight="31.0" prefWidth="218.0" promptText="Phone" />

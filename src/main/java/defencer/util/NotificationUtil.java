@@ -9,7 +9,9 @@ import org.controlsfx.control.Notifications;
  */
 public class NotificationUtil{
 
-    private static final Pos DEFAULT_POSITION = Pos.BOTTOM_RIGHT;
+    private static final Pos DEFAULT_POSITION = Pos.TOP_RIGHT;
+    public static final Double SHORT = 3.0;
+    public static final Double LONG = 5.0;
 
     /**
      * Creating information notification.

@@ -1,10 +1,10 @@
 package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
 import defencer.controller.add.NewInstructorController;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
+import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +16,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -53,11 +52,7 @@ public class InstructorController implements Initializable {
     @FXML
     private TableColumn<Instructor, String> role;
     @FXML
-    private JFXComboBox<String> searchBy;
-    @FXML
     private JFXButton btnAddOneMore;
-    @FXML
-    private TextField txtSearch;
     @FXML
     private JFXButton btnFind;
     @FXML
@@ -77,11 +72,6 @@ public class InstructorController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         insertTableInstructors();
         loadInstructors();
-        searchBy.setPromptText("Name");
-        searchBy.setItems(FXCollections
-                .observableArrayList("Name", "Email", "Phone", "Qualification"));
-
-        btnFind.setOnAction(e -> System.out.println(searchBy.getValue()));
 
         btnAddOneMore.setOnAction(e -> newInstructor());
 
@@ -92,7 +82,7 @@ public class InstructorController implements Initializable {
      * Opens page for editing selected parameters.
      */
     @SneakyThrows
-    public void editInstructor(ActionEvent event) {
+    private void editInstructor(ActionEvent event) {
 
         final FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/entity/add/newInstructor.fxml"));
@@ -100,7 +90,10 @@ public class InstructorController implements Initializable {
         NewInstructorController newInstructorController = fxmlLoader.getController();
 
         final Instructor instructor = table.getSelectionModel().getSelectedItem();
-
+        if (instructor == null) {
+            NotificationUtil.warningAlert("Warning", "Select instructor firstly", NotificationUtil.SHORT);
+            return;
+        }
         newInstructorController.editCurrentInstructor(instructor);
 
         final Stage stage = new Stage();
@@ -144,7 +137,6 @@ public class InstructorController implements Initializable {
         qualification.setCellValueFactory(new PropertyValueFactory<>("qualification"));
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
         role.setCellValueFactory(new PropertyValueFactory<>("role"));
-
     }
 
     /**
@@ -190,19 +182,6 @@ public class InstructorController implements Initializable {
     private List<Instructor> getInstructors() {
 
         return ServiceFactory.getInstructorService().getInstructors();
-    }
-
-    /**
-     * @return search by selected parameters.
-     */
-    private List<Instructor> search() {
-        try {
-            return ServiceFactory.getInstructorService()
-                    .searchEntity(searchBy.getValue(), txtSearch.getText());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     /**

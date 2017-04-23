@@ -2,37 +2,24 @@
 
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="300.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="300.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label layoutX="27.0" layoutY="48.0" text="Name:">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <JFXTextField layoutX="93.0" layoutY="40.0" prefHeight="25.0" prefWidth="213.0" promptText="Zikim">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </JFXTextField>
-      <Label layoutX="27.0" layoutY="138.0" text="Password:">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <JFXPasswordField layoutX="122.0" layoutY="130.0" prefHeight="25.0" prefWidth="176.0" promptText="12345">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </JFXPasswordField>
-      <JFXButton layoutX="93.0" layoutY="213.0" prefHeight="59.0" prefWidth="140.0" text="Login">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </JFXButton>
-   </children>
+<AnchorPane fx:id="rootLogin" maxHeight="300.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="300.0"
+            prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="defencer.controller.LoginController">
+   <JFXTextField layoutX="69.0" layoutY="41.0" prefHeight="34.0" prefWidth="213.0" promptText="Emai">
+      <font>
+         <Font size="20.0"/>
+      </font>
+   </JFXTextField>
+   <JFXPasswordField layoutX="69.0" layoutY="133.0" prefHeight="34.0" prefWidth="213.0" promptText="password">
+      <font>
+         <Font size="20.0"/>
+      </font>
+   </JFXPasswordField>
+   <JFXButton fx:id="btnLogin" layoutX="105.0" layoutY="195.0" prefHeight="59.0" prefWidth="140.0" text="Login">
+      <font>
+         <Font size="20.0"/>
+      </font>
+   </JFXButton>
 </AnchorPane>
