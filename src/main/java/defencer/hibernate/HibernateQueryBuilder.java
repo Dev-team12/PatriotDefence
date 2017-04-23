@@ -1,4 +1,4 @@
-package defencer.temp;
+package defencer.hibernate;
 
 
 /**

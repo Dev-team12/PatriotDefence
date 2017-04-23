@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootLogin" maxHeight="300.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="300.0"
-            prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="defencer.controller.LoginController">
+<AnchorPane fx:id="rootLogin" maxHeight="300.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="300.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.LoginController">
    <JFXTextField layoutX="69.0" layoutY="41.0" prefHeight="34.0" prefWidth="213.0" promptText="Emai">
       <font>
-         <Font size="20.0"/>
+         <Font size="20.0" />
       </font>
    </JFXTextField>
-   <JFXPasswordField layoutX="69.0" layoutY="133.0" prefHeight="34.0" prefWidth="213.0" promptText="password">
+   <JFXPasswordField labelFloat="true" layoutX="69.0" layoutY="133.0" prefHeight="34.0" prefWidth="213.0" promptText="Password">
       <font>
-         <Font size="20.0"/>
+         <Font size="20.0" />
       </font>
    </JFXPasswordField>
    <JFXButton fx:id="btnLogin" layoutX="105.0" layoutY="195.0" prefHeight="59.0" prefWidth="140.0" text="Login">
       <font>
-         <Font size="20.0"/>
+         <Font size="20.0" />
       </font>
    </JFXButton>
 </AnchorPane>

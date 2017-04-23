@@ -6,11 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ProgressIndicator;
-import javafx.stage.Stage;
+import lombok.SneakyThrows;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -29,6 +27,7 @@ public class LoadingController implements Initializable {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
+                PreLoaderUtil.getLink().start();
                 toDo();
                 return null;
             }
@@ -40,35 +39,28 @@ public class LoadingController implements Initializable {
 
 
     /**
-     * task 4 new thread.
+     * Task 4 new thread.
      */
     private void toDo() {
         while (true) {
+
             if (PreLoaderUtil.getPercents() >= 1.0) {
                 return;
             } else {
                 progressBar.setProgress(PreLoaderUtil.getPercents());
             }
+
         }
     }
 
 
     /**
-     * jumping to the next layout.
+     * Jumping to the next layout.
      */
+    @SneakyThrows
     private void toNextLayout() {
-        progressBar.getScene().getWindow().hide();
-
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/drawerMain.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        final Stage stage = new Stage();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
+        progressBar.getScene().setRoot(root);
     }
 
 }

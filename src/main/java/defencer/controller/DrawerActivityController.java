@@ -15,7 +15,6 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -55,66 +54,49 @@ public class DrawerActivityController implements Initializable {
      */
     private void mouseClickButton(Button button) {
 
-        Map<String,Object> data = new HashMap<>();
+        AnchorPane newPane = null;
 
         switch (button.getId()) {
 
             case "profileButton":
-                AnchorPane userPane = null;
                 try {
-                    userPane = FXMLLoader.load(getClass().getResource("/userProfile.fxml"));
+                    newPane = FXMLLoader.load(getClass().getResource("/userProfile.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                changeStageTo(userPane, (AnchorPane) button.getScene().lookup("#currentLayout"));
+                changeStageTo(newPane, (AnchorPane) button.getScene().lookup("#currentLayout"));
                 break;
 
             case "instructorButton":
-                AnchorPane instructorPane = null;
-
-                data.put("name","test1");
-                ControllersDataFactory.getLink().add(UserProfileActivityController.class,data);
-
-
-
-                ControllersDataFactory.getLink().get(UserProfileActivityController.class);
-
                 try {
-                    instructorPane = FXMLLoader.load(getClass().getResource("/entity/InstructorPage.fxml"));
+                    newPane = FXMLLoader.load(getClass().getResource("/entity/InstructorPage.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                changeStageTo(instructorPane, (AnchorPane) button.getScene().lookup("#currentLayout"));
+                changeStageTo(newPane, (AnchorPane) button.getScene().lookup("#currentLayout"));
                 break;
 
 
             case "apprenticeButton":
-                AnchorPane apprenticePane = null;
-
-                data.put("name","test2");
-                ControllersDataFactory.getLink().add(UserProfileActivityController.class,data);
-
                 try {
-                    apprenticePane = FXMLLoader.load(getClass().getResource("/entity/ApprenticePage.fxml"));
+                    newPane = FXMLLoader.load(getClass().getResource("/entity/ApprenticePage.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                changeStageTo(apprenticePane, (AnchorPane) button.getScene().lookup("#currentLayout"));
+                changeStageTo(newPane, (AnchorPane) button.getScene().lookup("#currentLayout"));
                 break;
 
             case "projectButton":
-
-                AnchorPane projectPane = null;
                 try {
-                    projectPane = FXMLLoader.load(getClass().getResource("/entity/ProjectPage.fxml"));
+                    newPane = FXMLLoader.load(getClass().getResource("/entity/ProjectPage.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                changeStageTo(projectPane, (AnchorPane) button.getScene().lookup("#currentLayout"));
+                changeStageTo(newPane, (AnchorPane) button.getScene().lookup("#currentLayout"));
                 break;
 
             default:
@@ -140,7 +122,8 @@ public class DrawerActivityController implements Initializable {
         AnchorPane.setBottomAnchor(pane, 0.0);
         AnchorPane.setTopAnchor(pane, 0.0);
 
-        ((JFXDrawer) pane.getScene().lookup("#drawer")).close();
+        MainActivityController mainActivityController = (MainActivityController) ((HashMap) ControllersDataFactory.getLink().get(MainActivityController.class)).get("class");
+        mainActivityController.closeDrawer();
     }
 
 

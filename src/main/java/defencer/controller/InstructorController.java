@@ -1,7 +1,7 @@
 package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
-import defencer.controller.update.UpdateInstructorController;
+import defencer.controller.add.NewInstructorController;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
@@ -24,6 +24,7 @@ import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -63,17 +64,18 @@ public class InstructorController implements Initializable {
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
 
+    private static final Long ROLE = 12L;
+
+    private Long instructorId;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         insertTableInstructors();
-
         loadInstructors();
 
         btnAddOneMore.setOnAction(e -> newInstructor());
 
         btnEdit.setOnAction(this::editInstructor);
-
-        btnDelete.setOnAction(e -> deleteInstructor());
     }
 
     /**
@@ -81,16 +83,18 @@ public class InstructorController implements Initializable {
      */
     @SneakyThrows
     private void editInstructor(ActionEvent event) {
+
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/entity/add/newInstructor.fxml"));
+        Parent parent = fxmlLoader.load();
+        NewInstructorController newInstructorController = fxmlLoader.getController();
+
         final Instructor instructor = table.getSelectionModel().getSelectedItem();
         if (instructor == null) {
-            NotificationUtil.warningAlert("Warning", "Select instructor first", NotificationUtil.SHORT);
+            NotificationUtil.warningAlert("Warning", "Select instructor firstly", NotificationUtil.SHORT);
             return;
         }
-        final FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/entity/update/UpdateInstructor.fxml"));
-        Parent parent = fxmlLoader.load();
-        UpdateInstructorController updateInstructorController = fxmlLoader.getController();
-        updateInstructorController.editCurrentInstructor(instructor);
+        newInstructorController.editCurrentInstructor(instructor);
 
         final Stage stage = new Stage();
         Scene value = new Scene(parent);
@@ -105,12 +109,33 @@ public class InstructorController implements Initializable {
      * Load instructors into table.
      */
     private void loadInstructors() {
-        observableInstructors.addAll(getInstructors());
+        final Instructor instructor = new Instructor();
+        instructor.setEmail("gmail.com");
+        instructor.setQualification("Instructor");
+        instructor.setPhone("093");
+        instructor.setFirstName("Alex");
+        instructor.setLastName("Borchuck");
+        instructor.setStatus("Free");
+
+
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        instructor.setRole("test");
+
+        List<Instructor> list = new LinkedList<>();
+        list.add(instructor);
+
+//        final List<Instructor> instructors = getInstructors();
+        observableInstructors.addAll(list);
         table.setItems(observableInstructors);
     }
 
     /**
-     * Insert values for table.
+     * Insert value for table.
      */
     private void insertTableInstructors() {
         firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -123,27 +148,47 @@ public class InstructorController implements Initializable {
     }
 
     /**
-     * Deletes selected instructor.
+     * Deletes given entity.
      */
-    private void deleteInstructor() {
-        final Instructor instructor = table.getSelectionModel().getSelectedItem();
-        if (instructor == null) {
-            NotificationUtil.warningAlert("Warning", "Select instructor firstly", NotificationUtil.SHORT);
-            return;
-        }
+    private void delete() {
         try {
-            ServiceFactory.getInstructorService().deleteEntity(instructor);
-            observableInstructors.clear();
-            loadInstructors();
+            ServiceFactory.getInstructorService().deleteEntity(instructorId);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * @return list of instructors.
+     * @param instructor going to be update.
+     * @return already updated {@link Instructor}.
+     */
+    private Instructor update(Instructor instructor) {
+        try {
+            return ServiceFactory.getInstructorService().updateEntity(instructor);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @param instructor going to be create.
+     * @return already created {@link Instructor}.
+     */
+    private Instructor create(Instructor instructor) {
+        try {
+            return ServiceFactory.getInstructorService().createEntity(instructor);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @return list of instructors for last months.
      */
     private List<Instructor> getInstructors() {
+
         return ServiceFactory.getInstructorService().getInstructors();
     }
 

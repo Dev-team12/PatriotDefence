@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
+import defencer.data.ControllersDataFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +20,8 @@ import lombok.SneakyThrows;
 import java.io.IOException;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -39,23 +42,29 @@ public class MainActivityController implements Initializable {
     @FXML
     private JFXButton btnLogout;
 
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("class", this);
+
+        if (ControllersDataFactory.getLink().get(this.getClass()) == null) {
+            ControllersDataFactory.getLink().add(this.getClass(), data);
+        } else {
+            ControllersDataFactory.getLink().update(this.getClass(), data);
+        }
 
         try {
             Pane adminDashboard = FXMLLoader.load(getClass().getResource("/home/AdminDashboard.fxml"));
             changeStageTo(adminDashboard);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        try {
             VBox box = FXMLLoader.load(getClass().getResource("/drawer/drawer.fxml"));
             drawer.setSidePane(box);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         btbDashboard.setOnMouseClicked(click -> {
             try {
@@ -66,25 +75,29 @@ public class MainActivityController implements Initializable {
             }
         });
 
+
         HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburger);
         transition.setRate(-1);
         hamburger.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> {
-            transition.setRate(transition.getRate() * -1);
-            transition.play();
+
+            //transition.setRate(transition.getRate() *-1);
+            // transition.play();
 
             if (drawer.isShown()) {
-                drawer.close();
+                closeDrawer();
             } else {
-                drawer.open();
+                openDrawer();
             }
 
         });
+
 
         btnLogout.setOnAction(e -> {
             logout();
             currentLayout.getScene().getWindow().hide();
         });
     }
+
 
     /**
      * Logout from system.
@@ -97,6 +110,7 @@ public class MainActivityController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
 
     /**
      * This method changes current stage to stage,that was given as input parameter.
@@ -113,5 +127,36 @@ public class MainActivityController implements Initializable {
         AnchorPane.setLeftAnchor(pane, 0.0);
         AnchorPane.setBottomAnchor(pane, 0.0);
         AnchorPane.setTopAnchor(pane, 0.0);
+    }
+
+
+    /**
+     * Closing drawer.
+     */
+    public void closeDrawer() {
+
+        drawer.close();
+
+        HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburger);
+        transition.setRate(transition.getRate() * -1);
+        transition.play();
+
+        drawer.toBack();
+    }
+
+
+    /**
+     * Opening drawer.
+     */
+    public void openDrawer() {
+
+        drawer.toFront();
+        drawer.open();
+
+        HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburger);
+        transition.setRate(transition.getRate() * -1);
+        transition.play();
+        //transition.setRate(1.0);
+        //transition.play();
     }
 }

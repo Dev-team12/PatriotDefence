@@ -10,8 +10,7 @@ public class ControllersDataFactory {
 
     private static ControllersDataFactory controllersDataFactory = null;
 
-    private Map<Class,Map<String,Object>> controllersData = new HashMap<>();
-
+    private Map<Class, Map<String, Object>> controllersData = new HashMap<>();
 
 
     private ControllersDataFactory() {
@@ -19,34 +18,45 @@ public class ControllersDataFactory {
     }
 
 
+    /**
+     * Adding data with.
+     */
+    public void add(Class key, Map<String, Object> data) {
 
-    public void add(Class key,Map<String,Object> data){
-
-        if(controllersData.containsKey(key)) {
-            Map<String,Object> oldData = controllersData.get(key);
+        if (controllersData.containsKey(key)) {
+            Map<String, Object> oldData = controllersData.get(key);
             oldData.putAll(data);
-            controllersData.put(key,oldData);
-        }else{
-            controllersData.put(key,data);
+            controllersData.put(key, oldData);
+        } else {
+            controllersData.put(key, data);
         }
     }
 
 
+    /**
+     * Adding data if data already exist it is updating.
+     */
+    public void update(Class key, Map<String, Object> data) {
 
-    public void update(Class key,Map<String,Object> data){
-        controllersData.put(key,data);
+        controllersData.put(key, data);
     }
 
 
+    /**
+     * Getting data.
+     */
+    public Object get(Class key) {
 
-    public Object get(Class key){
         return controllersData.get(key);
     }
 
 
+    /**
+     * Getting link.
+     */
+    public static ControllersDataFactory getLink() {
 
-    public static ControllersDataFactory getLink(){
-        if(controllersDataFactory == null){
+        if (controllersDataFactory == null) {
             controllersDataFactory = new ControllersDataFactory();
         }
 

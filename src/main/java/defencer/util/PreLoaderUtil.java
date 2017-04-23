@@ -22,6 +22,8 @@ public class PreLoaderUtil extends Thread{
 
     private List<Task<Void>> tasks = new LinkedList<>();
 
+    private  final long tempId = 30L;
+
 
     private PreLoaderUtil() {
 
@@ -30,11 +32,11 @@ public class PreLoaderUtil extends Thread{
             protected Void call() throws Exception {
 
                 HibernateUtil.getSessionFactory().getCurrentSession();
-                percents = 0.5;
 
-                CurrentUser.newInstance(30L);
+                percents = 1.0 / 2;
+
+                CurrentUser.newInstance(tempId);
                 percents = 1.0;
-
                 return null;
             }
         };

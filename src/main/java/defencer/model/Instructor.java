@@ -21,41 +21,31 @@ public class Instructor extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     private Long id;
-    @Column(name = "first_name", nullable = false)
+    @Column
     private String firstName;
-    @Column(name = "last_name")
+    @Column
     private String lastName;
-    @Column(name = "qualification")
+    @Column
     private String qualification;
-    @Column(name = "role")
+    @Column
     private String role;
-    @Column(name = "phone")
+    @Column
     private String phone;
-    @Column(name = "project_id")
-    private int projectId;
-    @Column(name = "status")
+    @Column
     private String status;
-    @Column(name = "email")
+    @Column
     private String email;
-    @Column(name = "password")
+    @Column
     private String password;
 
-    public Instructor(Long id, String firstName) {
-        this.id = id;
-        this.firstName = firstName;
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + " " + phone + " " + email;
     }
 
-    public Instructor(Long id, String firstName, String lastName, String qualification,
-                      String role, String phone, String status, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.qualification = qualification;
-        this.role = role;
-        this.phone = phone;
-        this.status = status;
-        this.email = email;
-    }
+
+
 }
