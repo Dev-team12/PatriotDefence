@@ -14,7 +14,7 @@
    <children>
       <ImageView fx:id="userImage" fitHeight="262.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
          <image>
-            <Image url="/image/user.jpg" />
+            <Image url="/image/userProfile.jpg" />
          </image>
       </ImageView>
       <Label fx:id="nameLabel" prefHeight="71.0" prefWidth="357.0" text="Игорь Гнесь" AnchorPane.leftAnchor="293.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="14.0">

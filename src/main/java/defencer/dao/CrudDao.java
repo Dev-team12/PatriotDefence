@@ -19,7 +19,6 @@ public interface CrudDao<T, ID extends Serializable> {
      */
     T save(T entity);
 
-
     /**
      * Searching entity by its id.
      *
@@ -33,7 +32,7 @@ public interface CrudDao<T, ID extends Serializable> {
      *
      * @param entity must not be {@literal null}.
      */
-    void delete(ID entity);
+    void delete(T entity);
 
     /**
      * Check whether entity already exists.
@@ -50,11 +49,6 @@ public interface CrudDao<T, ID extends Serializable> {
      * @return updated entity.
      */
     T update(T entity);
-
-    /**
-     * @return list of entity for last months.
-     */
-    List<T> getEntityForMonths();
 
     /**
      * @return list of found entity by given param and value.

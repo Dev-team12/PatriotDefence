@@ -31,8 +31,8 @@ public class CrudServiceImpl<T extends AbstractEntity> implements CrudService<T,
      * {@inheritDoc}.
      */
     @Override
-    public void deleteEntity(Long id) throws SQLException {
-        crudDao.delete(id);
+    public void deleteEntity(T entity) throws SQLException {
+        crudDao.delete(entity);
     }
 
     /**
@@ -43,11 +43,9 @@ public class CrudServiceImpl<T extends AbstractEntity> implements CrudService<T,
         return crudDao.update(entity);
     }
 
-    @Override
-    public List<T> getEntityForMonths() throws SQLException {
-        return crudDao.getEntityForMonths();
-    }
-
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public List<T> searchEntity(String param, String value) throws SQLException {
         return crudDao.searchEntity(param, value);

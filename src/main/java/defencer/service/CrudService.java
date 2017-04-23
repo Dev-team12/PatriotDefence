@@ -20,10 +20,10 @@ public interface CrudService<T, ID extends Serializable> {
     T createEntity(T entity) throws SQLException;
 
     /**
-     * @param id entity's id in database, mustn't be {@literal null}.
+     * @param entity mustn't be {@literal null}.
      * @throws SQLException if something went wrong during deleting.
      */
-    void deleteEntity(ID id) throws SQLException;
+    void deleteEntity(T entity) throws SQLException;
 
     /**
      * Update a given entity.
@@ -31,12 +31,6 @@ public interface CrudService<T, ID extends Serializable> {
      * @param entity must not be {@literal null}.
      */
     T updateEntity(T entity) throws SQLException;
-
-    /**
-     * @return list of entity for last months.
-     * @throws SQLException if found none.
-     */
-    List<T> getEntityForMonths() throws SQLException;
 
     /**
      * @return list of found entity by given param and value.

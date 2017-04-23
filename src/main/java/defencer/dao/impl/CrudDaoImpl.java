@@ -27,7 +27,7 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
         session.beginTransaction();
         session.save(entity);
         session.getTransaction().commit();
-        HibernateUtil.shutdown();
+        session.close();
         return entity;
     }
 
@@ -44,8 +44,12 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
      * {@inheritDoc}.
      */
     @Override
-    public void delete(Long id) {
+    public void delete(T entity) {
         final Session session = getSession();
+        session.beginTransaction();
+        session.delete(entity);
+        session.getTransaction().commit();
+        session.close();
     }
 
     /**
@@ -63,13 +67,11 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
     @Override
     public T update(T entity) {
         final Session session = getSession();
-        return null;
-    }
-
-    @Override
-    public List<T> getEntityForMonths() {
-        final Session session = getSession();
-        return null;
+        session.beginTransaction();
+        session.update(entity);
+        session.getTransaction().commit();
+        session.close();
+        return entity;
     }
 
     @Override
@@ -78,6 +80,9 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
         return null;
     }
 
+    /**
+     * @return {@link Session} for next steps.
+     */
     private Session getSession() {
         return HibernateUtil.getSessionFactory().openSession();
     }

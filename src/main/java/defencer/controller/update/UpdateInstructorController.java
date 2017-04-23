@@ -1,12 +1,10 @@
-package defencer.controller.add;
+package defencer.controller.update;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
-import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,14 +15,14 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
- * @author Igor Gnes on 4/12/17.
+ * @author Igor Gnes on 4/16/17.
  */
-public class NewInstructorController implements Initializable {
+public class UpdateInstructorController implements Initializable{
 
     @FXML
     private AnchorPane root;
     @FXML
-    private JFXButton btnAddInstructor;
+    private JFXButton btnUpdateInstructor;
     @FXML
     private JFXButton btnCancel;
     @FXML
@@ -40,53 +38,57 @@ public class NewInstructorController implements Initializable {
     @FXML
     private JFXComboBox<String> role;
 
+    private Long instructorId;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         role.setItems(FXCollections
                 .observableArrayList("Chief Officer", "Coordinator", "Instructor"));
-        btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
 
-        btnAddInstructor.setOnAction(e -> prepareAdding());
+        btnUpdateInstructor.setOnAction(e -> prepareUpdating());
+
+        btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
     }
 
     /**
-     * Prepare {@link Instructor} to creating.
+     * Prepare {@link Instructor} to updating.
      */
-    private void prepareAdding() {
+    private void prepareUpdating() {
         final Instructor instructor = new Instructor();
         instructor.setFirstName(firstName.getText());
         instructor.setLastName(lastName.getText());
         instructor.setEmail(email.getText());
         instructor.setPhone(phone.getText());
         instructor.setQualification(qualification.getText());
+        instructor.setId(instructorId);
         instructor.setRole(role.getValue());
-        create(instructor);
+        update(instructor);
         root.getScene().getWindow().hide();
     }
 
     /**
-     * Clear form fields after adding.
+     * @param instructor is selected {@link Instructor} for set in edit form.
      */
-    private void clear() {
-        firstName.clear();
-        lastName.clear();
-        email.clear();
-        phone.clear();
-        qualification.clear();
-        role.setPromptText("Role");
+    public void editCurrentInstructor(Instructor instructor) {
+        firstName.setText(instructor.getFirstName());
+        lastName.setText(instructor.getLastName());
+        email.setText(instructor.getEmail());
+        phone.setText(instructor.getPhone());
+        qualification.setText(instructor.getQualification());
+        role.setPromptText(instructor.getRole());
+        instructorId = instructor.getId();
     }
 
     /**
-     * @param instructor going to be create.
-     * @return already created {@link Instructor}.
+     * @param instructor going to be update.
+     * @return already updated {@link Instructor}.
      */
-    private Instructor create(Instructor instructor) {
+    private Instructor update(Instructor instructor) {
         try {
-            return ServiceFactory.getInstructorService().createEntity(instructor);
-        } catch (SQLException | EntityAlreadyExistsException e) {
-            System.out.println(e.getMessage());
-            NotificationUtil.warningAlert("Error", e.getMessage(), NotificationUtil.SHORT);
+            return ServiceFactory.getInstructorService().updateEntity(instructor);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }

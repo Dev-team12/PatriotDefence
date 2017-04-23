@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OptimisticLockType;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import javax.persistence.*;
 
 /**
@@ -27,20 +28,36 @@ public class Project extends AbstractEntity implements Serializable {
     private Long id;
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "data_start", nullable = false)
-    private String dataFrom;
-    @Column(name = "data_finish", nullable = false)
-    private String dataTo;
+    @Column(name = "date_start", nullable = false)
+    private LocalDate dateStart;
+    @Column(name = "date_finish", nullable = false)
+    private LocalDate dateFinish;
     @Column(name = "place", nullable = false)
     private String place;
-    @Column(name = "data_of_creation", nullable = false)
-    private String dataOfCreation;
+    @Column(name = "date_of_creation", nullable = false)
+    private LocalDate dateOfCreation;
     @Column(name = "car", nullable = false)
     private String car;
-    @Column(name = "instructor_id", nullable = false)
-    private int instructors;
     @Column(name = "author", nullable = false)
     private String author;
     @Column(name = "description", nullable = false)
     private String description;
+
+    public Project(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Project(Long id, String name, LocalDate dateStart, LocalDate dateFinish,
+                   String place, String author, String car, String description) {
+        this.id = id;
+        this.name = name;
+        this.dateStart = dateStart;
+        this.dateFinish = dateFinish;
+        this.place = place;
+        this.author = author;
+        this.car = car;
+        this.description = description;
+    }
 }
+

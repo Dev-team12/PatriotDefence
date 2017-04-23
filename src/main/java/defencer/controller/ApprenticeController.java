@@ -2,8 +2,9 @@ package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import defencer.controller.add.NewApprenticeController;
+import defencer.controller.update.UpdateApprenticeController;
 import defencer.model.Apprentice;
+import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +17,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -24,7 +24,7 @@ import javafx.stage.Window;
 import lombok.SneakyThrows;
 
 import java.net.URL;
-import java.util.LinkedList;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -46,9 +46,7 @@ public class ApprenticeController implements Initializable {
     @FXML
     private TableColumn<Apprentice, String> project;
     @FXML
-    private JFXComboBox<String> searchBy;
-    @FXML
-    private TextField txtSearch;
+    private JFXComboBox<String> comboProject;
     @FXML
     private JFXButton btnAddOneMore;
     @FXML
@@ -62,40 +60,31 @@ public class ApprenticeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        insertPupilTable();
-        loadPupils();
-        searchBy.setPromptText("Name");
-        searchBy.setItems(FXCollections
-                .observableArrayList("Name", "Email", "Phone", "Project", "Occupation"));
+        insertApprenticeTable();
+        loadApprentice();
 
-        btnFind.setOnAction(e -> System.out.println(searchBy.getValue()));
+        comboProject.setItems(FXCollections
+                .observableArrayList(getProjectName()));
 
         btnAddOneMore.setOnAction(e -> newPupil());
 
         btnEdit.setOnAction(this::editApprentice);
+
+        btnDelete.setOnAction(e -> deleteApprentice());
     }
 
     /**
      * Load instructors into table.
      */
-    private void loadPupils() {
-        final Apprentice apprentice = new Apprentice();
-        apprentice.setName("Alex");
-        apprentice.setEmail("gmail.com");
-        apprentice.setOccupation("Apprentice");
-        apprentice.setPhone("093");
-        apprentice.setNameOfProject("CLS");
-        List<Apprentice> list = new LinkedList<>();
-        list.add(apprentice);
-
-        observableApprentices.addAll(list);
+    private void loadApprentice() {
+        observableApprentices.addAll(getApprentice());
         table.setItems(observableApprentices);
     }
 
     /**
      * Insert value for table.
      */
-    private void insertPupilTable() {
+    private void insertApprenticeTable() {
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
         phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
@@ -118,24 +107,21 @@ public class ApprenticeController implements Initializable {
         stage.show();
     }
 
-
     /**
      * Opens page for editing selected parameters.
      */
     @SneakyThrows
     private void editApprentice(ActionEvent event) {
-
-        final FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/entity/add/NewApprentice.fxml"));
-        Parent parent = fxmlLoader.load();
-        NewApprenticeController newApprenticeController = fxmlLoader.getController();
-
         final Apprentice apprentice = table.getSelectionModel().getSelectedItem();
         if (apprentice == null) {
-            NotificationUtil.warningAlert("Warning", "Select apprentice firstly", NotificationUtil.SHORT);
+            NotificationUtil.warningAlert("Warning", "Select apprentice first", NotificationUtil.SHORT);
             return;
         }
-        newApprenticeController.editCurrentApprentice(apprentice);
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/entity/update/UpdateApprentice.fxml"));
+        Parent parent = fxmlLoader.load();
+        UpdateApprenticeController updateApprenticeController = fxmlLoader.getController();
+        updateApprenticeController.editCurrentApprentice(apprentice);
 
         final Stage stage = new Stage();
         Scene value = new Scene(parent);
@@ -144,5 +130,37 @@ public class ApprenticeController implements Initializable {
         Window window = ((Node) event.getSource()).getScene().getWindow();
         stage.initOwner(window);
         stage.show();
+    }
+
+    /**
+     * @return list of apprentice for last months.
+     */
+    private List<Apprentice> getApprentice() {
+        return ServiceFactory.getApprenticeService().getApprenticeLastMonths();
+    }
+
+    /**
+     * Deletes selected apprentice.
+     */
+    private void deleteApprentice() {
+        final Apprentice apprentice = table.getSelectionModel().getSelectedItem();
+        if (apprentice == null) {
+            NotificationUtil.warningAlert("Warning", "Select apprentice firstly", NotificationUtil.SHORT);
+            return;
+        }
+        try {
+            ServiceFactory.getApprenticeService().deleteEntity(apprentice);
+            observableApprentices.clear();
+            loadApprentice();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @return all type of available projects.
+     */
+    private List<String> getProjectName() {
+        return ServiceFactory.getWiseacreService().getAvailableProject();
     }
 }

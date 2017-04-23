@@ -1,10 +1,12 @@
 package defencer.start;
 
+import defencer.util.HibernateUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.hibernate.SessionFactory;
 
 /**
  * The main class in app.
@@ -13,15 +15,17 @@ public class AppManager extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
+        getConnectionForDatabase();
+        Parent root = FXMLLoader.load(getClass().getResource("/drawerMain.fxml"));
         primaryStage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        scene.getStylesheets().add("css/main.css");
         primaryStage.show();
     }
 
-
-    public static void main(String[] args) {
-        launch(args);
+    private void getConnectionForDatabase() {
+        final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        sessionFactory.getCurrentSession();
     }
 }

@@ -8,6 +8,10 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.util.List;
+import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  * Implementation of {@link InstructorDao} interface.
@@ -22,7 +26,19 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
     @Override
     public Instructor findByEmail(String email) {
         final Session session = getSession();
-        return null;
+        session.beginTransaction();
+        Instructor instructor;
+        final Query emailQuery = session.createQuery("from Instructor where email = :email").setParameter("email", email);
+        try {
+            instructor = (Instructor) emailQuery.getSingleResult();
+        } catch (NoResultException e) {
+            session.getTransaction().commit();
+            session.close();
+            return null;
+        }
+        session.getTransaction().commit();
+        session.close();
+        return instructor;
     }
 
     /**
@@ -43,14 +59,27 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
         return null;
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public List<Instructor> getInstructors() {
         final Session session = getSession();
-        final Query query = session.createQuery("from Instructor");
-        final List list = query.list();
-        return list;
+        session.beginTransaction();
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        final CriteriaQuery<Instructor> criteriaQuery = criteriaBuilder.createQuery(Instructor.class);
+        final Root<Instructor> root = criteriaQuery.from(Instructor.class);
+        criteriaQuery.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"), root.get("qualification"),
+                root.get("role"), root.get("phone"), root.get("status"), root.get("email"));
+        final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return instructorList;
     }
 
+    /**
+     * @return {@link Session} for next steps.
+     */
     private Session getSession() {
         return HibernateUtil.getSessionFactory().openSession();
     }

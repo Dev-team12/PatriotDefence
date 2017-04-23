@@ -44,6 +44,9 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
         return DaoFactory.getInstructorDao().findByEmail(email);
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public List<Instructor> getInstructors() {
         return DaoFactory.getInstructorDao().getInstructors();

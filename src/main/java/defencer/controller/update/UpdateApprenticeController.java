@@ -1,12 +1,10 @@
-package defencer.controller.add;
+package defencer.controller.update;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Apprentice;
 import defencer.service.factory.ServiceFactory;
-import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,14 +17,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * @author Igor Gnes on 4/12/17.
+ * @author Igor Gnes on 4/16/17.
  */
-public class NewApprenticeController implements Initializable {
+public class UpdateApprenticeController implements Initializable {
 
     @FXML
     private AnchorPane root;
     @FXML
-    private JFXButton btnCreate;
+    private JFXButton btnUpdate;
     @FXML
     private JFXButton btnCancel;
     @FXML
@@ -40,53 +38,59 @@ public class NewApprenticeController implements Initializable {
     @FXML
     private JFXComboBox<String> projectName;
 
+    private Long apprenticeId;
+    private LocalDate localDate;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         projectName.setItems(FXCollections
                 .observableArrayList(getProjectName()));
 
+        btnUpdate.setOnAction(e -> prepareUpdating());
+
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
-
-        btnCreate.setOnAction(e -> prepareAdding());
     }
 
     /**
-     * Clear form fields after adding.
+     * Prepare {@link Apprentice} to updating.
      */
-    private void clear() {
-        firstName.clear();
-        email.clear();
-        phone.clear();
-        occupation.clear();
-        projectName.setPromptText("Project name");
-    }
-
-    /**
-     * Prepare {@link Apprentice} to creating.
-     */
-    private void prepareAdding() {
+    private void prepareUpdating() {
         final Apprentice apprentice = new Apprentice();
         apprentice.setName(firstName.getText());
         apprentice.setEmail(email.getText());
         apprentice.setPhone(phone.getText());
         apprentice.setOccupation(occupation.getText());
         apprentice.setNameOfProject(projectName.getValue());
-        apprentice.setDateOfAdded(LocalDate.now());
-        create(apprentice);
+        apprentice.setId(apprenticeId);
+        apprentice.setDateOfAdded(localDate);
+        update(apprentice);
         root.getScene().getWindow().hide();
     }
 
     /**
-     * @param apprentice going to be create.
-     * @return already created {@link Apprentice}.
+     * @param apprentice is selected {@link Apprentice} for set in edit form.
      */
-    private Apprentice create(Apprentice apprentice) {
+    public void editCurrentApprentice(Apprentice apprentice) {
+        firstName.setText(apprentice.getName());
+        email.setText(apprentice.getEmail());
+        phone.setText(apprentice.getPhone());
+        occupation.setText(apprentice.getOccupation());
+        projectName.setValue(apprentice.getNameOfProject());
+        apprenticeId = apprentice.getId();
+        localDate = apprentice.getDateOfAdded();
+    }
+
+    /**
+     * @param apprentice going to be update.
+     * @return already updated {@link Apprentice}.
+     */
+    private Apprentice update(Apprentice apprentice) {
         try {
-            return ServiceFactory.getApprenticeService().createEntity(apprentice);
-        }  catch (SQLException | EntityAlreadyExistsException e) {
-            System.out.println(e.getMessage());
-            NotificationUtil.warningAlert("Error", e.getMessage(), NotificationUtil.SHORT);
+            return ServiceFactory.getApprenticeService().updateEntity(apprentice);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
