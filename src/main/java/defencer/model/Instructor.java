@@ -15,8 +15,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@org.hibernate.annotations.Entity(optimisticLock = OptimisticLockType.DIRTY, dynamicUpdate = true)
-@Table(name = "instructor")
+@Table
 public class Instructor extends AbstractEntity implements Serializable {
 
     @Id
