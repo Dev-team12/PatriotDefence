@@ -2,7 +2,6 @@ package defencer.dao;
 
 import defencer.model.AvailableProject;
 import defencer.model.Car;
-import defencer.model.CurrentUser;
 import defencer.model.Instructor;
 
 import java.util.List;
@@ -69,7 +68,7 @@ public interface WiseacreDao {
     List<AvailableProject> getProjectForAdminDashboard();
 
     /**
-     * @return {@link CurrentUser}.
+     * @return {@link Instructor} like current user.
      */
-    CurrentUser getCurrentUser(String email);
+    Instructor getCurrentUser(String email);
 }

@@ -19,11 +19,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.UserProfileActivityController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.drawertest.UserProfileActivityController">
    <children>
       <ImageView fx:id="userImage" fitHeight="262.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
          <image>
-            <Image url="@images/img.jpg" />
+            <Image url="/image/userProfile.jpg" />
          </image>
       </ImageView>
       <Separator layoutX="276.0" layoutY="264.0" prefHeight="10.0" prefWidth="509.0" AnchorPane.leftAnchor="276.0" AnchorPane.rightAnchor="36.0" />

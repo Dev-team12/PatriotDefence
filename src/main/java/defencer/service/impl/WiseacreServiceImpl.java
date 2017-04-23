@@ -146,7 +146,7 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public CurrentUser getCurrentUser(String email) {
+    public Instructor getCurrentUser(String email) {
         return DaoFactory.getWiseacreDao().getCurrentUser(email);
     }
 }
