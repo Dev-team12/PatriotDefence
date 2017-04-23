@@ -3,7 +3,6 @@ package defencer.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OptimisticLockType;
 
 import java.io.Serializable;
 import javax.persistence.*;
