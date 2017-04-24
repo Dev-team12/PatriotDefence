@@ -72,5 +72,4 @@ public class NotificationUtil{
         scene.getStylesheets().add("css/main.css");
         primaryStage.show();
     }
-
 }
