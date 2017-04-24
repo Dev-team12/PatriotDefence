@@ -2,6 +2,7 @@ package defencer.service;
 
 import defencer.model.AvailableProject;
 import defencer.model.Car;
+import defencer.model.Instructor;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -25,7 +26,7 @@ public interface WiseacreService {
     /**
      * @return list of free instructors.
      */
-    List<String> getFreeInstructors();
+    List<Instructor> getFreeInstructors();
 
     /**
      * @return map with project's name and times how often they were created.

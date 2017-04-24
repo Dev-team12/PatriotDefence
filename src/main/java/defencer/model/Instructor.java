@@ -34,13 +34,15 @@ public class Instructor extends AbstractEntity implements Serializable {
     @Column(name = "phone")
     private String phone;
     @Column(name = "project_id")
-    private int projectId;
+    private Long projectId;
     @Column(name = "status")
     private String status;
     @Column(name = "email")
     private String email;
     @Column(name = "password")
     private String password;
+    @Column(name = "video_path")
+    private String videoPath;
 
     public Instructor(Long id, String firstName) {
         this.id = id;
@@ -57,5 +59,15 @@ public class Instructor extends AbstractEntity implements Serializable {
         this.phone = phone;
         this.status = status;
         this.email = email;
+    }
+
+    public Instructor(Long id, String firstName, String lastName, String qualification, String phone, String email, String videoPath) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.qualification = qualification;
+        this.phone = phone;
+        this.email = email;
+        this.videoPath = videoPath;
     }
 }

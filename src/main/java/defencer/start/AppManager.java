@@ -1,6 +1,7 @@
 package defencer.start;
 
 import defencer.util.HibernateUtil;
+import defencer.util.NotificationUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,11 +23,17 @@ public class AppManager extends Application {
         primaryStage.setScene(scene);
         scene.getStylesheets().add("css/main.css");
         primaryStage.show();
-
     }
 
+    /**
+     * Create query to database.
+     */
     private void getConnectionForDatabase() {
-        final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        sessionFactory.getCurrentSession();
+        try {
+            final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+            sessionFactory.getCurrentSession();
+        } catch (Exception e) {
+            new NotificationUtil().isNoInternetConnection();
+        }
     }
 }

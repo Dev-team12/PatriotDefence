@@ -40,10 +40,8 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public List<String> getFreeInstructors() {
-        List<String> freeInstructors = new LinkedList<>();
-        DaoFactory.getWiseacreDao().getFreeInstructors().forEach(s -> freeInstructors.add(s.getFirstName()));
-        return freeInstructors;
+    public List<Instructor> getFreeInstructors() {
+        return DaoFactory.getWiseacreDao().getFreeInstructors();
     }
 
     /**

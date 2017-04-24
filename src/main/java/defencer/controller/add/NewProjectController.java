@@ -59,9 +59,6 @@ public class NewProjectController implements Initializable {
         projectName.setItems(FXCollections
                 .observableArrayList(getProjectName()));
 
-        comboInstructors.setItems(FXCollections
-                .observableArrayList(getFreeInstructors()));
-
         comboCars.setItems(FXCollections
                 .observableArrayList(getFreeCars()));
 
@@ -124,17 +121,6 @@ public class NewProjectController implements Initializable {
             comboCars.setPromptText("Cars are busy");
         }
         return freeCar;
-    }
-
-    /**
-     * @return free instructor's name for project.
-     */
-    private List<String> getFreeInstructors() {
-        final List<String> freeInstructors = ServiceFactory.getWiseacreService().getFreeInstructors();
-        if (freeInstructors.isEmpty()) {
-            comboInstructors.setPromptText("Instructors are busy");
-        }
-        return freeInstructors;
     }
 
     /**
