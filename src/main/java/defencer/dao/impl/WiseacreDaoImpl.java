@@ -65,7 +65,8 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         val criteriaBuilder = session.getCriteriaBuilder();
         final CriteriaQuery<Instructor> availableProjectCriteriaQuery = criteriaBuilder.createQuery(Instructor.class);
         final Root<Instructor> root = availableProjectCriteriaQuery.from(Instructor.class);
-        availableProjectCriteriaQuery.multiselect(root.get("id"), root.get("firstName"));
+        availableProjectCriteriaQuery.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"),
+                root.get("qualification"), root.get("phone"), root.get("email"), root.get("videoPath"));
         final List<Instructor> instructorList = session.createQuery(availableProjectCriteriaQuery
                 .where(criteriaBuilder.equal(root.get("status"), "FREE"))).getResultList();
         session.getTransaction().commit();
@@ -241,26 +242,6 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         session.getTransaction().commit();
         session.close();
         return availableProjectList;
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public Instructor getCurrentUser(String email) {
-        final Session session = getCurrentSession();
-        session.beginTransaction();
-        val criteriaBuilder = session.getCriteriaBuilder();
-        final CriteriaQuery<Instructor> currentUser = criteriaBuilder.createQuery(Instructor.class);
-        final Root<Instructor> root = currentUser.from(Instructor.class);
-        currentUser.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"), root.get("email"),
-                root.get("phone"), root.get("status"), root.get("qualification"))
-                .where(criteriaBuilder.equal(root.get("email"), email));
-        final Instructor instructor = session.createQuery(currentUser).getSingleResult();
-
-        session.getTransaction().commit();
-        session.close();
-        return instructor;
     }
 
     /**

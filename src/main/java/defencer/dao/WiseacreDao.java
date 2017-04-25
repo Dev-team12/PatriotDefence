@@ -66,9 +66,4 @@ public interface WiseacreDao {
      * @return list with projects' names and id for admin dashboard.
      */
     List<AvailableProject> getProjectForAdminDashboard();
-
-    /**
-     * @return {@link Instructor} like current user.
-     */
-    Instructor getCurrentUser(String email);
 }

@@ -1,7 +1,6 @@
 package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
-import defencer.util.PreLoaderUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,11 +26,8 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        if (!PreLoaderUtil.getLink().isPreLoaded()) {
-            PreLoaderUtil.getLink().start();
-        }
-
         btnLogin.setOnAction(e -> {
+            rootLogin.getScene().getWindow().hide();
             authorization();
         });
     }
@@ -41,18 +37,10 @@ public class LoginController implements Initializable {
      */
     @SneakyThrows
     private void authorization() {
-
-        btnLogin.getScene().getWindow().hide();
-
         Parent root = FXMLLoader.load(getClass().getResource("/drawerMain.fxml"));
-
         final Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
-        stage.setOnCloseRequest(event -> {
-        });
-
     }
 }

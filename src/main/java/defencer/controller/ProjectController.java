@@ -54,6 +54,8 @@ public class ProjectController implements Initializable {
     @FXML
     private JFXComboBox<String> comboProject;
     @FXML
+    private JFXButton btnAddInstructor;
+    @FXML
     private JFXButton btnAddOneMore;
     @FXML
     private JFXButton btnFind;
@@ -82,6 +84,32 @@ public class ProjectController implements Initializable {
                 // todo edit project
             }
         });
+        btnAddInstructor.setOnAction(this::premierLeague);
+    }
+
+    /**
+     * Open window for auditing instructors.
+     */
+    @SneakyThrows
+    private void premierLeague(ActionEvent event) {
+        final Project project = table.getSelectionModel().getSelectedItem();
+        if (project == null) {
+            NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);
+            return;
+        }
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/PremierLeague.fxml"));
+        Parent parent = fxmlLoader.load();
+        PremierLeagueController premierLeagueController = fxmlLoader.getController();
+        premierLeagueController.loadProjectDetails(project);
+
+        final Stage stage = new Stage();
+        Scene value = new Scene(parent);
+        stage.setScene(value);
+        stage.initModality(Modality.WINDOW_MODAL);
+        Window window = ((Node) event.getSource()).getScene().getWindow();
+        stage.initOwner(window);
+        stage.show();
     }
 
     /**
@@ -128,7 +156,7 @@ public class ProjectController implements Initializable {
     private void editProject(ActionEvent event) {
         final Project project = table.getSelectionModel().getSelectedItem();
         if (project == null) {
-            NotificationUtil.warningAlert("Warning", "Select project firstly", NotificationUtil.SHORT);
+            NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);
             return;
         }
         final FXMLLoader fxmlLoader = new FXMLLoader();

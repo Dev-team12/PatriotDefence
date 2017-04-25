@@ -40,10 +40,8 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public List<String> getFreeInstructors() {
-        List<String> freeInstructors = new LinkedList<>();
-        DaoFactory.getWiseacreDao().getFreeInstructors().forEach(s -> freeInstructors.add(s.getFirstName()));
-        return freeInstructors;
+    public List<Instructor> getFreeInstructors() {
+        return DaoFactory.getWiseacreDao().getFreeInstructors();
     }
 
     /**
@@ -140,13 +138,5 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
     @Override
     public void deleteProject(AvailableProject project) throws SQLException {
         super.deleteEntity(project);
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public Instructor getCurrentUser(String email) {
-        return DaoFactory.getWiseacreDao().getCurrentUser(email);
     }
 }

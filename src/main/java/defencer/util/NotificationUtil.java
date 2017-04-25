@@ -1,7 +1,12 @@
 package defencer.util;
 
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import lombok.SneakyThrows;
 import org.controlsfx.control.Notifications;
 
 /**
@@ -30,7 +35,7 @@ public class NotificationUtil{
     /**
      * Creating error notification.
      */
-    public static void errorAlert(String title, String message, Double duration) {
+    public static void errornAlert(String title, String message, Double duration) {
 
         Notifications notifications = Notifications.create()
                 .title(title)
@@ -51,8 +56,20 @@ public class NotificationUtil{
                 .graphic(null)
                 .hideAfter(Duration.seconds(duration))
                 .position(DEFAULT_POSITION);
-        System.out.println(notifications);
-
         notifications.showWarning();
+    }
+
+    /**
+     * Open window error if internet connection lost.
+     */
+    @SneakyThrows
+    public void isNoInternetConnection() {
+        final Stage primaryStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/isNoInternetConnection.fxml"));
+        primaryStage.setTitle("Patriot Defence");
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+        scene.getStylesheets().add("css/main.css");
+        primaryStage.show();
     }
 }

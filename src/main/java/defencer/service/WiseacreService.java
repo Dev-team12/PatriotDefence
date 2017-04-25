@@ -26,7 +26,7 @@ public interface WiseacreService {
     /**
      * @return list of free instructors.
      */
-    List<String> getFreeInstructors();
+    List<Instructor> getFreeInstructors();
 
     /**
      * @return map with project's name and times how often they were created.
@@ -95,9 +95,4 @@ public interface WiseacreService {
      * @param project going to be delete.
      */
     void deleteProject(AvailableProject project) throws SQLException;
-
-    /**
-     * @return {@link Instructor} like current user.
-     */
-    Instructor getCurrentUser(String email);
 }
