@@ -15,6 +15,7 @@ public class AppManager extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        getConnectionForDatabase();
         Parent root = FXMLLoader.load(getClass().getResource("/drawerMain.fxml"));
         primaryStage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
