@@ -22,6 +22,7 @@ public class AppManager extends Application {
         primaryStage.setScene(scene);
         scene.getStylesheets().add("css/main.css");
         primaryStage.show();
+
     }
 
     private void getConnectionForDatabase() {
