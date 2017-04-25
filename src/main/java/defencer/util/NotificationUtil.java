@@ -60,7 +60,7 @@ public class NotificationUtil{
     }
 
     /**
-     * Open window error is internet connection lost.
+     * Open window error if internet connection lost.
      */
     @SneakyThrows
     public void isNoInternetConnection() {

@@ -61,6 +61,7 @@ public class NewInstructorController implements Initializable {
         instructor.setPhone(phone.getText());
         instructor.setQualification(qualification.getText());
         instructor.setRole(role.getValue());
+        instructor.setStatus("FREE");
         create(instructor);
         root.getScene().getWindow().hide();
     }

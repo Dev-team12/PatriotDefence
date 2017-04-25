@@ -1,7 +1,6 @@
 package defencer.start;
 
 import defencer.util.HibernateUtil;
-import defencer.util.NotificationUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,8 +15,7 @@ public class AppManager extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        getConnectionForDatabase();
-        Parent root = FXMLLoader.load(getClass().getResource("/PremierLeague.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/drawerMain.fxml"));
         primaryStage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -32,8 +30,8 @@ public class AppManager extends Application {
         try {
             final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             sessionFactory.getCurrentSession();
-        } catch (Exception e) {
-            new NotificationUtil().isNoInternetConnection();
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
     }
 }

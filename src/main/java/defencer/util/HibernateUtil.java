@@ -18,12 +18,15 @@ public class HibernateUtil {
     private static SessionFactory buildSessionFactory() {
         try {
             return new Configuration().configure(
-                    new File("src/main/resources/hibernate.xml")).buildSessionFactory();
+                    new File("src/main/resources/hibernate.xm")).buildSessionFactory();
 
         } catch (Throwable e) {
-            System.err.println("Initial SessionFactory creation failed." + e);
-            throw new ExceptionInInitializerError(e);
+//            final NotificationUtil notificationUtil = new NotificationUtil();
+//            notificationUtil.isNoInternetConnection();
+//            System.err.println("Initial SessionFactory creation failed." + e);
+//            throw new ExceptionInInitializerError(e);
         }
+        return null;
     }
 
     public static SessionFactory getSessionFactory() {
