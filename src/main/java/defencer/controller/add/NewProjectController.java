@@ -105,7 +105,8 @@ public class NewProjectController implements Initializable {
      */
     private Project create(Project project) {
         try {
-            return ServiceFactory.getProjectService().createEntity(project);
+            final Project entity = ServiceFactory.getProjectService().createEntity(project);
+            System.out.println(entity.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }

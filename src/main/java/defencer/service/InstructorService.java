@@ -24,5 +24,8 @@ public interface InstructorService extends CrudService<Instructor, Long> {
     Instructor findByEmail(String email);
 
 
+    /**
+     * @return list of {@link Instructor}.
+     */
     List<Instructor> getInstructors();
 }
