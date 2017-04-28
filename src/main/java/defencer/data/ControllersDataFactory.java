@@ -12,17 +12,13 @@ public class ControllersDataFactory {
 
     private Map<Class, Map<String, Object>> controllersData = new HashMap<>();
 
-
     private ControllersDataFactory() {
-
     }
-
 
     /**
      * Adding data with.
      */
     public void add(Class key, Map<String, Object> data) {
-
         if (controllersData.containsKey(key)) {
             Map<String, Object> oldData = controllersData.get(key);
             oldData.putAll(data);
@@ -32,7 +28,6 @@ public class ControllersDataFactory {
         }
     }
 
-
     /**
      * Adding data if data already exist it is updating.
      */
@@ -41,26 +36,20 @@ public class ControllersDataFactory {
         controllersData.put(key, data);
     }
 
-
     /**
      * Getting data.
      */
     public Object get(Class key) {
-
         return controllersData.get(key);
     }
-
 
     /**
      * Getting link.
      */
     public static ControllersDataFactory getLink() {
-
         if (controllersDataFactory == null) {
             controllersDataFactory = new ControllersDataFactory();
         }
-
         return controllersDataFactory;
     }
-
 }

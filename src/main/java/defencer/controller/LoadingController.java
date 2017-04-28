@@ -20,7 +20,6 @@ public class LoadingController implements Initializable {
     @FXML
     private ProgressIndicator progressBar;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -32,7 +31,6 @@ public class LoadingController implements Initializable {
                 return null;
             }
         };
-
         new Thread(task).start();
         task.setOnSucceeded(event -> toNextLayout());
     }
@@ -43,16 +41,17 @@ public class LoadingController implements Initializable {
      */
     private void toDo() {
         while (true) {
-
             if (PreLoaderUtil.getPercents() >= 1.0) {
                 return;
-            } else {
-                progressBar.setProgress(PreLoaderUtil.getPercents());
             }
-
+            try {
+                final int millis = 500;
+                Thread.sleep(millis);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
-
 
     /**
      * Jumping to the next layout.
@@ -62,5 +61,4 @@ public class LoadingController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
         progressBar.getScene().setRoot(root);
     }
-
 }

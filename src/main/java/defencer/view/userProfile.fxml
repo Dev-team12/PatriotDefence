@@ -2,264 +2,243 @@
 
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.*?>
-<?import javafx.geometry.*?>
 <?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.UserProfileActivityController">
-   <children>
-      <ImageView fx:id="userImage" fitHeight="262.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
-         <image>
-            <Image url="@images/img.jpg" />
-         </image>
-      </ImageView>
-      <Separator layoutX="276.0" layoutY="264.0" prefHeight="10.0" prefWidth="509.0" AnchorPane.leftAnchor="276.0" AnchorPane.rightAnchor="36.0" />
-      <GridPane layoutX="282.0" layoutY="14.0" prefHeight="244.0" prefWidth="638.0" AnchorPane.leftAnchor="282.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="14.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="571.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.UserProfileActivityController">
+   <ImageView fx:id="userImage" fitHeight="262.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true"
+              AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+      <Image url="@images/img.jpg"/>
+   </ImageView>
+   <Separator layoutX="276.0" layoutY="264.0" prefHeight="10.0" prefWidth="509.0" AnchorPane.leftAnchor="276.0"
+              AnchorPane.rightAnchor="36.0"/>
+   <GridPane layoutX="282.0" layoutY="14.0" prefHeight="244.0" prefWidth="638.0" AnchorPane.leftAnchor="282.0"
+             AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="14.0">
+      <columnConstraints>
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+      </rowConstraints>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Label layoutX="14.0" layoutY="-1.0" prefHeight="30.0" prefWidth="103.0" text="First Name:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="202.0" AnchorPane.topAnchor="-1.0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="firstName" layoutX="49.0" layoutY="30.0" prefHeight="35.0" prefWidth="256.0" text="Igor" AnchorPane.leftAnchor="49.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="30.0">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="14.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/account.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-               <children>
-                  <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="14.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/account.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="lastName" layoutX="49.0" layoutY="24.0" prefHeight="35.0" prefWidth="256.0" text="Gnes">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="14.0" layoutY="-6.0" text="Last Name:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="64.0" prefWidth="319.0" GridPane.rowIndex="1">
-               <children>
-                  <Label layoutX="12.0" layoutY="1.0" prefHeight="0.0" prefWidth="55.0" text="Email:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="13.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/email.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="email" layoutX="50.0" layoutY="29.0" prefHeight="35.0" prefWidth="256.0" text="joyukr.net@ukr.net">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="81.0" prefWidth="303.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <Label layoutX="14.0" layoutY="-1.0" prefHeight="17.0" prefWidth="61.0" text="Phone:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="14.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/phone.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="phone" layoutX="45.0" layoutY="23.0" text="934875397">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
-               <children>
-                  <Label layoutX="14.0" text="Password:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="30.0" fitWidth="28.0" layoutX="14.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/lock.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="password" layoutX="42.0" layoutY="30.0" prefHeight="35.0" prefWidth="232.0" text="***********">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <ImageView fx:id="showPassword" fitHeight="28.0" fitWidth="20.0" layoutX="274.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/eye.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-         </children>
-      </GridPane>
-      <AnchorPane layoutX="15.0" layoutY="14.0" prefHeight="316.0" prefWidth="256.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="14.0">
-         <children>
-            <JFXButton layoutX="41.0" layoutY="267.0" prefHeight="50.0" prefWidth="174.0" ripplerFill="BLACK" style="-fx-background-color: #00C853;" text="Update photo" textFill="WHITE">
+            <Label layoutX="14.0" layoutY="-1.0" prefHeight="30.0" prefWidth="136.0" text="First Name:"
+                   AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="169.0" AnchorPane.topAnchor="-1.0">
                <font>
-                  <Font size="23.0" />
+                  <Font size="20.0"/>
                </font>
-            </JFXButton>
-            <AnchorPane fx:id="dragAndDropArea" layoutY="1.0" prefHeight="257.0" prefWidth="257.0">
-               <children>
-                  <ImageView fitHeight="226.0" fitWidth="210.0" layoutX="24.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/49665-200.png" />
-                     </image>
-                  </ImageView>
-                  <Label layoutX="41.0" layoutY="207.0" text="Drag and Drop">
-                     <font>
-                        <Font name="System Bold" size="25.0" />
-                     </font>
-                  </Label>
-               </children></AnchorPane>
+            </Label>
+            <Label fx:id="firstName" layoutX="49.0" layoutY="30.0" prefHeight="35.0" prefWidth="256.0" text="Igor"
+                   AnchorPane.leftAnchor="49.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="30.0">
+               <font>
+                  <Font size="24.0"/>
+               </font>
+            </Label>
+            <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="14.0" layoutY="32.0" pickOnBounds="true"
+                       preserveRatio="true">
+               <Image url="@images/account.png"/>
+            </ImageView>
          </children>
       </AnchorPane>
-      <Label layoutX="64.0" layoutY="367.0" text="I am busy from">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+         <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="14.0" layoutY="27.0" pickOnBounds="true"
+                    preserveRatio="true">
+            <Image url="@images/account.png"/>
+         </ImageView>
+         <Label fx:id="lastName" layoutX="49.0" layoutY="24.0" prefHeight="35.0" prefWidth="256.0" text="Hnes">
+            <font>
+               <Font size="24.0"/>
+            </font>
+         </Label>
+         <Label layoutX="14.0" layoutY="-6.0" prefHeight="26.0" prefWidth="136.0" text="Last Name:">
+            <font>
+               <Font size="20.0"/>
+            </font>
+         </Label>
+      </AnchorPane>
+      <AnchorPane prefHeight="64.0" prefWidth="319.0" GridPane.rowIndex="1">
+         <Label layoutX="12.0" layoutY="1.0" prefHeight="26.0" prefWidth="76.0" text="Email:">
+            <font>
+               <Font size="20.0"/>
+            </font>
+         </Label>
+         <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="13.0" layoutY="33.0" pickOnBounds="true"
+                    preserveRatio="true">
+            <Image url="@images/email.png"/>
+         </ImageView>
+         <Label fx:id="email" layoutX="50.0" layoutY="29.0" prefHeight="35.0" prefWidth="256.0"
+                text="joyukr.net@ukr.net">
+            <font>
+               <Font size="24.0"/>
+            </font>
+         </Label>
+      </AnchorPane>
+      <AnchorPane prefHeight="81.0" prefWidth="303.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <Label layoutX="14.0" layoutY="-1.0" prefHeight="26.0" prefWidth="83.0" text="Phone:">
+            <font>
+               <Font size="20.0"/>
+            </font>
+         </Label>
+         <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="14.0" layoutY="27.0" pickOnBounds="true"
+                    preserveRatio="true">
+            <Image url="@images/phone.png"/>
+         </ImageView>
+         <Label fx:id="phone" layoutX="45.0" layoutY="23.0" text="934875397">
+            <font>
+               <Font size="24.0"/>
+            </font>
+         </Label>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+         <Label layoutX="14.0" text="Password:">
+            <font>
+               <Font size="20.0"/>
+            </font>
+         </Label>
+         <ImageView fitHeight="30.0" fitWidth="28.0" layoutX="14.0" layoutY="30.0" pickOnBounds="true"
+                    preserveRatio="true">
+            <Image url="@images/lock.png"/>
+         </ImageView>
+         <Label fx:id="password" layoutX="42.0" layoutY="30.0" prefHeight="35.0" prefWidth="232.0"
+                text="***********">
+            <font>
+               <Font size="24.0"/>
+            </font>
+         </Label>
+         <ImageView fx:id="showPassword" fitHeight="28.0" fitWidth="20.0" layoutX="274.0" layoutY="34.0"
+                    pickOnBounds="true" preserveRatio="true">
+            <cursor>
+               <Cursor fx:constant="HAND"/>
+            </cursor>
+            <Image url="@images/eye.png"/>
+         </ImageView>
+      </AnchorPane>
+   </GridPane>
+   <AnchorPane layoutX="15.0" layoutY="14.0" prefHeight="316.0" prefWidth="256.0" AnchorPane.leftAnchor="15.0"
+               AnchorPane.topAnchor="14.0">
+      <JFXButton layoutX="41.0" layoutY="267.0" prefHeight="50.0" prefWidth="191.0" ripplerFill="BLACK"
+                 style="-fx-background-color: #00C853;" text="Update photo" textFill="WHITE">
          <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <DatePicker layoutX="237.0" layoutY="372.0" />
-      <Label layoutX="421.0" layoutY="367.0" text="to">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <DatePicker layoutX="456.0" layoutY="372.0" />
-      <JFXButton layoutX="655.0" layoutY="358.0" text="OK">
-         <font>
-            <Font size="25.0" />
-         </font>
-      </JFXButton>
-      <GridPane layoutX="17.0" layoutY="428.0" prefHeight="75.0" prefWidth="917.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="16.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Label layoutY="30.0" prefHeight="19.0" prefWidth="131.0" text="Name:" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-               <children>
-                  <Label layoutY="30.0" prefHeight="30.0" prefWidth="145.0" text="Date_start:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
-               <children>
-                  <Label layoutY="30.0" prefHeight="30.0" prefWidth="145.0" text="Place:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="79.0" prefWidth="153.0" GridPane.columnIndex="3">
-               <children>
-                  <Label layoutY="30.0" prefHeight="30.0" prefWidth="145.0" text="Car:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4">
-               <children>
-                  <Label layoutX="1.0" layoutY="30.0" prefHeight="30.0" prefWidth="139.0" text="Des:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5">
-               <children>
-                  <Label layoutX="7.0" layoutY="30.0" prefHeight="30.0" prefWidth="145.0" text="Date_finish:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-         </children>
-      </GridPane>
-      <JFXButton layoutX="209.0" layoutY="513.0" style="-fx-background-color: #00C853;" text="yes" textFill="WHITE" AnchorPane.leftAnchor="209.0">
-         <font>
-            <Font size="20.0" />
+            <Font size="23.0"/>
          </font>
       </JFXButton>
-      <JFXButton layoutX="522.0" layoutY="513.0" style="-fx-background-color: #F44336;" text="no" textFill="WHITE" AnchorPane.rightAnchor="376.0">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </JFXButton>
-   </children>
+      <AnchorPane fx:id="dragAndDropArea" layoutY="1.0" prefHeight="257.0" prefWidth="257.0">
+         <ImageView fitHeight="226.0" fitWidth="210.0" layoutX="24.0" layoutY="6.0" pickOnBounds="true"
+                    preserveRatio="true">
+            <Image url="@images/49665-200.png"/>
+         </ImageView>
+         <Label layoutX="41.0" layoutY="207.0" text="Drag and Drop">
+            <font>
+               <Font name="System Bold" size="25.0"/>
+            </font>
+         </Label>
+      </AnchorPane>
+   </AnchorPane>
+   <Label layoutX="48.0" layoutY="356.0" text="I am busy from">
+      <font>
+         <Font size="24.0"/>
+      </font>
+   </Label>
+   <DatePicker layoutX="237.0" layoutY="357.0"/>
+   <Label layoutX="453.0" layoutY="356.0" text="to">
+      <font>
+         <Font size="24.0"/>
+      </font>
+   </Label>
+   <DatePicker layoutX="504.0" layoutY="357.0"/>
+   <JFXButton layoutX="760.0" layoutY="345.0" prefHeight="48.0" prefWidth="98.0" text="OK">
+      <font>
+         <Font size="25.0"/>
+      </font>
+   </JFXButton>
+   <GridPane layoutX="17.0" layoutY="428.0" prefHeight="75.0" prefWidth="917.0" AnchorPane.leftAnchor="17.0"
+             AnchorPane.rightAnchor="16.0">
+      <columnConstraints>
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+      </rowConstraints>
+      <children>
+         <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <children>
+               <Label layoutY="30.0" prefHeight="19.0" prefWidth="131.0" text="Name:" AnchorPane.leftAnchor="0.0"
+                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+                  <font>
+                     <Font size="20.0"/>
+                  </font>
+               </Label>
+            </children>
+         </AnchorPane>
+         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <children>
+               <Label layoutY="30.0" prefHeight="30.0" prefWidth="145.0" text="Date start:">
+                  <font>
+                     <Font size="20.0"/>
+                  </font>
+               </Label>
+            </children>
+         </AnchorPane>
+         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+            <children>
+               <Label layoutY="30.0" prefHeight="30.0" prefWidth="145.0" text="Place:">
+                  <font>
+                     <Font size="20.0"/>
+                  </font>
+               </Label>
+            </children>
+         </AnchorPane>
+         <AnchorPane prefHeight="79.0" prefWidth="153.0" GridPane.columnIndex="3">
+            <children>
+               <Label layoutY="30.0" prefHeight="30.0" prefWidth="145.0" text="Car:">
+                  <font>
+                     <Font size="20.0"/>
+                  </font>
+               </Label>
+            </children>
+         </AnchorPane>
+         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4">
+            <Label layoutX="1.0" layoutY="30.0" prefHeight="30.0" prefWidth="139.0" text="Desc:">
+               <font>
+                  <Font size="20.0"/>
+               </font>
+            </Label>
+         </AnchorPane>
+         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5">
+            <children>
+               <Label layoutX="7.0" layoutY="30.0" prefHeight="30.0" prefWidth="145.0" text="Date finish:">
+                  <font>
+                     <Font size="20.0"/>
+                  </font>
+               </Label>
+            </children>
+         </AnchorPane>
+      </children>
+   </GridPane>
+   <JFXButton layoutX="209.0" layoutY="513.0" style="-fx-background-color: #00C853;" text="yes" textFill="WHITE"
+              AnchorPane.leftAnchor="209.0">
+      <font>
+         <Font size="20.0"/>
+      </font>
+   </JFXButton>
+   <JFXButton layoutX="522.0" layoutY="513.0" style="-fx-background-color: #F44336;" text="no" textFill="WHITE"
+              AnchorPane.rightAnchor="376.0">
+      <font>
+         <Font size="20.0"/>
+      </font>
+   </JFXButton>
 </AnchorPane>

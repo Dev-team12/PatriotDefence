@@ -20,8 +20,6 @@ import javafx.scene.text.Text;
 import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -70,7 +68,7 @@ public class PremierLeagueController implements Initializable {
     private JFXButton btnPrevious;
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
-    private final List<Instructor> freeInstructors = new LinkedList<>();
+    private final List<Instructor> freeInstructors = getFreeInstructors();
     private int counter;
     private Long projectId;
     private final int day = 3;
@@ -80,16 +78,16 @@ public class PremierLeagueController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        insertTestValue();
+//        insertTestValue();
 
         insertInstructorTable();
-        final Project project = new Project();
-        project.setName("LRPM");
-        project.setDateStart(LocalDate.now());
-        project.setDateFinish(LocalDate.now().plusDays(day));
-        project.setAuthor("Igor");
-        project.setDescription("Project");
-        loadProjectDetails(project);
+//        final Project project = new Project();
+//        project.setName("LRPM");
+//        project.setDateStart(LocalDate.now());
+//        project.setDateFinish(LocalDate.now().plusDays(day));
+//        project.setAuthor("Igor");
+//        project.setDescription("Project");
+//        loadProjectDetails(project);
         loadThread();
 
         play(freeInstructors.get(counter).getVideoPath());
@@ -161,7 +159,7 @@ public class PremierLeagueController implements Initializable {
         counter += 1;
         clearTxt();
         loadThread();
-        play(freeInstructors.get(0).getVideoPath());
+        play(freeInstructors.get(counter).getVideoPath());
     }
 
     /**

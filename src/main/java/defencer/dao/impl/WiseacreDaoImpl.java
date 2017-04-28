@@ -245,6 +245,26 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
     }
 
     /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public Instructor getCurrentUser(String email) {
+        final Session session = getCurrentSession();
+        session.beginTransaction();
+        val criteriaBuilder = session.getCriteriaBuilder();
+        final CriteriaQuery<Instructor> currentUser = criteriaBuilder.createQuery(Instructor.class);
+        final Root<Instructor> root = currentUser.from(Instructor.class);
+        currentUser.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"), root.get("email"),
+                root.get("phone"), root.get("status"), root.get("qualification"))
+                .where(criteriaBuilder.equal(root.get("email"), email));
+        final Instructor instructor = session.createQuery(currentUser).getSingleResult();
+
+        session.getTransaction().commit();
+        session.close();
+        return instructor;
+    }
+
+    /**
      * @return {@link Session} for next steps.
      */
     private Session getCurrentSession() {

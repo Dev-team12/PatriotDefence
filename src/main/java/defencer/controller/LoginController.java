@@ -40,6 +40,7 @@ public class LoginController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("/drawerMain.fxml"));
         final Stage stage = new Stage();
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("css/main.css");
         stage.setScene(scene);
         stage.show();
     }

@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import defencer.data.CurrentUser;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
 import javafx.collections.FXCollections;
@@ -78,7 +79,7 @@ public class NewProjectController implements Initializable {
         project.setCar(areaCars.getText());
         project.setPlace(place.getText());
         project.setDescription(description.getText());
-        project.setAuthor("Igor");
+        project.setAuthor(CurrentUser.getLink().getFirstName());
         project.setDateOfCreation(LocalDate.now());
         create(project);
         root.getScene().getWindow().hide();
@@ -105,8 +106,7 @@ public class NewProjectController implements Initializable {
      */
     private Project create(Project project) {
         try {
-            final Project entity = ServiceFactory.getProjectService().createEntity(project);
-            System.out.println(entity.getId());
+            ServiceFactory.getProjectService().createEntity(project);
         } catch (SQLException e) {
             e.printStackTrace();
         }

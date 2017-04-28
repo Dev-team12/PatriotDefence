@@ -19,33 +19,24 @@ import java.util.ResourceBundle;
  */
 public class UserProfileActivityController implements Initializable {
 
-    private boolean showPasswordVar;
-
     @FXML
     private AnchorPane dragAndDropArea;
-
     @FXML
     private ImageView userImage;
-
     @FXML
     private ImageView showPassword;
-
     @FXML
     private Label firstName;
-
     @FXML
     private Label lastName;
-
     @FXML
     private Label phone;
-
     @FXML
     private Label email;
-
     @FXML
     private Label password;
 
-
+    private boolean showPasswordVar;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -86,21 +77,16 @@ public class UserProfileActivityController implements Initializable {
      */
     private void dragAndDropInitialization() {
 
-        for (Node temp : dragAndDropArea.getChildren()) {
-            temp.setVisible(false);
-        }
-
+        dragAndDropArea.getChildren().forEach(s -> s.setVisible(true));
 
         dragAndDropArea.setOnMouseClicked(event -> {
             System.out.println(event.getClickCount());
-
             if (event.getClickCount() >= 2) {
                 System.out.println("DOUBLE CLICK");
             }
         });
 
         dragAndDropArea.setOnDragOver(event -> {
-
             if (event.getDragboard().getFiles().size() == 1) {
                 String name = event.getDragboard().getFiles().get(0).getName();
                 name = name.substring(name.indexOf(".") + 1, name.length());

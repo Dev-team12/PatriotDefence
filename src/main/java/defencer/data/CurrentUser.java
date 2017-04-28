@@ -1,8 +1,8 @@
 package defencer.data;
 
-import defencer.hibernate.HibernateQueryBuilder;
-import defencer.hibernate.HibernateService;
 import defencer.model.Instructor;
+import defencer.service.factory.ServiceFactory;
+import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,28 +10,25 @@ import java.util.Map;
 /**
  * @author Nikita on 16.04.2017.
  */
+@NoArgsConstructor
 public class CurrentUser {
 
     private static CurrentUser currentUser = null;
 
     private Map<String, Object> data = null;
 
-    private CurrentUser(long id) {
+    private CurrentUser(Long id) {
         data = new HashMap<>();
         data.put("id", id);
-
-        downloadData();
     }
 
     /**
      * Creating new instance of user.
      */
     public static CurrentUser newInstance(long id) {
-
         if (currentUser != null) {
             currentUser.data = null;
         }
-
         currentUser = new CurrentUser(id);
         currentUser.downloadData();
 
@@ -49,20 +46,21 @@ public class CurrentUser {
      * Downloading data 4 user.
      */
     private void downloadData() {
+        final Instructor currentUser = ServiceFactory.getWiseacreService().getCurrentUser("joyukr@ukr.net");
+//
+//
+//        HibernateQueryBuilder hibernateQueryBuilder = new HibernateQueryBuilder(HibernateQueryBuilder.SELECT_QUERY, Instructor.class);
+//        hibernateQueryBuilder.with(HibernateQueryBuilder.ID_FIELD, data.get("id"));
+//
+//        Instructor userData = (Instructor) HibernateService.executeQuery(hibernateQueryBuilder).get(0);
 
-        HibernateQueryBuilder hibernateQueryBuilder = new HibernateQueryBuilder(HibernateQueryBuilder.SELECT_QUERY, Instructor.class);
-        hibernateQueryBuilder.with(HibernateQueryBuilder.ID_FIELD, data.get("id"));
-
-        Instructor userData = (Instructor) HibernateService.executeQuery(hibernateQueryBuilder).get(0);
-
-        data.put("firstName", userData.getFirstName());
-        data.put("lastName", userData.getLastName());
-        data.put("phoneNumber", userData.getPhone());
-        data.put("email", userData.getEmail());
-        data.put("status", true);
+        data.put("firstName", currentUser.getFirstName());
+        data.put("lastName", currentUser.getLastName());
+        data.put("phoneNumber", currentUser.getPhone());
+        data.put("email", currentUser.getEmail());
+        data.put("status", currentUser.getStatus());
+        data.put("role", currentUser.getRole());
     }
-
-
 
     public String getId() {
         return (String) data.get("name");
@@ -75,8 +73,7 @@ public class CurrentUser {
         data.put("name", name);
         return currentUser;
     }*/
-
-
+    
     public String getLastName() {
         return (String) data.get("lastName");
     }
@@ -101,11 +98,15 @@ public class CurrentUser {
         return currentUser;
     }*/
 
-    public Boolean getStatus() {
-        return (Boolean) data.get("status");
+    public String getStatus() {
+        return (String) data.get("status");
     }
     /*public CurrentUser withStatus(Boolean status) {
         data.put("status", status);
         return currentUser;
     }*/
+
+    public String hasRole() {
+        return (String) data.get("role");
+    }
 }

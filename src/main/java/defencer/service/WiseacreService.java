@@ -95,4 +95,9 @@ public interface WiseacreService {
      * @param project going to be delete.
      */
     void deleteProject(AvailableProject project) throws SQLException;
+
+    /**
+     * @return {@link Instructor} like current user.
+     */
+    Instructor getCurrentUser(String email);
 }

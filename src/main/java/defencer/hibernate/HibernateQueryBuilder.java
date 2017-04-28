@@ -7,20 +7,12 @@ package defencer.hibernate;
 public class HibernateQueryBuilder {
 
     public static final String ID_FIELD = "id";
-
-
     public static final int SELECT_QUERY = 1;
-
     public static final int INSERT_QUERY = 2;
-
     public static final int UPDATE_QUERY = 3;
-
     public static final int DELETE_QUERY = 4;
-
     private String query = "";
-
     private int currentQueryType;
-
 
     public HibernateQueryBuilder(int queryType, Class inputClass) {
 
@@ -85,10 +77,8 @@ public class HibernateQueryBuilder {
             default:
                 throw new IllegalArgumentException();
         }
-
         return this;
     }
-
 
     /**
      * Get string of query.
@@ -103,7 +93,6 @@ public class HibernateQueryBuilder {
             default:
                 break;
         }
-
         return query;
     }
 }

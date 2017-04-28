@@ -6,11 +6,12 @@ import lombok.Getter;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.FutureTask;
 
 /**
  * @author Nikita on 19.04.2017.
  */
-public class PreLoaderUtil extends Thread{
+public class PreLoaderUtil extends Thread {
 
     private static PreLoaderUtil preLoaderUtil;
 
@@ -22,17 +23,14 @@ public class PreLoaderUtil extends Thread{
 
     private List<Task<Void>> tasks = new LinkedList<>();
 
-    private  final long tempId = 30L;
+    private final Long tempId = 30L;
 
 
     private PreLoaderUtil() {
-
         Task<Void> testTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-
-                HibernateUtil.getSessionFactory().getCurrentSession();
-
+//                HibernateUtil.getSessionFactory().getCurrentSession();
                 percents = 1.0 / 2;
                 System.out.println("1");
                 CurrentUser.newInstance(tempId);
@@ -41,21 +39,18 @@ public class PreLoaderUtil extends Thread{
                 return null;
             }
         };
-
         tasks.add(testTask);
     }
 
 
     @Override
     public void run() {
-
-        for (Task<Void> task : tasks) {
-            task.run();
-        }
-
+//        for (Task<Void> task : tasks) {
+//            task.run();
+//        }
+        tasks.forEach(FutureTask::run);
         isPreLoaded = true;
     }
-
 
     /**
      * Getting link.
@@ -65,7 +60,6 @@ public class PreLoaderUtil extends Thread{
         if (preLoaderUtil == null) {
             preLoaderUtil = new PreLoaderUtil();
         }
-
         return preLoaderUtil;
     }
 }
