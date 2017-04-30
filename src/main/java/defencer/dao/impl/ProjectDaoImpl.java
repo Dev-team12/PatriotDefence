@@ -18,6 +18,11 @@ import javax.persistence.criteria.Root;
  */
 public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
 
+    public static void main(String[] args) {
+
+        new ProjectDaoImpl().getProjectForGivenPeriod();
+    }
+
     /**
      * {@inheritDoc}.
      */
@@ -30,12 +35,11 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         final CriteriaQuery<Project> projectCriteriaQuery = criteriaBuilder.createQuery(Project.class);
         final Root<Project> root = projectCriteriaQuery.from(Project.class);
-        projectCriteriaQuery.multiselect(root.get("id"), root.get("name"), root.get("dateStart"),
-                root.get("dateFinish"), root.get("place"), root.get("author"), root.get("car"), root.get("description"))
+        projectCriteriaQuery.select(root)
                 .where(criteriaBuilder
                         .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(months)));
         final List<Project> projects = session.createQuery(projectCriteriaQuery).getResultList();
-        projects.forEach(s -> s.setName("# " + s.getId() + " " + s.getName()));
+//        projects.forEach(s -> s.setName("# " + s.getId() + " " + s.getName()));
         session.getTransaction().commit();
         session.close();
         return projects;

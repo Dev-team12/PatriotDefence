@@ -21,6 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import jfxtras.scene.control.ImageViewButton;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -55,6 +56,8 @@ public class ApprenticeController implements Initializable {
     private JFXButton btnDelete;
     @FXML
     private JFXButton btnEdit;
+    @FXML
+    private ImageViewButton btnUpdate;
 
     private ObservableList<Apprentice> observableApprentices = FXCollections.observableArrayList();
 
@@ -71,12 +74,15 @@ public class ApprenticeController implements Initializable {
         btnEdit.setOnAction(this::editApprentice);
 
         btnDelete.setOnAction(e -> deleteApprentice());
+
+        btnUpdate.setOnMouseClicked(e -> loadApprentice());
     }
 
     /**
      * Load instructors into table.
      */
     private void loadApprentice() {
+        observableApprentices.clear();
         observableApprentices.addAll(getApprentice());
         table.setItems(observableApprentices);
     }

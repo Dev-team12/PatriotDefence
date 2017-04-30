@@ -20,6 +20,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import jfxtras.scene.control.ImageViewButton;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -58,7 +59,7 @@ public class InstructorController implements Initializable {
     @FXML
     private JFXButton btnEdit;
     @FXML
-    private JFXButton btnUpdate;
+    private ImageViewButton btnUpdate;
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
 
@@ -73,6 +74,8 @@ public class InstructorController implements Initializable {
         btnEdit.setOnAction(this::editInstructor);
 
         btnDelete.setOnAction(e -> deleteInstructor());
+
+        btnUpdate.setOnMouseClicked(e -> loadInstructors());
     }
 
     /**
@@ -104,6 +107,7 @@ public class InstructorController implements Initializable {
      * Load instructors into table.
      */
     private void loadInstructors() {
+        observableInstructors.clear();
         observableInstructors.addAll(getInstructors());
         table.setItems(observableInstructors);
     }

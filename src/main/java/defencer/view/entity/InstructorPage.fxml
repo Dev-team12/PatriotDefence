@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import jfxtras.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import com.jfoenix.controls.*?>
@@ -21,8 +23,11 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
        </TableView>
-      <JFXButton fx:id="btnDelete" layoutX="502.0" layoutY="13.0" prefHeight="27.0" prefWidth="74.0" text="Delete" AnchorPane.leftAnchor="502.0" />
-      <JFXButton fx:id="btnEdit" layoutX="400.0" layoutY="13.0" prefHeight="27.0" prefWidth="74.0" text="Edit" AnchorPane.leftAnchor="400.0" />
-      <JFXButton fx:id="btnAddOneMore" layoutX="300.0" layoutY="13.0" prefHeight="27.0" prefWidth="74.0" text="Add" AnchorPane.leftAnchor="300.0" />
+      <JFXButton fx:id="btnDelete" layoutX="216.0" layoutY="12.0" prefHeight="27.0" prefWidth="74.0" text="Delete" AnchorPane.leftAnchor="216.0" />
+      <JFXButton fx:id="btnEdit" layoutX="114.0" layoutY="12.0" prefHeight="27.0" prefWidth="74.0" text="Edit" AnchorPane.leftAnchor="114.0" />
+      <JFXButton fx:id="btnAddOneMore" layoutX="14.0" layoutY="12.0" prefHeight="27.0" prefWidth="74.0" text="Add" AnchorPane.leftAnchor="14.0" />
+       <ImageViewButton fx:id="btnUpdate" fitHeight="47.0" fitWidth="50.0" layoutX="329.0" layoutY="2.0">
+           <Image url="/image/refresh.png"/>
+       </ImageViewButton>
    </children>
 </AnchorPane>

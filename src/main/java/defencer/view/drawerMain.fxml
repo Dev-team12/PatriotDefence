@@ -34,7 +34,7 @@
             </Text>
          </center>
          <right>
-            <JFXButton fx:id="btnLogout" prefHeight="46.0" prefWidth="102.0" text="logout" textFill="WHITE" BorderPane.alignment="CENTER">
+            <JFXButton fx:id="btnLogout" prefHeight="46.0" prefWidth="197.0" text="logout" textFill="WHITE" BorderPane.alignment="CENTER">
                <font>
                   <Font size="23.0" />
                </font>

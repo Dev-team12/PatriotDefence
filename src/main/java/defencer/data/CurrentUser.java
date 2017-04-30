@@ -52,8 +52,8 @@ public class CurrentUser extends AbstractEntity {
         if (projectByInstructor == null) {
             projectByInstructor = new Project();
             projectByInstructor.setName("none");
-            projectByInstructor.setDateStart(LocalDate.MIN);
-            projectByInstructor.setDateFinish(LocalDate.MAX);
+            projectByInstructor.setDateStart(LocalDate.now());
+            projectByInstructor.setDateFinish(LocalDate.now());
             projectByInstructor.setPlace("-");
             projectByInstructor.setAuthor("-");
             projectByInstructor.setDescription("-");

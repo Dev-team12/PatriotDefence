@@ -22,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import jfxtras.scene.control.ImageViewButton;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -63,6 +64,8 @@ public class ProjectController implements Initializable {
     private JFXButton btnDelete;
     @FXML
     private JFXButton btnEdit;
+    @FXML
+    private ImageViewButton btnUpdate;
 
     private ObservableList<Project> observableProjects = FXCollections.observableArrayList();
 
@@ -85,6 +88,8 @@ public class ProjectController implements Initializable {
             }
         });
         btnAddInstructor.setOnAction(this::premierLeague);
+
+        btnUpdate.setOnMouseClicked(e -> loadProjects());
     }
 
     /**
@@ -130,10 +135,18 @@ public class ProjectController implements Initializable {
         author.setCellValueFactory(new PropertyValueFactory<>("author"));
     }
 
+    public static void main(String[] args) {
+
+        final ProjectController projectController = new ProjectController();
+        projectController.loadProjects();
+
+    }
+
     /**
      * Load projects into table.
      */
     private void loadProjects() {
+        observableProjects.clear();
         observableProjects.addAll(getProject());
         table.setItems(observableProjects);
     }
