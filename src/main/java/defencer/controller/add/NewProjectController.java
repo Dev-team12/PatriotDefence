@@ -80,7 +80,7 @@ public class NewProjectController implements Initializable {
         project.setPlace(place.getText());
         project.setDescription(description.getText());
         project.setAuthor(CurrentUser.getLink().getFirstName());
-        project.setDateOfCreation(LocalDate.now());
+        project.setDateOfCreation(LocalDate.now().plusDays(1));
         create(project);
         root.getScene().getWindow().hide();
     }

@@ -3,6 +3,7 @@ package defencer.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import defencer.controller.update.UpdateProjectController;
+import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
@@ -24,7 +25,6 @@ import javafx.stage.Window;
 import lombok.SneakyThrows;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -96,7 +96,11 @@ public class ProjectController implements Initializable {
         if (project == null) {
             NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);
             return;
+        } else if (getFreeInstructors().isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "All instructors are busy", NotificationUtil.SHORT);
+            return;
         }
+
         final FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/PremierLeague.fxml"));
         Parent parent = fxmlLoader.load();
@@ -117,8 +121,8 @@ public class ProjectController implements Initializable {
      */
     private void insertProjectTable() {
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        dataStart.setCellValueFactory(new PropertyValueFactory<>("dateFrom"));
-        dataFinish.setCellValueFactory(new PropertyValueFactory<>("dateTo"));
+        dataStart.setCellValueFactory(new PropertyValueFactory<>("dateStart"));
+        dataFinish.setCellValueFactory(new PropertyValueFactory<>("dateFinish"));
         place.setCellValueFactory(new PropertyValueFactory<>("place"));
         car.setCellValueFactory(new PropertyValueFactory<>("car"));
         instructors.setCellValueFactory(new PropertyValueFactory<>("instructors"));
@@ -194,8 +198,9 @@ public class ProjectController implements Initializable {
             ServiceFactory.getProjectService().deleteEntity(project);
             observableProjects.clear();
             loadProjects();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+//            NotificationUtil.errornAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }
     }
 
@@ -204,5 +209,12 @@ public class ProjectController implements Initializable {
      */
     private List<String> getProjectName() {
         return ServiceFactory.getWiseacreService().getAvailableProject();
+    }
+
+    /**
+     * @return free instructor's name for project.
+     */
+    private List<Instructor> getFreeInstructors() {
+        return ServiceFactory.getWiseacreService().getFreeInstructors();
     }
 }

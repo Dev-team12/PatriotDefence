@@ -1,5 +1,6 @@
 package defencer.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
+@AllArgsConstructor
 @org.hibernate.annotations.Entity(optimisticLock = OptimisticLockType.DIRTY, dynamicUpdate = true)
 @Table(name = "instructor")
 public class Instructor extends AbstractEntity implements Serializable {
@@ -49,8 +51,7 @@ public class Instructor extends AbstractEntity implements Serializable {
         this.firstName = firstName;
     }
 
-    public Instructor(Long id, String firstName, String lastName, String qualification,
-                      String role, String phone, String status, String email) {
+    public Instructor(Long id, String firstName, String lastName, String qualification, String role, String phone, String status, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -67,7 +68,7 @@ public class Instructor extends AbstractEntity implements Serializable {
         this.lastName = lastName;
         this.qualification = qualification;
         this.phone = phone;
-        this.email = email;
         this.videoPath = videoPath;
+        this.email = email;
     }
 }

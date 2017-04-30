@@ -1,35 +1,36 @@
 package defencer.data;
 
+import defencer.model.AbstractEntity;
 import defencer.model.Instructor;
+import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
-import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author Nikita on 16.04.2017.
  */
-@NoArgsConstructor
-public class CurrentUser {
+public class CurrentUser extends AbstractEntity {
 
-    private static CurrentUser currentUser = null;
+    private static CurrentUser currentUser;
 
-    private Map<String, Object> data = null;
+    private Map<String, Object> data;
 
-    private CurrentUser(Long id) {
+    private CurrentUser() {
         data = new HashMap<>();
-        data.put("id", id);
+//        data.put("id", id);
     }
 
     /**
      * Creating new instance of user.
      */
-    public static CurrentUser newInstance(long id) {
-        if (currentUser != null) {
-            currentUser.data = null;
-        }
-        currentUser = new CurrentUser(id);
+    public static CurrentUser newInstance() {
+//        if (currentUser != null) {
+//            currentUser.data = null;
+//        }
+        currentUser = new CurrentUser();
         currentUser.downloadData();
 
         return currentUser;
@@ -43,70 +44,91 @@ public class CurrentUser {
     }
 
     /**
-     * Downloading data 4 user.
+     * Downloading data for user.
      */
     private void downloadData() {
         final Instructor currentUser = ServiceFactory.getWiseacreService().getCurrentUser("joyukr@ukr.net");
-//
-//
-//        HibernateQueryBuilder hibernateQueryBuilder = new HibernateQueryBuilder(HibernateQueryBuilder.SELECT_QUERY, Instructor.class);
-//        hibernateQueryBuilder.with(HibernateQueryBuilder.ID_FIELD, data.get("id"));
-//
-//        Instructor userData = (Instructor) HibernateService.executeQuery(hibernateQueryBuilder).get(0);
+        Project projectByInstructor = ServiceFactory.getInstructorService().findProjectByInstructor(currentUser.getProjectId());
+        if (projectByInstructor == null) {
+            projectByInstructor = new Project();
+            projectByInstructor.setName("none");
+            projectByInstructor.setDateStart(LocalDate.MIN);
+            projectByInstructor.setDateFinish(LocalDate.MAX);
+            projectByInstructor.setPlace("-");
+            projectByInstructor.setAuthor("-");
+            projectByInstructor.setDescription("-");
 
+        }
+        data.put("id", currentUser.getId());
         data.put("firstName", currentUser.getFirstName());
         data.put("lastName", currentUser.getLastName());
         data.put("phoneNumber", currentUser.getPhone());
         data.put("email", currentUser.getEmail());
         data.put("status", currentUser.getStatus());
         data.put("role", currentUser.getRole());
+
+        data.put("projectName", projectByInstructor.getName());
+        data.put("dateStart", projectByInstructor.getDateStart());
+        data.put("dateFinish", projectByInstructor.getDateFinish());
+        data.put("place", projectByInstructor.getPlace());
+        data.put("author", projectByInstructor.getAuthor());
+        data.put("description", projectByInstructor.getDescription());
     }
 
-    public String getId() {
-        return (String) data.get("name");
+    public static void refresh() {
+        currentUser = null;
+        newInstance();
+    }
+
+    public Long getId() {
+        return (Long) data.get("id");
     }
 
     public String getFirstName() {
         return (String) data.get("firstName");
     }
-    /*public CurrentUser withFirstName(String name) {
-        data.put("name", name);
-        return currentUser;
-    }*/
-    
+
     public String getLastName() {
         return (String) data.get("lastName");
     }
-    /*public CurrentUser withLastName(String name) {
-        data.put("name", name);
-        return currentUser;
-    }*/
 
     public String getPhoneNumber() {
         return (String) data.get("phoneNumber");
     }
-    /*public CurrentUser withPhoneNumber(String phoneNumber) {
-        data.put("phoneNumber", phoneNumber);
-        return currentUser;
-    }*/
 
     public String getEmail() {
         return (String) data.get("email");
     }
-   /* public CurrentUser withEmai(String email) {
-        data.put("email", email);
-        return currentUser;
-    }*/
 
     public String getStatus() {
         return (String) data.get("status");
     }
-    /*public CurrentUser withStatus(Boolean status) {
-        data.put("status", status);
-        return currentUser;
-    }*/
 
     public String hasRole() {
         return (String) data.get("role");
+    }
+
+    public String getProjectName() {
+        return (String) data.get("projectName");
+    }
+
+    public LocalDate getProjectDateStart() {
+        return (LocalDate) data.get("dateStart");
+    }
+
+    public LocalDate getProjectDateFinish() {
+        return (LocalDate) data.get("dateFinish");
+    }
+
+    public String getProjectPlace() {
+        return (String) data.get("place");
+    }
+
+    public String getProjectAuthor() {
+        return (String) data.get("author");
+    }
+
+    public String getProjectDescription() {
+        return (String) data.get("description");
     }
 }

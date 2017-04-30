@@ -6,9 +6,12 @@ import defencer.util.HibernateUtil;
 import lombok.val;
 import org.hibernate.Session;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 
 /**
@@ -55,6 +58,12 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         return availableProjects;
     }
 
+    public static void main(String[] args) throws SQLException {
+
+        final WiseacreDaoImpl wiseacreDao = new WiseacreDaoImpl();
+        wiseacreDao.getFreeInstructors().forEach(s -> System.out.println(s.getFirstName() + " " + s.getStatus()));
+    }
+
     /**
      * {@inheritDoc}.
      */
@@ -62,13 +71,13 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
     public List<Instructor> getFreeInstructors() {
         final Session session = getCurrentSession();
         session.beginTransaction();
-        val criteriaBuilder = session.getCriteriaBuilder();
-        final CriteriaQuery<Instructor> availableProjectCriteriaQuery = criteriaBuilder.createQuery(Instructor.class);
-        final Root<Instructor> root = availableProjectCriteriaQuery.from(Instructor.class);
-        availableProjectCriteriaQuery.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"),
-                root.get("qualification"), root.get("phone"), root.get("email"), root.get("videoPath"));
-        final List<Instructor> instructorList = session.createQuery(availableProjectCriteriaQuery
-                .where(criteriaBuilder.equal(root.get("status"), "FREE"))).getResultList();
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        final CriteriaQuery<Instructor> criteriaQuery = criteriaBuilder.createQuery(Instructor.class);
+        final Root<Instructor> root = criteriaQuery.from(Instructor.class);
+        criteriaQuery.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"), root.get("qualification"),
+                root.get("phone"), root.get("email"), root.get("videoPath"))
+                .where(criteriaBuilder.equal(root.get("status"), "FREE"));
+        final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
         session.getTransaction().commit();
         session.close();
         return instructorList;
@@ -254,14 +263,39 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         val criteriaBuilder = session.getCriteriaBuilder();
         final CriteriaQuery<Instructor> currentUser = criteriaBuilder.createQuery(Instructor.class);
         final Root<Instructor> root = currentUser.from(Instructor.class);
-        currentUser.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"), root.get("email"),
-                root.get("phone"), root.get("status"), root.get("qualification"))
+        currentUser.select(root)
                 .where(criteriaBuilder.equal(root.get("email"), email));
         final Instructor instructor = session.createQuery(currentUser).getSingleResult();
 
         session.getTransaction().commit();
         session.close();
         return instructor;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void updateCurrentUser(Long id, String status) throws SQLException {
+        final Session session = getCurrentSession();
+        session.beginTransaction();
+
+
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        final CriteriaUpdate<Instructor> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Instructor.class);
+        final Root<Instructor> root = criteriaUpdate.from(Instructor.class);
+        if ("FREE".equals(status)) {
+            criteriaUpdate.set(root.get("status"), status)
+                    .set(root.get("projectId"), -1)
+                    .where(criteriaBuilder.equal(root.get("id"), id));
+        } else {
+            criteriaUpdate.set(root.get("status"), status)
+                    .where(criteriaBuilder.equal(root.get("id"), id));
+        }
+        session.createQuery(criteriaUpdate).executeUpdate();
+        session.getTransaction().commit();
+        session.close();
     }
 
     /**

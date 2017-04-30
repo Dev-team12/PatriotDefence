@@ -1,6 +1,7 @@
 package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
+import defencer.data.CurrentUser;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
@@ -68,7 +69,7 @@ public class PremierLeagueController implements Initializable {
     private JFXButton btnPrevious;
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
-    private final List<Instructor> freeInstructors = getFreeInstructors();
+    private List<Instructor> freeInstructors;
     private int counter;
     private Long projectId;
     private final int day = 3;
@@ -77,22 +78,10 @@ public class PremierLeagueController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-//        insertTestValue();
-
+        freeInstructors = getFreeInstructors();
         insertInstructorTable();
-//        final Project project = new Project();
-//        project.setName("LRPM");
-//        project.setDateStart(LocalDate.now());
-//        project.setDateFinish(LocalDate.now().plusDays(day));
-//        project.setAuthor("Igor");
-//        project.setDescription("Project");
-//        loadProjectDetails(project);
         loadThread();
-
         play(freeInstructors.get(counter).getVideoPath());
-//        play("src/main/resources/video/Igor_hnes.mp4");
-
         btnNext.setOnAction(e -> nextInstructor());
         btnPrevious.setOnAction(e -> previousInstructor());
         btnAdd.setOnAction(e -> addInstructor());
@@ -105,10 +94,6 @@ public class PremierLeagueController implements Initializable {
      */
     private void finish() {
         final ObservableList<Instructor> instructors = tableInstructors.getItems();
-        if (instructors.isEmpty()) {
-            NotificationUtil.warningAlert("Warning", "Instructor did't select", NotificationUtil.SHORT);
-            return;
-        }
         finish(instructors);
     }
 
@@ -119,6 +104,7 @@ public class PremierLeagueController implements Initializable {
 
         Runnable runnable = () -> instructors.forEach(s -> {
             s.setProjectId(projectId);
+            s.setStatus("EXPECTED");
             try {
                 ServiceFactory.getInstructorService().updateEntity(s);
             } catch (SQLException e) {
@@ -128,12 +114,22 @@ public class PremierLeagueController implements Initializable {
 
         final Thread thread = new Thread(runnable);
         thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        CurrentUser.refresh();
     }
 
     /**
      * Load Thread for show instructor details with a little pause.
      */
     private void loadThread() {
+        if (freeInstructors.isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "All instructors are busy", NotificationUtil.SHORT);
+            return;
+        }
         if (counter >= freeInstructors.size() || counter < 0) {
             counter = 0;
         }
@@ -270,18 +266,14 @@ public class PremierLeagueController implements Initializable {
      * @param path is path to video.
      */
     private void play(String path) {
+        if (path == null) {
+            return;
+        }
         final String absolutePath = new File(path).getAbsolutePath();
         final Media media = new Media(new File(absolutePath).toURI().toString());
         final MediaPlayer mediaPlayer = new MediaPlayer(media);
         leagueInstructors.setMediaPlayer(mediaPlayer);
         mediaPlayer.setAutoPlay(true);
-    }
-
-    /**
-     * @return free instructor's name for project.
-     */
-    private List<Instructor> getFreeInstructors() {
-        return ServiceFactory.getWiseacreService().getFreeInstructors();
     }
 
     /**
@@ -293,5 +285,12 @@ public class PremierLeagueController implements Initializable {
         txtQualification.setText("");
         txtPhone.setText("");
         txtEmail.setText("");
+    }
+
+    /**
+     * @return free instructor's name for project.
+     */
+    private List<Instructor> getFreeInstructors() {
+        return ServiceFactory.getWiseacreService().getFreeInstructors();
     }
 }

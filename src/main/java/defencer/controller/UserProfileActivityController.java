@@ -1,6 +1,8 @@
 package defencer.controller;
 
+import com.jfoenix.controls.JFXButton;
 import defencer.data.CurrentUser;
+import defencer.service.factory.ServiceFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -12,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
@@ -24,8 +27,6 @@ public class UserProfileActivityController implements Initializable {
     @FXML
     private ImageView userImage;
     @FXML
-    private ImageView showPassword;
-    @FXML
     private Label firstName;
     @FXML
     private Label lastName;
@@ -34,24 +35,65 @@ public class UserProfileActivityController implements Initializable {
     @FXML
     private Label email;
     @FXML
-    private Label password;
+    private Label status;
+    @FXML
+    private Label projectName;
+    @FXML
+    private JFXButton btnYes;
+    @FXML
+    private JFXButton btnNo;
 
-    private boolean showPasswordVar;
+    @FXML
+    private Label dateStart;
+    @FXML
+    private Label dateFinish;
+    @FXML
+    private Label place;
+    @FXML
+    private Label author;
+    @FXML
+    private Label description;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        showPasswordVar = false;
 
         factoryInitialization();
 
         dragAndDropInitialization();
 
-        //showPassword.setOnMouseClicked(event -> {
-           // if(showPassword.getImage().)
-       // });
+        btnYes.setOnAction(e -> agree());
+
+        btnNo.setOnAction(e -> disagree());
     }
 
+    /**
+     * Set status free for instructor if he cat't take the project.
+     */
+    private void disagree() {
+        final CurrentUser currentUser = CurrentUser.getLink();
+        try {
+            ServiceFactory.getWiseacreService().updateCurrentUser(currentUser.getId(), "FREE");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        CurrentUser.refresh();
+        factoryInitialization();
+    }
+
+    /**
+     * Set status busy if instructor take the project.
+     */
+    private void agree() {
+        final CurrentUser currentUser = CurrentUser.getLink();
+        try {
+            ServiceFactory.getWiseacreService().updateCurrentUser(currentUser.getId(), "BUSY");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        CurrentUser.refresh();
+        factoryInitialization();
+    }
 
     /**
      * Setting data of current user.
@@ -63,14 +105,22 @@ public class UserProfileActivityController implements Initializable {
         lastName.setText(currentUser.getLastName());
         phone.setText(currentUser.getPhoneNumber());
         email.setText(currentUser.getEmail());
+        status.setText(currentUser.getStatus());
 
-        /*if (currentUser.getStatus()) {
-            status.setText("online");
-        } else {
-            status.setText("offline");
-        }*/
+        initializeProject(currentUser);
     }
 
+    /**
+     * @param currentUser for initialize project.
+     */
+    private void initializeProject(CurrentUser currentUser) {
+        projectName.setText("Confirm " + currentUser.getProjectName() + " project");
+        dateStart.setText("Date start: " + currentUser.getProjectDateStart().toString());
+        dateFinish.setText("Date finish: " + currentUser.getProjectDateFinish().toString());
+        place.setText("Place: " + currentUser.getProjectPlace());
+        author.setText("Author: " + currentUser.getProjectAuthor());
+        description.setText(currentUser.getProjectDescription());
+    }
 
     /**
      * Initialization of dragAndDrop.

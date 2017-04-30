@@ -39,6 +39,8 @@ public class UpdateInstructorController implements Initializable{
     private JFXComboBox<String> role;
 
     private Long instructorId;
+    private String status;
+    private String videoPath;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -63,6 +65,8 @@ public class UpdateInstructorController implements Initializable{
         instructor.setQualification(qualification.getText());
         instructor.setId(instructorId);
         instructor.setRole(role.getValue());
+        instructor.setStatus(status);
+        instructor.setVideoPath(videoPath);
         update(instructor);
         root.getScene().getWindow().hide();
     }
@@ -78,6 +82,8 @@ public class UpdateInstructorController implements Initializable{
         qualification.setText(instructor.getQualification());
         role.setPromptText(instructor.getRole());
         instructorId = instructor.getId();
+        status = instructor.getStatus();
+        videoPath = instructor.getVideoPath();
     }
 
     /**

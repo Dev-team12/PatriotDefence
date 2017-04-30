@@ -147,4 +147,12 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
     public Instructor getCurrentUser(String email) {
         return DaoFactory.getWiseacreDao().getCurrentUser(email);
     }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void updateCurrentUser(Long id, String status) throws SQLException {
+        DaoFactory.getWiseacreDao().updateCurrentUser(id, status);
+    }
 }

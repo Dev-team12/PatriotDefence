@@ -103,7 +103,6 @@ public class DrawerActivityController implements Initializable {
         }
     }
 
-
     /**
      * This method changes current stage.
      */
@@ -124,7 +123,6 @@ public class DrawerActivityController implements Initializable {
         mainActivityController.closeDrawer();
     }
 
-
     /**
      * This method changes stage root element to logout fxml.
      */
@@ -136,7 +134,5 @@ public class DrawerActivityController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
 }

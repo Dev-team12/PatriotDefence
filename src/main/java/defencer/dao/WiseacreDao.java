@@ -4,6 +4,7 @@ import defencer.model.AvailableProject;
 import defencer.model.Car;
 import defencer.model.Instructor;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -71,4 +72,11 @@ public interface WiseacreDao {
      * @return {@link Instructor} like current user.
      */
     Instructor getCurrentUser(String email);
+
+    /**
+     * @param id is current user's id.
+     * @param status is new status for instructor.
+     * @throws SQLException if can't update.
+     */
+    void updateCurrentUser(Long id, String status) throws SQLException;
 }

@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import defencer.data.CurrentUser;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
 import javafx.collections.FXCollections;
@@ -76,12 +77,12 @@ public class UpdateProjectController implements Initializable {
     private void prepareUpdating() {
         final Project project = new Project();
         project.setName(projectName.getValue());
-        project.setDateStart(dataFrom.getValue());
-        project.setDateFinish(dataTo.getValue());
+        project.setDateStart(dataFrom.getValue().plusDays(1));
+        project.setDateFinish(dataTo.getValue().plusDays(1));
         project.setCar(areaCars.getText());
         project.setPlace(place.getText());
         project.setDescription(description.getText());
-        project.setAuthor("Igor"); // todo current user getFirstName
+        project.setAuthor(CurrentUser.getLink().getFirstName());
         project.setId(projectId);
         project.setDateOfCreation(localDate);
         update(project);

@@ -23,7 +23,6 @@ import javafx.stage.Window;
 import lombok.SneakyThrows;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -135,8 +134,8 @@ public class InstructorController implements Initializable {
             ServiceFactory.getInstructorService().deleteEntity(instructor);
             observableInstructors.clear();
             loadInstructors();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            NotificationUtil.errornAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }
     }
 

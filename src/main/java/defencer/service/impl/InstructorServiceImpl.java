@@ -32,7 +32,7 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      * {@inheritDoc}.
      */
     @Override
-    public List<Project> findProjectByInstructor(Long id) {
+    public Project findProjectByInstructor(Long id) {
         return DaoFactory.getInstructorDao().findProjectByInstructor(id);
     }
 

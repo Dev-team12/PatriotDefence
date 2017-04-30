@@ -15,7 +15,7 @@
                <Cursor fx:constant="SE_RESIZE" />
            </cursor>
           <image>
-              <Image url="/image/selectInstructor.jpg" />
+              <Image url="/image/selectInstructor2.jpg" />
           </image>
        </ImageView>
        <MediaView fx:id="leagueInstructors" fitHeight="550.0" fitWidth="350.0" layoutX="469.0" layoutY="45.0" />

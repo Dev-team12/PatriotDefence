@@ -37,7 +37,7 @@ public class LoadingController implements Initializable {
 
 
     /**
-     * Task 4 new thread.
+     * Task for new thread.
      */
     private void toDo() {
         while (true) {

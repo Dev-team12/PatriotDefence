@@ -40,3 +40,15 @@
 .button-try-now:pressed {
     -fx-background-color: lightseagreen;
 }
+
+.table-view .column-header-background .label {
+    -fx-background-color:  rgb(77,102,204);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-text-transform: uppercase;
+    -fx-border-top: none !important;
+}
+
+.table-view .column-header {
+    -fx-background-color:  rgb(77,102,204);
+}
