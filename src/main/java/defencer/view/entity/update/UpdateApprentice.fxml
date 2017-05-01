@@ -15,8 +15,8 @@
          <Font name="System Bold" size="13.0" />
       </font>
    </Label>
-   <JFXButton fx:id="btnUpdate" defaultButton="true" layoutX="180.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="ok" />
-   <JFXButton fx:id="btnCancel" cancelButton="true" layoutX="102.0" layoutY="359.0" mnemonicParsing="false" text="cancel" />
+   <JFXButton fx:id="btnUpdate" styleClass="button-try-now" defaultButton="true" layoutX="180.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="ok" />
+   <JFXButton fx:id="btnCancel" styleClass="button-try-now" cancelButton="true" layoutX="102.0" layoutY="359.0" mnemonicParsing="false" text="cancel" />
    <ImageView fitHeight="85.0" fitWidth="121.0" layoutX="177.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
       <Image url="/image/PatriotDefenceLogo.png" />
    </ImageView>

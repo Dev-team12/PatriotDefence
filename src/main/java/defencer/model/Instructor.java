@@ -1,9 +1,6 @@
 package defencer.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.OptimisticLockType;
 
 import java.io.Serializable;
@@ -17,6 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @AllArgsConstructor
+@ToString
 @org.hibernate.annotations.Entity(optimisticLock = OptimisticLockType.DIRTY, dynamicUpdate = true)
 @Table(name = "instructor")
 public class Instructor extends AbstractEntity implements Serializable {

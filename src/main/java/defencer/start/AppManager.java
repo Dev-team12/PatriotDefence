@@ -26,6 +26,5 @@ public class AppManager extends Application {
      * Create query to database.
      */
     private void getConnectionForDatabase() {
-
     }
 }

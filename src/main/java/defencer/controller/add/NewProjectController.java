@@ -35,18 +35,6 @@ public class NewProjectController implements Initializable {
     @FXML
     private JFXButton btnCancel;
     @FXML
-    private JFXComboBox<String> comboInstructors;
-    @FXML
-    private JFXButton btnAddInstructor;
-    @FXML
-    private JFXTextArea areaInstructors;
-    @FXML
-    private JFXComboBox<String> comboCars;
-    @FXML
-    private JFXButton btnAddCar;
-    @FXML
-    private JFXTextArea areaCars;
-    @FXML
     private DatePicker dataFrom;
     @FXML
     private DatePicker dataTo;
@@ -56,12 +44,8 @@ public class NewProjectController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-
         projectName.setItems(FXCollections
                 .observableArrayList(getProjectName()));
-
-        comboCars.setItems(FXCollections
-                .observableArrayList(getFreeCars()));
 
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
 
@@ -74,9 +58,8 @@ public class NewProjectController implements Initializable {
     private void prepareAdding() {
         final Project project = new Project();
         project.setName(projectName.getValue());
-        project.setDateStart(dataFrom.getValue());
-        project.setDateFinish(dataTo.getValue());
-        project.setCar(areaCars.getText());
+        project.setDateStart(dataFrom.getValue().plusDays(1));
+        project.setDateFinish(dataTo.getValue().plusDays(1));
         project.setPlace(place.getText());
         project.setDescription(description.getText());
         project.setAuthor(CurrentUser.getLink().getFirstName());
@@ -92,10 +75,6 @@ public class NewProjectController implements Initializable {
         projectName.setValue("Project name");
         place.clear();
         description.clear();
-        comboInstructors.setPromptText("Instructors");
-        areaInstructors.clear();
-        comboCars.setPromptText("Car");
-        areaCars.clear();
         dataFrom.setPromptText("Date from");
         dataTo.setPromptText("Date to");
     }
@@ -117,11 +96,7 @@ public class NewProjectController implements Initializable {
      * @return free car's name for project.
      */
     private List<String> getFreeCars() {
-        final List<String> freeCar = ServiceFactory.getWiseacreService().getFreeCar();
-        if (freeCar.isEmpty()) {
-            comboCars.setPromptText("Cars are busy");
-        }
-        return freeCar;
+        return ServiceFactory.getWiseacreService().getFreeCar();
     }
 
     /**

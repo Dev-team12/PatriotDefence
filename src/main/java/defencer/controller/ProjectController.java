@@ -2,6 +2,7 @@ package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import defencer.controller.update.UpdateProjectController;
 import defencer.model.Instructor;
 import defencer.model.Project;
@@ -26,6 +27,8 @@ import jfxtras.scene.control.ImageViewButton;
 import lombok.SneakyThrows;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -39,9 +42,9 @@ public class ProjectController implements Initializable {
     @FXML
     private TableColumn<Project, String> name;
     @FXML
-    private TableColumn<Project, String> dataStart;
+    private TableColumn<Project, String> dateStart;
     @FXML
-    private TableColumn<Project, String> dataFinish;
+    private TableColumn<Project, String> dateFinish;
     @FXML
     private TableColumn<Project, String> place;
     @FXML
@@ -66,8 +69,11 @@ public class ProjectController implements Initializable {
     private JFXButton btnEdit;
     @FXML
     private ImageViewButton btnUpdate;
+    @FXML
+    private JFXDatePicker dateFind;
 
     private ObservableList<Project> observableProjects = FXCollections.observableArrayList();
+    private static final Long DEFAULT_PERIOD = 30L;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -75,6 +81,7 @@ public class ProjectController implements Initializable {
         loadProjects();
         comboProject.setItems(FXCollections
                 .observableArrayList(getProjectName()));
+        comboProject.setValue("");
 
         btnAddOneMore.setOnAction(e -> newProject());
 
@@ -90,6 +97,22 @@ public class ProjectController implements Initializable {
         btnAddInstructor.setOnAction(this::premierLeague);
 
         btnUpdate.setOnMouseClicked(e -> loadProjects());
+
+        btnFind.setOnAction(e -> search());
+    }
+
+    /**
+     * Search project with given parameters.
+     */
+    private void search() {
+        if (dateFind.getValue() == null) {
+            dateFind.setValue(LocalDate.now().minusDays(DEFAULT_PERIOD));
+        }
+        Long days = ChronoUnit.DAYS.between(dateFind.getValue(), LocalDate.now());
+        final List<Project> findProject = ServiceFactory.getProjectService().getFindProject(days, comboProject.getValue());
+        observableProjects.clear();
+        observableProjects.addAll(findProject);
+        table.setItems(observableProjects);
     }
 
     /**
@@ -115,6 +138,7 @@ public class ProjectController implements Initializable {
         final Stage stage = new Stage();
         Scene value = new Scene(parent);
         stage.setScene(value);
+        value.getStylesheets().add("css/main.css");
         stage.initModality(Modality.WINDOW_MODAL);
         Window window = ((Node) event.getSource()).getScene().getWindow();
         stage.initOwner(window);
@@ -125,9 +149,9 @@ public class ProjectController implements Initializable {
      * Insert value for table.
      */
     private void insertProjectTable() {
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        dataStart.setCellValueFactory(new PropertyValueFactory<>("dateStart"));
-        dataFinish.setCellValueFactory(new PropertyValueFactory<>("dateFinish"));
+        name.setCellValueFactory(new PropertyValueFactory<>("nameId"));
+        dateStart.setCellValueFactory(new PropertyValueFactory<>("dateStart"));
+        dateFinish.setCellValueFactory(new PropertyValueFactory<>("dateFinish"));
         place.setCellValueFactory(new PropertyValueFactory<>("place"));
         car.setCellValueFactory(new PropertyValueFactory<>("car"));
         instructors.setCellValueFactory(new PropertyValueFactory<>("instructors"));
@@ -135,18 +159,12 @@ public class ProjectController implements Initializable {
         author.setCellValueFactory(new PropertyValueFactory<>("author"));
     }
 
-    public static void main(String[] args) {
-
-        final ProjectController projectController = new ProjectController();
-        projectController.loadProjects();
-
-    }
-
     /**
      * Load projects into table.
      */
     private void loadProjects() {
         observableProjects.clear();
+        dateFind.setValue(null);
         observableProjects.addAll(getProject());
         table.setItems(observableProjects);
     }
@@ -162,6 +180,7 @@ public class ProjectController implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("css/main.css");
         stage.setScene(scene);
         stage.show();
     }
@@ -184,6 +203,7 @@ public class ProjectController implements Initializable {
 
         final Stage stage = new Stage();
         Scene value = new Scene(parent);
+        value.getStylesheets().add("css/main.css");
         stage.setScene(value);
         stage.initModality(Modality.WINDOW_MODAL);
         Window window = ((Node) event.getSource()).getScene().getWindow();
@@ -195,7 +215,7 @@ public class ProjectController implements Initializable {
      * @return list of project for last months.
      */
     private List<Project> getProject() {
-        return ServiceFactory.getProjectService().getProjectsForLastMonths();
+        return ServiceFactory.getProjectService().findByPeriod();
     }
 
     /**
@@ -208,12 +228,14 @@ public class ProjectController implements Initializable {
             return;
         }
         try {
+            project.setDateOfCreation(project.getDateOfCreation().plusDays(1));
+            project.setDateStart(project.getDateStart().plusDays(1));
+            project.setDateFinish(project.getDateFinish().plusDays(1));
             ServiceFactory.getProjectService().deleteEntity(project);
             observableProjects.clear();
             loadProjects();
         } catch (Exception e) {
-            e.printStackTrace();
-//            NotificationUtil.errornAlert("Error", "Can't delete", NotificationUtil.SHORT);
+            NotificationUtil.errornAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }
     }
 

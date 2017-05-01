@@ -1,6 +1,9 @@
 package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
+import defencer.data.CurrentUser;
+import defencer.util.NotificationUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,6 +15,7 @@ import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javax.persistence.NoResultException;
 
 /**
  * @author Igor Gnes on 4/15/17.
@@ -22,14 +26,30 @@ public class LoginController implements Initializable {
     private AnchorPane rootLogin;
     @FXML
     private JFXButton btnLogin;
+    @FXML
+    private JFXTextField txtUserEmail;
+    @FXML
+    private JFXTextField txtUserPassword;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        btnLogin.setOnAction(e -> {
-            rootLogin.getScene().getWindow().hide();
-            authorization();
-        });
+        txtUserEmail.setText("joyukr@ukr.net");
+        btnLogin.setOnAction(e -> login());
+    }
+
+    /**
+     * Do login in application.
+     */
+    private void login() {
+        try {
+            CurrentUser.newInstance(txtUserEmail.getText());
+        } catch (NoResultException e) {
+            NotificationUtil.warningAlert("Wrong", "user not found", NotificationUtil.SHORT);
+            return;
+        }
+        rootLogin.getScene().getWindow().hide();
+        authorization();
     }
 
     /**

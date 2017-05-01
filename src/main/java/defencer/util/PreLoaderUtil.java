@@ -1,8 +1,8 @@
 package defencer.util;
 
-import defencer.data.CurrentUser;
 import javafx.concurrent.Task;
 import lombok.Getter;
+import org.hibernate.SessionFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +25,8 @@ public class PreLoaderUtil extends Thread {
             @Override
             protected Void call() throws Exception {
                 percents = 1.0 / 2;
-                CurrentUser.newInstance();
+                final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+                sessionFactory.openSession();
                 percents = 1.0;
                 return null;
             }

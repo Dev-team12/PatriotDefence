@@ -14,20 +14,22 @@ import java.util.List;
  */
 public class ProjectServiceImpl extends CrudServiceImpl<Project> implements ProjectService {
 
+    private static final Long DEFAULT_PERIOD = 30L;
+
     /**
      * {@inheritDoc}.
      */
     @Override
-    public List<Project> findByPeriod(Long months) {
-        return null;
+    public List<Project> findByPeriod() {
+        return DaoFactory.getProjectDao().getProjectForGivenPeriod(DEFAULT_PERIOD);
     }
 
     /**
      * {@inheritDoc}.
      */
     @Override
-    public List<Project> getProjectsForLastMonths() {
-        return DaoFactory.getProjectDao().getProjectForGivenPeriod();
+    public List<Project> getFindProject(Long periodInDays, String projectName) {
+        return DaoFactory.getProjectDao().getFindProject(periodInDays, projectName);
     }
 
     /**

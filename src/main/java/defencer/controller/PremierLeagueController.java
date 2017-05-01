@@ -119,7 +119,8 @@ public class PremierLeagueController implements Initializable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        CurrentUser.refresh();
+        CurrentUser.refresh(CurrentUser.getLink().getEmail());
+        NotificationUtil.informationAlert("Success", "Added", NotificationUtil.SHORT);
     }
 
     /**

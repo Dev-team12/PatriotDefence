@@ -80,7 +80,7 @@ public class UpdateInstructorController implements Initializable{
         email.setText(instructor.getEmail());
         phone.setText(instructor.getPhone());
         qualification.setText(instructor.getQualification());
-        role.setPromptText(instructor.getRole());
+        role.setValue(instructor.getRole());
         instructorId = instructor.getId();
         status = instructor.getStatus();
         videoPath = instructor.getVideoPath();

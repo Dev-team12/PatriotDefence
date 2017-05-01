@@ -32,6 +32,7 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
     @Override
     public List<String> getAvailableProject() {
         List<String> availableProject = new LinkedList<>();
+        availableProject.add("");
         DaoFactory.getWiseacreDao().getAvailableProject().forEach(s -> availableProject.add(s.getProjectName()));
         return availableProject;
     }

@@ -77,7 +77,7 @@ public class UserProfileActivityController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        CurrentUser.refresh();
+        CurrentUser.refresh(CurrentUser.getLink().getEmail());
         factoryInitialization();
     }
 
@@ -91,7 +91,7 @@ public class UserProfileActivityController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        CurrentUser.refresh();
+        CurrentUser.refresh(CurrentUser.getLink().getEmail());
         factoryInitialization();
     }
 

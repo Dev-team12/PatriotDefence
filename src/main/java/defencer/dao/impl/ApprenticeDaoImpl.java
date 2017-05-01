@@ -24,8 +24,23 @@ public class ApprenticeDaoImpl extends CrudDaoImpl<Apprentice> implements Appren
      * {@inheritDoc}.
      */
     @Override
-    public Apprentice findByProject(Long id) {
-        return null;
+    public List<Apprentice> findByPeriod(Long period, String projectName) {
+        if ("".equals(projectName)) {
+            return getApprentice();
+        }
+        final LocalDate localDate = LocalDate.now().minusDays(period);
+        final Session session = getSession();
+        session.beginTransaction();
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        final CriteriaQuery<Apprentice> criteriaQuery = criteriaBuilder.createQuery(Apprentice.class);
+        final Root<Apprentice> root = criteriaQuery.from(Apprentice.class);
+        criteriaQuery.select(root)
+                .where(criteriaBuilder.between(root.get("dateOfAdded"), localDate, LocalDate.now().plusDays(1)),
+                        criteriaBuilder.equal(root.get("projectName"), projectName));
+        final List<Apprentice> apprenticeList = session.createQuery(criteriaQuery).getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return apprenticeList;
     }
 
     /**
@@ -40,8 +55,7 @@ public class ApprenticeDaoImpl extends CrudDaoImpl<Apprentice> implements Appren
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         final CriteriaQuery<Apprentice> criteriaQuery = criteriaBuilder.createQuery(Apprentice.class);
         final Root<Apprentice> root = criteriaQuery.from(Apprentice.class);
-        criteriaQuery.multiselect(root.get("id"), root.get("name"), root.get("phone"), root.get("email"), root.get("occupation"),
-                root.get("nameOfProject"))
+        criteriaQuery.select(root)
                 .where(criteriaBuilder
                         .between(root.get("dateOfAdded"), localDate, LocalDate.now().plusDays(months)));
         final List<Apprentice> apprenticeList = session.createQuery(criteriaQuery).getResultList();

@@ -5,7 +5,7 @@ import defencer.model.Project;
 import defencer.util.HibernateUtil;
 import org.hibernate.Session;
 
-import java.time.LocalDate;
+import java.time.*;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -18,18 +18,12 @@ import javax.persistence.criteria.Root;
  */
 public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
 
-    public static void main(String[] args) {
-
-        new ProjectDaoImpl().getProjectForGivenPeriod();
-    }
-
     /**
      * {@inheritDoc}.
      */
     @Override
-    public List<Project> getProjectForGivenPeriod() {
-        int months = 1; // todo replace from view
-        LocalDate localDate = LocalDate.now().minusMonths(months);
+    public List<Project> getProjectForGivenPeriod(Long defaultPeriod) {
+        LocalDate localDate = LocalDate.now().minusDays(defaultPeriod);
         final Session session = getSession();
         session.beginTransaction();
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -37,9 +31,8 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         final Root<Project> root = projectCriteriaQuery.from(Project.class);
         projectCriteriaQuery.select(root)
                 .where(criteriaBuilder
-                        .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(months)));
+                        .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(1)));
         final List<Project> projects = session.createQuery(projectCriteriaQuery).getResultList();
-//        projects.forEach(s -> s.setName("# " + s.getId() + " " + s.getName()));
         session.getTransaction().commit();
         session.close();
         return projects;
@@ -48,6 +41,30 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
     @Override
     public void saveId(Long projectId) {
 
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public List<Project> getFindProject(Long periodInDays, String projectName) {
+        if ("".equals(projectName)) {
+            return getProjectForGivenPeriod(periodInDays);
+        }
+        LocalDate localDate = LocalDate.now().minusDays(periodInDays);
+        final Session session = getSession();
+        session.beginTransaction();
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        final CriteriaQuery<Project> projectCriteriaQuery = criteriaBuilder.createQuery(Project.class);
+        final Root<Project> root = projectCriteriaQuery.from(Project.class);
+        projectCriteriaQuery.select(root)
+                .where(criteriaBuilder
+                                .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(1)),
+                        criteriaBuilder.equal(root.get("name"), projectName));
+        final List<Project> projects = session.createQuery(projectCriteriaQuery).getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return projects;
     }
 
     /**

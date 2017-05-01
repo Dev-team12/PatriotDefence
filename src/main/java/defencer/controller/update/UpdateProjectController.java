@@ -35,18 +35,6 @@ public class UpdateProjectController implements Initializable {
     @FXML
     private JFXButton btnCancel;
     @FXML
-    private JFXComboBox<String> comboInstructors;
-    @FXML
-    private JFXButton btnAddInstructor;
-    @FXML
-    private JFXTextArea areaInstructors;
-    @FXML
-    private JFXComboBox<String> comboCars;
-    @FXML
-    private JFXButton btnAddCar;
-    @FXML
-    private JFXTextArea areaCars;
-    @FXML
     private DatePicker dataFrom;
     @FXML
     private DatePicker dataTo;
@@ -63,9 +51,6 @@ public class UpdateProjectController implements Initializable {
         projectName.setItems(FXCollections
                 .observableArrayList(getProjectName()));
 
-        comboCars.setItems(FXCollections
-                .observableArrayList(getFreeCars()));
-
         btnUpdate.setOnAction(e -> prepareUpdating());
 
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
@@ -79,7 +64,6 @@ public class UpdateProjectController implements Initializable {
         project.setName(projectName.getValue());
         project.setDateStart(dataFrom.getValue().plusDays(1));
         project.setDateFinish(dataTo.getValue().plusDays(1));
-        project.setCar(areaCars.getText());
         project.setPlace(place.getText());
         project.setDescription(description.getText());
         project.setAuthor(CurrentUser.getLink().getFirstName());
@@ -98,9 +82,8 @@ public class UpdateProjectController implements Initializable {
         description.setText(project.getDescription());
         dataFrom.setValue(project.getDateStart());
         dataTo.setValue(project.getDateFinish());
-        areaCars.setText(project.getCar());
         projectId = project.getId();
-        localDate = project.getDateOfCreation();
+        localDate = project.getDateOfCreation().plusDays(1);
     }
 
     /**
@@ -115,17 +98,6 @@ public class UpdateProjectController implements Initializable {
             e.printStackTrace();
         }
         return null;
-    }
-
-    /**
-     * @return free car's name for project.
-     */
-    private List<String> getFreeCars() {
-        final List<String> freeCar = ServiceFactory.getWiseacreService().getFreeCar();
-        if (freeCar.isEmpty()) {
-            comboCars.setPromptText("Cars are busy");
-        }
-        return freeCar;
     }
 
     /**

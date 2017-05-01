@@ -10,10 +10,9 @@ import java.util.List;
 public interface ApprenticeService extends CrudService<Apprentice, Long> {
 
     /**
-     * @param id its given project id.
-     * @return {@link Apprentice} by given project id.
+     * @return list of apprentice for given period and project name.
      */
-    Apprentice findByProject(Long id);
+    List<Apprentice> findByPeriod(Long period, String projectName);
 
     /**
      * @return list of {@link Apprentice} for last months.

@@ -10,12 +10,12 @@ import java.util.List;
 public interface ProjectService extends CrudService<Project, Long> {
 
     /**
-     * @return list of project by period.
+     * @return list of project by period, default is six months.
      */
-    List<Project> findByPeriod(Long months);
+    List<Project> findByPeriod();
 
     /**
-     * @return list of projects for last months.
+     * @return list of project with parameters search.
      */
-    List<Project> getProjectsForLastMonths();
+    List<Project> getFindProject(Long periodInDays, String projectName);
 }

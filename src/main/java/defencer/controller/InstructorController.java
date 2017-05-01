@@ -53,8 +53,6 @@ public class InstructorController implements Initializable {
     @FXML
     private JFXButton btnAddOneMore;
     @FXML
-    private JFXButton btnFind;
-    @FXML
     private JFXButton btnDelete;
     @FXML
     private JFXButton btnEdit;
@@ -96,6 +94,7 @@ public class InstructorController implements Initializable {
 
         final Stage stage = new Stage();
         Scene value = new Scene(parent);
+        value.getStylesheets().add("css/main.css");
         stage.setScene(value);
         stage.initModality(Modality.WINDOW_MODAL);
         Window window = ((Node) event.getSource()).getScene().getWindow();
@@ -134,6 +133,7 @@ public class InstructorController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select instructor firstly", NotificationUtil.SHORT);
             return;
         }
+        System.out.println(instructor.toString());
         try {
             ServiceFactory.getInstructorService().deleteEntity(instructor);
             observableInstructors.clear();
@@ -161,6 +161,7 @@ public class InstructorController implements Initializable {
         final Stage stage = new Stage();
         stage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("css/main.css");
         stage.setScene(scene);
         stage.show();
     }

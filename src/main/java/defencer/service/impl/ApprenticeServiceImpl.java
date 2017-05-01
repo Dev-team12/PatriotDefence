@@ -29,8 +29,8 @@ public class ApprenticeServiceImpl extends CrudServiceImpl<Apprentice> implement
      * {@inheritDoc}.
      */
     @Override
-    public Apprentice findByProject(Long id) {
-        return DaoFactory.getApprenticeDao().findByProject(id);
+    public List<Apprentice> findByPeriod(Long period, String projectName) {
+        return DaoFactory.getApprenticeDao().findByPeriod(period, projectName);
     }
 
     /**

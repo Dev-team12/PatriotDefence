@@ -29,7 +29,7 @@
 }
 
 .button-try-now {
-    -fx-background-color: dodgerblue;
+    -fx-background-color: #3F51B5;
     -fx-text-fill: WHITE;
 }
 
@@ -42,7 +42,7 @@
 }
 
 .table-view .column-header-background .label {
-    -fx-background-color:  rgb(77,102,204);
+    -fx-background-color: #3F51B5;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-text-transform: uppercase;
@@ -50,5 +50,5 @@
 }
 
 .table-view .column-header {
-    -fx-background-color:  rgb(77,102,204);
+    -fx-background-color:  #3F51B5
 }

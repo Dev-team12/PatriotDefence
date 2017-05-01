@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="rootLogin" maxHeight="300.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="300.0"
-            prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="defencer.controller.LoginController">
-   <JFXTextField layoutX="69.0" layoutY="41.0" prefHeight="34.0" prefWidth="213.0" promptText="Emai">
-      <font>
-         <Font size="20.0"/>
-      </font>
-   </JFXTextField>
-   <JFXPasswordField layoutX="69.0" layoutY="133.0" prefHeight="34.0" prefWidth="213.0" promptText="password">
-      <font>
-         <Font size="20.0"/>
-      </font>
-   </JFXPasswordField>
-   <JFXButton fx:id="btnLogin" layoutX="105.0" layoutY="195.0" prefHeight="59.0" prefWidth="140.0" text="Login">
-      <font>
-         <Font size="20.0"/>
-      </font>
-   </JFXButton>
+<AnchorPane fx:id="rootLogin" maxHeight="455.0" maxWidth="798.0" minHeight="300.0" minWidth="350.0" prefHeight="426.0" prefWidth="759.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.LoginController">
+   <children>
+      <ImageView fitHeight="430.0" fitWidth="757.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/image/login.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="34.0" fitWidth="45.0" layoutX="246.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/image/logo/lock.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="34.0" fitWidth="45.0" layoutX="246.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/image/logo/email.png" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="btnLogin" defaultButton="true" layoutX="397.0" layoutY="243.0" prefHeight="34.0" prefWidth="123.0" styleClass="button-try-now" text="Sing in">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </JFXButton>
+      <JFXTextField fx:id="txtUserEmail" layoutX="307.0" layoutY="142.0" prefHeight="32.0" prefWidth="212.0" promptText="Email">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField fx:id="txtUserPassword" layoutX="305.0" layoutY="197.0" prefHeight="32.0" prefWidth="212.0" promptText="Password">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </JFXTextField>
+   </children>
 </AnchorPane>

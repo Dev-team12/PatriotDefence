@@ -58,12 +58,6 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         return availableProjects;
     }
 
-    public static void main(String[] args) throws SQLException {
-
-        final WiseacreDaoImpl wiseacreDao = new WiseacreDaoImpl();
-        wiseacreDao.getFreeInstructors().forEach(s -> System.out.println(s.getFirstName() + " " + s.getStatus()));
-    }
-
     /**
      * {@inheritDoc}.
      */

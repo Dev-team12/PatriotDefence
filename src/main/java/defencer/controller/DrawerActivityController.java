@@ -2,6 +2,7 @@ package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
 import defencer.data.ControllersDataFactory;
+import defencer.data.CurrentUser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.net.URL;
@@ -126,13 +128,10 @@ public class DrawerActivityController implements Initializable {
     /**
      * This method changes stage root element to logout fxml.
      */
+    @SneakyThrows
     private void logout() {
-
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
-            logoutButton.getScene().setRoot(root);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        CurrentUser.out();
+        Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
+        logoutButton.getScene().setRoot(root);
     }
 }

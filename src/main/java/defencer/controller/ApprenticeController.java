@@ -2,6 +2,7 @@ package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import defencer.controller.update.UpdateApprenticeController;
 import defencer.model.Apprentice;
 import defencer.service.factory.ServiceFactory;
@@ -26,6 +27,8 @@ import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -58,8 +61,11 @@ public class ApprenticeController implements Initializable {
     private JFXButton btnEdit;
     @FXML
     private ImageViewButton btnUpdate;
+    @FXML
+    private JFXDatePicker datePeriod;
 
     private ObservableList<Apprentice> observableApprentices = FXCollections.observableArrayList();
+    private static final Long DEFAULT_PERIOD = 30L;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,15 +74,33 @@ public class ApprenticeController implements Initializable {
 
         comboProject.setItems(FXCollections
                 .observableArrayList(getProjectName()));
+        comboProject.setValue("");
 
-        btnAddOneMore.setOnAction(e -> newPupil());
+        btnAddOneMore.setOnAction(e -> newApprentice());
 
         btnEdit.setOnAction(this::editApprentice);
 
         btnDelete.setOnAction(e -> deleteApprentice());
 
         btnUpdate.setOnMouseClicked(e -> loadApprentice());
+
+        btnFind.setOnAction(e -> search());
     }
+
+    /**
+     * Search apprentice with given parameters.
+     */
+    private void search() {
+        if (datePeriod.getValue() == null) {
+            datePeriod.setValue(LocalDate.now().minusDays(DEFAULT_PERIOD));
+        }
+        Long days = ChronoUnit.DAYS.between(datePeriod.getValue(), LocalDate.now());
+        final List<Apprentice> apprentices = ServiceFactory.getApprenticeService().findByPeriod(days, comboProject.getValue());
+        observableApprentices.clear();
+        observableApprentices.addAll(apprentices);
+        table.setItems(observableApprentices);
+    }
+
 
     /**
      * Load instructors into table.
@@ -95,7 +119,7 @@ public class ApprenticeController implements Initializable {
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
         phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         occupation.setCellValueFactory(new PropertyValueFactory<>("occupation"));
-        project.setCellValueFactory(new PropertyValueFactory<>("nameOfProject"));
+        project.setCellValueFactory(new PropertyValueFactory<>("projectName"));
     }
 
     /**
@@ -104,11 +128,12 @@ public class ApprenticeController implements Initializable {
      * {@link SneakyThrows} here because i am totally sure that path to fxml id correct.
      */
     @SneakyThrows
-    private void newPupil() {
+    private void newApprentice() {
         Parent root = FXMLLoader.load(getClass().getResource("/entity/add/NewApprentice.fxml"));
         final Stage stage = new Stage();
         stage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("css/main.css");
         stage.setScene(scene);
         stage.show();
     }
@@ -132,6 +157,7 @@ public class ApprenticeController implements Initializable {
         final Stage stage = new Stage();
         Scene value = new Scene(parent);
         stage.setScene(value);
+        value.getStylesheets().add("css/main.css");
         stage.initModality(Modality.WINDOW_MODAL);
         Window window = ((Node) event.getSource()).getScene().getWindow();
         stage.initOwner(window);
@@ -154,6 +180,7 @@ public class ApprenticeController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select apprentice firstly", NotificationUtil.SHORT);
             return;
         }
+        apprentice.setDateOfAdded(apprentice.getDateOfAdded().plusDays(1));
         try {
             ServiceFactory.getApprenticeService().deleteEntity(apprentice);
             observableApprentices.clear();

@@ -1,9 +1,6 @@
 package defencer.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.OptimisticLockType;
 
 import java.io.Serializable;
@@ -17,6 +14,7 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Entity
 @org.hibernate.annotations.Entity(optimisticLock = OptimisticLockType.DIRTY, dynamicUpdate = true)
 @Table(name = "project")
@@ -36,8 +34,6 @@ public class Project extends AbstractEntity implements Serializable {
     private String place;
     @Column(name = "date_of_creation", nullable = false)
     private LocalDate dateOfCreation;
-    @Column(name = "car", nullable = false)
-    private String car;
     @Column(name = "author", nullable = false)
     private String author;
     @Column(name = "description", nullable = false)
@@ -47,5 +43,11 @@ public class Project extends AbstractEntity implements Serializable {
         this.id = id;
         this.name = name;
     }
+
+    public String getNameId() {
+        return "# " + getId() + " " + getName();
+    }
+
+
 }
 

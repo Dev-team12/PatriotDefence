@@ -2,32 +2,36 @@
 
 <?import javafx.scene.image.*?>
 <?import jfxtras.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="1056.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.InstructorController">
-   <children>
-       <TableView fx:id="table" layoutY="49.0" prefHeight="425.0" prefWidth="1056.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="49.0">
-           <columns>
-               <TableColumn fx:id="firstName" prefWidth="137.0" text="First name" />
-               <TableColumn fx:id="lastName" prefWidth="146.0" text="Last name" />
-               <TableColumn fx:id="qualification" prefWidth="178.0" text="Qualification" />
-               <TableColumn fx:id="email" prefWidth="176.0" text="Email" />
-               <TableColumn fx:id="phone" prefWidth="181.0" text="Phone" />
-            <TableColumn fx:id="status" prefWidth="124.0" text="Status" />
-            <TableColumn fx:id="role" prefWidth="124.0" text="Role" />
-           </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-       </TableView>
-      <JFXButton fx:id="btnDelete" layoutX="216.0" layoutY="12.0" prefHeight="27.0" prefWidth="74.0" text="Delete" AnchorPane.leftAnchor="216.0" />
-      <JFXButton fx:id="btnEdit" layoutX="114.0" layoutY="12.0" prefHeight="27.0" prefWidth="74.0" text="Edit" AnchorPane.leftAnchor="114.0" />
-      <JFXButton fx:id="btnAddOneMore" layoutX="14.0" layoutY="12.0" prefHeight="27.0" prefWidth="74.0" text="Add" AnchorPane.leftAnchor="14.0" />
-       <ImageViewButton fx:id="btnUpdate" fitHeight="47.0" fitWidth="50.0" layoutX="329.0" layoutY="2.0">
-           <Image url="/image/refresh.png"/>
-       </ImageViewButton>
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0"
+            prefWidth="1056.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="defencer.controller.InstructorController">
+    <TableView fx:id="table" layoutY="42.0" prefHeight="437.0" prefWidth="1056.0" AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="42.0">
+        <columns>
+            <TableColumn fx:id="firstName" prefWidth="137.0" text="First name"/>
+            <TableColumn fx:id="lastName" prefWidth="146.0" text="Last name"/>
+            <TableColumn fx:id="qualification" prefWidth="178.0" text="Qualification"/>
+            <TableColumn fx:id="email" prefWidth="176.0" text="Email"/>
+            <TableColumn fx:id="phone" prefWidth="181.0" text="Phone"/>
+         <TableColumn fx:id="status" prefWidth="124.0" text="Status"/>
+         <TableColumn fx:id="role" prefWidth="124.0" text="Role"/>
+        </columns>
+        <columnResizePolicy>
+         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+    <JFXButton fx:id="btnDelete" layoutX="183.0" layoutY="7.0" prefHeight="27.0" prefWidth="74.0"
+               styleClass="button-try-now" text="Delete" AnchorPane.leftAnchor="94.0"/>
+    <JFXButton fx:id="btnEdit" layoutX="91.0" layoutY="7.0" prefHeight="27.0" prefWidth="74.0"
+               styleClass="button-try-now" text="Edit" AnchorPane.leftAnchor="4.0"/>
+    <JFXButton fx:id="btnAddOneMore" layoutX="181.0" layoutY="9.0" prefHeight="27.0" prefWidth="74.0"
+               styleClass="button-try-now" text="Add" AnchorPane.leftAnchor="181.0"/>
+    <ImageViewButton fx:id="btnUpdate" fitHeight="33.0" fitWidth="34.0" layoutX="282.0" layoutY="4.0"
+                     AnchorPane.leftAnchor="282.0">
+        <Image url="/image/refresh.png"/>
+    </ImageViewButton>
 </AnchorPane>

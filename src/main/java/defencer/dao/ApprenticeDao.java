@@ -10,10 +10,9 @@ import java.util.List;
 public interface ApprenticeDao {
 
     /**
-     * @param id its given project id.
-     * @return {@link Apprentice} by given project.
+     * @return list of project for given period.
      */
-    Apprentice findByProject(Long id);
+    List<Apprentice> findByPeriod(Long period, String projectName);
 
     /**
      * @return list of {@link Apprentice} for last months.

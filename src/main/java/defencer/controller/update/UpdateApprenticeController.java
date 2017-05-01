@@ -62,9 +62,9 @@ public class UpdateApprenticeController implements Initializable {
         apprentice.setEmail(email.getText());
         apprentice.setPhone(phone.getText());
         apprentice.setOccupation(occupation.getText());
-        apprentice.setNameOfProject(projectName.getValue());
+        apprentice.setProjectName(projectName.getValue());
         apprentice.setId(apprenticeId);
-        apprentice.setDateOfAdded(localDate);
+        apprentice.setDateOfAdded(localDate.plusDays(1));
         update(apprentice);
         root.getScene().getWindow().hide();
     }
@@ -77,7 +77,7 @@ public class UpdateApprenticeController implements Initializable {
         email.setText(apprentice.getEmail());
         phone.setText(apprentice.getPhone());
         occupation.setText(apprentice.getOccupation());
-        projectName.setValue(apprentice.getNameOfProject());
+        projectName.setValue(apprentice.getProjectName());
         apprenticeId = apprentice.getId();
         localDate = apprentice.getDateOfAdded();
     }

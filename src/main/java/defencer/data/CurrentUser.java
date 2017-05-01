@@ -26,13 +26,12 @@ public class CurrentUser extends AbstractEntity {
     /**
      * Creating new instance of user.
      */
-    public static CurrentUser newInstance() {
+    public static CurrentUser newInstance(String email) {
 //        if (currentUser != null) {
 //            currentUser.data = null;
 //        }
         currentUser = new CurrentUser();
-        currentUser.downloadData();
-
+        currentUser.downloadData(email);
         return currentUser;
     }
 
@@ -46,8 +45,8 @@ public class CurrentUser extends AbstractEntity {
     /**
      * Downloading data for user.
      */
-    private void downloadData() {
-        final Instructor currentUser = ServiceFactory.getWiseacreService().getCurrentUser("joyukr@ukr.net");
+    private void downloadData(String email) {
+        final Instructor currentUser = ServiceFactory.getWiseacreService().getCurrentUser(email);
         Project projectByInstructor = ServiceFactory.getInstructorService().findProjectByInstructor(currentUser.getProjectId());
         if (projectByInstructor == null) {
             projectByInstructor = new Project();
@@ -75,9 +74,13 @@ public class CurrentUser extends AbstractEntity {
         data.put("description", projectByInstructor.getDescription());
     }
 
-    public static void refresh() {
+    public static void refresh(String email) {
         currentUser = null;
-        newInstance();
+        newInstance(email);
+    }
+
+    public static void out() {
+        currentUser = null;
     }
 
     public Long getId() {
