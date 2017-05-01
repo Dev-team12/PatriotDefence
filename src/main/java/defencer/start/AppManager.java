@@ -14,7 +14,6 @@ public class AppManager extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        getConnectionForDatabase();
         Parent root = FXMLLoader.load(getClass().getResource("/waiting.fxml"));
         primaryStage.setTitle("Patriot Defence");
         Scene scene = new Scene(root);
@@ -28,11 +27,5 @@ public class AppManager extends Application {
 
             System.exit(1);
         });
-    }
-
-    /**
-     * Create query to database.
-     */
-    private void getConnectionForDatabase() {
     }
 }
