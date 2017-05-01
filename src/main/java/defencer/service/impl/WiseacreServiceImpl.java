@@ -1,10 +1,13 @@
 package defencer.service.impl;
 
 import defencer.dao.factory.DaoFactory;
+import defencer.data.CurrentUser;
 import defencer.model.*;
 import defencer.service.WiseacreService;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +52,7 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public Map<String, Long> getProjectStatistic() {
+    public Map<String, Integer> getProjectStatistic() {
         return DaoFactory.getWiseacreDao().getProjectStatistic();
     }
 
@@ -153,7 +156,14 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public void updateCurrentUser(Long id, String status) throws SQLException {
-        DaoFactory.getWiseacreDao().updateCurrentUser(id, status);
+    public void updateCurrentUser(Long userId, String status) throws SQLException {
+        DaoFactory.getWiseacreDao().updateCurrentUser(userId, status);
+        final WorkDay workDay = new WorkDay();
+        workDay.setDateOfCreation(LocalDate.now().plusDays(1));
+        workDay.setInstructorId(userId);
+        final LocalDate projectDateStart = CurrentUser.getLink().getProjectDateStart();
+        final LocalDate projectDateFinish = CurrentUser.getLink().getProjectDateFinish();
+        workDay.setWorkDays(ChronoUnit.DAYS.between(projectDateStart, projectDateFinish));
+        super.createEntity(workDay);
     }
 }

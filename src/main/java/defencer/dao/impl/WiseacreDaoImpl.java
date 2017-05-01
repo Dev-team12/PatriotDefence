@@ -22,7 +22,6 @@ import javax.persistence.criteria.Root;
 public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements WiseacreDao  {
 
     private Long workDay = 0L;
-    private Long projectTimes = 0L;
 
     /**
      * {@inheritDoc}.
@@ -81,7 +80,7 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
      * {@inheritDoc}.
      */
     @Override
-    public Map<String, Long> getProjectStatistic() {
+    public Map<String, Integer> getProjectStatistic() {
         final Session session = getCurrentSession();
         session.beginTransaction();
         val criteriaBuilder = session.getCriteriaBuilder();
@@ -97,17 +96,15 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         final CriteriaQuery<ProjectTimes> timesDayCriteriaQuery = timesCriteriaBuilder
                 .createQuery(ProjectTimes.class);
         final Root<ProjectTimes> toor = timesDayCriteriaQuery.from(ProjectTimes.class);
+        Map<String, Integer> projectStatistic = new HashMap<>();
 
-        Map<String, Long> projectStatistic = new HashMap<>();
         projects.forEach(s -> {
-            timesDayCriteriaQuery.multiselect(toor.get("id"), toor.get("projectTimes"))
-                    .where(timesCriteriaBuilder.equal(toor.get("projectId"), s.getId()),
+            timesDayCriteriaQuery.multiselect(toor.get("id"))
+                    .where(timesCriteriaBuilder.equal(toor.get("projectName"), s.getName()),
                             timesCriteriaBuilder.between(toor.get("dateOfCreation"), LocalDate.now()
                                     .minusMonths(1), LocalDate.now().plusDays(1)));
             final List<ProjectTimes> resultList = session.createQuery(timesDayCriteriaQuery).getResultList();
-            resultList.forEach(b -> projectTimes += b.getProjectTimes());
-            projectStatistic.put(s.getName(), projectTimes);
-            projectTimes = 0L;
+            projectStatistic.put(s.getName(), resultList.size());
         });
         return projectStatistic;
     }
@@ -270,11 +267,9 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
      * {@inheritDoc}.
      */
     @Override
-    public void updateCurrentUser(Long id, String status) throws SQLException {
+    public void updateCurrentUser(Long userId, String status) throws SQLException {
         final Session session = getCurrentSession();
         session.beginTransaction();
-
-
 
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         final CriteriaUpdate<Instructor> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Instructor.class);
@@ -282,10 +277,10 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         if ("FREE".equals(status)) {
             criteriaUpdate.set(root.get("status"), status)
                     .set(root.get("projectId"), -1)
-                    .where(criteriaBuilder.equal(root.get("id"), id));
+                    .where(criteriaBuilder.equal(root.get("id"), userId));
         } else {
             criteriaUpdate.set(root.get("status"), status)
-                    .where(criteriaBuilder.equal(root.get("id"), id));
+                    .where(criteriaBuilder.equal(root.get("id"), userId));
         }
         session.createQuery(criteriaUpdate).executeUpdate();
         session.getTransaction().commit();

@@ -24,15 +24,12 @@ public class ProjectTimes extends AbstractEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
-    @Column(name = "project_id", nullable = false)
-    private Long projectId;
-    @Column(name = "times")
-    private Long projectTimes;
+    @Column(name = "project_name", nullable = false)
+    private String projectName;
     @Column(name = "date_of_creation")
     private LocalDate dateOfCreation;
 
-    public ProjectTimes(Long id, Long projectTimes) {
+    public ProjectTimes(Long id) {
         this.id = id;
-        this.projectTimes = projectTimes;
     }
 }

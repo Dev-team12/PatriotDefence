@@ -31,7 +31,7 @@ public interface WiseacreDao {
     /**
      * @return map with project's name and times how often they were created for last months.
      */
-    Map<String, Long> getProjectStatistic();
+    Map<String, Integer> getProjectStatistic();
 
     /**
      * @return map with instructor's name and work days for last months.
@@ -74,11 +74,9 @@ public interface WiseacreDao {
     Instructor getCurrentUser(String email);
 
     /**
-     * @param id     is current user's id.
+     * @param userId     is current user's userId.
      * @param status is new status for instructor.
      * @throws SQLException if can't update.
      */
-    void updateCurrentUser(Long id, String status) throws SQLException;
-
-
+    void updateCurrentUser(Long userId, String status) throws SQLException;
 }
