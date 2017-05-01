@@ -41,7 +41,7 @@ public class UserProfileActivityController implements Initializable {
     @FXML
     private JFXButton btnYes;
     @FXML
-    private JFXButton btnNo;
+    private JFXButton btnUnfortunatelyNo;
 
     @FXML
     private Label dateStart;
@@ -63,7 +63,7 @@ public class UserProfileActivityController implements Initializable {
 
         btnYes.setOnAction(e -> agree());
 
-        btnNo.setOnAction(e -> disagree());
+        btnUnfortunatelyNo.setOnAction(e -> disagree());
     }
 
     /**

@@ -15,7 +15,7 @@
       </font>
    </Label>
    <ImageView fitHeight="85.0" fitWidth="121.0" layoutX="160.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="/image/PatriotDefenceLogo.png"/>
+      <Image url="/image/PatriotDefence.png"/>
    </ImageView>
    <JFXTextField fx:id="place" layoutX="12.0" layoutY="146.0" maxWidth="218.0" minWidth="218.0" prefHeight="31.0"
                  prefWidth="218.0" promptText="Place"/>

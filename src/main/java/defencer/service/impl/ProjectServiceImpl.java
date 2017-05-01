@@ -1,10 +1,13 @@
 package defencer.service.impl;
 
 import defencer.dao.factory.DaoFactory;
+import defencer.dao.impl.WiseacreDaoImpl;
 import defencer.model.Project;
+import defencer.model.ProjectTimes;
 import defencer.service.ProjectService;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -37,6 +40,12 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
      */
     @Override
     public Project createEntity(Project project) throws SQLException {
-        return super.createEntity(project);
+        final Project alreadyCreatedProject = super.createEntity(project);
+        final ProjectTimes projectTimes = new ProjectTimes();
+        projectTimes.setDateOfCreation(LocalDate.now().plusDays(1));
+        projectTimes.setProjectName(alreadyCreatedProject.getName());
+        new WiseacreDaoImpl().save(projectTimes);
+        return alreadyCreatedProject;
     }
+
 }

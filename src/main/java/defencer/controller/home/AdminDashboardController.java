@@ -50,7 +50,7 @@ public class AdminDashboardController implements Initializable {
     @FXML
     private BarChart<String, Long> barChartForWorkDays;
     @FXML
-    private BarChart<String, Long> barChartForProjects;
+    private BarChart<String, Integer> barChartForProjects;
     @FXML
     private Text totalInstructors;
     @FXML
@@ -147,10 +147,10 @@ public class AdminDashboardController implements Initializable {
      */
     private void configureProject() {
 
-        final XYChart.Series<String, Long> projectStatistic = new XYChart.Series<>();
+        final XYChart.Series<String, Integer> projectStatistic = new XYChart.Series<>();
         projectStatistic.setName("Projects statistic for months");
         getProjectStatisticForAdminDashBoard().forEach((s, b) -> {
-            final XYChart.Data<String, Long> data = new XYChart.Data<>(s, b);
+            final XYChart.Data<String, Integer> data = new XYChart.Data<>(s, b);
             projectStatistic.getData().add(data);
         });
         barChartForProjects.setTitle("Projects statistic for months");
@@ -160,7 +160,7 @@ public class AdminDashboardController implements Initializable {
     /**
      * @return all type of available projects and how many time they were created for last months.
      */
-    private Map<String, Long> getProjectStatisticForAdminDashBoard() {
+    private Map<String, Integer> getProjectStatisticForAdminDashBoard() {
         return ServiceFactory.getWiseacreService().getProjectStatistic();
     }
 
