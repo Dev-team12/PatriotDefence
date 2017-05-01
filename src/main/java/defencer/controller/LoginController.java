@@ -3,6 +3,7 @@ package defencer.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import defencer.data.CurrentUser;
+import defencer.util.HibernateUtil;
 import defencer.util.NotificationUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,5 +64,12 @@ public class LoginController implements Initializable {
         scene.getStylesheets().add("css/main.css");
         stage.setScene(scene);
         stage.show();
+
+        stage.setOnCloseRequest(event -> {
+            HibernateUtil.shutdown();
+            System.out.println("shutdown hibernate");
+
+            System.exit(1);
+        });
     }
 }

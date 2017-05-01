@@ -1,5 +1,6 @@
 package defencer.start;
 
+import defencer.util.HibernateUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +21,13 @@ public class AppManager extends Application {
         primaryStage.setScene(scene);
         scene.getStylesheets().add("css/main.css");
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(event -> {
+            HibernateUtil.shutdown();
+            System.out.println("shutdown hibernate");
+
+            System.exit(1);
+        });
     }
 
     /**
