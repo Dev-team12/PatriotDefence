@@ -194,7 +194,7 @@ public class PremierLeagueController implements Initializable {
     /**
      * Load project details.
      */
-    void loadProjectDetails(Project project) {
+    public void loadProjectDetails(Project project) {
         projectId = project.getId();
         txtProjectName.setText("ProjectName: " + project.getName());
         txtPlace.setText("Place: " + project.getPlace());

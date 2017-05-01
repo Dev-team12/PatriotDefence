@@ -1,4 +1,4 @@
-package defencer.controller;
+package defencer.controller.entity;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;

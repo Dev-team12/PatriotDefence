@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.image.*?>
-<?import jfxtras.labs.scene.control.*?>
 <?import jfxtras.scene.control.agenda.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="466.0" prefWidth="699.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.CalendarController">
@@ -23,7 +21,7 @@
                <children>
                   <ImageView fitHeight="62.0" fitWidth="62.0" layoutX="34.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.topAnchor="36.0">
                      <image>
-                        <Image url="@../images/arrow-left.png" />
+                         <Image url="/image/user.jpg" />
                      </image>
                   </ImageView>
                </children>
@@ -44,7 +42,7 @@
                <children>
                   <ImageView fitHeight="62.0" fitWidth="62.0" layoutX="34.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.topAnchor="36.0">
                      <image>
-                        <Image url="@../images/arrow-right.png" />
+                        <Image url="/image/user.jpg" />
                      </image>
                   </ImageView>
                </children>

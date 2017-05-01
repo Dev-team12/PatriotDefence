@@ -32,9 +32,8 @@ public class CalendarController implements Initializable {
     private GridPane leftSide;
     @FXML
     private GridPane rightSide;
-    //don't pay attention on this shit,it is all because of this **** checkstyle plugin =(
-    private final int countOfGroups = 10;
 
+    private static final int COUNT_OF_GROUPS = 10;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -44,13 +43,12 @@ public class CalendarController implements Initializable {
         weekButtonsInitialization();
     }
 
-
     /**
      * Getting or adding data to factory.
      */
     private void factoryInitialization() {
 
-        List<Project> data = null;
+        List<Project> data;
 
         if (ControllersDataFactory.getLink().contains(CalendarController.class)) {
             data = (List<Project>) ((Map<String, Object>) ControllersDataFactory.getLink().get(CalendarController.class)).get("agendaData");
@@ -62,10 +60,8 @@ public class CalendarController implements Initializable {
 
             ControllersDataFactory.getLink().add(this.getClass(), map);
         }
-
         addDataOnView(data);
     }
-
 
     /*private void update() {
 
@@ -73,7 +69,6 @@ public class CalendarController implements Initializable {
 
         addDataOnView(data);
     }*/
-
 
     /**
      * Downloading data from database.
@@ -84,7 +79,6 @@ public class CalendarController implements Initializable {
 
         return (List<Project>) HibernateService.executeQuery(hibernateQueryBuilder);
     }
-
 
     /**
      * Adding data on view.
@@ -105,11 +99,10 @@ public class CalendarController implements Initializable {
                             .withEndLocalDateTime(LocalDateTime.of(end, timeEnd))
                             .withSummary(project.getName())
                             .withWholeDay(true)
-                            .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group" + new Random().nextInt(countOfGroups))) // you should use a map of AppointmentGroups
+                            .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group" + new Random().nextInt(COUNT_OF_GROUPS))) // you should use a map of AppointmentGroups
             );
         }
     }
-
 
     /**
      * Initialization of week buttons.
@@ -132,9 +125,7 @@ public class CalendarController implements Initializable {
             }
         });
 
-        pervWeek.setOnMouseClicked(event -> {
-            agenda.setDisplayedLocalDateTime(agenda.getDisplayedLocalDateTime().minusWeeks(1L));
-        });
+        pervWeek.setOnMouseClicked(event -> agenda.setDisplayedLocalDateTime(agenda.getDisplayedLocalDateTime().minusWeeks(1L)));
 
 
         for (Node temp : nextWeek.getChildren()) {
@@ -152,10 +143,6 @@ public class CalendarController implements Initializable {
                 temp.setVisible(false);
             }
         });
-
-        nextWeek.setOnMouseClicked(event -> {
-            agenda.setDisplayedLocalDateTime(agenda.getDisplayedLocalDateTime().plusWeeks(1L));
-        });
-
+        nextWeek.setOnMouseClicked(event -> agenda.setDisplayedLocalDateTime(agenda.getDisplayedLocalDateTime().plusWeeks(1L)));
     }
 }

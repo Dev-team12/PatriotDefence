@@ -1,8 +1,9 @@
-package defencer.controller;
+package defencer.controller.entity;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
+import defencer.controller.PremierLeagueController;
 import defencer.controller.update.UpdateProjectController;
 import defencer.model.Instructor;
 import defencer.model.Project;

@@ -23,8 +23,6 @@ public class AppManager extends Application {
 
         primaryStage.setOnCloseRequest(event -> {
             HibernateUtil.shutdown();
-            System.out.println("shutdown hibernate");
-
             System.exit(1);
         });
     }
