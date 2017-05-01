@@ -74,9 +74,11 @@ public interface WiseacreDao {
     Instructor getCurrentUser(String email);
 
     /**
-     * @param id is current user's id.
+     * @param id     is current user's id.
      * @param status is new status for instructor.
      * @throws SQLException if can't update.
      */
     void updateCurrentUser(Long id, String status) throws SQLException;
+
+
 }
