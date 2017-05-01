@@ -32,6 +32,8 @@ public class DrawerActivityController implements Initializable {
     @FXML
     private JFXButton projectButton;
     @FXML
+    private JFXButton calendarButton;
+    @FXML
     private ImageView logoutButton;
 
 
@@ -46,6 +48,8 @@ public class DrawerActivityController implements Initializable {
 
         projectButton.setOnAction(click -> mouseClickButton(projectButton));
 
+        calendarButton.setOnMouseClicked(event -> mouseClickButton(calendarButton));
+
         logoutButton.setOnMouseClicked(click -> logout());
     }
 
@@ -59,6 +63,7 @@ public class DrawerActivityController implements Initializable {
 
         switch (button.getId()) {
 
+
             case "profileButton":
                 try {
                     newPane = FXMLLoader.load(getClass().getResource("/userProfile.fxml"));
@@ -68,6 +73,7 @@ public class DrawerActivityController implements Initializable {
 
                 changeStageTo(newPane, (AnchorPane) button.getScene().lookup("#currentLayout"));
                 break;
+
 
             case "instructorButton":
                 try {
@@ -90,9 +96,21 @@ public class DrawerActivityController implements Initializable {
                 changeStageTo(newPane, (AnchorPane) button.getScene().lookup("#currentLayout"));
                 break;
 
+
             case "projectButton":
                 try {
                     newPane = FXMLLoader.load(getClass().getResource("/entity/ProjectPage.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                changeStageTo(newPane, (AnchorPane) button.getScene().lookup("#currentLayout"));
+                break;
+
+
+            case "calendarButton":
+                try {
+                    newPane = FXMLLoader.load(getClass().getResource("/entity/Calendar.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -37,6 +37,14 @@ public class ControllersDataFactory {
     }
 
     /**
+     * Does map contains data with suck key.
+     */
+    public boolean contains(Class key) {
+
+        return controllersData.containsKey(key);
+    }
+
+    /**
      * Getting data.
      */
     public Object get(Class key) {
@@ -52,4 +60,5 @@ public class ControllersDataFactory {
         }
         return controllersDataFactory;
     }
+
 }

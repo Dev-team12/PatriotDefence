@@ -7,12 +7,16 @@ package defencer.hibernate;
 public class HibernateQueryBuilder {
 
     public static final String ID_FIELD = "id";
+    public static final String PROJECT_ID_FIELD = "project_id";
+
     public static final int SELECT_QUERY = 1;
     public static final int INSERT_QUERY = 2;
     public static final int UPDATE_QUERY = 3;
     public static final int DELETE_QUERY = 4;
+
     private String query = "";
     private int currentQueryType;
+
 
     public HibernateQueryBuilder(int queryType, Class inputClass) {
 
@@ -49,7 +53,7 @@ public class HibernateQueryBuilder {
      */
     public HibernateQueryBuilder with(String field, Object value) {
 
-        System.out.println(currentQueryType);
+        //System.out.println(currentQueryType);
 
         switch (currentQueryType) {
 
@@ -86,6 +90,13 @@ public class HibernateQueryBuilder {
     public String getQuery() {
 
         switch (currentQueryType) {
+
+            case SELECT_QUERY:
+                if (!query.contains("=")) {
+                    query = query.substring(0, query.indexOf(" where"));
+                }
+                break;
+
             case INSERT_QUERY:
                 query += ")";
                 break;
