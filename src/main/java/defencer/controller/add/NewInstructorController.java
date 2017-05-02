@@ -55,7 +55,7 @@ public class NewInstructorController implements Initializable {
      */
     private void prepareAdding() {
 
-        if (!role.getValue().equals("") && role.getValue() != null
+        if (role.getValue() != null && !role.getValue().equals("")
                 && firstName.getText().length() != 0
                 && email.getText().length() != 0
                 && phone.getText().length() != 0

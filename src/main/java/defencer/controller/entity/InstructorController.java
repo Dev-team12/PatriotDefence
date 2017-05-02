@@ -115,6 +115,8 @@ public class InstructorController implements Initializable {
      */
     private void loadInstructors() {
         observableInstructors.clear();
+
+        System.out.println(getInstructors());
         observableInstructors.addAll(getInstructors());
         table.setItems(observableInstructors);
     }

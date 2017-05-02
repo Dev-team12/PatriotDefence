@@ -67,10 +67,8 @@ public class NewApprenticeController implements Initializable {
      */
     private void prepareAdding() {
 
-        if (!projectName.getValue().equals("") && projectName.getValue() != null
+        if (projectName.getValue() != null && !projectName.getValue().equals("")
                 && firstName.getText().length() != 0
-                && email.getText().length() != 0
-                && phone.getText().length() != 0
                 && occupation.getText().length() != 0) {
 
             final Apprentice apprentice = new Apprentice();

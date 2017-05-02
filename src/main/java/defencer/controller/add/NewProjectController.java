@@ -58,7 +58,7 @@ public class NewProjectController implements Initializable {
      */
     private void prepareAdding() {
 
-        if (!projectName.getValue().equals("") && projectName.getValue() != null
+        if (projectName.getValue() != null && !projectName.getValue().equals("")
                 && dataFrom.getValue() != null
                 && dataTo.getValue() != null
                 && description.getText().length() != 0) {
