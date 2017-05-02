@@ -22,15 +22,6 @@ public class EmailConfig {
         javaMailSender.setPassword("mailsender");
         javaMailSender.getJavaMailProperties().setProperty("mail.smtp.auth", "true");
         javaMailSender.getJavaMailProperties().setProperty("mail.smtp.starttls.enable", "true");
-
-        /*final SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("ncmailsender@gmail.com");
-        message.setTo("joyukr@ukr.net");
-        message.setText("test");
-
-
-        javaMailSender.send(message);*/
-
         return javaMailSender;
     }
 }

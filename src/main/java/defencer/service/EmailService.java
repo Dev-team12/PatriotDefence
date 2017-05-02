@@ -11,13 +11,12 @@ import org.springframework.mail.javamail.MimeMailMessage;
 public interface EmailService {
 
     /**
-     * @param instructor is going to take a message.
-     * @param project    is information for text in email message.
+     * Send message to instructor with information about their project.
      */
     SimpleMailMessage simpleMailMessage(Instructor instructor, Project project);
 
     /**
-     * @param instructor is going to take a message.
+     * Send message to instructor with PDF or EXCEL documents.
      */
     MimeMailMessage mimeMailMessage(Instructor instructor);
 }

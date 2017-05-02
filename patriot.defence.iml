@@ -68,5 +68,7 @@
     <orderEntry type="library" name="Maven: org.jfxtras:jfxtras-controls:8.0-r5" level="project" />
     <orderEntry type="library" name="Maven: org.jfxtras:jfxtras-common:8.0-r5" level="project" />
     <orderEntry type="library" name="Maven: org.jfxtras:jfxtras-fxml:8.0-r5" level="project" />
+    <orderEntry type="library" name="Maven: javax.mail:mail:1.4" level="project" />
+    <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
   </component>
 </module>

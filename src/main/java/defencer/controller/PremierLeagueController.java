@@ -5,6 +5,7 @@ import defencer.data.CurrentUser;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
+import defencer.service.impl.EmailServiceImpl;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -129,6 +130,13 @@ public class PremierLeagueController implements Initializable {
         }
         CurrentUser.refresh(CurrentUser.getLink().getEmail());
         NotificationUtil.informationAlert("Success", "Added", NotificationUtil.SHORT);
+
+        final Thread email = new Thread(mailSender(instructors));
+        email.start();
+    }
+
+    private Runnable mailSender(List<Instructor> instructors) {
+        return () -> instructors.forEach(s -> new EmailServiceImpl().simpleMailMessage(s, project));
     }
 
     /**
