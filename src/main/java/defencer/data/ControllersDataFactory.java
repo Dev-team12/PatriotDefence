@@ -37,6 +37,13 @@ public class ControllersDataFactory {
     }
 
     /**
+     * Deleting data.
+     */
+    public void delete(Class key) {
+        controllersData.remove(key);
+    }
+
+    /**
      * Does map contains data with suck key.
      */
     public boolean contains(Class key) {

@@ -66,15 +66,26 @@ public class NewApprenticeController implements Initializable {
      * Prepare {@link Apprentice} to creating.
      */
     private void prepareAdding() {
-        final Apprentice apprentice = new Apprentice();
-        apprentice.setName(firstName.getText());
-        apprentice.setEmail(email.getText());
-        apprentice.setPhone(phone.getText());
-        apprentice.setOccupation(occupation.getText());
-        apprentice.setProjectName(projectName.getValue());
-        apprentice.setDateOfAdded(LocalDate.now().plusDays(1));
-        create(apprentice);
-        root.getScene().getWindow().hide();
+
+        if (!projectName.getValue().equals("") && projectName.getValue() != null
+                && firstName.getText().length() != 0
+                && email.getText().length() != 0
+                && phone.getText().length() != 0
+                && occupation.getText().length() != 0) {
+
+            final Apprentice apprentice = new Apprentice();
+            apprentice.setName(firstName.getText());
+            apprentice.setEmail(email.getText());
+            apprentice.setPhone(phone.getText());
+            apprentice.setOccupation(occupation.getText());
+            apprentice.setProjectName(projectName.getValue());
+            apprentice.setDateOfAdded(LocalDate.now().plusDays(1));
+            create(apprentice);
+            root.getScene().getWindow().hide();
+
+        } else {
+            NotificationUtil.errorAlert("Error", "Form isn't filled right.", NotificationUtil.LONG);
+        }
     }
 
     /**

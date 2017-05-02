@@ -1,4 +1,4 @@
-package defencer.controller;
+package defencer.controller.entity;
 
 import defencer.data.ControllersDataFactory;
 import defencer.hibernate.HibernateQueryBuilder;

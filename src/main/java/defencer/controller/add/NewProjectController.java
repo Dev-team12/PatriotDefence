@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXTextField;
 import defencer.data.CurrentUser;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
+import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -56,16 +57,26 @@ public class NewProjectController implements Initializable {
      * Prepare {@link Project} to creating.
      */
     private void prepareAdding() {
-        final Project project = new Project();
-        project.setName(projectName.getValue());
-        project.setDateStart(dataFrom.getValue().plusDays(1));
-        project.setDateFinish(dataTo.getValue().plusDays(1));
-        project.setPlace(place.getText());
-        project.setDescription(description.getText());
-        project.setAuthor(CurrentUser.getLink().getFirstName());
-        project.setDateOfCreation(LocalDate.now().plusDays(1));
-        create(project);
-        root.getScene().getWindow().hide();
+
+        if (!projectName.getValue().equals("") && projectName.getValue() != null
+                && dataFrom.getValue() != null
+                && dataTo.getValue() != null
+                && description.getText().length() != 0) {
+
+            final Project project = new Project();
+            project.setName(projectName.getValue());
+            project.setDateStart(dataFrom.getValue().plusDays(1));
+            project.setDateFinish(dataTo.getValue().plusDays(1));
+            project.setPlace(place.getText());
+            project.setDescription(description.getText());
+            project.setAuthor(CurrentUser.getLink().getFirstName());
+            project.setDateOfCreation(LocalDate.now().plusDays(1));
+            create(project);
+            root.getScene().getWindow().hide();
+
+        } else {
+            NotificationUtil.errorAlert("Error", "Form isn't filled right.", NotificationUtil.LONG);
+        }
     }
 
     /**

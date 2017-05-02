@@ -54,16 +54,27 @@ public class NewInstructorController implements Initializable {
      * Prepare {@link Instructor} to creating.
      */
     private void prepareAdding() {
-        final Instructor instructor = new Instructor();
-        instructor.setFirstName(firstName.getText());
-        instructor.setLastName(lastName.getText());
-        instructor.setEmail(email.getText());
-        instructor.setPhone(phone.getText());
-        instructor.setQualification(qualification.getText());
-        instructor.setRole(role.getValue());
-        instructor.setStatus("FREE");
-        create(instructor);
-        root.getScene().getWindow().hide();
+
+        if (!role.getValue().equals("") && role.getValue() != null
+                && firstName.getText().length() != 0
+                && email.getText().length() != 0
+                && phone.getText().length() != 0
+                && qualification.getText().length() != 0) {
+
+            final Instructor instructor = new Instructor();
+            instructor.setFirstName(firstName.getText());
+            instructor.setLastName(lastName.getText());
+            instructor.setEmail(email.getText());
+            instructor.setPhone(phone.getText());
+            instructor.setQualification(qualification.getText());
+            instructor.setRole(role.getValue());
+            instructor.setStatus("FREE");
+            create(instructor);
+            root.getScene().getWindow().hide();
+
+        } else {
+            NotificationUtil.errorAlert("Error", "Form isn't filled right.", NotificationUtil.LONG);
+        }
     }
 
     /**

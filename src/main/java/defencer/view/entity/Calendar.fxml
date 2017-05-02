@@ -4,7 +4,7 @@
 <?import jfxtras.scene.control.agenda.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="466.0" prefWidth="699.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.CalendarController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="466.0" prefWidth="699.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.entity.CalendarController">
    <children>
       <Agenda fx:id="agenda" layoutX="-2.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <GridPane fx:id="leftSide" layoutY="-1.0" prefHeight="400.0" prefWidth="130.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -21,7 +21,7 @@
                <children>
                   <ImageView fitHeight="62.0" fitWidth="62.0" layoutX="34.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.topAnchor="36.0">
                      <image>
-                         <Image url="/image/user.jpg" />
+                         <Image url="/image/logo/arrow-left.png" />
                      </image>
                   </ImageView>
                </children>
@@ -42,7 +42,7 @@
                <children>
                   <ImageView fitHeight="62.0" fitWidth="62.0" layoutX="34.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.topAnchor="36.0">
                      <image>
-                        <Image url="/image/user.jpg" />
+                        <Image url="/image/logo/arrow-right.png" />
                      </image>
                   </ImageView>
                </children>

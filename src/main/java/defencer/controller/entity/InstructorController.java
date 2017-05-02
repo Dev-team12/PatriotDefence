@@ -7,7 +7,6 @@ import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -69,18 +69,22 @@ public class InstructorController implements Initializable {
 
         btnAddOneMore.setOnAction(e -> newInstructor());
 
-        btnEdit.setOnAction(this::editInstructor);
-
         btnDelete.setOnAction(e -> deleteInstructor());
 
         btnUpdate.setOnMouseClicked(e -> loadInstructors());
+
+        table.setOnMouseClicked(event -> {
+            if (event.getClickCount() >= 2) {
+                editInstructor(event);
+            }
+        });
     }
 
     /**
      * Opens page for editing selected parameters.
      */
     @SneakyThrows
-    private void editInstructor(ActionEvent event) {
+    private void editInstructor(MouseEvent event) {
         final Instructor instructor = table.getSelectionModel().getSelectedItem();
         if (instructor == null) {
             NotificationUtil.warningAlert("Warning", "Select instructor first", NotificationUtil.SHORT);
@@ -100,6 +104,10 @@ public class InstructorController implements Initializable {
         Window window = ((Node) event.getSource()).getScene().getWindow();
         stage.initOwner(window);
         stage.show();
+
+        stage.setOnHiding(event1 -> {
+            loadInstructors();
+        });
     }
 
     /**
@@ -139,7 +147,7 @@ public class InstructorController implements Initializable {
             observableInstructors.clear();
             loadInstructors();
         } catch (Exception e) {
-            NotificationUtil.errornAlert("Error", "Can't delete", NotificationUtil.SHORT);
+            NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }
     }
 
@@ -164,5 +172,9 @@ public class InstructorController implements Initializable {
         scene.getStylesheets().add("css/main.css");
         stage.setScene(scene);
         stage.show();
+
+        stage.setOnHiding(event1 -> {
+            loadInstructors();
+        });
     }
 }

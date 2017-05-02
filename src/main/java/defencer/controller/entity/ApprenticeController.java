@@ -9,7 +9,6 @@ import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -78,13 +78,17 @@ public class ApprenticeController implements Initializable {
 
         btnAddOneMore.setOnAction(e -> newApprentice());
 
-        btnEdit.setOnAction(this::editApprentice);
-
         btnDelete.setOnAction(e -> deleteApprentice());
 
         btnUpdate.setOnMouseClicked(e -> loadApprentice());
 
         btnFind.setOnAction(e -> search());
+
+        table.setOnMouseClicked(event -> {
+            if (event.getClickCount() >= 2) {
+                editApprentice(event);
+            }
+        });
     }
 
     /**
@@ -136,13 +140,17 @@ public class ApprenticeController implements Initializable {
         scene.getStylesheets().add("css/main.css");
         stage.setScene(scene);
         stage.show();
+
+        stage.setOnHiding(event1 -> {
+            loadApprentice();
+        });
     }
 
     /**
      * Opens page for editing selected parameters.
      */
     @SneakyThrows
-    private void editApprentice(ActionEvent event) {
+    private void editApprentice(MouseEvent event) {
         final Apprentice apprentice = table.getSelectionModel().getSelectedItem();
         if (apprentice == null) {
             NotificationUtil.warningAlert("Warning", "Select apprentice first", NotificationUtil.SHORT);
@@ -162,6 +170,10 @@ public class ApprenticeController implements Initializable {
         Window window = ((Node) event.getSource()).getScene().getWindow();
         stage.initOwner(window);
         stage.show();
+
+        stage.setOnHiding(event1 -> {
+            loadApprentice();
+        });
     }
 
     /**

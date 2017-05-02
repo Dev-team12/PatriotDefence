@@ -35,7 +35,7 @@ public class NotificationUtil{
     /**
      * Creating error notification.
      */
-    public static void errornAlert(String title, String message, Double duration) {
+    public static void errorAlert(String title, String message, Double duration) {
 
         Notifications notifications = Notifications.create()
                 .title(title)

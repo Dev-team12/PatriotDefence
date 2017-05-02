@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import defencer.controller.PremierLeagueController;
 import defencer.controller.update.UpdateProjectController;
+import defencer.data.ControllersDataFactory;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
@@ -21,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -88,8 +90,6 @@ public class ProjectController implements Initializable {
 
         btnDelete.setOnAction(e -> deleteProject());
 
-        btnEdit.setOnAction(this::editProject);
-
         table.setOnMouseClicked(e -> {
             if (e.getClickCount() >= 2) {
                 // todo edit project
@@ -100,6 +100,12 @@ public class ProjectController implements Initializable {
         btnUpdate.setOnMouseClicked(e -> loadProjects());
 
         btnFind.setOnAction(e -> search());
+
+        table.setOnMouseClicked(event -> {
+            if (event.getClickCount() >= 2) {
+                editProject(event);
+            }
+        });
     }
 
     /**
@@ -168,6 +174,8 @@ public class ProjectController implements Initializable {
         dateFind.setValue(null);
         observableProjects.addAll(getProject());
         table.setItems(observableProjects);
+
+        ControllersDataFactory.getLink().delete(CalendarController.class);
     }
 
     /**
@@ -184,13 +192,17 @@ public class ProjectController implements Initializable {
         scene.getStylesheets().add("css/main.css");
         stage.setScene(scene);
         stage.show();
+
+        stage.setOnHiding(event1 -> {
+            loadProjects();
+        });
     }
 
     /**
      * Opens page for editing selected parameters.
      */
     @SneakyThrows
-    private void editProject(ActionEvent event) {
+    private void editProject(MouseEvent event) {
         final Project project = table.getSelectionModel().getSelectedItem();
         if (project == null) {
             NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);
@@ -210,6 +222,10 @@ public class ProjectController implements Initializable {
         Window window = ((Node) event.getSource()).getScene().getWindow();
         stage.initOwner(window);
         stage.show();
+
+        stage.setOnHiding(event1 -> {
+            loadProjects();
+        });
     }
 
     /**
@@ -236,7 +252,7 @@ public class ProjectController implements Initializable {
             observableProjects.clear();
             loadProjects();
         } catch (Exception e) {
-            NotificationUtil.errornAlert("Error", "Can't delete", NotificationUtil.SHORT);
+            NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }
     }
 
