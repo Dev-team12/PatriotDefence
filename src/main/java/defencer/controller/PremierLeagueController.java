@@ -5,6 +5,7 @@ import defencer.data.CurrentUser;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
+import defencer.service.impl.EmailServiceImpl;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
@@ -21,8 +23,10 @@ import javafx.scene.text.Text;
 import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * @author Igor Gnes on 4/22/17.
@@ -70,9 +74,9 @@ public class PremierLeagueController implements Initializable {
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
     private List<Instructor> freeInstructors;
+    private Set<Instructor> instructorSet = new HashSet<>();
+    private Project project;
     private int counter;
-    private Long projectId;
-    private final int day = 3;
     private final int sleepFirst = 970;
     private final int sleep = 300;
 
@@ -102,11 +106,16 @@ public class PremierLeagueController implements Initializable {
      */
     private void finish(List<Instructor> instructors) {
 
+        final StringBuffer stringBuffer = new StringBuffer();
+        instructors.forEach(s -> stringBuffer.append(s.getFirstLastName()).append(" "));
         Runnable runnable = () -> instructors.forEach(s -> {
-            s.setProjectId(projectId);
+            s.setProjectId(project.getId());
             s.setStatus("EXPECTED");
+            project.setInstructors(stringBuffer.toString());
             try {
                 ServiceFactory.getInstructorService().updateEntity(s);
+                ServiceFactory.getProjectService().updateEntity(project);
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -121,6 +130,13 @@ public class PremierLeagueController implements Initializable {
         }
         CurrentUser.refresh(CurrentUser.getLink().getEmail());
         NotificationUtil.informationAlert("Success", "Added", NotificationUtil.SHORT);
+
+        final Thread email = new Thread(mailSender(instructors));
+        email.start();
+    }
+
+    private Runnable mailSender(List<Instructor> instructors) {
+        return () -> instructors.forEach(s -> new EmailServiceImpl().simpleMailMessage(s, project));
     }
 
     /**
@@ -160,29 +176,6 @@ public class PremierLeagueController implements Initializable {
     }
 
     /**
-     * Test value.
-     */
-    private void insertTestValue() {
-        final Instructor instructor = new Instructor();
-        instructor.setFirstName("Igor");
-        instructor.setLastName("Hnes");
-        instructor.setQualification("java");
-        instructor.setPhone("093");
-        instructor.setEmail("joy");
-        instructor.setVideoPath("src/main/resources/video/Igor_hnes.mp4");
-        freeInstructors.add(instructor);
-
-        final Instructor andre = new Instructor();
-        andre.setFirstName("Andre");
-        andre.setLastName("Vyit");
-        andre.setQualification("Android");
-        andre.setPhone("093");
-        andre.setEmail("andre");
-        andre.setVideoPath("src/main/resources/video/Igor_hnes.mp4");
-        freeInstructors.add(andre);
-    }
-
-    /**
      * Delete selected instructor.
      */
     private void deleteSelectedInstructor() {
@@ -195,13 +188,17 @@ public class PremierLeagueController implements Initializable {
      * Load project details.
      */
     public void loadProjectDetails(Project project) {
-        projectId = project.getId();
-        txtProjectName.setText("ProjectName: " + project.getName());
+        this.project = project;
+        txtProjectName.setText("ProjectName: " + project.getNameId());
         txtPlace.setText("Place: " + project.getPlace());
         txtDateStart.setText("DateStart: " + project.getDateStart());
         txtDateFinish.setText("DateFinish: " + project.getDateFinish());
         txtAuthor.setText("Author: " + project.getAuthor());
         txtDescription.setText("Description: " + project.getDescription());
+
+        instructorSet.addAll(getCurrentInstructors(project.getId()));
+        observableInstructors.addAll(instructorSet);
+        tableInstructors.setItems(observableInstructors);
     }
 
     /**
@@ -215,7 +212,9 @@ public class PremierLeagueController implements Initializable {
      * Add instructor in table.
      */
     private void addInstructor() {
-        observableInstructors.addAll(freeInstructors.get(counter));
+        instructorSet.add(freeInstructors.get(counter));
+        observableInstructors.clear();
+        observableInstructors.addAll(instructorSet);
         tableInstructors.setItems(observableInstructors);
     }
 
@@ -270,11 +269,15 @@ public class PremierLeagueController implements Initializable {
         if (path == null) {
             return;
         }
-        final String absolutePath = new File(path).getAbsolutePath();
-        final Media media = new Media(new File(absolutePath).toURI().toString());
-        final MediaPlayer mediaPlayer = new MediaPlayer(media);
-        leagueInstructors.setMediaPlayer(mediaPlayer);
-        mediaPlayer.setAutoPlay(true);
+        try {
+            final String absolutePath = new File(path).getAbsolutePath();
+            final Media media = new Media(new File(absolutePath).toURI().toString());
+            final MediaPlayer mediaPlayer = new MediaPlayer(media);
+            leagueInstructors.setMediaPlayer(mediaPlayer);
+            mediaPlayer.setAutoPlay(true);
+        } catch (MediaException e) {
+            //NON
+        }
     }
 
     /**
@@ -293,5 +296,12 @@ public class PremierLeagueController implements Initializable {
      */
     private List<Instructor> getFreeInstructors() {
         return ServiceFactory.getWiseacreService().getFreeInstructors();
+    }
+
+    /**
+     * @return list of instructors who were selected before.
+     */
+    private List<Instructor> getCurrentInstructors(Long projectId) {
+        return ServiceFactory.getWiseacreService().getCurrentInstructors(projectId);
     }
 }

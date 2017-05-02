@@ -76,7 +76,7 @@ public class ApprenticeController implements Initializable {
                 .observableArrayList(getProjectName()));
         comboProject.setValue("");
 
-        btnAddOneMore.setOnAction(e -> newApprentice());
+        btnAddOneMore.setOnAction(this::newApprentice);
 
         btnDelete.setOnAction(e -> deleteApprentice());
 
@@ -128,17 +128,21 @@ public class ApprenticeController implements Initializable {
 
     /**
      * Open new page to add one more pupil.
-     *
      * {@link SneakyThrows} here because i am totally sure that path to fxml id correct.
      */
     @SneakyThrows
-    private void newApprentice() {
-        Parent root = FXMLLoader.load(getClass().getResource("/entity/add/NewApprentice.fxml"));
+    private void newApprentice(ActionEvent event) {
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/entity/add/NewApprentice.fxml"));
+        Parent parent = fxmlLoader.load();
+
         final Stage stage = new Stage();
-        stage.setTitle("Patriot Defence");
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add("css/main.css");
-        stage.setScene(scene);
+        Scene value = new Scene(parent);
+        value.getStylesheets().add("css/main.css");
+        stage.setScene(value);
+        stage.initModality(Modality.WINDOW_MODAL);
+        Window window = ((Node) event.getSource()).getScene().getWindow();
+        stage.initOwner(window);
         stage.show();
 
         stage.setOnHiding(event1 -> {
@@ -192,7 +196,6 @@ public class ApprenticeController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select apprentice firstly", NotificationUtil.SHORT);
             return;
         }
-        apprentice.setDateOfAdded(apprentice.getDateOfAdded().plusDays(1));
         try {
             ServiceFactory.getApprenticeService().deleteEntity(apprentice);
             observableApprentices.clear();

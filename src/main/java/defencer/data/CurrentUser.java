@@ -20,16 +20,12 @@ public class CurrentUser extends AbstractEntity {
 
     private CurrentUser() {
         data = new HashMap<>();
-//        data.put("id", id);
     }
 
     /**
      * Creating new instance of user.
      */
     public static CurrentUser newInstance(String email) {
-//        if (currentUser != null) {
-//            currentUser.data = null;
-//        }
         currentUser = new CurrentUser();
         currentUser.downloadData(email);
         return currentUser;

@@ -107,4 +107,16 @@ public interface WiseacreService {
      * @throws SQLException if can't update.
      */
     void updateCurrentUser(Long userId, String status) throws SQLException;
+
+    /**
+     * @param projectId is project's id.
+     * @return list of instructors who were selected before.
+     */
+    List<Instructor> getCurrentInstructors(Long projectId);
+
+    /**
+     * Delete instructor who was selected before.
+     * @param instructorId id instructor's id.
+     */
+    void deleteSelectedInstructors(Long instructorId);
 }

@@ -9,8 +9,8 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0"
             prefWidth="1056.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="defencer.controller.entity.InstructorController">
-    <TableView fx:id="table" layoutY="42.0" prefHeight="437.0" prefWidth="1056.0" AnchorPane.bottomAnchor="0.0"
-               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="42.0">
+    <TableView fx:id="table" layoutY="38.0" prefHeight="441.0" prefWidth="1056.0" AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="38.0">
         <columns>
             <TableColumn fx:id="firstName" prefWidth="137.0" text="First name"/>
             <TableColumn fx:id="lastName" prefWidth="146.0" text="Last name"/>
@@ -24,14 +24,14 @@
          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
     </TableView>
-    <JFXButton fx:id="btnDelete" layoutX="183.0" layoutY="7.0" prefHeight="27.0" prefWidth="74.0"
-               styleClass="button-try-now" text="Delete" AnchorPane.leftAnchor="94.0"/>
-    <JFXButton fx:id="btnEdit" layoutX="91.0" layoutY="7.0" prefHeight="27.0" prefWidth="74.0"
-               styleClass="button-try-now" text="Edit" AnchorPane.leftAnchor="4.0"/>
-    <JFXButton fx:id="btnAddOneMore" layoutX="181.0" layoutY="9.0" prefHeight="27.0" prefWidth="74.0"
-               styleClass="button-try-now" text="Add" AnchorPane.leftAnchor="181.0"/>
-    <ImageViewButton fx:id="btnUpdate" fitHeight="33.0" fitWidth="34.0" layoutX="282.0" layoutY="4.0"
-                     AnchorPane.leftAnchor="282.0">
+    <JFXButton fx:id="btnDelete" layoutX="616.0" layoutY="7.0" prefHeight="27.0" prefWidth="74.0"
+               styleClass="button-try-now" text="Delete" AnchorPane.leftAnchor="616.0"/>
+    <JFXButton fx:id="btnEdit" layoutX="526.0" layoutY="7.0" prefHeight="27.0" prefWidth="74.0"
+               styleClass="button-try-now" text="Edit" AnchorPane.leftAnchor="526.0"/>
+    <JFXButton fx:id="btnAddOneMore" layoutX="429.0" layoutY="7.0" prefHeight="27.0" prefWidth="74.0"
+               styleClass="button-try-now" text="Add" AnchorPane.leftAnchor="429.0"/>
+    <ImageViewButton fx:id="btnUpdate" fitHeight="33.0" fitWidth="34.0" layoutX="715.0" layoutY="4.0"
+                     AnchorPane.leftAnchor="715.0">
         <Image url="/image/refresh.png"/>
     </ImageViewButton>
 </AnchorPane>

@@ -86,9 +86,11 @@ public class ProjectController implements Initializable {
                 .observableArrayList(getProjectName()));
         comboProject.setValue("");
 
-        btnAddOneMore.setOnAction(e -> newProject());
+        btnAddOneMore.setOnAction(this::newProject);
 
         btnDelete.setOnAction(e -> deleteProject());
+
+        btnEdit.setOnAction(this::editProject);
 
         table.setOnMouseClicked(e -> {
             if (e.getClickCount() >= 2) {
@@ -100,6 +102,8 @@ public class ProjectController implements Initializable {
         btnUpdate.setOnMouseClicked(e -> loadProjects());
 
         btnFind.setOnAction(e -> search());
+
+        btnEditInstructors.setOnAction(this::editInstructors);
 
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
@@ -184,13 +188,19 @@ public class ProjectController implements Initializable {
      * {@link SneakyThrows} here because i am totally sure that path to fxml is correct.
      */
     @SneakyThrows
-    private void newProject() {
-        Parent root = FXMLLoader.load(getClass().getResource("/entity/add/NewProject.fxml"));
-        Stage stage = new Stage();
-        stage.setTitle("Patriot Defence");
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add("css/main.css");
-        stage.setScene(scene);
+    private void newProject(ActionEvent event) {
+
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/entity/add/NewProject.fxml"));
+        Parent parent = fxmlLoader.load();
+
+        final Stage stage = new Stage();
+        Scene value = new Scene(parent);
+        value.getStylesheets().add("css/main.css");
+        stage.setScene(value);
+        stage.initModality(Modality.WINDOW_MODAL);
+        Window window = ((Node) event.getSource()).getScene().getWindow();
+        stage.initOwner(window);
         stage.show();
 
         stage.setOnHiding(event1 -> {
@@ -229,6 +239,32 @@ public class ProjectController implements Initializable {
     }
 
     /**
+     * Edit instructors selected before.
+     */
+    @SneakyThrows
+    private void editInstructors(ActionEvent event) {
+        final Project project = table.getSelectionModel().getSelectedItem();
+        if (project == null) {
+            NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);
+            return;
+        }
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/entity/EditInstructorList.fxml"));
+        final Parent parent = fxmlLoader.load();
+        EditInstructorListController editInstructorListController = fxmlLoader.getController();
+        editInstructorListController.loadInstructors(project);
+        final Stage stage = new Stage();
+        stage.setTitle("Patriot Defence");
+        Scene value = new Scene(parent);
+        value.getStylesheets().add("css/main.css");
+        stage.setScene(value);
+        stage.initModality(Modality.WINDOW_MODAL);
+        Window window = ((Node) event.getSource()).getScene().getWindow();
+        stage.initOwner(window);
+        stage.show();
+    }
+
+    /**
      * @return list of project for last months.
      */
     private List<Project> getProject() {
@@ -245,14 +281,11 @@ public class ProjectController implements Initializable {
             return;
         }
         try {
-            project.setDateOfCreation(project.getDateOfCreation().plusDays(1));
-            project.setDateStart(project.getDateStart().plusDays(1));
-            project.setDateFinish(project.getDateFinish().plusDays(1));
             ServiceFactory.getProjectService().deleteEntity(project);
             observableProjects.clear();
             loadProjects();
         } catch (Exception e) {
-            NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
+            NotificationUtil.errornAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }
     }
 

@@ -166,4 +166,25 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
         workDay.setWorkDays(ChronoUnit.DAYS.between(projectDateStart, projectDateFinish));
         super.createEntity(workDay);
     }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public List<Instructor> getCurrentInstructors(Long projectId) {
+        try {
+            return DaoFactory.getWiseacreDao().getCurrentInstructors(projectId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void deleteSelectedInstructors(Long instructorId) {
+        DaoFactory.getWiseacreDao().deleteSelectedInstructors(instructorId);
+    }
 }

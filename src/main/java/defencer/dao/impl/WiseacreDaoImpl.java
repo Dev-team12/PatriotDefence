@@ -67,8 +67,7 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         final CriteriaQuery<Instructor> criteriaQuery = criteriaBuilder.createQuery(Instructor.class);
         final Root<Instructor> root = criteriaQuery.from(Instructor.class);
-        criteriaQuery.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"), root.get("qualification"),
-                root.get("phone"), root.get("email"), root.get("videoPath"))
+        criteriaQuery.select(root)
                 .where(criteriaBuilder.equal(root.get("status"), "FREE"));
         final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
         session.getTransaction().commit();
@@ -119,7 +118,7 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         val criteriaBuilder = session.getCriteriaBuilder();
         final CriteriaQuery<Instructor> criteriaQuery = criteriaBuilder.createQuery(Instructor.class);
         final Root<Instructor> root = criteriaQuery.from(Instructor.class);
-        criteriaQuery.multiselect(root.get("id"), root.get("firstName"))
+        criteriaQuery.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"))
                 .where(criteriaBuilder.isNotNull(root.get("projectId")));
         final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
 
@@ -283,6 +282,46 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
                     .where(criteriaBuilder.equal(root.get("id"), userId));
         }
         session.createQuery(criteriaUpdate).executeUpdate();
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public List<Instructor> getCurrentInstructors(Long projectId) throws SQLException {
+        final Session session = getCurrentSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        final CriteriaQuery<Instructor> criteriaBuilderQuery = criteriaBuilder.createQuery(Instructor.class);
+        final Root<Instructor> root = criteriaBuilderQuery.from(Instructor.class);
+        criteriaBuilderQuery.select(root)
+                .where(criteriaBuilder.equal(root.get("projectId"), projectId));
+        final List<Instructor> instructors = session.createQuery(criteriaBuilderQuery).getResultList();
+
+        session.getTransaction().commit();
+        session.close();
+
+        return instructors;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void deleteSelectedInstructors(Long instructorId) {
+        final Session session = getCurrentSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val criteriaUpdateQuery = criteriaBuilder.createCriteriaUpdate(Instructor.class);
+        final Root<Instructor> root = criteriaUpdateQuery.from(Instructor.class);
+        criteriaUpdateQuery.set(root.get("status"), "FREE").set(root.get("projectId"), -1)
+                .where(criteriaBuilder.equal(root.get("id"), instructorId));
+        session.createQuery(criteriaUpdateQuery).executeUpdate();
+
         session.getTransaction().commit();
         session.close();
     }

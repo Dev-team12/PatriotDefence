@@ -37,6 +37,8 @@ public class Project extends AbstractEntity implements Serializable {
     private String author;
     @Column(name = "description", nullable = false)
     private String description;
+    @Column(name = "instructors")
+    private String instructors;
 
     public Project(Long id, String name) {
         this.id = id;
@@ -46,7 +48,5 @@ public class Project extends AbstractEntity implements Serializable {
     public String getNameId() {
         return "# " + getId() + " " + getName();
     }
-
-
 }
 
