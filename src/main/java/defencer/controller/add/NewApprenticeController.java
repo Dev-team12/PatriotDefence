@@ -77,7 +77,7 @@ public class NewApprenticeController implements Initializable {
             apprentice.setPhone(phone.getText());
             apprentice.setOccupation(occupation.getText());
             apprentice.setProjectName(projectName.getValue());
-            apprentice.setDateOfAdded(LocalDate.now().plusDays(1));
+            apprentice.setDateOfAdded(LocalDate.now());
             create(apprentice);
             root.getScene().getWindow().hide();
 

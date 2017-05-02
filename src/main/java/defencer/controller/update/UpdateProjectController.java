@@ -62,8 +62,8 @@ public class UpdateProjectController implements Initializable {
     private void prepareUpdating() {
         final Project project = new Project();
         project.setName(projectName.getValue());
-        project.setDateStart(dataFrom.getValue().plusDays(1));
-        project.setDateFinish(dataTo.getValue().plusDays(1));
+        project.setDateStart(dataFrom.getValue());
+        project.setDateFinish(dataTo.getValue());
         project.setPlace(place.getText());
         project.setDescription(description.getText());
         project.setAuthor(CurrentUser.getLink().getFirstName());
@@ -83,7 +83,7 @@ public class UpdateProjectController implements Initializable {
         dataFrom.setValue(project.getDateStart());
         dataTo.setValue(project.getDateFinish());
         projectId = project.getId();
-        localDate = project.getDateOfCreation().plusDays(1);
+        localDate = project.getDateOfCreation();
     }
 
     /**

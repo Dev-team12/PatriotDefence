@@ -64,7 +64,7 @@ public class EmailServiceImpl implements EmailService {
                 + "\n"
                 + "Have a nice day -)"
                 + "\n"
-                + "Your Patriot Defence";
+                + "Your Patriot Defence!!!";
     }
 
     @Override

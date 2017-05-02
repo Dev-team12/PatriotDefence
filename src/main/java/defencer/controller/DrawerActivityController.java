@@ -110,7 +110,7 @@ public class DrawerActivityController implements Initializable {
 
             case "calendarButton":
                 try {
-                    newPane = FXMLLoader.load(getClass().getResource("/entity/Calendar.fxml"));
+                    newPane = FXMLLoader.load(getClass().getResource("/Calendar.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -69,11 +69,11 @@ public class ProjectController implements Initializable {
     @FXML
     private JFXButton btnDelete;
     @FXML
-    private JFXButton btnEdit;
-    @FXML
     private ImageViewButton btnUpdate;
     @FXML
     private JFXDatePicker dateFind;
+    @FXML
+    public JFXButton btnEditInstructors;
 
     private ObservableList<Project> observableProjects = FXCollections.observableArrayList();
     private static final Long DEFAULT_PERIOD = 30L;
@@ -90,13 +90,6 @@ public class ProjectController implements Initializable {
 
         btnDelete.setOnAction(e -> deleteProject());
 
-        btnEdit.setOnAction(this::editProject);
-
-        table.setOnMouseClicked(e -> {
-            if (e.getClickCount() >= 2) {
-                // todo edit project
-            }
-        });
         btnAddInstructor.setOnAction(this::premierLeague);
 
         btnUpdate.setOnMouseClicked(e -> loadProjects());
@@ -203,9 +196,7 @@ public class ProjectController implements Initializable {
         stage.initOwner(window);
         stage.show();
 
-        stage.setOnHiding(event1 -> {
-            loadProjects();
-        });
+        stage.setOnHiding(e -> loadProjects());
     }
 
     /**
@@ -233,9 +224,7 @@ public class ProjectController implements Initializable {
         stage.initOwner(window);
         stage.show();
 
-        stage.setOnHiding(event1 -> {
-            loadProjects();
-        });
+        stage.setOnHiding(e -> loadProjects());
     }
 
     /**
@@ -262,6 +251,9 @@ public class ProjectController implements Initializable {
         Window window = ((Node) event.getSource()).getScene().getWindow();
         stage.initOwner(window);
         stage.show();
+
+        stage.setOnHiding(e -> loadProjects());
+
     }
 
     /**
@@ -285,7 +277,7 @@ public class ProjectController implements Initializable {
             observableProjects.clear();
             loadProjects();
         } catch (Exception e) {
-            NotificationUtil.errornAlert("Error", "Can't delete", NotificationUtil.SHORT);
+            NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }
     }
 

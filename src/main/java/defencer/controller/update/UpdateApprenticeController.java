@@ -64,7 +64,7 @@ public class UpdateApprenticeController implements Initializable {
         apprentice.setOccupation(occupation.getText());
         apprentice.setProjectName(projectName.getValue());
         apprentice.setId(apprenticeId);
-        apprentice.setDateOfAdded(localDate.plusDays(1));
+        apprentice.setDateOfAdded(localDate);
         update(apprentice);
         root.getScene().getWindow().hide();
     }
