@@ -32,7 +32,7 @@
          </AnchorPane>
       </left>
       <center>
-         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Patriot Defencer"
+         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Patriot Defence"
                BorderPane.alignment="CENTER">
             <font>
                <Font size="32.0"/>

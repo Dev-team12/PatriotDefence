@@ -14,7 +14,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @AllArgsConstructor
-@ToString
 @org.hibernate.annotations.Entity(optimisticLock = OptimisticLockType.DIRTY, dynamicUpdate = true)
 @Table(name = "instructor")
 public class Instructor extends AbstractEntity implements Serializable {
@@ -44,9 +43,10 @@ public class Instructor extends AbstractEntity implements Serializable {
     @Column(name = "video_path")
     private String videoPath;
 
-    public Instructor(Long id, String firstName) {
+    public Instructor(Long id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public Instructor(Long id, String firstName, String lastName, String qualification, String role, String phone, String status, String email) {
@@ -60,13 +60,18 @@ public class Instructor extends AbstractEntity implements Serializable {
         this.email = email;
     }
 
-    public Instructor(Long id, String firstName, String lastName, String qualification, String phone, String email, String videoPath) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.qualification = qualification;
-        this.phone = phone;
-        this.videoPath = videoPath;
-        this.email = email;
+//    public Instructor(Long id, String firstName, String lastName, String qualification, String phone, String email, String videoPath, String) {
+//        this.id = id;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.qualification = qualification;
+//        this.phone = phone;
+//        this.videoPath = videoPath;
+//        this.email = email;
+//        this.role = role;
+//    }
+
+    public String getFirstLastName() {
+        return getFirstName() + " " + getLastName();
     }
 }

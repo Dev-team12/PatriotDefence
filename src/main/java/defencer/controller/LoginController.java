@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
+import lombok.val;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -44,13 +45,18 @@ public class LoginController implements Initializable {
      */
     private void login() {
         try {
-            CurrentUser.newInstance(txtUserEmail.getText());
+            val thread = new Thread(setCurrentUser());
+            thread.start();
         } catch (NoResultException e) {
             NotificationUtil.warningAlert("Wrong", "user not found", NotificationUtil.SHORT);
             return;
         }
         rootLogin.getScene().getWindow().hide();
         authorization();
+    }
+
+    private Runnable setCurrentUser() {
+        return () -> CurrentUser.newInstance(txtUserEmail.getText());
     }
 
     /**

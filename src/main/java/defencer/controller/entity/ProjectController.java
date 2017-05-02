@@ -72,6 +72,8 @@ public class ProjectController implements Initializable {
     private ImageViewButton btnUpdate;
     @FXML
     private JFXDatePicker dateFind;
+    @FXML
+    private JFXButton btnEditInstructors;
 
     private ObservableList<Project> observableProjects = FXCollections.observableArrayList();
     private static final Long DEFAULT_PERIOD = 30L;
@@ -84,7 +86,7 @@ public class ProjectController implements Initializable {
                 .observableArrayList(getProjectName()));
         comboProject.setValue("");
 
-        btnAddOneMore.setOnAction(e -> newProject());
+        btnAddOneMore.setOnAction(this::newProject);
 
         btnDelete.setOnAction(e -> deleteProject());
 
@@ -100,6 +102,8 @@ public class ProjectController implements Initializable {
         btnUpdate.setOnMouseClicked(e -> loadProjects());
 
         btnFind.setOnAction(e -> search());
+
+        btnEditInstructors.setOnAction(this::editInstructors);
     }
 
     /**
@@ -176,13 +180,19 @@ public class ProjectController implements Initializable {
      * {@link SneakyThrows} here because i am totally sure that path to fxml is correct.
      */
     @SneakyThrows
-    private void newProject() {
-        Parent root = FXMLLoader.load(getClass().getResource("/entity/add/NewProject.fxml"));
-        Stage stage = new Stage();
-        stage.setTitle("Patriot Defence");
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add("css/main.css");
-        stage.setScene(scene);
+    private void newProject(ActionEvent event) {
+
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/entity/add/NewProject.fxml"));
+        Parent parent = fxmlLoader.load();
+
+        final Stage stage = new Stage();
+        Scene value = new Scene(parent);
+        value.getStylesheets().add("css/main.css");
+        stage.setScene(value);
+        stage.initModality(Modality.WINDOW_MODAL);
+        Window window = ((Node) event.getSource()).getScene().getWindow();
+        stage.initOwner(window);
         stage.show();
     }
 
@@ -213,6 +223,32 @@ public class ProjectController implements Initializable {
     }
 
     /**
+     * Edit instructors selected before.
+     */
+    @SneakyThrows
+    private void editInstructors(ActionEvent event) {
+        final Project project = table.getSelectionModel().getSelectedItem();
+        if (project == null) {
+            NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);
+            return;
+        }
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/entity/EditInstructorList.fxml"));
+        final Parent parent = fxmlLoader.load();
+        EditInstructorListController editInstructorListController = fxmlLoader.getController();
+        editInstructorListController.loadInstructors(project);
+        final Stage stage = new Stage();
+        stage.setTitle("Patriot Defence");
+        Scene value = new Scene(parent);
+        value.getStylesheets().add("css/main.css");
+        stage.setScene(value);
+        stage.initModality(Modality.WINDOW_MODAL);
+        Window window = ((Node) event.getSource()).getScene().getWindow();
+        stage.initOwner(window);
+        stage.show();
+    }
+
+    /**
      * @return list of project for last months.
      */
     private List<Project> getProject() {
@@ -229,9 +265,6 @@ public class ProjectController implements Initializable {
             return;
         }
         try {
-            project.setDateOfCreation(project.getDateOfCreation().plusDays(1));
-            project.setDateStart(project.getDateStart().plusDays(1));
-            project.setDateFinish(project.getDateFinish().plusDays(1));
             ServiceFactory.getProjectService().deleteEntity(project);
             observableProjects.clear();
             loadProjects();

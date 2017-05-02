@@ -67,7 +67,7 @@ public class InstructorController implements Initializable {
 
         loadInstructors();
 
-        btnAddOneMore.setOnAction(e -> newInstructor());
+        btnAddOneMore.setOnAction(this::newInstructor);
 
         btnEdit.setOnAction(this::editInstructor);
 
@@ -156,13 +156,18 @@ public class InstructorController implements Initializable {
      * {@link SneakyThrows} here because i am totally sure that path to fxml is correct.
      */
     @SneakyThrows
-    private void newInstructor() {
-        Parent root = FXMLLoader.load(getClass().getResource("/entity/add/NewInstructor.fxml"));
+    private void newInstructor(ActionEvent event) {
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/entity/add/NewInstructor.fxml"));
+        Parent parent = fxmlLoader.load();
+
         final Stage stage = new Stage();
-        stage.setTitle("Patriot Defence");
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add("css/main.css");
-        stage.setScene(scene);
+        Scene value = new Scene(parent);
+        value.getStylesheets().add("css/main.css");
+        stage.setScene(value);
+        stage.initModality(Modality.WINDOW_MODAL);
+        Window window = ((Node) event.getSource()).getScene().getWindow();
+        stage.initOwner(window);
         stage.show();
     }
 }
