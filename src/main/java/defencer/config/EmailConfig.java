@@ -1,0 +1,36 @@
+package defencer.config;
+
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
+/**
+ * @author Igor Gnes on 5/2/17.
+ */
+public class EmailConfig {
+
+    private static final Integer PORT = 587;
+
+    /**
+     * @return configured {@link JavaMailSenderImpl}.
+     */
+    public JavaMailSenderImpl mailSender() {
+
+        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+
+        javaMailSender.setHost("smtp.gmail.com");
+        javaMailSender.setPort(PORT);
+        javaMailSender.setUsername("ncmailsender");
+        javaMailSender.setPassword("mailsender");
+        javaMailSender.getJavaMailProperties().setProperty("mail.smtp.auth", "true");
+        javaMailSender.getJavaMailProperties().setProperty("mail.smtp.starttls.enable", "true");
+
+        /*final SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("ncmailsender@gmail.com");
+        message.setTo("joyukr@ukr.net");
+        message.setText("test");
+
+
+        javaMailSender.send(message);*/
+
+        return javaMailSender;
+    }
+}
