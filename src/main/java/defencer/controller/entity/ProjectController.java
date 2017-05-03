@@ -73,7 +73,7 @@ public class ProjectController implements Initializable {
     @FXML
     private JFXDatePicker dateFind;
     @FXML
-    public JFXButton btnEditInstructors;
+    private JFXButton btnEditInstructors;
 
     private ObservableList<Project> observableProjects = FXCollections.observableArrayList();
     private static final Long DEFAULT_PERIOD = 30L;
