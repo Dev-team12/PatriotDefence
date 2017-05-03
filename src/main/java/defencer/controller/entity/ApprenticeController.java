@@ -59,8 +59,6 @@ public class ApprenticeController implements Initializable {
     @FXML
     private JFXButton btnDelete;
     @FXML
-    private JFXButton btnEdit;
-    @FXML
     private ImageViewButton btnUpdate;
     @FXML
     private JFXDatePicker datePeriod;
