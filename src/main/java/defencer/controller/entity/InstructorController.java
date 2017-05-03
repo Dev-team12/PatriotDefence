@@ -56,8 +56,6 @@ public class InstructorController implements Initializable {
     @FXML
     private JFXButton btnDelete;
     @FXML
-    private JFXButton btnEdit;
-    @FXML
     private ImageViewButton btnUpdate;
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
@@ -106,9 +104,7 @@ public class InstructorController implements Initializable {
         stage.initOwner(window);
         stage.show();
 
-        stage.setOnHiding(event1 -> {
-            loadInstructors();
-        });
+        stage.setOnHiding(e -> loadInstructors());
     }
 
     /**
@@ -181,8 +177,6 @@ public class InstructorController implements Initializable {
         stage.initOwner(window);
         stage.show();
 
-        stage.setOnHiding(event1 -> {
-            loadInstructors();
-        });
+        stage.setOnHiding(e -> loadInstructors());
     }
 }

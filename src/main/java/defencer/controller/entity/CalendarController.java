@@ -97,7 +97,7 @@ public class CalendarController implements Initializable {
                     new Agenda.AppointmentImplLocal()
                             .withStartLocalDateTime(LocalDateTime.of(start, timeStart))
                             .withEndLocalDateTime(LocalDateTime.of(end, timeEnd))
-                            .withSummary(project.getName())
+                            .withSummary(project.getNameId())
                             .withWholeDay(true)
                             .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group" + new Random().nextInt(COUNT_OF_GROUPS))) // you should use a map of AppointmentGroups
             );
