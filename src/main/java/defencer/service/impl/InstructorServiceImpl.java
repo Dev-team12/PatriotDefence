@@ -11,7 +11,6 @@ import defencer.service.InstructorService;
 import defencer.service.factory.ServiceFactory;
 import defencer.service.impl.email.ConfirmBuilderImpl;
 import defencer.service.impl.email.InviteProjectBuilderImpl;
-import defencer.util.NotificationUtil;
 import lombok.val;
 import org.apache.commons.lang.RandomStringUtils;
 
@@ -74,12 +73,9 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      */
     @Override
     public void configureProject(List<Instructor> instructors, Project project) {
-        final StringBuffer stringBuffer = new StringBuffer();
-        instructors.forEach(s -> stringBuffer.append(s.getFirstLastName()).append(" "));
         Runnable runnable = () -> instructors.forEach(s -> {
             s.setProjectId(project.getId());
             s.setStatus("EXPECTED");
-            project.setInstructors(stringBuffer.toString());
             try {
                 ServiceFactory.getInstructorService().updateEntity(s);
                 ServiceFactory.getProjectService().updateEntity(project);
@@ -96,7 +92,6 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
             e.printStackTrace();
         }
         CurrentUser.refresh(CurrentUser.getLink().getEmail());
-        NotificationUtil.informationAlert("Success", "Added", NotificationUtil.SHORT);
 
         final Thread email = new Thread(mailSender(instructors, project));
         email.start();

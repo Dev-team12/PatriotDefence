@@ -45,13 +45,13 @@ public class ProjectReportBuilder {
      */
     private PdfPTable getTableWithCountRequestsByPeriod(List<Project> projects) throws DocumentException {
 
-        final int tableColumnNum = 6;
+        final int tableColumnNum = 7;
         final int colorR = 185;
         final int colorG = 247;
         final int colorB = 166;
         PdfPTable table = new PdfPTableBuilder(tableColumnNum, DEFAULT_TABLE_WIDTH, DEFAULT_TABLE_SPACING)
                 .addPdfPCells(new BaseColor(colorR, colorG, colorB), getFont(HELVETICA_BOLD),
-                        "Project name", "Place", "Start Date", "Finish Date", "Author", "Created")
+                        "Project name", "Place", "Start Date", "Finish Date", "Instructors", "Author", "Created")
                 .build();
         projects
                 .forEach(s -> {
@@ -59,6 +59,7 @@ public class ProjectReportBuilder {
                     table.addCell(s.getPlace());
                     table.addCell(s.getDateStart().toString());
                     table.addCell(s.getDateFinish().toString());
+                    table.addCell(s.getInstructors());
                     table.addCell(s.getAuthor());
                     table.addCell(s.getDateOfCreation().toString());
                 });

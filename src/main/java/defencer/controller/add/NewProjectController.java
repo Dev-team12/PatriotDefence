@@ -73,7 +73,7 @@ public class NewProjectController implements Initializable {
             project.setDateFinish(dataTo.getValue());
             project.setPlace(place.getText());
             project.setDescription(description.getText());
-            project.setAuthor(CurrentUser.getLink().getFirstName());
+            project.setAuthor(CurrentUser.getLink().getFirstName() + " " + CurrentUser.getLink().getLastName());
             project.setDateOfCreation(LocalDate.now());
             create(project);
             root.getScene().getWindow().hide();

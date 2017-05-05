@@ -49,6 +49,13 @@ public class Instructor extends AbstractEntity implements Serializable {
         this.lastName = lastName;
     }
 
+    public Instructor(Long id, String firstName, String lastName, Long projectId) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.projectId = projectId;
+    }
+
     public Instructor(Long id, String firstName, String lastName, String qualification, String role, String phone, String status, String email) {
         this.id = id;
         this.firstName = firstName;
@@ -61,6 +68,6 @@ public class Instructor extends AbstractEntity implements Serializable {
     }
 
     public String getFirstLastName() {
-        return getFirstName() + " " + getLastName();
+        return getFirstName() + " " + getLastName() + " ";
     }
 }

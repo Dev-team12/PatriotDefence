@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
@@ -30,6 +31,8 @@ import java.util.Set;
  */
 public class PremierLeagueController implements Initializable {
 
+    @FXML
+    private AnchorPane root;
     @FXML
     private Text txtProjectName;
     @FXML
@@ -95,6 +98,7 @@ public class PremierLeagueController implements Initializable {
      */
     private void finish() {
         ServiceFactory.getInstructorService().configureProject(tableInstructors.getItems(), project);
+        root.getScene().getWindow().hide();
     }
 
     /**
@@ -233,6 +237,7 @@ public class PremierLeagueController implements Initializable {
             final MediaPlayer mediaPlayer = new MediaPlayer(media);
             leagueInstructors.setMediaPlayer(mediaPlayer);
             mediaPlayer.setAutoPlay(true);
+            mediaPlayer.setMute(true);
         } catch (MediaException e) {
             //NON
         }
