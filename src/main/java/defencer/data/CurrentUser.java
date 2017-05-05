@@ -4,7 +4,9 @@ import defencer.model.AbstractEntity;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
+import lombok.Getter;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +19,8 @@ public class CurrentUser extends AbstractEntity {
     private static CurrentUser currentUser;
 
     private Map<String, Object> data;
+    @Getter
+    private boolean busy = false;
 
     private CurrentUser() {
         data = new HashMap<>();
@@ -70,10 +74,38 @@ public class CurrentUser extends AbstractEntity {
         data.put("description", projectByInstructor.getDescription());
     }
 
+
+    /**
+     * Save user at database.
+     */
+    public void save() {
+
+        busy = true;
+
+        final Instructor instructor = ServiceFactory.getInstructorService().findByEmail(CurrentUser.getLink().getEmail());
+        instructor.setFirstName((String) data.get("firstName"));
+        instructor.setLastName((String) data.get("lastName"));
+        instructor.setEmail((String) data.get("email"));
+        instructor.setPhone((String) data.get("phoneNumber"));
+
+        System.out.println("firstName:" + data.get("firstName") + ";lastName:" + data.get("lastName")
+                + ";email:" + data.get("email") + ";phoneNumber:" + data.get("phoneNumber"));
+
+        try {
+            ServiceFactory.getInstructorService().updateEntity(instructor);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        busy = false;
+    }
+
+
     public static void refresh(String email) {
         currentUser = null;
         newInstance(email);
     }
+
 
     public static void out() {
         currentUser = null;
@@ -87,16 +119,38 @@ public class CurrentUser extends AbstractEntity {
         return (String) data.get("firstName");
     }
 
+    public CurrentUser withFirstName(String firstName) {
+        data.put("firstName", firstName);
+        return this;
+    }
+
     public String getLastName() {
         return (String) data.get("lastName");
+    }
+
+    public CurrentUser withLastName(String lastName) {
+        data.put("lastName", lastName);
+        return this;
     }
 
     public String getPhoneNumber() {
         return (String) data.get("phoneNumber");
     }
 
+    public CurrentUser withPhoneNumber(String phoneNumber) {
+
+        data.put("phoneNumber", phoneNumber);
+        return this;
+    }
+
     public String getEmail() {
         return (String) data.get("email");
+    }
+
+    public CurrentUser withEmail(String email) {
+
+        data.put("email", email);
+        return this;
     }
 
     public String getStatus() {

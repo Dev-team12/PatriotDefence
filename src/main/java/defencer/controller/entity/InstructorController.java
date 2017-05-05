@@ -1,7 +1,9 @@
 package defencer.controller.entity;
 
 import com.jfoenix.controls.JFXButton;
+import defencer.controller.AskFormController;
 import defencer.controller.update.UpdateInstructorController;
+import defencer.data.ControllersDataFactory;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
@@ -34,6 +36,7 @@ import java.util.ResourceBundle;
  * @author Igor Gnes on 4/6/17.
  */
 public class InstructorController implements Initializable {
+
 
     @FXML
     private TableView<Instructor> table;
@@ -140,11 +143,38 @@ public class InstructorController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select instructor firstly", NotificationUtil.SHORT);
             return;
         }
-        System.out.println(instructor.toString());
+
         try {
-            ServiceFactory.getInstructorService().deleteEntity(instructor);
-            observableInstructors.clear();
-            loadInstructors();
+
+            final FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/askForm.fxml"));
+            final Parent parent = fxmlLoader.load();
+            final Stage stage = new Stage();
+            stage.setTitle("Patriot Defence");
+            Scene value = new Scene(parent);
+            value.getStylesheets().add("css/main.css");
+            stage.setScene(value);
+            stage.initModality(Modality.WINDOW_MODAL);
+            Window window = btnDelete.getScene().getWindow();
+            stage.initOwner(window);
+            stage.show();
+
+            stage.setOnHiding(event -> {
+
+                System.out.println(ControllersDataFactory.getLink().get(AskFormController.class, "isDelete"));
+
+                if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
+
+                    try {
+                        ServiceFactory.getInstructorService().deleteEntity(instructor);
+                        observableInstructors.clear();
+                        loadInstructors();
+                    } catch (Exception e) {
+                        NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
+                    }
+                }
+            });
+
         } catch (Exception e) {
             NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }
@@ -159,7 +189,6 @@ public class InstructorController implements Initializable {
 
     /**
      * Open new page to add one more instructor.
-     *
      * {@link SneakyThrows} here because i am totally sure that path to fxml is correct.
      */
     @SneakyThrows

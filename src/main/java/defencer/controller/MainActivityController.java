@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -41,6 +42,8 @@ public class MainActivityController implements Initializable {
     private JFXButton btbDashboard;
     @FXML
     private JFXButton btnLogout;
+    @FXML
+    private ImageView add;
 
 
     @Override
@@ -48,6 +51,7 @@ public class MainActivityController implements Initializable {
 
         Map<String, Object> data = new HashMap<>();
         data.put("class", this);
+       // data.put("add", add);
 
         if (ControllersDataFactory.getLink().get(this.getClass()) == null) {
             ControllersDataFactory.getLink().add(this.getClass(), data);

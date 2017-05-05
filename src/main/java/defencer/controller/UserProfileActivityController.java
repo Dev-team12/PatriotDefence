@@ -1,8 +1,10 @@
 package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import defencer.data.CurrentUser;
 import defencer.service.factory.ServiceFactory;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -21,19 +23,18 @@ import java.util.ResourceBundle;
  * @author Nikita on 14.04.2017.
  */
 public class UserProfileActivityController implements Initializable {
-
     @FXML
     private AnchorPane dragAndDropArea;
     @FXML
     private ImageView userImage;
     @FXML
-    private Label firstName;
+    private JFXTextField firstName;
     @FXML
-    private Label lastName;
+    private JFXTextField lastName;
     @FXML
-    private Label phone;
+    private JFXTextField phone;
     @FXML
-    private Label email;
+    private JFXTextField email;
     @FXML
     private Label status;
     @FXML
@@ -42,7 +43,6 @@ public class UserProfileActivityController implements Initializable {
     private JFXButton btnYes;
     @FXML
     private JFXButton btnUnfortunatelyNo;
-
     @FXML
     private Label dateStart;
     @FXML
@@ -54,6 +54,15 @@ public class UserProfileActivityController implements Initializable {
     @FXML
     private Label description;
 
+    private JFXTextField currentFocusedElement;
+
+    private Task<Void> currentTask;
+
+    private Task<Void> updatingTask;
+
+    private static final int BUTTON_WAITING = 5000;
+    private static final int HIBERNATE_WAITING = 10000;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -64,6 +73,11 @@ public class UserProfileActivityController implements Initializable {
         btnYes.setOnAction(e -> agree());
 
         btnUnfortunatelyNo.setOnAction(e -> disagree());
+
+        firstName.setOnKeyTyped(event -> inputsInitialization(firstName));
+        lastName.setOnKeyTyped(event -> inputsInitialization(lastName));
+        phone.setOnKeyTyped(event -> inputsInitialization(phone));
+        email.setOnKeyTyped(event -> inputsInitialization(email));
     }
 
     /**
@@ -127,14 +141,7 @@ public class UserProfileActivityController implements Initializable {
      */
     private void dragAndDropInitialization() {
 
-        dragAndDropArea.getChildren().forEach(s -> s.setVisible(true));
-
-        dragAndDropArea.setOnMouseClicked(event -> {
-            System.out.println(event.getClickCount());
-            if (event.getClickCount() >= 2) {
-                System.out.println("DOUBLE CLICK");
-            }
-        });
+        dragAndDropArea.getChildren().forEach(s -> s.setVisible(false));
 
         dragAndDropArea.setOnDragOver(event -> {
             if (event.getDragboard().getFiles().size() == 1) {
@@ -172,5 +179,88 @@ public class UserProfileActivityController implements Initializable {
             }
             event.setDropCompleted(true);
         });
+    }
+
+
+    /**
+     * Inputs initialization.
+     */
+    private void inputsInitialization(JFXTextField textField) {
+
+        if (currentFocusedElement != null && !currentFocusedElement.equals(textField) && currentTask != null) {
+            currentTask.cancel();
+            save(currentFocusedElement);
+        } else if (currentFocusedElement != null && currentFocusedElement.equals(textField) && currentTask != null) {
+            currentTask.cancel();
+        }
+
+        currentFocusedElement = textField;
+
+        currentTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                // System.out.println("5 seconds started");
+                Thread.sleep(BUTTON_WAITING);
+                //System.out.println("5 seconds gone");
+
+                return null;
+            }
+        };
+        new Thread(currentTask).start();
+        currentTask.setOnSucceeded(event1 -> {
+            //System.out.println("saving");
+            save(textField);
+        });
+
+    }
+
+
+    /**
+     * Saving userProfile to database.
+     */
+    private void save(JFXTextField textField) {
+        //System.out.println("saving :" + textField.getId() + " with text :" + textField.getText());
+
+        switch (textField.getId()) {
+            case "firstName":
+                CurrentUser.getLink().withFirstName(textField.getText());
+                break;
+
+            case "lastName":
+                CurrentUser.getLink().withLastName(textField.getText());
+                break;
+
+            case "phone":
+                CurrentUser.getLink().withPhoneNumber(textField.getText());
+                break;
+
+            case "email":
+                CurrentUser.getLink().withEmail(textField.getText());
+                break;
+
+            default:
+                break;
+        }
+
+
+        if (updatingTask != null && !CurrentUser.getLink().isBusy()) {
+            updatingTask.cancel();
+            //System.out.println("canceling last");
+        }
+
+        //System.out.println("new");
+
+        updatingTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                //System.out.println("10 seconds");
+                Thread.sleep(HIBERNATE_WAITING);
+                //System.out.println("!!!SAVING HIBERNATE!!!");
+                CurrentUser.getLink().save();
+                return null;
+            }
+        };
+        new Thread(updatingTask).start();
+        updatingTask.setOnSucceeded(event1 -> updatingTask = null);
     }
 }

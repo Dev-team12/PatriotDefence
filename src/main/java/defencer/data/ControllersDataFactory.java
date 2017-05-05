@@ -58,6 +58,14 @@ public class ControllersDataFactory {
         return controllersData.get(key);
     }
 
+
+    /**
+     * Getting data.
+     */
+    public Object get(Class key, String dataKey) {
+        return controllersData.get(key).get(dataKey);
+    }
+
     /**
      * Getting link.
      */
