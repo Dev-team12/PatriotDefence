@@ -1,10 +1,13 @@
 package defencer.service.impl;
 
-
 import defencer.dao.factory.DaoFactory;
 import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Apprentice;
+import defencer.model.Instructor;
 import defencer.service.ApprenticeService;
+import defencer.service.EmailBuilder;
+import defencer.service.EmailService;
+import defencer.service.impl.email.ConfirmBuilderImpl;
 import lombok.val;
 
 import java.sql.SQLException;
@@ -16,6 +19,9 @@ import java.util.List;
  * @author igor on 06.12.16.
  */
 public class ApprenticeServiceImpl extends CrudServiceImpl<Apprentice> implements ApprenticeService {
+
+    private static EmailBuilder<Instructor> emailBuilder = new ConfirmBuilderImpl();
+    private static EmailService emailService = new EmailServiceImpl();
 
     @Override
     public Apprentice createEntity(Apprentice apprentice) throws SQLException {

@@ -326,6 +326,26 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         session.close();
     }
 
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void setFreeStatusForInstructorsByProjectId(Long projectId) {
+        final Session session = getCurrentSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val criteriaBuilderQuery = criteriaBuilder.createCriteriaUpdate(Instructor.class);
+        final Root<Instructor> root = criteriaBuilderQuery.from(Instructor.class);
+        criteriaBuilderQuery.set(root.get("status"), "FREE").set(root.get("projectId"), -1)
+                .where(criteriaBuilder.equal(root.get("projectId"), projectId));
+        session.createQuery(criteriaBuilderQuery).executeUpdate();
+
+        session.getTransaction().commit();
+        session.close();
+    }
+
     /**
      * @return {@link Session} for next steps.
      */

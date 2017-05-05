@@ -35,4 +35,5 @@
     <ImageViewButton fx:id="btnUpdate" fitHeight="33.0" fitWidth="34.0" layoutX="619.0" layoutY="11.0">
         <Image url="/image/refresh.png"/>
     </ImageViewButton>
+    <JFXButton fx:id="btnPdfExport" styleClass="button-try-now" layoutX="672.0" layoutY="14.0" text="PDF export"/>
 </AnchorPane>

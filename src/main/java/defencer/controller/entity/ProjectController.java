@@ -27,6 +27,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import jfxtras.scene.control.ImageViewButton;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -38,8 +39,11 @@ import java.util.ResourceBundle;
 /**
  * @author Igor Gnes on 4/13/17.
  */
+@RequiredArgsConstructor
 public class ProjectController implements Initializable {
 
+    @FXML
+    private JFXButton btnPdfExport;
     @FXML
     private TableView<Project> table;
     @FXML
@@ -103,6 +107,8 @@ public class ProjectController implements Initializable {
                 editProject(event);
             }
         });
+
+        btnPdfExport.setOnAction(e -> pdfReport());
     }
 
     /**
@@ -147,6 +153,8 @@ public class ProjectController implements Initializable {
         Window window = ((Node) event.getSource()).getScene().getWindow();
         stage.initOwner(window);
         stage.show();
+
+        stage.setOnHiding(e -> loadProjects());
     }
 
     /**
@@ -253,7 +261,6 @@ public class ProjectController implements Initializable {
         stage.show();
 
         stage.setOnHiding(e -> loadProjects());
-
     }
 
     /**
@@ -276,6 +283,7 @@ public class ProjectController implements Initializable {
             ServiceFactory.getProjectService().deleteEntity(project);
             observableProjects.clear();
             loadProjects();
+            ServiceFactory.getWiseacreService().setFreeStatusForInstructorsByProjectId(project.getId());
         } catch (Exception e) {
             NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }
@@ -293,5 +301,14 @@ public class ProjectController implements Initializable {
      */
     private List<Instructor> getFreeInstructors() {
         return ServiceFactory.getWiseacreService().getFreeInstructors();
+    }
+
+    /**
+     * Preparing pdf report for project in table.
+     */
+    @SneakyThrows
+    private void pdfReport() {
+        NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+        ServiceFactory.getPdfService().projectReport(table.getItems());
     }
 }

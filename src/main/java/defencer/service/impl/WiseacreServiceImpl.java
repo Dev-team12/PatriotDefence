@@ -187,4 +187,12 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
     public void deleteSelectedInstructors(Long instructorId) {
         DaoFactory.getWiseacreDao().deleteSelectedInstructors(instructorId);
     }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void setFreeStatusForInstructorsByProjectId(Long projectId) {
+        DaoFactory.getWiseacreDao().setFreeStatusForInstructorsByProjectId(projectId);
+    }
 }

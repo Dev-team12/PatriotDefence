@@ -1,11 +1,19 @@
 package defencer.service.impl;
 
 import defencer.dao.factory.DaoFactory;
+import defencer.data.CurrentUser;
 import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.service.EmailBuilder;
+import defencer.service.EmailService;
 import defencer.service.InstructorService;
+import defencer.service.factory.ServiceFactory;
+import defencer.service.impl.email.ConfirmBuilderImpl;
+import defencer.service.impl.email.InviteProjectBuilderImpl;
+import defencer.util.NotificationUtil;
 import lombok.val;
+import org.apache.commons.lang.RandomStringUtils;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,6 +25,8 @@ import java.util.List;
  */
 public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implements InstructorService {
 
+    private static final int PASSWORD_LENGTH = 12;
+
     /**
      * {@inheritDoc}.
      */
@@ -25,6 +35,13 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
         if (!this.emailAvailable(instructor)) {
             throw new EntityAlreadyExistsException("Supplied email is already taken: " + instructor.getEmail());
         }
+        EmailBuilder<Instructor> emailBuilder = new ConfirmBuilderImpl();
+        val message = emailBuilder.buildMessage(instructor);
+        ServiceFactory.getEmailService().sendMessage(message);
+        val instructorPassword = RandomStringUtils.randomAlphanumeric(PASSWORD_LENGTH);
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        final String encode = encoder.encode(instructorPassword);
+        instructor.setPassword(instructorPassword);
         return super.createEntity(instructor);
     }
 
@@ -50,6 +67,49 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
     @Override
     public List<Instructor> getInstructors() {
         return DaoFactory.getInstructorDao().getInstructors();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void configureProject(List<Instructor> instructors, Project project) {
+        final StringBuffer stringBuffer = new StringBuffer();
+        instructors.forEach(s -> stringBuffer.append(s.getFirstLastName()).append(" "));
+        Runnable runnable = () -> instructors.forEach(s -> {
+            s.setProjectId(project.getId());
+            s.setStatus("EXPECTED");
+            project.setInstructors(stringBuffer.toString());
+            try {
+                ServiceFactory.getInstructorService().updateEntity(s);
+                ServiceFactory.getProjectService().updateEntity(project);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        final Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        CurrentUser.refresh(CurrentUser.getLink().getEmail());
+        NotificationUtil.informationAlert("Success", "Added", NotificationUtil.SHORT);
+
+        final Thread email = new Thread(mailSender(instructors, project));
+        email.start();
+    }
+
+    /**
+     * Send notifications to instructors.
+     */
+    private Runnable mailSender(List<Instructor> instructors, Project project) {
+        EmailBuilder<Instructor> emailBuilder = new InviteProjectBuilderImpl();
+        final EmailService emailService = ServiceFactory.getEmailService();
+        return () -> instructors.forEach(s -> emailService.sendMessage(emailBuilder
+                .buildMessageForProject(s, project)));
     }
 
     /**

@@ -88,7 +88,15 @@ public interface WiseacreDao {
 
     /**
      * Delete instructor who was selected before.
+     *
      * @param instructorId id instructor's id.
      */
     void deleteSelectedInstructors(Long instructorId);
+
+    /**
+     * Set status FREE to instructors if project was deleted.
+     *
+     * @param projectId is project's id.
+     */
+    void setFreeStatusForInstructorsByProjectId(Long projectId);
 }

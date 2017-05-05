@@ -60,17 +60,6 @@ public class Instructor extends AbstractEntity implements Serializable {
         this.email = email;
     }
 
-//    public Instructor(Long id, String firstName, String lastName, String qualification, String phone, String email, String videoPath, String) {
-//        this.id = id;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.qualification = qualification;
-//        this.phone = phone;
-//        this.videoPath = videoPath;
-//        this.email = email;
-//        this.role = role;
-//    }
-
     public String getFirstLastName() {
         return getFirstName() + " " + getLastName();
     }

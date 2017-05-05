@@ -1,13 +1,7 @@
 package defencer.service.factory;
 
-import defencer.service.ApprenticeService;
-import defencer.service.InstructorService;
-import defencer.service.ProjectService;
-import defencer.service.WiseacreService;
-import defencer.service.impl.ApprenticeServiceImpl;
-import defencer.service.impl.InstructorServiceImpl;
-import defencer.service.impl.ProjectServiceImpl;
-import defencer.service.impl.WiseacreServiceImpl;
+import defencer.service.*;
+import defencer.service.impl.*;
 
 /**
  * Own factory for service interface.
@@ -42,5 +36,19 @@ public class ServiceFactory {
      */
     public static WiseacreService getWiseacreService() {
         return new WiseacreServiceImpl();
+    }
+
+    /**
+     * @return instance of {@link EmailService}.
+     */
+    public static EmailService getEmailService() {
+        return new EmailServiceImpl();
+    }
+
+    /**
+     * @return instance of {@link PdfService}.
+     */
+    public static PdfService getPdfService() {
+        return new PdfServiceImpl();
     }
 }

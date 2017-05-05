@@ -13,8 +13,8 @@
                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
         <columns>
             <TableColumn fx:id="name" prefWidth="113.0" text="Name"/>
-            <TableColumn fx:id="dateStart" prefWidth="101.0" text="Start"/>
-            <TableColumn fx:id="dateFinish" prefWidth="90.0" text="Finish"/>
+            <TableColumn fx:id="dateStart" prefWidth="101.0" text="Start Date"/>
+            <TableColumn fx:id="dateFinish" prefWidth="90.0" text="Finish Date"/>
             <TableColumn fx:id="place" prefWidth="109.0" text="Place"/>
             <TableColumn fx:id="car" prefWidth="106.0" text="Cars"/>
             <TableColumn fx:id="instructors" prefWidth="117.0" text="Instructors"/>
@@ -33,7 +33,8 @@
                styleClass="button-try-now" text="Add"/>
     <JFXButton fx:id="btnDelete" layoutX="537.0" layoutY="14.0" prefHeight="27.0" prefWidth="74.0"
                styleClass="button-try-now" text="Delete" AnchorPane.leftAnchor="537.0"/>
-    <JFXDatePicker fx:id="dateFind" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="160.0" promptText="Date"/>
+    <JFXDatePicker fx:id="dateFind" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="160.0"
+                   promptText="Date"/>
     <JFXButton fx:id="btnAddInstructor" layoutX="628.0" layoutY="15.0" styleClass="button-try-now"
                text="Add instructors"/>
     <ImageViewButton fx:id="btnUpdate" fitHeight="33.0" fitWidth="34.0" layoutX="880.0" layoutY="11.0">
@@ -41,4 +42,5 @@
     </ImageViewButton>
     <JFXButton fx:id="btnEditInstructors" layoutX="750.0" layoutY="15.0" styleClass="button-try-now"
                text="Edit instructor"/>
+    <JFXButton fx:id="btnPdfExport" styleClass="button-try-now" layoutX="957.0" layoutY="14.0" text="PDF export"/>
 </AnchorPane>

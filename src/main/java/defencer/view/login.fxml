@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.text.*?>
@@ -9,21 +11,15 @@
             prefWidth="759.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="defencer.controller.LoginController">
    <ImageView fitHeight="430.0" fitWidth="757.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="/image/login.jpg"/>
-      </image>
+      <Image url="/image/login.jpg"/>
    </ImageView>
    <ImageView fitHeight="34.0" fitWidth="45.0" layoutX="246.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="/image/logo/lock.png"/>
-      </image>
+      <Image url="/image/logo/lock.png"/>
    </ImageView>
    <ImageView fitHeight="34.0" fitWidth="45.0" layoutX="246.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="/image/logo/email.png"/>
-      </image>
+      <Image url="/image/logo/email.png"/>
    </ImageView>
-   <JFXButton fx:id="btnLogin" defaultButton="true" layoutX="397.0" layoutY="243.0" prefHeight="34.0" prefWidth="123.0"
+   <JFXButton fx:id="btnLogin" defaultButton="true" layoutX="419.0" layoutY="243.0" prefHeight="25.0" prefWidth="102.0"
               styleClass="button-try-now" text="Sing in">
       <font>
          <Font size="20.0"/>
@@ -35,10 +31,11 @@
          <Font size="17.0"/>
       </font>
    </JFXTextField>
-   <JFXTextField fx:id="txtUserPassword" layoutX="305.0" layoutY="197.0" prefHeight="32.0" prefWidth="212.0"
+   <JFXPasswordField fx:id="txtUserPassword" layoutX="305.0" layoutY="197.0" prefHeight="32.0" prefWidth="212.0"
                  promptText="Password">
       <font>
          <Font size="17.0"/>
       </font>
-   </JFXTextField>
+   </JFXPasswordField>
+   <Hyperlink fx:id="linkRecoverPassword" layoutX="305.0" layoutY="243.0" text="Forgot password"/>
 </AnchorPane>

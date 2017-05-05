@@ -42,7 +42,7 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
     public Project createEntity(Project project) throws SQLException {
         final Project alreadyCreatedProject = super.createEntity(project);
         final ProjectTimes projectTimes = new ProjectTimes();
-        projectTimes.setDateOfCreation(LocalDate.now().plusDays(1));
+        projectTimes.setDateOfCreation(LocalDate.now());
         projectTimes.setProjectName(alreadyCreatedProject.getName());
         new WiseacreDaoImpl().save(projectTimes);
         return alreadyCreatedProject;

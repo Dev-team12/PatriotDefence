@@ -9,8 +9,8 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0"
             prefWidth="1056.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="defencer.controller.entity.InstructorController">
-    <TableView fx:id="table" layoutY="38.0" prefHeight="441.0" prefWidth="1056.0" AnchorPane.bottomAnchor="0.0"
-               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="38.0">
+    <TableView fx:id="table" layoutY="34.0" prefHeight="445.0" prefWidth="1056.0" AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
         <columns>
             <TableColumn fx:id="firstName" prefWidth="137.0" text="First name"/>
             <TableColumn fx:id="lastName" prefWidth="146.0" text="Last name"/>
@@ -24,12 +24,12 @@
          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
     </TableView>
-    <JFXButton fx:id="btnDelete" layoutX="908.0" layoutY="8.0" prefHeight="27.0" prefWidth="74.0"
-               styleClass="button-try-now" text="Delete" AnchorPane.leftAnchor="908.0"/>
-    <JFXButton fx:id="btnAddOneMore" layoutX="809.0" layoutY="8.0" prefHeight="27.0" prefWidth="74.0"
-               styleClass="button-try-now" text="Add" AnchorPane.leftAnchor="809.0"/>
-    <ImageViewButton fx:id="btnUpdate" fitHeight="33.0" fitWidth="34.0" layoutX="1008.0" layoutY="5.0"
-                     AnchorPane.leftAnchor="1008.0">
+    <JFXButton fx:id="btnDelete" layoutX="672.0" layoutY="3.0" prefHeight="27.0" prefWidth="74.0"
+               styleClass="button-try-now" text="Delete" AnchorPane.leftAnchor="672.0"/>
+    <JFXButton fx:id="btnAddOneMore" layoutX="573.0" layoutY="3.0" prefHeight="27.0" prefWidth="74.0"
+               styleClass="button-try-now" text="Add" AnchorPane.leftAnchor="573.0"/>
+    <ImageViewButton fx:id="btnUpdate" fitHeight="33.0" fitWidth="34.0" layoutX="772.0" AnchorPane.leftAnchor="772.0">
         <Image url="/image/refresh.png"/>
     </ImageViewButton>
+    <JFXButton fx:id="btnPdfReport" styleClass="button-try-now" layoutX="835.0" layoutY="3.0" text="PDF exeport"/>
 </AnchorPane>

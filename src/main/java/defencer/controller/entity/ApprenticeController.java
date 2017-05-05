@@ -59,6 +59,8 @@ public class ApprenticeController implements Initializable {
     @FXML
     private JFXButton btnDelete;
     @FXML
+    private JFXButton btnPdfExport;
+    @FXML
     private ImageViewButton btnUpdate;
     @FXML
     private JFXDatePicker datePeriod;
@@ -82,6 +84,8 @@ public class ApprenticeController implements Initializable {
         btnUpdate.setOnMouseClicked(e -> loadApprentice());
 
         btnFind.setOnAction(e -> search());
+
+        btnPdfExport.setOnAction(e -> pdfReport());
 
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
@@ -205,5 +209,14 @@ public class ApprenticeController implements Initializable {
      */
     private List<String> getProjectName() {
         return ServiceFactory.getWiseacreService().getAvailableProject();
+    }
+
+    /**
+     * Preparing pdf report for instructor in table.
+     */
+    @SneakyThrows
+    private void pdfReport() {
+        NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+        ServiceFactory.getPdfService().apprenticeReport(table.getItems());
     }
 }

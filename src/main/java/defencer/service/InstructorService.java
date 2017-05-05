@@ -28,4 +28,12 @@ public interface InstructorService extends CrudService<Instructor, Long> {
      * @return list of {@link Instructor}.
      */
     List<Instructor> getInstructors();
+
+    /**
+     * Configured project and send notifications to selected instructors.
+     *
+     * @param instructors is list of selected instructors.
+     * @param project is selected project
+     */
+    void configureProject(List<Instructor> instructors, Project project);
 }
