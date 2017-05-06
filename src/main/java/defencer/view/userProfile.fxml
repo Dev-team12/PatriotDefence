@@ -131,8 +131,8 @@
          <Font size="24.0"/>
       </font>
    </Label>
-   <DatePicker layoutX="714.0" layoutY="317.0" promptText="I'm busy from"/>
-   <DatePicker layoutX="714.0" layoutY="364.0" prefHeight="27.0" prefWidth="195.0" promptText="to"/>
+   <JFXDatePicker layoutX="714.0" layoutY="317.0" promptText="I'm busy from"/>
+   <JFXDatePicker layoutX="714.0" layoutY="364.0" prefHeight="27.0" prefWidth="195.0" promptText="to"/>
    <JFXButton fx:id="btnYes" layoutX="344.0" layoutY="347.0" prefHeight="29.0" prefWidth="86.0"
               style="-fx-background-color: #00C853;" text="yes" textFill="WHITE" AnchorPane.leftAnchor="344.0">
       <font>
