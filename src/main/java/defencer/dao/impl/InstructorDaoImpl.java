@@ -3,6 +3,7 @@ package defencer.dao.impl;
 import defencer.dao.InstructorDao;
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.enums.Role;
 import defencer.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -90,6 +91,21 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
         session.getTransaction().commit();
         session.close();
         return instructorList;
+    }
+
+    @Override
+    public List<Instructor> findAdmins() {
+        final Session session = getSession();
+        session.beginTransaction();
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        final CriteriaQuery<Instructor> criteriaBuilderQuery = criteriaBuilder.createQuery(Instructor.class);
+        final Root<Instructor> root = criteriaBuilderQuery.from(Instructor.class);
+        criteriaBuilderQuery.select(root)
+                .where(criteriaBuilder.equal(root.get("role"), Role.CHIEF_OFFICER));
+        final List<Instructor> admins = session.createQuery(criteriaBuilderQuery).getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return admins;
     }
 
     /**

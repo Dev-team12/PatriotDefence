@@ -118,13 +118,6 @@ public class NewProjectController implements Initializable {
     }
 
     /**
-     * @return free car's name for project.
-     */
-    private List<String> getFreeCars() {
-        return ServiceFactory.getWiseacreService().getFreeCar();
-    }
-
-    /**
      * @return all type of available projects.
      */
     private List<String> getProjectName() {

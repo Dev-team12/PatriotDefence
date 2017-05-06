@@ -4,6 +4,7 @@ import defencer.dao.factory.DaoFactory;
 import defencer.data.CurrentUser;
 import defencer.model.*;
 import defencer.service.WiseacreService;
+import defencer.service.factory.ServiceFactory;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -23,10 +24,8 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public List<String> getFreeCar() {
-        List<String> freeCars = new LinkedList<>();
-        DaoFactory.getWiseacreDao().getFreeCar().forEach(s -> freeCars.add(s.getCarName()));
-        return freeCars;
+    public List<Car> getFreeCar() {
+        return DaoFactory.getWiseacreDao().getFreeCar();
     }
 
     /**
@@ -184,8 +183,40 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public void deleteSelectedInstructors(Long instructorId) {
+    public List<Car> getCurrentCar(Long projectId) {
+        return DaoFactory.getWiseacreDao().getCurrentCar(projectId);
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void deleteSelectedInstructors(Long instructorId, List<Instructor> instructors, Project project) {
         DaoFactory.getWiseacreDao().deleteSelectedInstructors(instructorId);
+        final StringBuilder stringBuilder = new StringBuilder();
+        instructors.forEach(s -> stringBuilder.append(s.getFirstName()).append(" ").append(s.getLastName()).append(" "));
+        project.setInstructors(stringBuilder.toString());
+        try {
+            ServiceFactory.getProjectService().updateEntity(project);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void deleteSelectedCar(Long carId, List<Car> cars, Project project) {
+        DaoFactory.getWiseacreDao().deleteSelectedCar(carId);
+        final StringBuilder stringBuilder = new StringBuilder();
+        cars.forEach(s -> stringBuilder.append(s.getCarName()).append(" "));
+        project.setCars(stringBuilder.toString());
+        try {
+            ServiceFactory.getProjectService().updateEntity(project);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

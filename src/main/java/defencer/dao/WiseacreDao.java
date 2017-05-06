@@ -87,11 +87,24 @@ public interface WiseacreDao {
     List<Instructor> getCurrentInstructors(Long projectId) throws SQLException;
 
     /**
+     * @param projectId is project's id.
+     * @return list of car that were selected before.
+     */
+    List<Car> getCurrentCar(Long projectId);
+
+    /**
      * Delete instructor who was selected before.
      *
      * @param instructorId id instructor's id.
      */
     void deleteSelectedInstructors(Long instructorId);
+
+    /**
+     * Delete car that was selected before.
+     *
+     * @param carId id car's id.
+     */
+    void deleteSelectedCar(Long carId);
 
     /**
      * Set status FREE to instructors if project was deleted.

@@ -1,8 +1,6 @@
 package defencer.service;
 
-import defencer.model.AvailableProject;
-import defencer.model.Car;
-import defencer.model.Instructor;
+import defencer.model.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,12 +9,12 @@ import java.util.Map;
 /**
  * @author Igor Gnes on 4/17/17.
  */
-public interface WiseacreService {
+public interface WiseacreService extends CrudService<AbstractEntity, Long> {
 
     /**
      * @return list of free car for project.
      */
-    List<String> getFreeCar();
+    List<Car> getFreeCar();
 
     /**
      * @return list of available project.
@@ -115,10 +113,20 @@ public interface WiseacreService {
     List<Instructor> getCurrentInstructors(Long projectId);
 
     /**
-     * Delete instructor who was selected before.
-     * @param instructorId id instructor's id.
+     * @param projectId is project's id.
+     * @return list of car that were selected before.
      */
-    void deleteSelectedInstructors(Long instructorId);
+    List<Car> getCurrentCar(Long projectId);
+
+    /**
+     * Delete instructor who was selected before.
+     */
+    void deleteSelectedInstructors(Long instructorId, List<Instructor> instructors, Project project);
+
+    /**
+     * Delete car that was selected before.
+     */
+    void deleteSelectedCar(Long carId, List<Car> cars, Project project);
 
     /**
      * Set status FREE to instructors if project was deleted.

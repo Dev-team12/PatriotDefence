@@ -61,8 +61,8 @@ public class EditInstructorListController implements Initializable {
         if (instructor == null) {
             return;
         }
-        ServiceFactory.getWiseacreService().deleteSelectedInstructors(instructor.getId());
-        observableInstructors.clear();
+        tableCurrentInstructors.getItems().remove(instructor);
+        ServiceFactory.getWiseacreService().deleteSelectedInstructors(instructor.getId(), tableCurrentInstructors.getItems(), project);
         loadInstructors(project);
     }
 
@@ -71,6 +71,7 @@ public class EditInstructorListController implements Initializable {
      */
     void loadInstructors(Project project) {
         this.project = project;
+        observableInstructors.clear();
         observableInstructors.addAll(getCurrentInstructors(project.getId()));
         tableCurrentInstructors.setItems(observableInstructors);
     }

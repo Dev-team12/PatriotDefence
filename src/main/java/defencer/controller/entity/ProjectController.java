@@ -3,6 +3,7 @@ package defencer.controller.entity;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXNodesList;
 import defencer.controller.PremierLeagueController;
 import defencer.controller.update.UpdateProjectController;
 import defencer.data.ControllersDataFactory;
@@ -65,19 +66,19 @@ public class ProjectController implements Initializable {
     @FXML
     private JFXComboBox<String> comboProject;
     @FXML
-    private JFXButton btnAddInstructor;
-    @FXML
     private JFXButton btnAddOneMore;
     @FXML
     private JFXButton btnFind;
     @FXML
     private JFXButton btnDelete;
     @FXML
+    private JFXButton btnConfigureProject;
+    @FXML
+    private JFXNodesList nodeList;
+    @FXML
     private ImageViewButton btnUpdate;
     @FXML
     private JFXDatePicker dateFind;
-    @FXML
-    private JFXButton btnEditInstructors;
 
     private ObservableList<Project> observableProjects = FXCollections.observableArrayList();
     private static final Long DEFAULT_PERIOD = 30L;
@@ -94,13 +95,9 @@ public class ProjectController implements Initializable {
 
         btnDelete.setOnAction(e -> deleteProject());
 
-        btnAddInstructor.setOnAction(this::premierLeague);
-
         btnUpdate.setOnMouseClicked(e -> loadProjects());
 
         btnFind.setOnAction(e -> search());
-
-        btnEditInstructors.setOnAction(this::editInstructors);
 
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
@@ -109,6 +106,53 @@ public class ProjectController implements Initializable {
         });
 
         btnPdfExport.setOnAction(e -> pdfReport());
+
+        projectConfigure();
+    }
+
+    /**
+     * Configure project, add, edit cars and instructors.
+     */
+    private void projectConfigure() {
+
+        btnConfigureProject.setButtonType(JFXButton.ButtonType.RAISED);
+
+        final JFXButton btnEditInstructor = new JFXButton("Edit instructor");
+        btnEditInstructor.getStyleClass().add("button-try-now");
+
+        final JFXButton btnAddCar = new JFXButton("Configure car");
+        btnAddCar.getStyleClass().add("button-try-now");
+
+        final JFXButton btnAddInstructor = new JFXButton("Add Instructor");
+        btnAddInstructor.getStyleClass().add("button-try-now");
+
+        final JFXButton btnCloseProject = new JFXButton("Close project");
+        btnCloseProject.getStyleClass().add("button-try-now");
+
+        final int value = 10;
+        nodeList.setSpacing(value);
+        nodeList.addAnimatedNode(btnConfigureProject);
+        nodeList.addAnimatedNode(btnAddInstructor);
+        nodeList.addAnimatedNode(btnEditInstructor);
+        nodeList.addAnimatedNode(btnAddCar);
+        nodeList.addAnimatedNode(btnCloseProject);
+
+        btnAddInstructor.setOnAction(this::premierLeague);
+        btnEditInstructor.setOnAction(this::editInstructors);
+        btnAddCar.setOnAction(this::addCar);
+        btnCloseProject.setOnAction(e -> closeProject());
+    }
+
+    /**
+     * Close project.
+     */
+    private void closeProject() {
+        final Project project = table.getSelectionModel().getSelectedItem();
+        if (project == null) {
+            return;
+        }
+        ServiceFactory.getProjectService().closeProject(project);
+        loadProjects();
     }
 
     /**
@@ -165,7 +209,7 @@ public class ProjectController implements Initializable {
         dateStart.setCellValueFactory(new PropertyValueFactory<>("dateStart"));
         dateFinish.setCellValueFactory(new PropertyValueFactory<>("dateFinish"));
         place.setCellValueFactory(new PropertyValueFactory<>("place"));
-        car.setCellValueFactory(new PropertyValueFactory<>("car"));
+        car.setCellValueFactory(new PropertyValueFactory<>("cars"));
         instructors.setCellValueFactory(new PropertyValueFactory<>("instructors"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         author.setCellValueFactory(new PropertyValueFactory<>("author"));
@@ -262,6 +306,36 @@ public class ProjectController implements Initializable {
 
         stage.setOnHiding(e -> loadProjects());
     }
+
+
+    /**
+     * Add delete car for selected project.
+     */
+    @SneakyThrows
+    private void addCar(ActionEvent event) {
+        final Project project = table.getSelectionModel().getSelectedItem();
+        if (project == null) {
+            NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);
+            return;
+        }
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/entity/EditCarList.fxml"));
+        final Parent parent = fxmlLoader.load();
+        EditCarListController editCarListController = fxmlLoader.getController();
+        editCarListController.loadCars(project);
+        final Stage stage = new Stage();
+        stage.setTitle("Patriot Defence");
+        Scene value = new Scene(parent);
+        value.getStylesheets().add("css/main.css");
+        stage.setScene(value);
+        stage.initModality(Modality.WINDOW_MODAL);
+        Window window = ((Node) event.getSource()).getScene().getWindow();
+        stage.initOwner(window);
+        stage.show();
+
+        stage.setOnHiding(e -> loadProjects());
+    }
+
 
     /**
      * @return list of project for last months.

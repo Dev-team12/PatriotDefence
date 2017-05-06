@@ -78,7 +78,7 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
             s.setStatus("EXPECTED");
             try {
                 ServiceFactory.getInstructorService().updateEntity(s);
-                ServiceFactory.getProjectService().updateEntity(project);
+//                ServiceFactory.getProjectService().updateEntity(project);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

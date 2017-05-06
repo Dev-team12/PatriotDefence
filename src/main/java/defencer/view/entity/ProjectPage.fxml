@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="585.0"
-            prefWidth="1096.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            prefWidth="1162.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="defencer.controller.entity.ProjectController">
     <TableView fx:id="table" layoutY="50.0" prefHeight="524.0" prefWidth="961.0" AnchorPane.bottomAnchor="0.0"
                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
@@ -35,12 +35,11 @@
                styleClass="button-try-now" text="Delete" AnchorPane.leftAnchor="537.0"/>
     <JFXDatePicker fx:id="dateFind" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="160.0"
                    promptText="Date"/>
-    <JFXButton fx:id="btnAddInstructor" layoutX="628.0" layoutY="15.0" styleClass="button-try-now"
-               text="Add instructors"/>
-    <ImageViewButton fx:id="btnUpdate" fitHeight="33.0" fitWidth="34.0" layoutX="880.0" layoutY="11.0">
+    <ImageViewButton fx:id="btnUpdate" fitHeight="33.0" fitWidth="34.0" layoutX="624.0" layoutY="11.0">
         <Image url="/image/refresh.png"/>
     </ImageViewButton>
-    <JFXButton fx:id="btnEditInstructors" layoutX="750.0" layoutY="15.0" styleClass="button-try-now"
-               text="Edit instructor"/>
-    <JFXButton fx:id="btnPdfExport" styleClass="button-try-now" layoutX="957.0" layoutY="14.0" text="PDF export"/>
+    <JFXButton fx:id="btnPdfExport" layoutX="679.0" layoutY="14.0" styleClass="button-try-now" text="PDF export"/>
+    <JFXButton fx:id="btnConfigureProject" layoutX="780.0" layoutY="14.0" styleClass="button-try-now"
+               text="Configure project"/>
+    <JFXNodesList fx:id="nodeList" layoutX="780.0" layoutY="14.0" prefHeight="27.0" prefWidth="126.0"/>
 </AnchorPane>
