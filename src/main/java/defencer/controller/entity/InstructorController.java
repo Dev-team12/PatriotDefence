@@ -161,8 +161,6 @@ public class InstructorController implements Initializable {
 
             stage.setOnHiding(event -> {
 
-                System.out.println(ControllersDataFactory.getLink().get(AskFormController.class, "isDelete"));
-
                 if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
 
                     try {

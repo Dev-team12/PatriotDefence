@@ -15,7 +15,6 @@ import java.util.ResourceBundle;
  */
 public class AskFormController implements Initializable {
 
-
     @FXML
     private JFXButton yes;
     @FXML
@@ -37,6 +36,5 @@ public class AskFormController implements Initializable {
             ControllersDataFactory.getLink().update(this.getClass(), data);
             no.getScene().getWindow().hide();
         });
-
     }
 }

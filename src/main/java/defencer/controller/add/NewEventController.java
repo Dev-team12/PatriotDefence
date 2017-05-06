@@ -1,6 +1,7 @@
 package defencer.controller.add;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Event;
@@ -8,8 +9,8 @@ import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -20,41 +21,38 @@ import java.util.ResourceBundle;
  */
 public class NewEventController implements Initializable {
 
-
+    @FXML
+    private AnchorPane toor;
     @FXML
     private JFXTextField name;
     @FXML
-    private DatePicker date;
+    private JFXDatePicker date;
     @FXML
-    private JFXButton acceptButton;
-
+    private JFXButton btnAddEvent;
+    @FXML
+    private JFXButton btnCancel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        acceptButton.setOnMouseClicked(this::addEvent);
+        btnAddEvent.setOnMouseClicked(this::addEvent);
+        btnCancel.setOnAction(e -> toor.getScene().getWindow().hide());
     }
-
 
     /**
      * Add new Event.
      */
-    private Event addEvent(MouseEvent mouseEvent) {
+    private void addEvent(MouseEvent mouseEvent) {
         if (name.getText() != null && name.getText().length() != 0
                 && date.getValue() != null) {
-
             final Event event = new Event();
             event.setName(name.getText());
             event.setDate(date.getValue());
-
             create(event);
-            name.getScene().getWindow().hide();
-
+            toor.getScene().getWindow().hide();
         } else {
             NotificationUtil.errorAlert("Error", "Form isn't filled right.", NotificationUtil.LONG);
         }
-
-        return null;
     }
 
 
@@ -62,7 +60,6 @@ public class NewEventController implements Initializable {
      * Create new Event.
      */
     private void create(Event event) {
-
         try {
             ServiceFactory.getEventService().createEntity(event);
         } catch (SQLException | EntityAlreadyExistsException e) {

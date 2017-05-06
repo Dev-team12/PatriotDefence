@@ -1,6 +1,6 @@
-package defencer.controller.entity;
+package defencer.controller;
 
-import defencer.data.ControllersDataFactory;
+import com.jfoenix.controls.JFXButton;
 import defencer.hibernate.HibernateQueryBuilder;
 import defencer.hibernate.HibernateService;
 import defencer.model.Event;
@@ -12,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -32,7 +31,6 @@ import java.util.*;
  */
 public class CalendarController implements Initializable {
 
-
     @FXML
     private Agenda agenda;
     @FXML
@@ -44,22 +42,15 @@ public class CalendarController implements Initializable {
     @FXML
     private GridPane rightSide;
     @FXML
-    private Button add;
+    private JFXButton btnAddEvent;
 
     private static final int COUNT_OF_GROUPS = 10;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-       /* ImageView add = (ImageView) ControllersDataFactory.getLink().get(ControllersDataFactory.class,"add");
-        add.setOnMouseClicked(event -> {
-            System.out.println("WORK WORK WORK");
-        });*/
-
-        add.setOnMouseClicked(this::addEvent);
-
+        btnAddEvent.setOnMouseClicked(this::addEvent);
         factoryInitialization();
-
         weekButtonsInitialization();
     }
 
@@ -67,60 +58,24 @@ public class CalendarController implements Initializable {
      * Getting or adding data to factory.
      */
     private void factoryInitialization() {
-
-        List data;
-
-        if (ControllersDataFactory.getLink().contains(CalendarController.class)) {
-            data = (List<Project>) ((Map<String, Object>) ControllersDataFactory.getLink().get(CalendarController.class)).get("agendaData");
-        } else {
-            data = new LinkedList<>();
-            List projects = downloadProjects();
-            if (projects != null) {
-                data.addAll(projects);
-            }
-
-            List events = downloadEvents();
-            if (projects != null) {
-                data.addAll(events);
-            }
-            data.addAll(downloadEvents());
-
-            Map<String, Object> map = new HashMap<>();
-            map.put("agendaData", data);
-
-            ControllersDataFactory.getLink().add(this.getClass(), map);
-        }
-        addDataOnView(data);
+        addEventOnView(downloadEvents());
+        addProjectOnView(downloadProjects());
     }
 
     /**
      * Update calendar.
      */
     private void update() {
-
-        List data = new LinkedList<>();
-
-        List projects = downloadProjects();
-        if (projects != null) {
-            data.addAll(projects);
-        }
-
-        List events = downloadEvents();
-        if (projects != null) {
-            data.addAll(events);
-        }
-        data.addAll(downloadEvents());
-
-        addDataOnView(data);
+        agenda.appointments().clear();
+        addEventOnView(downloadEvents());
+        addProjectOnView(downloadProjects());
     }
 
     /**
      * Downloading projects from database.
      */
     private List<Project> downloadProjects() {
-
         HibernateQueryBuilder hibernateQueryBuilder = new HibernateQueryBuilder(HibernateQueryBuilder.SELECT_QUERY, Project.class);
-
         return (List<Project>) HibernateService.executeQuery(hibernateQueryBuilder);
     }
 
@@ -129,53 +84,53 @@ public class CalendarController implements Initializable {
      */
     private List<Event> downloadEvents() {
         HibernateQueryBuilder hibernateQueryBuilder = new HibernateQueryBuilder(HibernateQueryBuilder.SELECT_QUERY, Event.class);
-
         return (List<Event>) HibernateService.executeQuery(hibernateQueryBuilder);
     }
 
     /**
-     * Adding data on view.
+     * Add events to calendar.
      */
-    private void addDataOnView(List data) {
+    private void addEventOnView(List<Event> events) {
 
-        for (Object object : data) {
+        LocalTime timeStart = LocalTime.MIN;
+        LocalTime timeEnd = LocalTime.MAX;
 
-            Agenda.AppointmentImplLocal appointmentImplLocal = null;
+        events.forEach(s -> {
+            LocalDate start = s.getDate();
 
-            LocalTime timeStart = LocalTime.MIN;
-            LocalTime timeEnd = LocalTime.MAX;
+            Agenda.AppointmentImplLocal appointmentImplLocal = new Agenda.AppointmentImplLocal();
 
-            if (object.getClass().equals(Project.class)) {
-                Project project = (Project) object;
-
-                LocalDate start = project.getDateStart();
-                LocalDate end = project.getDateFinish();
-
-                appointmentImplLocal = new Agenda.AppointmentImplLocal();
-
-                appointmentImplLocal.withStartLocalDateTime(LocalDateTime.of(start, timeStart))
-                        .withEndLocalDateTime(LocalDateTime.of(end, timeEnd))
-                        .withWholeDay(true)
-                        .withSummary(project.getName())
-                        .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group" + new Random().nextInt(COUNT_OF_GROUPS)));
-
-
-            } else if (object.getClass().equals(Event.class)) {
-                Event event = (Event) object;
-
-                LocalDate start = event.getDate();
-
-                appointmentImplLocal = new Agenda.AppointmentImplLocal();
-
-                appointmentImplLocal.withStartLocalDateTime(LocalDateTime.of(start, timeStart))
-                        .withWholeDay(true)
-                        .withSummary(event.getName())
-                        .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group" + new Random().nextInt(COUNT_OF_GROUPS)));
-            }
-
+            appointmentImplLocal.withStartLocalDateTime(LocalDateTime.of(start, timeStart))
+                    .withWholeDay(true)
+                    .withSummary(s.getName())
+                    .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group" + new Random().nextInt(COUNT_OF_GROUPS)));
 
             agenda.appointments().addAll(appointmentImplLocal);
-        }
+        });
+    }
+
+    /**
+     * Add project to calendar.
+     */
+    private void addProjectOnView(List<Project> projects) {
+
+        LocalTime timeStart = LocalTime.MIN;
+        LocalTime timeEnd = LocalTime.MAX;
+
+        projects.forEach(s -> {
+            LocalDate start = s.getDateStart();
+            LocalDate end = s.getDateFinish();
+
+            Agenda.AppointmentImplLocal appointmentImplLocal = new Agenda.AppointmentImplLocal();
+
+            appointmentImplLocal.withStartLocalDateTime(LocalDateTime.of(start, timeStart))
+                    .withEndLocalDateTime(LocalDateTime.of(end, timeEnd))
+                    .withWholeDay(true)
+                    .withSummary(s.getName())
+                    .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group" + new Random().nextInt(COUNT_OF_GROUPS)));
+
+            agenda.appointments().addAll(appointmentImplLocal);
+        });
     }
 
     /**
@@ -226,7 +181,6 @@ public class CalendarController implements Initializable {
      */
     private void addEvent(MouseEvent mouseEvent) {
         try {
-
             final FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/entity/add/NewEvent.fxml"));
             final Parent parent = fxmlLoader.load();
@@ -236,13 +190,11 @@ public class CalendarController implements Initializable {
             value.getStylesheets().add("css/main.css");
             stage.setScene(value);
             stage.initModality(Modality.WINDOW_MODAL);
-            Window window = add.getScene().getWindow();
+            Window window = btnAddEvent.getScene().getWindow();
             stage.initOwner(window);
             stage.show();
 
-            stage.setOnHiding(event -> {
-                update();
-            });
+            stage.setOnHiding(event -> update());
 
         } catch (Exception e) {
             NotificationUtil.errorAlert("Error", "Can't open", NotificationUtil.SHORT);

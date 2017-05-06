@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import defencer.controller.AskFormController;
+import defencer.controller.CalendarController;
 import defencer.controller.PremierLeagueController;
 import defencer.controller.update.UpdateProjectController;
 import defencer.data.ControllersDataFactory;
@@ -288,11 +289,7 @@ public class ProjectController implements Initializable {
             stage.show();
 
             stage.setOnHiding(event -> {
-
-                System.out.println(ControllersDataFactory.getLink().get(AskFormController.class, "isDelete"));
-
                 if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
-
                     try {
                         ServiceFactory.getProjectService().deleteEntity(project);
                     } catch (Exception e) {
