@@ -2,6 +2,7 @@ package defencer.dao;
 
 import defencer.model.AvailableProject;
 import defencer.model.Car;
+import defencer.model.DaysOff;
 import defencer.model.Instructor;
 
 import java.sql.SQLException;
@@ -112,4 +113,10 @@ public interface WiseacreDao {
      * @param projectId is project's id.
      */
     void setFreeStatusForInstructorsByProjectId(Long projectId);
+
+    /**
+     * @param instructorId is instructor for who method get days off.
+     * @return list of days off.
+     */
+    List<DaysOff> getDaysOff(Long instructorId);
 }

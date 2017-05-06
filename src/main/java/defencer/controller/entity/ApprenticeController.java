@@ -3,9 +3,7 @@ package defencer.controller.entity;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
-import defencer.controller.AskFormController;
 import defencer.controller.update.UpdateApprenticeController;
-import defencer.data.ControllersDataFactory;
 import defencer.model.Apprentice;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
@@ -29,7 +27,6 @@ import jfxtras.scene.control.ImageViewButton;
 import lombok.SneakyThrows;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -39,7 +36,6 @@ import java.util.ResourceBundle;
  * @author Igor Gnes on 4/12/17.
  */
 public class ApprenticeController implements Initializable {
-
 
     @FXML
     private TableView<Apprentice> table;
@@ -198,42 +194,13 @@ public class ApprenticeController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select apprentice firstly", NotificationUtil.SHORT);
             return;
         }
-
         try {
-
-            final FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/askForm.fxml"));
-            final Parent parent = fxmlLoader.load();
-            final Stage stage = new Stage();
-            stage.setTitle("Patriot Defence");
-            Scene value = new Scene(parent);
-            value.getStylesheets().add("css/main.css");
-            stage.setScene(value);
-            stage.initModality(Modality.WINDOW_MODAL);
-            Window window = btnDelete.getScene().getWindow();
-            stage.initOwner(window);
-            stage.show();
-
-            stage.setOnHiding(event -> {
-
-                System.out.println(ControllersDataFactory.getLink().get(AskFormController.class, "isDelete"));
-
-                if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
-
-                    try {
-                        ServiceFactory.getApprenticeService().deleteEntity(apprentice);
-                        observableApprentices.clear();
-                        loadApprentice();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
+            ServiceFactory.getApprenticeService().deleteEntity(apprentice);
+            observableApprentices.clear();
+            loadApprentice();
         } catch (Exception e) {
             NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }
-
     }
 
     /**

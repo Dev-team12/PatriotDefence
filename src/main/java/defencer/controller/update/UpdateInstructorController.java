@@ -41,6 +41,7 @@ public class UpdateInstructorController implements Initializable{
     private Long instructorId;
     private String status;
     private String videoPath;
+    private String password;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -67,6 +68,7 @@ public class UpdateInstructorController implements Initializable{
         instructor.setRole(role.getValue());
         instructor.setStatus(status);
         instructor.setVideoPath(videoPath);
+        instructor.setPassword(password);
         update(instructor);
         root.getScene().getWindow().hide();
     }
@@ -84,6 +86,7 @@ public class UpdateInstructorController implements Initializable{
         instructorId = instructor.getId();
         status = instructor.getStatus();
         videoPath = instructor.getVideoPath();
+        password = instructor.getPassword();
     }
 
     /**

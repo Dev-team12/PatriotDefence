@@ -77,7 +77,7 @@ public class PremierLeagueController implements Initializable {
     private Set<Instructor> instructorSet = new HashSet<>();
     private Project project;
     private int counter;
-    private final int sleepFirst = 970;
+    private final int sleepFirst = 100;
     private final int sleep = 250;
 
     @Override

@@ -39,6 +39,10 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         final List<Project> projects = session.createQuery(projectCriteriaQuery).getResultList();
         final List<Instructor> instructorInProject = getInstructorInProject(session);
         final List<Car> carInProject = getCarInProject(session);
+        projects.forEach(s -> {
+            s.setInstructors("");
+            s.setCars("");
+        });
         setInstructorsIntoProject(projects, instructorInProject);
         setCarsIntoProject(projects, carInProject);
 
@@ -77,7 +81,6 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
     @Override
     public void saveId(Long projectId) {
 
-
     }
 
     /**
@@ -102,7 +105,10 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
 
         final List<Instructor> instructorInProject = getInstructorInProject(session);
         final List<Car> carInProject = getCarInProject(session);
-
+        projects.forEach(s -> {
+            s.setInstructors("");
+            s.setCars("");
+        });
         setInstructorsIntoProject(projects, instructorInProject);
         setCarsIntoProject(projects, carInProject);
 

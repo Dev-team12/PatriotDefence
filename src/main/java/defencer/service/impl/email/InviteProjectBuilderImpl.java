@@ -29,29 +29,31 @@ public class InviteProjectBuilderImpl extends EmailBuilderImpl<Instructor> {
                 + instructor.getLastName()
                 + " you were invited on course from Patriot Defence."
                 + "\n"
-                    + "Project: "
-                    + project.getNameId()
-                    + "\n"
-                    + "Start Date: "
-                    + project.getDateStart()
-                    + " Finish Date: "
-                    + project.getDateFinish()
-                    + "\n"
-                    + "Place: "
-                    + project.getPlace()
-                    + "\n"
-                    + "Description: "
-                    + project.getDescription()
-                    + "\n"
-                    + "Full list of instructors: "
-                    + "\n"
-                    + project.getInstructors()
-                    + "\n"
-                    + "Author of project "
-                    + project.getAuthor()
-                    + "\n"
-                    + "Have a nice day -)"
-                    + "\n"
-                    + "Your Patriot Defence!!!";
+                + "Project: "
+                + project.getNameId()
+                + "\n"
+                + "Start Date: "
+                + project.getDateStart()
+                + " Finish Date: "
+                + project.getDateFinish()
+                + "\n"
+                + "Place: "
+                + project.getPlace()
+                + "\n"
+                + "Description: "
+                + project.getDescription()
+                + "\n"
+                + "Full list of instructors: "
+                + "\n"
+                + project.getInstructors()
+                + "\n"
+                + "Author of project "
+                + project.getAuthor()
+                + "\n"
+                + "Please confirm participation."
+                + "\n"
+                + "Have a nice day -)"
+                + "\n"
+                + "Your Patriot Defence!!!";
     }
 }

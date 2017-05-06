@@ -66,7 +66,9 @@ public class CurrentUser extends AbstractEntity {
         data.put("status", currentUser.getStatus());
         data.put("role", currentUser.getRole());
 
-        data.put("projectName", projectByInstructor.getName());
+
+        data.put("projectId", projectByInstructor.getId());
+        data.put("getNameId", projectByInstructor.getNameId());
         data.put("dateStart", projectByInstructor.getDateStart());
         data.put("dateFinish", projectByInstructor.getDateFinish());
         data.put("place", projectByInstructor.getPlace());
@@ -161,8 +163,12 @@ public class CurrentUser extends AbstractEntity {
         return (String) data.get("role");
     }
 
-    public String getProjectName() {
-        return (String) data.get("projectName");
+    public Long getProjectId() {
+        return (Long) data.get("projectId");
+    }
+
+    public String getProjectNameId() {
+        return (String) data.get("getNameId");
     }
 
     public LocalDate getProjectDateStart() {

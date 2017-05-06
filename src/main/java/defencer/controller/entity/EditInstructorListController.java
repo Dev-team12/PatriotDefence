@@ -62,7 +62,7 @@ public class EditInstructorListController implements Initializable {
             return;
         }
         tableCurrentInstructors.getItems().remove(instructor);
-        ServiceFactory.getWiseacreService().deleteSelectedInstructors(instructor.getId(), tableCurrentInstructors.getItems(), project);
+        ServiceFactory.getWiseacreService().deleteSelectedInstructors(instructor.getId());
         loadInstructors(project);
     }
 

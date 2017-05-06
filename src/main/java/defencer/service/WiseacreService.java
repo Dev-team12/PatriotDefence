@@ -121,12 +121,12 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
     /**
      * Delete instructor who was selected before.
      */
-    void deleteSelectedInstructors(Long instructorId, List<Instructor> instructors, Project project);
+    void deleteSelectedInstructors(Long instructorId);
 
     /**
      * Delete car that was selected before.
      */
-    void deleteSelectedCar(Long carId, List<Car> cars, Project project);
+    void deleteSelectedCar(Long carId);
 
     /**
      * Set status FREE to instructors if project was deleted.
@@ -134,4 +134,10 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
      * @param projectId is project's id.
      */
     void setFreeStatusForInstructorsByProjectId(Long projectId);
+
+    /**
+     * @param instructorId is instructor for who method get days off.
+     * @return list of days off.
+     */
+    List<DaysOff> getDaysOff(Long instructorId);
 }

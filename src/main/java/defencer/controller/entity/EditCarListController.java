@@ -120,7 +120,7 @@ public class EditCarListController implements Initializable {
             return;
         }
         tableCars.getItems().remove(car);
-        ServiceFactory.getWiseacreService().deleteSelectedCar(car.getId(), tableCars.getItems(), project);
+        ServiceFactory.getWiseacreService().deleteSelectedCar(car.getId());
         loadCars(project);
     }
 }

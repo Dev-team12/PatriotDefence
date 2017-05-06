@@ -1,9 +1,7 @@
 package defencer.controller.entity;
 
 import com.jfoenix.controls.JFXButton;
-import defencer.controller.AskFormController;
 import defencer.controller.update.UpdateInstructorController;
-import defencer.data.ControllersDataFactory;
 import defencer.data.CurrentUser;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
@@ -152,34 +150,9 @@ public class InstructorController implements Initializable {
         }
 
         try {
-
-            final FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/askForm.fxml"));
-            final Parent parent = fxmlLoader.load();
-            final Stage stage = new Stage();
-            stage.setTitle("Patriot Defence");
-            Scene value = new Scene(parent);
-            value.getStylesheets().add("css/main.css");
-            stage.setScene(value);
-            stage.initModality(Modality.WINDOW_MODAL);
-            Window window = btnDelete.getScene().getWindow();
-            stage.initOwner(window);
-            stage.show();
-
-            stage.setOnHiding(event -> {
-
-                if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
-
-                    try {
-                        ServiceFactory.getInstructorService().deleteEntity(instructor);
-                        observableInstructors.clear();
-                        loadInstructors();
-                    } catch (Exception e) {
-                        NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
-                    }
-                }
-            });
-
+            ServiceFactory.getInstructorService().deleteEntity(instructor);
+            observableInstructors.clear();
+            loadInstructors();
         } catch (Exception e) {
             NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }

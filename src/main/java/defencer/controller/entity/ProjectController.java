@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXNodesList;
-import defencer.controller.AskFormController;
 import defencer.controller.CalendarController;
 import defencer.controller.PremierLeagueController;
 import defencer.controller.update.UpdateProjectController;
@@ -355,32 +354,6 @@ public class ProjectController implements Initializable {
             return;
         }
         try {
-
-            final FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/askForm.fxml"));
-            final Parent parent = fxmlLoader.load();
-            final Stage stage = new Stage();
-            stage.setTitle("Patriot Defence");
-            Scene value = new Scene(parent);
-            value.getStylesheets().add("css/main.css");
-            stage.setScene(value);
-            stage.initModality(Modality.WINDOW_MODAL);
-            Window window = btnDelete.getScene().getWindow();
-            stage.initOwner(window);
-            stage.show();
-
-            stage.setOnHiding(event -> {
-                if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
-                    try {
-                        ServiceFactory.getProjectService().deleteEntity(project);
-                    } catch (Exception e) {
-                        NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
-                    }
-                    observableProjects.clear();
-                    loadProjects();
-                }
-            });
-
             ServiceFactory.getProjectService().deleteEntity(project);
             observableProjects.clear();
             loadProjects();
