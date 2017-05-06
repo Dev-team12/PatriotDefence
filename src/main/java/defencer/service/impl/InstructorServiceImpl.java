@@ -101,6 +101,9 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      * Send notifications to instructors.
      */
     private Runnable mailSender(List<Instructor> instructors, Project project) {
+        final StringBuffer stringBuffer = new StringBuffer();
+        instructors.forEach(s -> stringBuffer.append(s.getFirstLastName()));
+        project.setInstructors(stringBuffer.toString());
         EmailBuilder<Instructor> emailBuilder = new InviteProjectBuilderImpl();
         final EmailService emailService = ServiceFactory.getEmailService();
         return () -> instructors.forEach(s -> emailService.sendMessage(emailBuilder

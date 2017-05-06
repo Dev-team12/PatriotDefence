@@ -22,12 +22,7 @@ public class AdminReportCreatedProjectBuilder extends EmailBuilderImpl<Instructo
 
     @Override
     String getMessageBody(Instructor instructor, Project project) {
-        return "Dear "
-                + instructor.getFirstName()
-                + " "
-                + instructor.getLastName()
-                + "\n"
-                + "User "
+        return "User "
                 + project.getAuthor()
                 + " created a new project."
                 + "\n"

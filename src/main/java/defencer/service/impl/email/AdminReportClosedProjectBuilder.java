@@ -22,12 +22,7 @@ public class AdminReportClosedProjectBuilder extends EmailBuilderImpl<Instructor
 
     @Override
     String getMessageBody(Instructor instructor, Project project) {
-        return "Dear "
-                + instructor.getFirstName()
-                + " "
-                + instructor.getLastName()
-                + "\n"
-                + "User "
+        return "User "
                 + project.getAuthor()
                 + " closed a project."
                 + "\n"
