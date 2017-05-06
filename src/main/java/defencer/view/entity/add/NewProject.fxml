@@ -24,8 +24,8 @@
    <JFXButton fx:id="btnCreate" defaultButton="true" layoutX="166.0" layoutY="362.0" prefHeight="25.0" prefWidth="61.0"
               styleClass="button-try-now" text="ok"/>
    <JFXButton fx:id="btnCancel" layoutX="77.0" layoutY="362.0" styleClass="button-try-now" text="cancel"/>
-   <JFXDatePicker fx:id="dataFrom" layoutX="11.0" layoutY="197.0" prefHeight="27.0" prefWidth="227.0"
-               promptText="Date from"/>
+   <JFXDatePicker fx:id="dateFrom" layoutX="11.0" layoutY="197.0" prefHeight="27.0" prefWidth="227.0"
+                  promptText="Date from"/>
    <JFXDatePicker fx:id="dataTo" layoutX="11.0" layoutY="240.0" prefHeight="27.0" prefWidth="227.0" promptText="Date to"/>
    <JFXComboBox fx:id="projectName" layoutX="12.0" layoutY="103.0" prefHeight="31.0" prefWidth="218.0"
                 promptText="Name of project"/>

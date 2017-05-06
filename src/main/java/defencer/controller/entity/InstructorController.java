@@ -3,6 +3,7 @@ package defencer.controller.entity;
 import com.jfoenix.controls.JFXButton;
 import defencer.controller.AskFormController;
 import defencer.controller.update.UpdateInstructorController;
+import defencer.data.CurrentUser;
 import defencer.data.ControllersDataFactory;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
@@ -37,7 +38,6 @@ import java.util.ResourceBundle;
  */
 public class InstructorController implements Initializable {
 
-
     @FXML
     private TableView<Instructor> table;
     @FXML
@@ -60,6 +60,8 @@ public class InstructorController implements Initializable {
     private JFXButton btnDelete;
     @FXML
     private ImageViewButton btnUpdate;
+    @FXML
+    private JFXButton btnPdfReport;
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
 
@@ -74,6 +76,8 @@ public class InstructorController implements Initializable {
         btnDelete.setOnAction(e -> deleteInstructor());
 
         btnUpdate.setOnMouseClicked(e -> loadInstructors());
+
+        btnPdfReport.setOnAction(e -> pdfReport());
 
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
@@ -107,7 +111,12 @@ public class InstructorController implements Initializable {
         stage.initOwner(window);
         stage.show();
 
-        stage.setOnHiding(e -> loadInstructors());
+        stage.setOnHiding(e -> {
+            loadInstructors();
+            if (CurrentUser.getLink().getEmail().equals(instructor.getEmail())) {
+                CurrentUser.refresh(instructor.getEmail());
+            }
+        });
     }
 
     /**
@@ -115,8 +124,6 @@ public class InstructorController implements Initializable {
      */
     private void loadInstructors() {
         observableInstructors.clear();
-
-        System.out.println(getInstructors());
         observableInstructors.addAll(getInstructors());
         table.setItems(observableInstructors);
     }
@@ -187,6 +194,7 @@ public class InstructorController implements Initializable {
 
     /**
      * Open new page to add one more instructor.
+     *
      * {@link SneakyThrows} here because i am totally sure that path to fxml is correct.
      */
     @SneakyThrows
@@ -205,5 +213,14 @@ public class InstructorController implements Initializable {
         stage.show();
 
         stage.setOnHiding(e -> loadInstructors());
+    }
+
+    /**
+     * Preparing pdf report for instructor in table.
+     */
+    @SneakyThrows
+    private void pdfReport() {
+        NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+        ServiceFactory.getPdfService().instructorReport(table.getItems());
     }
 }

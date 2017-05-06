@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -7,4 +8,9 @@
             prefWidth="735.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="defencer.controller.LoadingController">
    <ProgressIndicator fx:id="progressBar" layoutX="220.0" layoutY="105.0" prefHeight="198.0" prefWidth="303.0"/>
+   <Text layoutX="325.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connecting ...">
+      <font>
+         <Font size="17.0"/>
+      </font>
+   </Text>
 </AnchorPane>

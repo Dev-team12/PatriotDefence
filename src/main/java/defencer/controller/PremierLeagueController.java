@@ -1,11 +1,9 @@
 package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
-import defencer.data.CurrentUser;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
-import defencer.service.impl.EmailServiceImpl;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
@@ -22,7 +21,6 @@ import javafx.scene.text.Text;
 
 import java.io.File;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -33,6 +31,8 @@ import java.util.Set;
  */
 public class PremierLeagueController implements Initializable {
 
+    @FXML
+    private AnchorPane root;
     @FXML
     private Text txtProjectName;
     @FXML
@@ -78,7 +78,7 @@ public class PremierLeagueController implements Initializable {
     private Project project;
     private int counter;
     private final int sleepFirst = 970;
-    private final int sleep = 300;
+    private final int sleep = 250;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -94,49 +94,11 @@ public class PremierLeagueController implements Initializable {
     }
 
     /**
-     * Going to add instructors.
-     */
-    private void finish() {
-        final ObservableList<Instructor> instructors = tableInstructors.getItems();
-        finish(instructors);
-    }
-
-    /**
      * Create query for set project id to selected instructors.
      */
-    private void finish(List<Instructor> instructors) {
-
-        final StringBuffer stringBuffer = new StringBuffer();
-        instructors.forEach(s -> stringBuffer.append(s.getFirstLastName()).append(" "));
-        Runnable runnable = () -> instructors.forEach(s -> {
-            s.setProjectId(project.getId());
-            s.setStatus("EXPECTED");
-            project.setInstructors(stringBuffer.toString());
-            try {
-                ServiceFactory.getInstructorService().updateEntity(s);
-                ServiceFactory.getProjectService().updateEntity(project);
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-
-        final Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        CurrentUser.refresh(CurrentUser.getLink().getEmail());
-        NotificationUtil.informationAlert("Success", "Added", NotificationUtil.SHORT);
-
-        final Thread email = new Thread(mailSender(instructors));
-        email.start();
-    }
-
-    private Runnable mailSender(List<Instructor> instructors) {
-        return () -> instructors.forEach(s -> new EmailServiceImpl().simpleMailMessage(s, project));
+    private void finish() {
+        ServiceFactory.getInstructorService().configureProject(tableInstructors.getItems(), project);
+        root.getScene().getWindow().hide();
     }
 
     /**
@@ -275,6 +237,7 @@ public class PremierLeagueController implements Initializable {
             final MediaPlayer mediaPlayer = new MediaPlayer(media);
             leagueInstructors.setMediaPlayer(mediaPlayer);
             mediaPlayer.setAutoPlay(true);
+            mediaPlayer.setMute(true);
         } catch (MediaException e) {
             //NON
         }

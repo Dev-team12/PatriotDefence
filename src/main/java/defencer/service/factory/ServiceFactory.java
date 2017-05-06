@@ -44,4 +44,18 @@ public class ServiceFactory {
     public static WiseacreService getWiseacreService() {
         return new WiseacreServiceImpl();
     }
+
+    /**
+     * @return instance of {@link EmailService}.
+     */
+    public static EmailService getEmailService() {
+        return new EmailServiceImpl();
+    }
+
+    /**
+     * @return instance of {@link PdfService}.
+     */
+    public static PdfService getPdfService() {
+        return new PdfServiceImpl();
+    }
 }

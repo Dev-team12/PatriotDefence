@@ -219,7 +219,7 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         val criteriaBuilder = session.getCriteriaBuilder();
         final CriteriaQuery<Car> carCriteriaQuery = criteriaBuilder.createQuery(Car.class);
         final Root<Car> root = carCriteriaQuery.from(Car.class);
-        carCriteriaQuery.multiselect(root.get("id"), root.get("carName"), root.get("status"));
+        carCriteriaQuery.select(root);
         final List<Car> carList = session.createQuery(carCriteriaQuery).getResultList();
         session.getTransaction().commit();
         session.close();
@@ -307,6 +307,24 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         return instructors;
     }
 
+    @Override
+    public List<Car> getCurrentCar(Long projectId) {
+        final Session session = getCurrentSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        final CriteriaQuery<Car> criteriaBuilderQuery = criteriaBuilder.createQuery(Car.class);
+        final Root<Car> root = criteriaBuilderQuery.from(Car.class);
+        criteriaBuilderQuery.select(root)
+                .where(criteriaBuilder.equal(root.get("projectId"), projectId));
+        final List<Car> cars = session.createQuery(criteriaBuilderQuery).getResultList();
+
+        session.getTransaction().commit();
+        session.close();
+
+        return cars;
+    }
+
     /**
      * {@inheritDoc}.
      */
@@ -321,6 +339,43 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         criteriaUpdateQuery.set(root.get("status"), "FREE").set(root.get("projectId"), -1)
                 .where(criteriaBuilder.equal(root.get("id"), instructorId));
         session.createQuery(criteriaUpdateQuery).executeUpdate();
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void deleteSelectedCar(Long carId) {
+        final Session session = getCurrentSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val criteriaUpdateQuery = criteriaBuilder.createCriteriaUpdate(Car.class);
+        final Root<Car> root = criteriaUpdateQuery.from(Car.class);
+        criteriaUpdateQuery.set(root.get("status"), "FREE").set(root.get("projectId"), -1)
+                .where(criteriaBuilder.equal(root.get("id"), carId));
+        session.createQuery(criteriaUpdateQuery).executeUpdate();
+
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void setFreeStatusForInstructorsByProjectId(Long projectId) {
+        final Session session = getCurrentSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val criteriaBuilderQuery = criteriaBuilder.createCriteriaUpdate(Instructor.class);
+        final Root<Instructor> root = criteriaBuilderQuery.from(Instructor.class);
+        criteriaBuilderQuery.set(root.get("status"), "FREE").set(root.get("projectId"), -1)
+                .where(criteriaBuilder.equal(root.get("projectId"), projectId));
+        session.createQuery(criteriaBuilderQuery).executeUpdate();
 
         session.getTransaction().commit();
         session.close();

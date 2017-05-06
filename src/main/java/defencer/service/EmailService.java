@@ -1,9 +1,7 @@
 package defencer.service;
 
-import defencer.model.Instructor;
-import defencer.model.Project;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.MimeMailMessage;
 
 /**
  * @author Igor Gnes on 5/2/17.
@@ -11,12 +9,14 @@ import org.springframework.mail.javamail.MimeMailMessage;
 public interface EmailService {
 
     /**
-     * Send message to instructor with information about their project.
+     * Method just send a message.
+     *
+     * @param message contains text, subject, recipient or recipients.
      */
-    SimpleMailMessage simpleMailMessage(Instructor instructor, Project project);
+    void sendMessage(SimpleMailMessage message);
 
     /**
-     * Send message to instructor with PDF or EXCEL documents.
+     * Method send message with some attachment.
      */
-    MimeMailMessage mimeMailMessage(Instructor instructor);
+    void sendMessageWithAttachments(FileSystemResource file);
 }

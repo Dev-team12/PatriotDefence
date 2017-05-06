@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import defencer.data.CurrentUser;
 import defencer.model.Project;
+import defencer.model.enums.Role;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
@@ -17,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -36,11 +38,13 @@ public class NewProjectController implements Initializable {
     @FXML
     private JFXButton btnCancel;
     @FXML
-    private DatePicker dataFrom;
+    private DatePicker dateFrom;
     @FXML
     private DatePicker dataTo;
     @FXML
     private JFXComboBox<String> projectName;
+
+    private static final int PERIOD = 5;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -58,25 +62,35 @@ public class NewProjectController implements Initializable {
      */
     private void prepareAdding() {
 
-        if (projectName.getValue() != null && !projectName.getValue().equals("")
-                && dataFrom.getValue() != null
-                && dataTo.getValue() != null
-                && description.getText().length() != 0) {
-
+        if (validatorFields()) {
+            if (!checkPeriod()) {
+                NotificationUtil.warningAlert("Warning", "You can't create the project in less than 5 days from today", NotificationUtil.SHORT);
+                return;
+            }
             final Project project = new Project();
             project.setName(projectName.getValue());
-            project.setDateStart(dataFrom.getValue());
+            project.setDateStart(dateFrom.getValue());
             project.setDateFinish(dataTo.getValue());
             project.setPlace(place.getText());
             project.setDescription(description.getText());
-            project.setAuthor(CurrentUser.getLink().getFirstName());
+            project.setAuthor(CurrentUser.getLink().getFirstName() + " " + CurrentUser.getLink().getLastName());
             project.setDateOfCreation(LocalDate.now());
             create(project);
             root.getScene().getWindow().hide();
-
         } else {
-            NotificationUtil.errorAlert("Error", "Form isn't filled right.", NotificationUtil.LONG);
+            NotificationUtil.warningAlert("Warning", "Form isn't filled right.", NotificationUtil.LONG);
         }
+    }
+
+    private boolean validatorFields() {
+        return projectName.getValue() != null && !projectName.getValue().equals("")
+                && dateFrom.getValue() != null
+                && dataTo.getValue() != null
+                && description.getText().length() != 0;
+    }
+
+    private boolean checkPeriod() {
+        return Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole()) || ChronoUnit.DAYS.between(LocalDate.now(), dateFrom.getValue()) >= PERIOD;
     }
 
     /**
@@ -86,7 +100,7 @@ public class NewProjectController implements Initializable {
         projectName.setValue("Project name");
         place.clear();
         description.clear();
-        dataFrom.setPromptText("Date from");
+        dateFrom.setPromptText("Date from");
         dataTo.setPromptText("Date to");
     }
 
@@ -96,18 +110,11 @@ public class NewProjectController implements Initializable {
      */
     private Project create(Project project) {
         try {
-            ServiceFactory.getProjectService().createEntity(project);
+            return ServiceFactory.getProjectService().createEntity(project);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
-    }
-
-    /**
-     * @return free car's name for project.
-     */
-    private List<String> getFreeCars() {
-        return ServiceFactory.getWiseacreService().getFreeCar();
     }
 
     /**

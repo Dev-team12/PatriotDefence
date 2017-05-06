@@ -14,7 +14,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -51,15 +50,6 @@ public class EditInstructorListController implements Initializable {
      * Update project set him list of instructors.
      */
     private void updateData() {
-        try {
-            final ObservableList<Instructor> selectedItems = tableCurrentInstructors.getItems();
-            final StringBuilder stringBuilder = new StringBuilder();
-            selectedItems.forEach(s -> stringBuilder.append(s.getFirstName()).append(" ").append(s.getLastName()).append(" "));
-            project.setInstructors(stringBuilder.toString());
-            ServiceFactory.getProjectService().updateEntity(project);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         root.getScene().getWindow().hide();
     }
 
@@ -71,8 +61,8 @@ public class EditInstructorListController implements Initializable {
         if (instructor == null) {
             return;
         }
-        ServiceFactory.getWiseacreService().deleteSelectedInstructors(instructor.getId());
-        observableInstructors.clear();
+        tableCurrentInstructors.getItems().remove(instructor);
+        ServiceFactory.getWiseacreService().deleteSelectedInstructors(instructor.getId(), tableCurrentInstructors.getItems(), project);
         loadInstructors(project);
     }
 
@@ -81,6 +71,7 @@ public class EditInstructorListController implements Initializable {
      */
     void loadInstructors(Project project) {
         this.project = project;
+        observableInstructors.clear();
         observableInstructors.addAll(getCurrentInstructors(project.getId()));
         tableCurrentInstructors.setItems(observableInstructors);
     }
@@ -89,7 +80,7 @@ public class EditInstructorListController implements Initializable {
      * Insert value for current instructor table.
      */
     private void loadInstructorTable() {
-        instructorName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        instructorName.setCellValueFactory(new PropertyValueFactory<>("firstLastName"));
     }
 
     /**
