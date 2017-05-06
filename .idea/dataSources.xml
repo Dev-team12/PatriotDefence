@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="jdbc:postgresql://ec2-54-75-229-201.eu-west-1.compute.amazonaws.com:5432/d8h0drjb9eoidt?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory&amp;" uuid="3b0ebc25-2ec5-4978-924f-2996361b75c0">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ec2-54-75-229-201.eu-west-1.compute.amazonaws.com:5432/d8h0drjb9eoidt?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory&amp;</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="Kontact@localhost" uuid="658784c2-630c-4254-a2b5-e7272ef9e123">
+      <driver-ref>mysql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/Kontact</jdbc-url>
+      <driver-properties>
+        <property name="autoReconnect" value="true" />
+        <property name="zeroDateTimeBehavior" value="convertToNull" />
+        <property name="tinyInt1isBit" value="false" />
+        <property name="characterEncoding" value="utf8" />
+        <property name="characterSetResults" value="utf8" />
+        <property name="yearIsDateType" value="false" />
+      </driver-properties>
+    </data-source>
+  </component>
+</project>

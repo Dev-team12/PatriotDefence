@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="389.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="defencer.controller.update.UpdateProjectController">
+   <Label layoutX="22.0" layoutY="14.0" text="Update Project">
+      <font>
+         <Font name="System Bold" size="13.0"/>
+      </font>
+   </Label>
+   <ImageView fitHeight="85.0" fitWidth="121.0" layoutX="160.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="/image/PatriotDefence.png"/>
+   </ImageView>
+   <JFXTextField fx:id="place" layoutX="12.0" layoutY="146.0" maxWidth="218.0" minWidth="218.0" prefHeight="31.0"
+                 prefWidth="218.0" promptText="Place"/>
+   <JFXTextArea fx:id="description" layoutX="12.0" layoutY="281.0" maxWidth="218.0" minWidth="197.0" prefHeight="50.0"
+                prefWidth="218.0" promptText="Description" wrapText="true"/>
+   <JFXButton fx:id="btnUpdate" defaultButton="true" layoutX="168.0" layoutY="348.0" prefHeight="25.0" prefWidth="61.0"
+              styleClass="button-try-now" text="ok"/>
+   <JFXButton fx:id="btnCancel" layoutX="79.0" layoutY="348.0" styleClass="button-try-now" text="cancel"/>
+   <JFXDatePicker fx:id="dataFrom" layoutX="12.0" layoutY="197.0" prefHeight="27.0" prefWidth="227.0"
+               promptText="Date from"/>
+   <JFXDatePicker fx:id="dataTo" layoutX="12.0" layoutY="240.0" prefHeight="27.0" prefWidth="227.0" promptText="Date to"/>
+   <JFXComboBox fx:id="projectName" layoutX="12.0" layoutY="103.0" prefHeight="31.0" prefWidth="218.0"
+                promptText="Name of project"/>
+</AnchorPane>

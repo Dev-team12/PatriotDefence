@@ -1,5 +1,6 @@
 package defencer.start;
 
+import defencer.util.HibernateUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,14 +15,17 @@ public class AppManager extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/waiting.fxml"));
         primaryStage.setTitle("Patriot Defence");
-        primaryStage.centerOnScreen();
-//        primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.getIcons().add(new Image("/image/logo2.png"));
-        Parent root = FXMLLoader.load(getClass().getResource("/welcome.fxml"));
+        primaryStage.getIcons().add(new Image("/image/PatriotDefence.png"));
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(0, "/css/main.css");
         primaryStage.setScene(scene);
+        scene.getStylesheets().add("css/main.css");
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(event -> {
+            HibernateUtil.shutdown();
+            System.exit(0);
+        });
     }
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="343.0" prefWidth="227.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="defencer.controller.entity.EditCarListController">
+   <Label layoutX="101.0" layoutY="3.0" text="Car">
+      <font>
+         <Font name="System Bold" size="17.0"/>
+      </font>
+   </Label>
+   <JFXButton fx:id="btnOk" defaultButton="true" layoutX="150.0" layoutY="307.0" mnemonicParsing="false"
+              prefHeight="25.0" prefWidth="63.0" styleClass="button-try-now" text="ok"/>
+   <JFXButton fx:id="btnDelete" cancelButton="true" layoutX="14.0" layoutY="307.0" mnemonicParsing="false"
+              prefHeight="27.0" prefWidth="72.0" styleClass="button-try-now" text="Delete"/>
+   <TableView fx:id="tableCars" layoutX="14.0" layoutY="81.0" prefHeight="218.0" prefWidth="203.0">
+      <columns>
+         <TableColumn fx:id="carName" prefWidth="75.0" text="Car"/>
+      </columns>
+      <columnResizePolicy>
+         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+      </columnResizePolicy>
+   </TableView>
+   <JFXComboBox fx:id="comboSelectCar" layoutX="17.0" layoutY="38.0" prefHeight="27.0" prefWidth="147.0"
+                promptText="Select car"/>
+   <JFXButton fx:id="btnAdd" styleClass="button-try-now" layoutX="170.0" layoutY="38.0" text="Add"/>
+</AnchorPane>
