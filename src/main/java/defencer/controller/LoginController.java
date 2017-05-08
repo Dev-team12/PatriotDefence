@@ -8,6 +8,7 @@ import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.HibernateUtil;
 import defencer.util.NotificationUtil;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,7 +48,7 @@ public class LoginController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         txtUserEmail.setText("joyukr@ukr.net");
-        txtUserPassword.setText("GVqh9CSQe13K");
+        txtUserPassword.setText("IzCQcnXxB6m1");
         btnLogin.setOnAction(e -> login());
         linkRecoverPassword.setOnAction(this::recoverPassword);
     }
@@ -79,7 +80,7 @@ public class LoginController implements Initializable {
 
         final Instructor instructor = ServiceFactory.getInstructorService().findByEmail(txtUserEmail.getText());
 
-        if (instructor == null) {
+        if (instructor == null || txtUserPassword == null) {
             NotificationUtil.warningAlert("Wrong", "user not found", NotificationUtil.SHORT);
             return;
         }
@@ -116,9 +117,7 @@ public class LoginController implements Initializable {
 
         stage.setOnCloseRequest(event -> {
             HibernateUtil.shutdown();
-            System.out.println("shutdown hibernate");
-
-            System.exit(1);
+            Platform.exit();
         });
     }
 }

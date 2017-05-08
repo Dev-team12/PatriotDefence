@@ -51,7 +51,8 @@ public abstract class EmailBuilderImpl<T extends AbstractEntity> implements Emai
         Assert.notNull(project, "project must not be null");
 
         val message = this.buildProperties(entity);
-        message.setSubject(this.getMessageSubject());
+//        message.setSubject(this.getMessageSubject());
+        message.setSubject("Test program, don't worry");
         message.setText(this.getMessageBody(entity, project));
         return message;
     }

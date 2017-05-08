@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import defencer.model.Instructor;
+import defencer.model.enums.Role;
 import defencer.service.factory.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -47,7 +48,7 @@ public class UpdateInstructorController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         role.setItems(FXCollections
-                .observableArrayList("Chief Officer", "Coordinator", "Instructor"));
+                .observableArrayList(Role.CHIEF_OFFICER, Role.COORDINATOR, Role.INSTRUCTOR, Role.OFFICE_MANAGER));
 
         btnUpdateInstructor.setOnAction(e -> prepareUpdating());
 

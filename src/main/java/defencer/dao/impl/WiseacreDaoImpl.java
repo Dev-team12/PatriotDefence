@@ -2,6 +2,7 @@ package defencer.dao.impl;
 
 import defencer.dao.WiseacreDao;
 import defencer.model.*;
+import defencer.model.enums.Role;
 import defencer.util.HibernateUtil;
 import lombok.val;
 import org.hibernate.Session;
@@ -68,7 +69,8 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         final CriteriaQuery<Instructor> criteriaQuery = criteriaBuilder.createQuery(Instructor.class);
         final Root<Instructor> root = criteriaQuery.from(Instructor.class);
         criteriaQuery.select(root)
-                .where(criteriaBuilder.equal(root.get("status"), "FREE"));
+                .where(criteriaBuilder.equal(root.get("status"), "FREE"),
+                        criteriaBuilder.in(root.get("role")).value(Role.INSTRUCTOR).value(Role.COORDINATOR));
         final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
         session.getTransaction().commit();
         session.close();

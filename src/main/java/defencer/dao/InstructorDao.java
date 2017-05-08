@@ -41,4 +41,9 @@ public interface InstructorDao extends CrudDao<Instructor, Long> {
      * @return list of instructor who has role Chief Officer.
      */
     List<Instructor> findAdmins();
+
+    /**
+     * @return list of projects for current user.
+     */
+    List<Project> getMyProject(Long userId);
 }

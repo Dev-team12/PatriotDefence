@@ -157,7 +157,7 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
     public void updateCurrentUser(Long userId, String status) throws SQLException {
         DaoFactory.getWiseacreDao().updateCurrentUser(userId, status);
         final WorkDay workDay = new WorkDay();
-        workDay.setDateOfCreation(LocalDate.now().plusDays(1));
+        workDay.setDateOfCreation(LocalDate.now());
         workDay.setInstructorId(userId);
         final LocalDate projectDateStart = CurrentUser.getLink().getProjectDateStart();
         final LocalDate projectDateFinish = CurrentUser.getLink().getProjectDateFinish();

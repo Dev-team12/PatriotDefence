@@ -2,6 +2,7 @@ package defencer.start;
 
 import defencer.util.HibernateUtil;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,7 +28,7 @@ public class AppManager extends Application {
             if (HibernateUtil.getSessionFactory().isOpen()) {
                 HibernateUtil.shutdown();
             }
-            System.exit(0);
+            Platform.exit();
         });
     }
 }

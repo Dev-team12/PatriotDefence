@@ -46,12 +46,6 @@ public class PremierLeagueController implements Initializable {
     @FXML
     private Text txtDescription;
     @FXML
-    private Text txtEmail;
-    @FXML
-    private Text txtPhone;
-    @FXML
-    private Text txtQualification;
-    @FXML
     private Text txtLastName;
     @FXML
     private Text txtFirstName;
@@ -77,8 +71,6 @@ public class PremierLeagueController implements Initializable {
     private Set<Instructor> instructorSet = new HashSet<>();
     private Project project;
     private int counter;
-    private final int sleepFirst = 100;
-    private final int sleep = 250;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -112,9 +104,7 @@ public class PremierLeagueController implements Initializable {
         if (counter >= freeInstructors.size() || counter < 0) {
             counter = 0;
         }
-        final Runnable runnable = loadInstructorDetails(freeInstructors.get(counter));
-        final Thread thread = new Thread(runnable);
-        thread.start();
+        loadInstructorDetails(freeInstructors.get(counter));
     }
 
     /**
@@ -185,43 +175,9 @@ public class PremierLeagueController implements Initializable {
      *
      * @param instructor is selected instructor.
      */
-    private Runnable loadInstructorDetails(Instructor instructor) {
-        return () -> {
-            try {
-                Thread.sleep(sleepFirst);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            txtFirstName.setText("First name: " + instructor.getFirstName());
-
-            try {
-                Thread.sleep(sleep);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            txtLastName.setText("Last name: " + instructor.getLastName());
-
-            try {
-                Thread.sleep(sleep);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            txtQualification.setText("Qualification: " + instructor.getQualification());
-
-            try {
-                Thread.sleep(sleep);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            txtPhone.setText("Phone: " + instructor.getPhone());
-
-            try {
-                Thread.sleep(sleep);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            txtEmail.setText("Email: " + instructor.getEmail());
-        };
+    private void loadInstructorDetails(Instructor instructor) {
+        txtFirstName.setText("First name: " + instructor.getFirstName());
+        txtLastName.setText("Last name: " + instructor.getLastName());
     }
 
     /**
@@ -249,9 +205,6 @@ public class PremierLeagueController implements Initializable {
     private void clearTxt() {
         txtFirstName.setText("");
         txtLastName.setText("");
-        txtQualification.setText("");
-        txtPhone.setText("");
-        txtEmail.setText("");
     }
 
     /**

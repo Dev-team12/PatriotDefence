@@ -53,22 +53,6 @@
             <Font name="System Bold" size="23.0"/>
         </font>
     </Text>
-    <Text fx:id="txtEmail" layoutX="956.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="      ">
-        <font>
-            <Font name="System Bold" size="23.0"/>
-        </font>
-    </Text>
-    <Text fx:id="txtPhone" layoutX="956.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="      ">
-        <font>
-            <Font name="System Bold" size="23.0"/>
-        </font>
-    </Text>
-    <Text fx:id="txtQualification" layoutX="956.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0"
-          text="              ">
-        <font>
-            <Font name="System Bold" size="23.0"/>
-        </font>
-    </Text>
     <Text fx:id="txtLastName" layoutX="956.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="          ">
         <font>
             <Font name="System Bold" size="23.0"/>

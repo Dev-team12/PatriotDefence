@@ -72,5 +72,12 @@
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:3.1.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.cathive.fx:fx-gravatar:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.testng:testng:6.8" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit:4.10" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.beanshell:bsh:2.0b4" level="project" />
+    <orderEntry type="library" name="Maven: com.beust:jcommander:1.27" level="project" />
+    <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.6" level="project" />
   </component>
 </module>

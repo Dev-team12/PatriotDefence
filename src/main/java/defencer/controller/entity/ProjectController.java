@@ -65,6 +65,8 @@ public class ProjectController implements Initializable {
     @FXML
     private TableColumn<Project, String> author;
     @FXML
+    private TableColumn<Project, String> refusal;
+    @FXML
     private JFXComboBox<String> comboProject;
     @FXML
     private JFXButton btnAddOneMore;
@@ -170,6 +172,12 @@ public class ProjectController implements Initializable {
         table.setItems(observableProjects);
     }
 
+    public static void main(String[] args) {
+
+        final ProjectController projectController = new ProjectController();
+        projectController.getFreeInstructors().forEach(s -> System.out.println(s.getFirstLastName()));
+    }
+
     /**
      * Open window for auditing instructors.
      */
@@ -214,6 +222,7 @@ public class ProjectController implements Initializable {
         instructors.setCellValueFactory(new PropertyValueFactory<>("instructors"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         author.setCellValueFactory(new PropertyValueFactory<>("author"));
+        refusal.setCellValueFactory(new PropertyValueFactory<>("refusal"));
     }
 
     /**
@@ -355,7 +364,6 @@ public class ProjectController implements Initializable {
         }
         try {
             ServiceFactory.getProjectService().deleteEntity(project);
-            observableProjects.clear();
             loadProjects();
             ServiceFactory.getWiseacreService().setFreeStatusForInstructorsByProjectId(project.getId());
         } catch (Exception e) {

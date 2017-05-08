@@ -34,13 +34,11 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
         if (!this.emailAvailable(instructor)) {
             throw new EntityAlreadyExistsException("Supplied email is already taken: " + instructor.getEmail());
         }
+        val instructorPassword = RandomStringUtils.randomAlphanumeric(PASSWORD_LENGTH);
         EmailBuilder<Instructor> emailBuilder = new ConfirmBuilderImpl();
+        instructor.setPassword(instructorPassword);
         val message = emailBuilder.buildMessage(instructor);
         ServiceFactory.getEmailService().sendMessage(message);
-        val instructorPassword = RandomStringUtils.randomAlphanumeric(PASSWORD_LENGTH);
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        final String encode = encoder.encode(instructorPassword);
-        instructor.setPassword(instructorPassword);
         return super.createEntity(instructor);
     }
 
@@ -78,7 +76,6 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
             s.setStatus("EXPECTED");
             try {
                 ServiceFactory.getInstructorService().updateEntity(s);
-//                ServiceFactory.getProjectService().updateEntity(project);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -91,10 +88,19 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         CurrentUser.refresh(CurrentUser.getLink().getEmail());
 
         final Thread email = new Thread(mailSender(instructors, project));
         email.start();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public List<Project> getMyProject(Long userId) {
+        return DaoFactory.getInstructorDao().getMyProject(userId);
     }
 
     /**

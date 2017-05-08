@@ -25,7 +25,11 @@ public class EmailServiceImpl implements EmailService {
      */
     @Override
     public void sendMessage(SimpleMailMessage message) {
-        new EmailConfig().mailSender().send(message);
+        try {
+            new EmailConfig().mailSender().send(message);
+        } catch (Exception e) {
+            // NON
+        }
     }
 
     /**

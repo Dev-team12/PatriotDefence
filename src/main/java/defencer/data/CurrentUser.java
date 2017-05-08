@@ -90,9 +90,6 @@ public class CurrentUser extends AbstractEntity {
         instructor.setEmail((String) data.get("email"));
         instructor.setPhone((String) data.get("phoneNumber"));
 
-        System.out.println("firstName:" + data.get("firstName") + ";lastName:" + data.get("lastName")
-                + ";email:" + data.get("email") + ";phoneNumber:" + data.get("phoneNumber"));
-
         try {
             ServiceFactory.getInstructorService().updateEntity(instructor);
         } catch (SQLException e) {

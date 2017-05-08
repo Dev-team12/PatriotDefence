@@ -40,8 +40,8 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         final List<Instructor> instructorInProject = getInstructorInProject(session);
         final List<Car> carInProject = getCarInProject(session);
         projects.forEach(s -> {
-            s.setInstructors("");
             s.setCars("");
+            s.setInstructors("");
         });
         setInstructorsIntoProject(projects, instructorInProject);
         setCarsIntoProject(projects, carInProject);
@@ -57,12 +57,15 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
      */
     private void setInstructorsIntoProject(List<Project> projects, List<Instructor> instructors) {
         StringBuilder builder = new StringBuilder();
-        projects.forEach(project -> instructors.forEach(instructor -> {
-            if (project.getId().equals(instructor.getProjectId())) {
-                builder.append(instructor.getFirstLastName());
-                project.setInstructors(builder.toString());
-            }
-        }));
+        projects.forEach(project -> {
+            instructors.forEach(instructor -> {
+                if (project.getId().equals(instructor.getProjectId())) {
+                    builder.append(instructor.getFirstLastName()).append(" ");
+                    project.setInstructors(builder.toString());
+                }
+            });
+            builder.setLength(0);
+        });
     }
 
     /**
@@ -70,12 +73,15 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
      */
     private void setCarsIntoProject(List<Project> projects, List<Car> cars) {
         StringBuilder builder = new StringBuilder();
-        projects.forEach(project -> cars.forEach(car -> {
-            if (project.getId().equals(car.getProjectId())) {
-                builder.append(car.getCarName()).append(" ");
-                project.setCars(builder.toString());
-            }
-        }));
+        projects.forEach(project -> {
+            cars.forEach(car -> {
+                if (project.getId().equals(car.getProjectId())) {
+                    builder.append(car.getCarName()).append(" ");
+                    project.setCars(builder.toString());
+                }
+            });
+            builder.setLength(0);
+        });
     }
 
     @Override
@@ -106,8 +112,8 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         final List<Instructor> instructorInProject = getInstructorInProject(session);
         final List<Car> carInProject = getCarInProject(session);
         projects.forEach(s -> {
-            s.setInstructors("");
             s.setCars("");
+            s.setInstructors("");
         });
         setInstructorsIntoProject(projects, instructorInProject);
         setCarsIntoProject(projects, carInProject);
@@ -158,7 +164,7 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         final CriteriaQuery<Instructor> criteriaBuilderQuery = criteriaBuilder.createQuery(Instructor.class);
         final Root<Instructor> root = criteriaBuilderQuery.from(Instructor.class);
         criteriaBuilderQuery.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"), root.get("projectId"))
-                .where(criteriaBuilder.notEqual(root.get("projectId"), -1), root.get("projectId").isNotNull());
+                .where(criteriaBuilder.notEqual(root.get("projectId"), -1), root.get("projectId").isNotNull(), root.get("projectId").isNotNull());
         return session.createQuery(criteriaBuilderQuery).getResultList();
     }
 
@@ -171,7 +177,7 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         final CriteriaQuery<Car> criteriaBuilderQuery = criteriaBuilder.createQuery(Car.class);
         final Root<Car> root = criteriaBuilderQuery.from(Car.class);
         criteriaBuilderQuery.select(root)
-                .where(criteriaBuilder.notEqual(root.get("projectId"), -1), root.get("projectId").isNotNull());
+                .where(criteriaBuilder.notEqual(root.get("projectId"), -1), root.get("projectId").isNotNull(), root.get("projectId").isNotNull());
         return session.createQuery(criteriaBuilderQuery).getResultList();
     }
 
