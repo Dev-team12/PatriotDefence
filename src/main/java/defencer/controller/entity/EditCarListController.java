@@ -66,7 +66,6 @@ public class EditCarListController implements Initializable {
         freeCar.forEach(s -> {
             if (s.getCarName().equals(value)) {
                 s.setStatus("BUSY");
-                s.setProjectId(project.getId());
                 try {
                     ServiceFactory.getWiseacreService().updateEntity(s);
                 } catch (SQLException e) {

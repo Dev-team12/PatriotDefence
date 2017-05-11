@@ -63,22 +63,6 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         });
     }
 
-    /**
-     * Update cars in project.
-     */
-    private void setCarsIntoProject(List<Project> projects, List<Car> cars) {
-        StringBuilder builder = new StringBuilder();
-        projects.forEach(project -> {
-            cars.forEach(car -> {
-                if (project.getId().equals(car.getProjectId())) {
-                    builder.append(car.getCarName()).append(" ");
-                    project.setCars(builder.toString());
-                }
-            });
-            builder.setLength(0);
-        });
-    }
-
     @Override
     public void saveId(Long projectId) {
 
