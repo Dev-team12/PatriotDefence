@@ -2,6 +2,7 @@ package defencer.service;
 
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.Schedule;
 
 import java.util.List;
 
@@ -40,5 +41,5 @@ public interface InstructorService extends CrudService<Instructor, Long> {
     /**
      * @return list of projects for current user.
      */
-    List<Project> getMyProject(Long userId);
+    List<Schedule> getMyProject(Long userId);
 }

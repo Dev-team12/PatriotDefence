@@ -169,7 +169,7 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public List<Instructor> getCurrentInstructors(Long projectId) {
+    public List<Schedule> getCurrentInstructors(Long projectId) {
         try {
             return DaoFactory.getWiseacreDao().getCurrentInstructors(projectId);
         } catch (SQLException e) {
@@ -190,8 +190,8 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public void deleteSelectedInstructors(Long instructorId) {
-        DaoFactory.getWiseacreDao().deleteSelectedInstructors(instructorId);
+    public void deleteSelectedInstructors(Long instructorId, Long projectId) {
+        DaoFactory.getWiseacreDao().deleteSelectedInstructors(instructorId, projectId);
     }
 
     /**
@@ -216,5 +216,13 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
     @Override
     public List<DaysOff> getDaysOff(Long instructorId) {
         return DaoFactory.getWiseacreDao().getDaysOff(instructorId);
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void updateSchedule(List<Instructor> instructors, Project project) {
+        DaoFactory.getWiseacreDao().updateSchedule(instructors, project);
     }
 }

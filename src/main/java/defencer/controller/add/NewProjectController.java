@@ -61,7 +61,6 @@ public class NewProjectController implements Initializable {
      * Prepare {@link Project} to creating.
      */
     private void prepareAdding() {
-
         if (validatorFields()) {
             if (!checkPeriod()) {
                 NotificationUtil.warningAlert("Warning", "You can't create the project in less than 5 days from today", NotificationUtil.SHORT);

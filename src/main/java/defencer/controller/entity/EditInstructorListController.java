@@ -3,6 +3,7 @@ package defencer.controller.entity;
 import com.jfoenix.controls.JFXButton;
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.Schedule;
 import defencer.service.factory.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -29,11 +31,11 @@ public class EditInstructorListController implements Initializable {
     @FXML
     private JFXButton btnDelete;
     @FXML
-    private TableView<Instructor> tableCurrentInstructors;
+    private TableView<Schedule> tableCurrentInstructors;
     @FXML
-    private TableColumn<Instructor, String> instructorName;
+    private TableColumn<Schedule, String> instructorName;
 
-    private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
+    private ObservableList<Schedule> observableInstructors = FXCollections.observableArrayList();
     private Project project;
 
     @Override
@@ -57,12 +59,22 @@ public class EditInstructorListController implements Initializable {
      * Delete selected instructor who was selected in project before.
      */
     private void delete() {
-        final Instructor instructor = tableCurrentInstructors.getSelectionModel().getSelectedItem();
-        if (instructor == null) {
+        final Schedule schedule = tableCurrentInstructors.getSelectionModel().getSelectedItem();
+        if (schedule == null) {
             return;
         }
-        tableCurrentInstructors.getItems().remove(instructor);
-        ServiceFactory.getWiseacreService().deleteSelectedInstructors(instructor.getId());
+        try {
+            ServiceFactory.getWiseacreService().deleteEntity(schedule);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+//        final Instructor instructor = tableCurrentInstructors.getSelectionModel().getSelectedItem();
+//        if (instructor == null) {
+//            return;
+//        }
+//        tableCurrentInstructors.getItems().remove(instructor);
+//        ServiceFactory.getWiseacreService().deleteSelectedInstructors(instructor.getId());
         loadInstructors(project);
     }
 
@@ -80,13 +92,13 @@ public class EditInstructorListController implements Initializable {
      * Insert value for current instructor table.
      */
     private void loadInstructorTable() {
-        instructorName.setCellValueFactory(new PropertyValueFactory<>("firstLastName"));
+        instructorName.setCellValueFactory(new PropertyValueFactory<>("instructorName"));
     }
 
     /**
      * @return list of instructors who were selected before.
      */
-    private List<Instructor> getCurrentInstructors(Long projectId) {
+    private List<Schedule> getCurrentInstructors(Long projectId) {
         return ServiceFactory.getWiseacreService().getCurrentInstructors(projectId);
     }
 }

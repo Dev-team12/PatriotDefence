@@ -5,6 +5,7 @@ import defencer.dao.impl.WiseacreDaoImpl;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.model.ProjectTimes;
+import defencer.model.Schedule;
 import defencer.service.EmailBuilder;
 import defencer.service.EmailService;
 import defencer.service.ProjectService;
@@ -69,8 +70,8 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
         final ProjectTimes projectTimes = new ProjectTimes();
         projectTimes.setDateOfCreation(LocalDate.now());
         projectTimes.setProjectName(alreadyCreatedProject.getName());
-        new WiseacreDaoImpl().save(projectTimes);
-
+        WiseacreDaoImpl wiseacreDao = new WiseacreDaoImpl();
+        wiseacreDao.save(projectTimes);
         final List<Instructor> admins = findAdmins();
         final Thread thread = new Thread(mailSenderCreatedProject(admins, project));
         thread.start();

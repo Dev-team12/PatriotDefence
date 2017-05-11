@@ -47,12 +47,6 @@
             <Font name="System Bold" size="23.0"/>
         </font>
     </Text>
-    <Text fx:id="txtDescription" layoutX="17.0" layoutY="375.0" strokeType="OUTSIDE" strokeWidth="0.0"
-          text="Description:">
-        <font>
-            <Font name="System Bold" size="23.0"/>
-        </font>
-    </Text>
     <Text fx:id="txtLastName" layoutX="956.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="          ">
         <font>
             <Font name="System Bold" size="23.0"/>

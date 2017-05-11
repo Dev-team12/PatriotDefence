@@ -4,6 +4,7 @@ import defencer.dao.ProjectDao;
 import defencer.model.Car;
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.Schedule;
 import defencer.util.HibernateUtil;
 import lombok.val;
 import org.hibernate.Session;
@@ -37,14 +38,30 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
                 .where(criteriaBuilder
                         .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(1)));
         final List<Project> projects = session.createQuery(projectCriteriaQuery).getResultList();
-        final List<Instructor> instructorInProject = getInstructorInProject(session);
-        final List<Car> carInProject = getCarInProject(session);
+
+        final CriteriaQuery<Schedule> scheduleCriteriaQuery = criteriaBuilder.createQuery(Schedule.class);
+        final Root<Schedule> toor = scheduleCriteriaQuery.from(Schedule.class);
+        final StringBuilder stringBuilder = new StringBuilder();
         projects.forEach(s -> {
-            s.setCars("");
-            s.setInstructors("");
+            scheduleCriteriaQuery.multiselect(toor.get("id"), toor.get("instructorName"))
+                    .where(criteriaBuilder.equal(toor
+                            .get("projectId"), s.getId()));
+            final List<Schedule> schedules = session.createQuery(scheduleCriteriaQuery).getResultList();
+//            System.out.println(session.createQuery(scheduleCriteriaQuery).getResultList());
+            schedules.forEach(e -> stringBuilder.append(e.getInstructorName()));
+            s.setInstructors(stringBuilder.toString());
+            stringBuilder.setLength(0);
+//            schedules.forEach(b -> s.setInstructors(b.getInstructorName()));
         });
-        setInstructorsIntoProject(projects, instructorInProject);
-        setCarsIntoProject(projects, carInProject);
+
+//        final List<Instructor> instructorInProject = getInstructorInProject(session);
+//        final List<Car> carInProject = getCarInProject(session);
+//        projects.forEach(s -> {
+//            s.setCars("");
+//            s.setInstructors("");
+//        });
+//        setInstructorsIntoProject(projects, instructorInProject);
+//        setCarsIntoProject(projects, carInProject);
 
         session.getTransaction().commit();
         session.close();

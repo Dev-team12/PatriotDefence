@@ -10,10 +10,7 @@ import org.hibernate.Session;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 
 /**
  * Implementation of {@link WiseacreDao} interface.
@@ -290,15 +287,15 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
      * {@inheritDoc}.
      */
     @Override
-    public List<Instructor> getCurrentInstructors(Long projectId) throws SQLException {
+    public List<Schedule> getCurrentInstructors(Long projectId) throws SQLException {
         final Session session = getCurrentSession();
         session.beginTransaction();
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        final CriteriaQuery<Instructor> criteriaBuilderQuery = criteriaBuilder.createQuery(Instructor.class);
-        final Root<Instructor> root = criteriaBuilderQuery.from(Instructor.class);
+        val criteriaBuilderQuery = criteriaBuilder.createQuery(Schedule.class);
+        Root<Schedule> root = criteriaBuilderQuery.from(Schedule.class);
         criteriaBuilderQuery.select(root)
                 .where(criteriaBuilder.equal(root.get("projectId"), projectId));
-        final List<Instructor> instructors = session.createQuery(criteriaBuilderQuery).getResultList();
+        final List<Schedule> instructors = session.createQuery(criteriaBuilderQuery).getResultList();
         session.getTransaction().commit();
         session.close();
         return instructors;
@@ -326,15 +323,20 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
      * {@inheritDoc}.
      */
     @Override
-    public void deleteSelectedInstructors(Long instructorId) {
+    public void deleteSelectedInstructors(Long instructorId, Long projectId) {
         final Session session = getCurrentSession();
         session.beginTransaction();
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        val criteriaUpdateQuery = criteriaBuilder.createCriteriaUpdate(Instructor.class);
-        final Root<Instructor> root = criteriaUpdateQuery.from(Instructor.class);
-        criteriaUpdateQuery.set(root.get("status"), "FREE").set(root.get("projectId"), -1)
-                .where(criteriaBuilder.equal(root.get("id"), instructorId));
-        session.createQuery(criteriaUpdateQuery).executeUpdate();
+        val criteriaDelete = criteriaBuilder.createCriteriaDelete(Schedule.class);
+        Root<Schedule> root = criteriaDelete.from(Schedule.class);
+        criteriaDelete.where(criteriaBuilder.equal(root.get("instructorId"), instructorId),
+                criteriaBuilder.equal(root.get("projectId"), projectId));
+        session.createQuery(criteriaDelete).executeUpdate();
+//        val criteriaUpdateQuery = criteriaBuilder.createCriteriaUpdate(Instructor.class);
+//        final Root<Instructor> root = criteriaUpdateQuery.from(Instructor.class);
+//        criteriaUpdateQuery.set(root.get("status"), "FREE").set(root.get("projectId"), -1)
+//                .where(criteriaBuilder.equal(root.get("id"), instructorId));
+//        session.createQuery(criteriaUpdateQuery).executeUpdate();
         session.getTransaction().commit();
         session.close();
     }
@@ -389,6 +391,43 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         session.getTransaction().commit();
         session.close();
         return daysOffList;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void updateSchedule(List<Instructor> instructors, Project project) {
+        Session session = getCurrentSession();
+        session.beginTransaction();
+//        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+//        val criteriaBuilderQuery = criteriaBuilder.createQuery(Schedule.class);
+//        Root<Schedule> root = criteriaBuilderQuery.from(Schedule.class);
+////        criteriaBuilderQuery.select(root)
+////                .where(criteriaBuilder.equal(root.get("projectId"), projectId));
+
+        Schedule schedule = new Schedule();
+        schedule.setProjectName(project.getNameId());
+        schedule.setStartProject(project.getDateStart());
+        schedule.setFinishProject(project.getDateFinish());
+        schedule.setProjectId(project.getId());
+
+        instructors.forEach(s -> {
+            schedule.setInstructorId(s.getId());
+            schedule.setInstructorName(s.getFirstLastName());
+            save(schedule);
+        });
+//        val criteriaBuilderQuery = criteriaBuilder.createCriteriaUpdate(Schedule.class);
+//        Root<Schedule> root = criteriaBuilderQuery.from(Schedule.class);
+
+
+//        instructorId.forEach(s -> {
+//            criteriaBuilderQuery.set(root.get("instructorId"), s)
+//                    .where(criteriaBuilder.equal(root.get("projectId"), projectId));
+//            session.createQuery(criteriaBuilderQuery).executeUpdate();
+//        });
+        session.getTransaction().commit();
+        session.close();
     }
 
     /**

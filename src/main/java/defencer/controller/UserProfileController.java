@@ -9,6 +9,7 @@ import defencer.data.CurrentUser;
 import defencer.model.DaysOff;
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.Schedule;
 import defencer.service.InstructorService;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
@@ -39,7 +40,7 @@ public class UserProfileController implements Initializable {
     @FXML
     private JFXButton btnCanNot;
     @FXML
-    private TableView<Project> tableMyProjects;
+    private TableView<Schedule> tableMyProjects;
     @FXML
     private TableView<DaysOff> tableDaysOff;
     @FXML
@@ -76,7 +77,7 @@ public class UserProfileController implements Initializable {
     private JFXDatePicker dateBusyTo;
 
     private ObservableList<DaysOff> observableDaysOff = FXCollections.observableArrayList();
-    private ObservableList<Project> observableMyProject = FXCollections.observableArrayList();
+    private ObservableList<Schedule> observableMyProject = FXCollections.observableArrayList();
 
 
     @Override
@@ -163,9 +164,9 @@ public class UserProfileController implements Initializable {
     private void insertTables() {
         busyFrom.setCellValueFactory(new PropertyValueFactory<>("dateFrom"));
         busyTo.setCellValueFactory(new PropertyValueFactory<>("dateTo"));
-        myProjectName.setCellValueFactory(new PropertyValueFactory<>("nameId"));
-        myStartDate.setCellValueFactory(new PropertyValueFactory<>("dateStart"));
-        myFinishDate.setCellValueFactory(new PropertyValueFactory<>("dateFinish"));
+        myProjectName.setCellValueFactory(new PropertyValueFactory<>("projectName"));
+        myStartDate.setCellValueFactory(new PropertyValueFactory<>("startProject"));
+        myFinishDate.setCellValueFactory(new PropertyValueFactory<>("finishProject"));
     }
 
     /**
@@ -196,7 +197,7 @@ public class UserProfileController implements Initializable {
     /**
      * @return list of project for current user.
      */
-    private List<Project> getMyProjects() {
+    private List<Schedule> getMyProjects() {
         return ServiceFactory.getInstructorService().getMyProject(CurrentUser.getLink().getId());
     }
 
@@ -205,10 +206,10 @@ public class UserProfileController implements Initializable {
      */
     private void disagree() {
         final CurrentUser currentUser = CurrentUser.getLink();
-        final Project project = tableMyProjects.getSelectionModel().getSelectedItem();
-        project.setRefusal(currentUser.getFirstName() + currentUser.getLastName());
+        Schedule schedule = tableMyProjects.getSelectionModel().getSelectedItem();
+//        project.setRefusal(currentUser.getFirstName() + currentUser.getLastName());
         try {
-            ServiceFactory.getProjectService().updateEntity(project);
+//            ServiceFactory.getProjectService().updateEntity(project);
             ServiceFactory.getWiseacreService().updateCurrentUser(currentUser.getId(), "FREE");
         } catch (SQLException e) {
             e.printStackTrace();

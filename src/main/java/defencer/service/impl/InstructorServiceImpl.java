@@ -5,6 +5,7 @@ import defencer.data.CurrentUser;
 import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.Schedule;
 import defencer.service.EmailBuilder;
 import defencer.service.EmailService;
 import defencer.service.InstructorService;
@@ -15,6 +16,7 @@ import lombok.val;
 import org.apache.commons.lang.RandomStringUtils;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -71,23 +73,7 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      */
     @Override
     public void configureProject(List<Instructor> instructors, Project project) {
-        Runnable runnable = () -> instructors.forEach(s -> {
-            s.setProjectId(project.getId());
-            s.setStatus("EXPECTED");
-            try {
-                ServiceFactory.getInstructorService().updateEntity(s);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-
-        final Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        ServiceFactory.getWiseacreService().updateSchedule(instructors, project);
 
         CurrentUser.refresh(CurrentUser.getLink().getEmail());
 
@@ -99,7 +85,7 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      * {@inheritDoc}.
      */
     @Override
-    public List<Project> getMyProject(Long userId) {
+    public List<Schedule> getMyProject(Long userId) {
         return DaoFactory.getInstructorDao().getMyProject(userId);
     }
 

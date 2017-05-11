@@ -3,6 +3,7 @@ package defencer.dao.impl;
 import defencer.dao.InstructorDao;
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.Schedule;
 import defencer.model.enums.Role;
 import defencer.util.HibernateUtil;
 import lombok.val;
@@ -118,18 +119,18 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
      * {@inheritDoc}.
      */
     @Override
-    public List<Project> getMyProject(Long userId) {
-        final Session session = getSession();
+    public List<Schedule> getMyProject(Long userId) {
+        Session session = getSession();
         session.beginTransaction();
-        val criteriaBuilder = session.getCriteriaBuilder();
-        val criteriaBuilderQuery = criteriaBuilder.createQuery(Project.class);
-        final Root<Project> root = criteriaBuilderQuery.from(Project.class);
-        criteriaBuilderQuery.select(root)
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val scheduleCriteriaQuery = criteriaBuilder.createQuery(Schedule.class);
+        Root<Schedule> root = scheduleCriteriaQuery.from(Schedule.class);
+        scheduleCriteriaQuery.select(root)
                 .where(criteriaBuilder.equal(root.get("instructorId"), userId));
-        final List<Project> projects = session.createQuery(criteriaBuilderQuery).getResultList();
+        List<Schedule> myProject = session.createQuery(scheduleCriteriaQuery).getResultList();
         session.getTransaction().commit();
         session.close();
-        return projects;
+        return myProject;
     }
 
     /**
