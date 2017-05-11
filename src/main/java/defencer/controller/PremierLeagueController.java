@@ -3,7 +3,6 @@ package defencer.controller;
 import com.jfoenix.controls.JFXButton;
 import defencer.model.Instructor;
 import defencer.model.Project;
-import defencer.model.Schedule;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
@@ -19,7 +18,6 @@ import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
-import lombok.val;
 
 import java.io.File;
 import java.net.URL;
@@ -128,9 +126,11 @@ public class PremierLeagueController implements Initializable {
      * Delete selected instructor.
      */
     private void deleteSelectedInstructor() {
+//        final Instructor instructor = tableInstructors.getSelectionModel().getSelectedItem();
+//        ServiceFactory.getWiseacreService().deleteSelectedInstructors(instructor.getId(), project.getId());
+//        updateTableWithCurrentInstructors();
         final Instructor instructor = tableInstructors.getSelectionModel().getSelectedItem();
-        ServiceFactory.getWiseacreService().deleteSelectedInstructors(instructor.getId(), project.getId());
-        updateTableWithCurrentInstructors();
+        tableInstructors.getItems().remove(instructor);
     }
 
     /**
@@ -143,17 +143,17 @@ public class PremierLeagueController implements Initializable {
         txtDateStart.setText("DateStart: " + project.getDateStart());
         txtDateFinish.setText("DateFinish: " + project.getDateFinish());
         txtAuthor.setText("Author: " + project.getAuthor());
-
-        instructorSet.addAll(getCurrentInstructors(project.getId()));
-        observableInstructors.addAll(instructorSet);
-        tableInstructors.setItems(observableInstructors);
+//        updateTableWithCurrentInstructors();
+//        instructorSet.addAll(getCurrentInstructors(project.getId()));
+//        observableInstructors.addAll(instructorSet);
+//        tableInstructors.setItems(observableInstructors);
     }
 
     /**
      * Configured table.
      */
     private void insertInstructorTable() {
-        instructors.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        instructors.setCellValueFactory(new PropertyValueFactory<>("firstLastName"));
     }
 
     /**
@@ -161,7 +161,9 @@ public class PremierLeagueController implements Initializable {
      */
     private void updateTableWithCurrentInstructors() {
         observableInstructors.clear();
-        observableInstructors.addAll(getCurrentInstructors(project.getId()));
+        instructorSet.clear();
+//        instructorSet.addAll(getCurrentInstructors(project.getId()));
+        observableInstructors.addAll(instructorSet);
         tableInstructors.setItems(observableInstructors);
     }
 
@@ -212,26 +214,28 @@ public class PremierLeagueController implements Initializable {
         txtLastName.setText("");
     }
 
+//    /**
+//     * @return list of instructors who were selected before.
+//     */
+//    private List<Instructor> getCurrentInstructors(Long projectId) {
+//        final List<Schedule> instructors = ServiceFactory.getWiseacreService().getCurrentInstructors(projectId);
+//        List<Instructor> currentList = new LinkedList<>();
+//        instructors.forEach(s -> {
+//            val instructor = new Instructor();
+//            instructor.setProjectId(projectId);
+//            instructor.setId(s.getInstructorId());
+//            instructor.setFirstName(s.getInstructorName());
+//            instructor.setLastName("");
+//            currentList.add(instructor);
+//        });
+//        return currentList;
+//    }
+
+
     /**
      * @return free instructor's name for project.
      */
     private List<Instructor> getFreeInstructors() {
         return ServiceFactory.getWiseacreService().getFreeInstructors();
-    }
-
-    /**
-     * @return list of instructors who were selected before.
-     */
-    private List<Instructor> getCurrentInstructors(Long projectId) {
-        final List<Schedule> instructors = ServiceFactory.getWiseacreService().getCurrentInstructors(projectId);
-        List<Instructor> currentList = new LinkedList<>();
-        instructors.forEach(s -> {
-            val instructor = new Instructor();
-            instructor.setProjectId(projectId);
-            instructor.setId(s.getInstructorId());
-            instructor.setFirstName(s.getInstructorName());
-            currentList.add(instructor);
-        });
-        return currentList;
     }
 }

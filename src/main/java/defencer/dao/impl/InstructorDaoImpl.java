@@ -93,7 +93,7 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
         final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
         session.getTransaction().commit();
         session.close();
-        instructorList.sort(Comparator.comparing(Instructor::getId));
+        instructorList.sort(Comparator.comparing(Instructor::getRole));
         return instructorList;
     }
 

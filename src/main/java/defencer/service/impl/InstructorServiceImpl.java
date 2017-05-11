@@ -16,7 +16,6 @@ import lombok.val;
 import org.apache.commons.lang.RandomStringUtils;
 
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 
 /**

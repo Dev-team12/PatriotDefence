@@ -1,7 +1,6 @@
 package defencer.controller.entity;
 
 import com.jfoenix.controls.JFXButton;
-import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.model.Schedule;
 import defencer.service.factory.ServiceFactory;

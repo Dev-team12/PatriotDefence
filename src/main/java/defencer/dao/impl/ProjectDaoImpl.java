@@ -38,31 +38,7 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
                 .where(criteriaBuilder
                         .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(1)));
         final List<Project> projects = session.createQuery(projectCriteriaQuery).getResultList();
-
-        final CriteriaQuery<Schedule> scheduleCriteriaQuery = criteriaBuilder.createQuery(Schedule.class);
-        final Root<Schedule> toor = scheduleCriteriaQuery.from(Schedule.class);
-        final StringBuilder stringBuilder = new StringBuilder();
-        projects.forEach(s -> {
-            scheduleCriteriaQuery.multiselect(toor.get("id"), toor.get("instructorName"))
-                    .where(criteriaBuilder.equal(toor
-                            .get("projectId"), s.getId()));
-            final List<Schedule> schedules = session.createQuery(scheduleCriteriaQuery).getResultList();
-//            System.out.println(session.createQuery(scheduleCriteriaQuery).getResultList());
-            schedules.forEach(e -> stringBuilder.append(e.getInstructorName()));
-            s.setInstructors(stringBuilder.toString());
-            stringBuilder.setLength(0);
-//            schedules.forEach(b -> s.setInstructors(b.getInstructorName()));
-        });
-
-//        final List<Instructor> instructorInProject = getInstructorInProject(session);
-//        final List<Car> carInProject = getCarInProject(session);
-//        projects.forEach(s -> {
-//            s.setCars("");
-//            s.setInstructors("");
-//        });
-//        setInstructorsIntoProject(projects, instructorInProject);
-//        setCarsIntoProject(projects, carInProject);
-
+        setInstructorsIntoProject(projects, criteriaBuilder, session);
         session.getTransaction().commit();
         session.close();
         projects.sort(Comparator.comparing(Project::getId));
@@ -72,16 +48,18 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
     /**
      * Update instructors in project.
      */
-    private void setInstructorsIntoProject(List<Project> projects, List<Instructor> instructors) {
-        StringBuilder builder = new StringBuilder();
-        projects.forEach(project -> {
-            instructors.forEach(instructor -> {
-                if (project.getId().equals(instructor.getProjectId())) {
-                    builder.append(instructor.getFirstLastName()).append(" ");
-                    project.setInstructors(builder.toString());
-                }
-            });
-            builder.setLength(0);
+    private void setInstructorsIntoProject(List<Project> projects, CriteriaBuilder criteriaBuilder, Session session) {
+        final CriteriaQuery<Schedule> scheduleCriteriaQuery = criteriaBuilder.createQuery(Schedule.class);
+        final Root<Schedule> toor = scheduleCriteriaQuery.from(Schedule.class);
+        final StringBuilder stringBuilder = new StringBuilder();
+        projects.forEach(s -> {
+            scheduleCriteriaQuery.multiselect(toor.get("id"), toor.get("instructorName"))
+                    .where(criteriaBuilder.equal(toor
+                            .get("projectId"), s.getId()));
+            final List<Schedule> schedules = session.createQuery(scheduleCriteriaQuery).getResultList();
+            schedules.forEach(e -> stringBuilder.append(e.getInstructorName()));
+            s.setInstructors(stringBuilder.toString());
+            stringBuilder.setLength(0);
         });
     }
 
@@ -125,19 +103,9 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
                                 .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(1)),
                         criteriaBuilder.equal(root.get("name"), projectName));
         final List<Project> projects = session.createQuery(projectCriteriaQuery).getResultList();
-
-        final List<Instructor> instructorInProject = getInstructorInProject(session);
-        final List<Car> carInProject = getCarInProject(session);
-        projects.forEach(s -> {
-            s.setCars("");
-            s.setInstructors("");
-        });
-        setInstructorsIntoProject(projects, instructorInProject);
-        setCarsIntoProject(projects, carInProject);
-
+        setInstructorsIntoProject(projects, criteriaBuilder, session);
         session.getTransaction().commit();
         session.close();
-
         projects.sort(Comparator.comparing(Project::getId));
         return projects;
     }

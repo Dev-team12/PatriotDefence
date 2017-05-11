@@ -5,7 +5,6 @@ import defencer.dao.impl.WiseacreDaoImpl;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.model.ProjectTimes;
-import defencer.model.Schedule;
 import defencer.service.EmailBuilder;
 import defencer.service.EmailService;
 import defencer.service.ProjectService;

@@ -205,17 +205,10 @@ public class UserProfileController implements Initializable {
      * Set status free for instructor if he cat't take the project.
      */
     private void disagree() {
-        final CurrentUser currentUser = CurrentUser.getLink();
         Schedule schedule = tableMyProjects.getSelectionModel().getSelectedItem();
-//        project.setRefusal(currentUser.getFirstName() + currentUser.getLastName());
-        try {
-//            ServiceFactory.getProjectService().updateEntity(project);
-            ServiceFactory.getWiseacreService().updateCurrentUser(currentUser.getId(), "FREE");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        ServiceFactory.getWiseacreService().deleteSelectedInstructors(CurrentUser.getLink().getId(), schedule.getProjectId());
         CurrentUser.refresh(CurrentUser.getLink().getEmail());
-        factoryInitialization();
+        loadTableMyProject();
     }
 
     /**

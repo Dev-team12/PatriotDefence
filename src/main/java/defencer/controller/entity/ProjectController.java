@@ -8,7 +8,6 @@ import defencer.controller.CalendarController;
 import defencer.controller.PremierLeagueController;
 import defencer.controller.update.UpdateProjectController;
 import defencer.data.ControllersDataFactory;
-import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
@@ -172,12 +171,6 @@ public class ProjectController implements Initializable {
         table.setItems(observableProjects);
     }
 
-    public static void main(String[] args) {
-
-        final ProjectController projectController = new ProjectController();
-        projectController.getFreeInstructors().forEach(s -> System.out.println(s.getFirstLastName()));
-    }
-
     /**
      * Open window for auditing instructors.
      */
@@ -187,11 +180,7 @@ public class ProjectController implements Initializable {
         if (project == null) {
             NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);
             return;
-        } else if (getFreeInstructors().isEmpty()) {
-            NotificationUtil.warningAlert("Warning", "All instructors are busy", NotificationUtil.SHORT);
-            return;
         }
-
         final FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/PremierLeague.fxml"));
         Parent parent = fxmlLoader.load();
@@ -276,7 +265,6 @@ public class ProjectController implements Initializable {
         Parent parent = fxmlLoader.load();
         UpdateProjectController updateProjectController = fxmlLoader.getController();
         updateProjectController.editCurrentProject(project);
-
         final Stage stage = new Stage();
         Scene value = new Scene(parent);
         value.getStylesheets().add("css/main.css");
@@ -378,12 +366,12 @@ public class ProjectController implements Initializable {
         return ServiceFactory.getWiseacreService().getAvailableProject();
     }
 
-    /**
-     * @return free instructor's name for project.
-     */
-    private List<Instructor> getFreeInstructors() {
-        return ServiceFactory.getWiseacreService().getFreeInstructors();
-    }
+//    /**
+//     * @return free instructor's name for project.
+//     */
+//    private List<Instructor> getFreeInstructors() {
+//        return ServiceFactory.getWiseacreService().getFreeInstructors(project.getId());
+//    }
 
     /**
      * Preparing pdf report for project in table.

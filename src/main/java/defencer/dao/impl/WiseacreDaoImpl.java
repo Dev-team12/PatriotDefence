@@ -1,6 +1,7 @@
 package defencer.dao.impl;
 
 import defencer.dao.WiseacreDao;
+import defencer.data.CurrentUser;
 import defencer.model.*;
 import defencer.model.enums.Role;
 import defencer.util.HibernateUtil;
@@ -69,6 +70,7 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
                 .where(criteriaBuilder.equal(root.get("status"), "FREE"),
                         criteriaBuilder.in(root.get("role")).value(Role.INSTRUCTOR).value(Role.COORDINATOR));
         final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
+
         session.getTransaction().commit();
         session.close();
         return instructorList;
@@ -332,11 +334,13 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         criteriaDelete.where(criteriaBuilder.equal(root.get("instructorId"), instructorId),
                 criteriaBuilder.equal(root.get("projectId"), projectId));
         session.createQuery(criteriaDelete).executeUpdate();
-//        val criteriaUpdateQuery = criteriaBuilder.createCriteriaUpdate(Instructor.class);
-//        final Root<Instructor> root = criteriaUpdateQuery.from(Instructor.class);
-//        criteriaUpdateQuery.set(root.get("status"), "FREE").set(root.get("projectId"), -1)
-//                .where(criteriaBuilder.equal(root.get("id"), instructorId));
-//        session.createQuery(criteriaUpdateQuery).executeUpdate();
+
+        final CriteriaUpdate<Project> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Project.class);
+        final Root<Project> toor = criteriaUpdate.from(Project.class);
+        criteriaUpdate.set(toor.get("refusal"), CurrentUser.getLink().getFirstName() + " " + CurrentUser.getLink().getLastName())
+                .where(criteriaBuilder.equal(toor.get("id"), projectId));
+        session.createQuery(criteriaUpdate).executeUpdate();
+
         session.getTransaction().commit();
         session.close();
     }
@@ -400,11 +404,6 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
     public void updateSchedule(List<Instructor> instructors, Project project) {
         Session session = getCurrentSession();
         session.beginTransaction();
-//        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-//        val criteriaBuilderQuery = criteriaBuilder.createQuery(Schedule.class);
-//        Root<Schedule> root = criteriaBuilderQuery.from(Schedule.class);
-////        criteriaBuilderQuery.select(root)
-////                .where(criteriaBuilder.equal(root.get("projectId"), projectId));
 
         Schedule schedule = new Schedule();
         schedule.setProjectName(project.getNameId());
@@ -417,15 +416,6 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
             schedule.setInstructorName(s.getFirstLastName());
             save(schedule);
         });
-//        val criteriaBuilderQuery = criteriaBuilder.createCriteriaUpdate(Schedule.class);
-//        Root<Schedule> root = criteriaBuilderQuery.from(Schedule.class);
-
-
-//        instructorId.forEach(s -> {
-//            criteriaBuilderQuery.set(root.get("instructorId"), s)
-//                    .where(criteriaBuilder.equal(root.get("projectId"), projectId));
-//            session.createQuery(criteriaBuilderQuery).executeUpdate();
-//        });
         session.getTransaction().commit();
         session.close();
     }
