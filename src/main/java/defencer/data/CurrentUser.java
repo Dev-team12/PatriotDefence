@@ -2,7 +2,6 @@ package defencer.data;
 
 import defencer.model.AbstractEntity;
 import defencer.model.Instructor;
-import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
 import lombok.Getter;
 

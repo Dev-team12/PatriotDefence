@@ -120,7 +120,7 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         final CriteriaQuery<Instructor> criteriaQuery = criteriaBuilder.createQuery(Instructor.class);
         final Root<Instructor> root = criteriaQuery.from(Instructor.class);
         criteriaQuery.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"))
-                .where(criteriaBuilder.isNotNull(root.get("projectId")));
+                .where(criteriaBuilder.in(root.get("role")).value(Role.INSTRUCTOR).value(Role.COORDINATOR));
         final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
 
         val workCriteriaBuilder = session.getCriteriaBuilder();
