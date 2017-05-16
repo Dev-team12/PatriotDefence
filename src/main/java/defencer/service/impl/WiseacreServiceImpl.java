@@ -25,8 +25,8 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public List<Car> getFreeCar() {
-        return DaoFactory.getWiseacreDao().getFreeCar();
+    public List<Car> getFreeCar(Project project) {
+        return DaoFactory.getWiseacreDao().getFreeCar(project);
     }
 
     /**

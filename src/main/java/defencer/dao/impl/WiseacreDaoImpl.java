@@ -27,14 +27,59 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
      * {@inheritDoc}.
      */
     @Override
-    public List<Car> getFreeCar() {
+    public List<Car> getFreeCar(Project project) {
         final Session session = getCurrentSession();
         session.beginTransaction();
-        val criteriaBuilder = session.getCriteriaBuilder();
-        final CriteriaQuery<Car> carCriteriaQuery = criteriaBuilder.createQuery(Car.class);
-        final Root<Car> root = carCriteriaQuery.from(Car.class);
-        final List<Car> carList = session.createQuery(carCriteriaQuery
-                .where(criteriaBuilder.equal(root.get("status"), "FREE"))).getResultList();
+
+        List<Long> freeCars = new LinkedList<>();
+
+        final List<Car> cars = getCarForAdminDashboard();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        final CriteriaQuery<Schedule> criteriaBuilderQuery = criteriaBuilder.createQuery(Schedule.class);
+        final Root<Schedule> root = criteriaBuilderQuery.from(Schedule.class);
+        criteriaBuilderQuery.multiselect(root.get("id"), root.get("carId"), root.get("startProject"), root.get("finishProject"));
+        final List<Schedule> schedules = session.createQuery(criteriaBuilderQuery).getResultList();
+        schedules.forEach(s -> {
+            if ((project.getDateStart().isBefore(s.getStartProject())
+                    || project.getDateStart().isAfter(s.getFinishProject()))
+                    && (project.getDateFinish().isBefore(s.getStartProject())
+                    || project.getDateFinish().isAfter(s.getFinishProject()))
+                    && (!s.getStartProject().isAfter(project.getDateStart())
+                    || !s.getStartProject().isBefore(project.getDateFinish()))) {
+                freeCars.add(s.getCarId());
+            }
+        });
+
+        cars.forEach(s -> System.out.println(s.getId()));
+
+        cars.forEach(s -> schedules.forEach(v -> {
+            if (s.getId().equals(v.getCarId())) {
+                s.setId(-1L);
+            }
+        }));
+
+        cars.forEach(s -> System.out.println(s.getId()));
+
+        freeCars.forEach(s -> {
+            final Car car = new Car();
+            car.setId(s);
+            cars.add(car);
+        });
+
+        cars.forEach(s -> System.out.println(s.getId()));
+
+        final List<Car> collect = cars.stream().filter(s -> s.getId() != -1L).collect(Collectors.toList());
+
+        List<Car> carList = new LinkedList<>();
+        final CriteriaQuery<Car> query = criteriaBuilder.createQuery(Car.class);
+        final Root<Car> toor = query.from(Car.class);
+        collect.forEach(s -> {
+            query.select(toor)
+                    .where(criteriaBuilder.equal(toor.get("id"), s));
+            final Car car = session.createQuery(query).getSingleResult();
+            carList.add(car);
+        });
         session.getTransaction().commit();
         session.close();
         return carList;

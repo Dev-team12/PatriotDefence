@@ -16,7 +16,7 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
     /**
      * @return list of free car for project.
      */
-    List<Car> getFreeCar();
+    List<Car> getFreeCar(Project project);
 
     /**
      * @return list of available project.

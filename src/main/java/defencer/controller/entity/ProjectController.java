@@ -8,6 +8,7 @@ import defencer.controller.CalendarController;
 import defencer.controller.PremierLeagueController;
 import defencer.controller.update.UpdateProjectController;
 import defencer.data.ControllersDataFactory;
+import defencer.model.Car;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
@@ -309,11 +310,16 @@ public class ProjectController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);
             return;
         }
+        final List<Car> freeCars = getFreeCars(project);
+        if (freeCars.isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "All cars are busy", NotificationUtil.SHORT);
+            return;
+        }
         final FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/entity/EditCarList.fxml"));
         final Parent parent = fxmlLoader.load();
         EditCarListController editCarListController = fxmlLoader.getController();
-        editCarListController.loadCars(project);
+        editCarListController.loadCars(project, freeCars);
         final Stage stage = new Stage();
         stage.setTitle("Patriot Defence");
         Scene value = new Scene(parent);
@@ -372,5 +378,12 @@ public class ProjectController implements Initializable {
     private void pdfReport() {
         NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
         ServiceFactory.getPdfService().projectReport(table.getItems());
+    }
+
+    /**
+     * Get free cars.
+     */
+    private List<Car> getFreeCars(Project project) {
+        return ServiceFactory.getWiseacreService().getFreeCar(project);
     }
 }

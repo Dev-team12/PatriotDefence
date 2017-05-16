@@ -15,7 +15,7 @@ public interface WiseacreDao {
     /**
      * @return list of free {@link Car} for project.
      */
-    List<Car> getFreeCar();
+    List<Car> getFreeCar(Project project);
 
     /**
      * @return list of available {@link AvailableProject}.

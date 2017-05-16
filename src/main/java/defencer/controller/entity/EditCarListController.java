@@ -40,7 +40,7 @@ public class EditCarListController implements Initializable {
     @FXML
     private JFXButton btnOk;
 
-    private List<Car> freeCar;
+    private List<Car> freeCars;
     private Project project;
     private ObservableList<Car> observableCar = FXCollections.observableArrayList();
 
@@ -63,7 +63,7 @@ public class EditCarListController implements Initializable {
      */
     private void addCar() {
         final String value = comboSelectCar.getValue();
-        freeCar.forEach(s -> {
+        freeCars.forEach(s -> {
             if (s.getCarName().equals(value)) {
                 try {
                     ServiceFactory.getWiseacreService().updateEntity(s);
@@ -72,13 +72,14 @@ public class EditCarListController implements Initializable {
                 }
             }
         });
-        loadCars(project);
+        loadCars(project, freeCars);
     }
 
     /**
      * Load selected instructor table.
      */
-    void loadCars(Project project) {
+    void loadCars(Project project, List<Car> freeCars) {
+        this.freeCars = freeCars;
         this.project = project;
         observableCar.clear();
         observableCar.addAll(getCurrentCar(project.getId()));
@@ -96,9 +97,8 @@ public class EditCarListController implements Initializable {
      * @return free car's name for project.
      */
     private List<String> getFreeCars() {
-        freeCar = ServiceFactory.getWiseacreService().getFreeCar();
         List<String> list = new LinkedList<>();
-        freeCar.forEach(s -> list.add(s.getCarName()));
+        freeCars.forEach(s -> list.add(s.getCarName()));
         return list;
     }
 
@@ -119,6 +119,6 @@ public class EditCarListController implements Initializable {
         }
         tableCars.getItems().remove(car);
         ServiceFactory.getWiseacreService().deleteSelectedCar(car.getId());
-        loadCars(project);
+        loadCars(project, freeCars);
     }
 }
