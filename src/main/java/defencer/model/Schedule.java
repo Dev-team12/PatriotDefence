@@ -38,6 +38,8 @@ public class Schedule extends AbstractEntity implements Serializable {
     private String projectName;
     @Column(name = "instructor_name")
     private String instructorName;
+    @Column(name = "status")
+    private String status;
 
     public Schedule(Long id, String instructorName) {
         this.id = id;

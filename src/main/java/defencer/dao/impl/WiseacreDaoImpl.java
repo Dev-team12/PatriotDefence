@@ -144,9 +144,6 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
                 .where(criteriaBuilder.in(linux.get("role")).value(Role.COORDINATOR).value(Role.INSTRUCTOR));
         final List<Instructor> instructors = session.createQuery(instructorCriteriaQuery).getResultList();
 
-        System.out.println(schedulesBusy);
-        System.out.println(schedulesFree);
-
         schedulesFree.forEach(s -> {
             if (!expectedBusy.contains(s) && !daysOffBusy.contains(s) && !schedulesBusy.contains(s)) {
                 freeInstructorId.add(s);
@@ -394,29 +391,6 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
      * {@inheritDoc}.
      */
     @Override
-    public void updateCurrentUser(Long userId, String status) throws SQLException {
-        final Session session = getCurrentSession();
-        session.beginTransaction();
-        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        final CriteriaUpdate<Instructor> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Instructor.class);
-        final Root<Instructor> root = criteriaUpdate.from(Instructor.class);
-        if ("FREE".equals(status)) {
-            criteriaUpdate.set(root.get("status"), status)
-                    .set(root.get("projectId"), -1)
-                    .where(criteriaBuilder.equal(root.get("id"), userId));
-        } else {
-            criteriaUpdate.set(root.get("status"), status)
-                    .where(criteriaBuilder.equal(root.get("id"), userId));
-        }
-        session.createQuery(criteriaUpdate).executeUpdate();
-        session.getTransaction().commit();
-        session.close();
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
     public List<Schedule> getCurrentInstructors(Long projectId) throws SQLException {
         final Session session = getCurrentSession();
         session.beginTransaction();
@@ -521,6 +495,7 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
 
         schedule.setInstructorId(currentUser.getId());
         schedule.setInstructorName(currentUser.getFirstName() + " " + currentUser.getLastName());
+        schedule.setStatus("Confirmed");
         save(schedule);
 
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -548,6 +523,7 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         expected.setProjectId(project.getId());
         expected.setProjectStart(project.getDateStart());
         expected.setFinishProject(project.getDateFinish());
+        expected.setStatus("Need confirm");
         instructors.forEach(s -> {
             expected.setInstructorId(s.getId());
             expected.setInstructorNames(s.getFirstLastName());

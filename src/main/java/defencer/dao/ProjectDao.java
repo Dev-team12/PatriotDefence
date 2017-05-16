@@ -19,9 +19,4 @@ public interface ProjectDao extends CrudDao<Project, Long> {
      * @return list of project with parameters search.
      */
     List<Project> getFindProject(Long periodInDays, String projectName);
-
-    /**
-     * @param projectId is project id that going to be closed.
-     */
-    void closeProject(Long projectId);
 }

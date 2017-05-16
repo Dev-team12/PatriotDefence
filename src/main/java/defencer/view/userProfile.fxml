@@ -103,27 +103,28 @@
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
-               <JFXButton fx:id="btnChangePassword" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="153.0"
-                          style="-fx-background-color: #00C853;" text="Change password" textFill="white"/>
+               <children>
+                  <JFXButton fx:id="btnChangePassword" layoutX="16.0" layoutY="28.0" prefHeight="27.0" prefWidth="153.0" style="-fx-background-color: #00C853;" text="Change password" textFill="white" />
+               </children>
             </AnchorPane>
          </children>
       </GridPane>
-      <AnchorPane layoutX="15.0" layoutY="14.0" prefHeight="316.0" prefWidth="256.0" AnchorPane.leftAnchor="15.0"
-                  AnchorPane.topAnchor="14.0">
-         <JFXButton fx:id="btnUpdateProfile" layoutX="33.0" layoutY="265.0" prefHeight="37.0" prefWidth="200.0"
-                    ripplerFill="BLACK" style="-fx-background-color: #00C853;" text="Update profile" textFill="WHITE">
-            <font>
-               <Font size="23.0"/>
-            </font>
-         </JFXButton>
+      <AnchorPane layoutX="15.0" layoutY="14.0" prefHeight="316.0" prefWidth="256.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="14.0">
+         <children>
+            <JFXButton fx:id="btnUpdateProfile" layoutX="33.0" layoutY="265.0" prefHeight="37.0" prefWidth="200.0" ripplerFill="BLACK" style="-fx-background-color: #00C853;" text="Update profile" textFill="WHITE">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </JFXButton>
+         </children>
       </AnchorPane>
       <Label layoutX="805.0" layoutY="278.0" prefHeight="29.0" prefWidth="158.0" text="My days off">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <JFXDatePicker fx:id="dateBusyFrom" defaultColor="blue" layoutX="619.0" layoutY="326.0" prefHeight="27.0" prefWidth="129.0" promptText="I'm busy from" />
-      <JFXDatePicker fx:id="dateBusyTo" defaultColor="blue" layoutX="765.0" layoutY="325.0" prefHeight="27.0" prefWidth="129.0" promptText="to" />
+      <JFXDatePicker fx:id="dateBusyFrom" layoutX="619.0" layoutY="326.0" prefHeight="27.0" prefWidth="129.0" promptText="I'm busy from" />
+      <JFXDatePicker fx:id="dateBusyTo" layoutX="765.0" layoutY="325.0" prefHeight="27.0" prefWidth="129.0" promptText="to" />
       <JFXButton fx:id="btnSetDaysBusy" layoutX="903.0" layoutY="325.0" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #00C853;" text="OK" textFill="white" />
       <TableView fx:id="tableDaysOff" layoutX="619.0" layoutY="358.0" prefHeight="210.0" prefWidth="447.0">
          <columns>
@@ -134,23 +135,24 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Text layoutX="203.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project table:">
+      <Text layoutX="199.0" layoutY="347.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project table:">
          <font>
             <Font size="23.0" />
          </font>
       </Text>
       <JFXButton fx:id="btnDeleteDayOff" layoutX="986.0" layoutY="325.0" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #F44336;" text="Delete" textFill="WHITE" />
-      <TableView fx:id="tableMyProjects" layoutX="18.0" layoutY="358.0" prefHeight="210.0" prefWidth="526.0">
+      <TableView fx:id="tableMyProjects" layoutX="18.0" layoutY="358.0" prefHeight="210.0" prefWidth="556.0">
          <columns>
             <TableColumn fx:id="myProjectName" prefWidth="75.0" text="Project name" />
             <TableColumn fx:id="myStartDate" prefWidth="75.0" text="Start date" />
             <TableColumn fx:id="myFinishDate" prefWidth="75.0" text="Finish date" />
+            <TableColumn fx:id="status" prefWidth="75.0" text="Status" />
          </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <JFXButton fx:id="btnCanNot" layoutX="472.0" layoutY="326.0" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #F44336;" text="can't" textFill="WHITE" />
-      <JFXButton fx:id="btnSure" layoutX="383.0" layoutY="326.0" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #00C853;" text="sure" textFill="white" />
+      <JFXButton fx:id="btnCanNot" layoutX="501.0" layoutY="326.0" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #F44336;" text="can't" textFill="WHITE" />
+      <JFXButton fx:id="btnSure" layoutX="412.0" layoutY="326.0" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #00C853;" text="sure" textFill="white" />
    </children>
 </AnchorPane>

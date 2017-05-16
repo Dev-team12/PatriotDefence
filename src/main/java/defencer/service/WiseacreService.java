@@ -4,6 +4,7 @@ import defencer.data.CurrentUser;
 import defencer.model.*;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -102,10 +103,9 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
 
     /**
      * @param userId is current user's userId.
-     * @param status is new status for instructor.
      * @throws SQLException if can't update.
      */
-    void updateCurrentUser(Long userId, String status) throws SQLException;
+    void setWorksDays(Long userId, LocalDate startProject, LocalDate finishProject) throws SQLException;
 
     /**
      * @param projectId is project's id.
@@ -144,4 +144,9 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
      * Update schedule by set instructor's id.
      */
     void updateSchedule(CurrentUser currentUser, Schedule schedule);
+
+    /**
+     * Add new days off for current user.
+     */
+    void addNewDaysOff(Long userId, LocalDate from, LocalDate to, List<Schedule> items);
 }

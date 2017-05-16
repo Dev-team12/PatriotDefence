@@ -145,8 +145,10 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
             schedule.setFinishProject(s.getFinishProject());
             schedule.setInstructorId(s.getInstructorId());
             schedule.setInstructorName(s.getInstructorNames());
+            schedule.setStatus(s.getStatus());
             schedules.add(schedule);
         });
+        schedules.sort(Comparator.comparing(Schedule::getStartProject));
         return schedules;
     }
 

@@ -3,7 +3,6 @@ package defencer.dao.impl;
 import defencer.dao.ProjectDao;
 import defencer.model.*;
 import defencer.util.HibernateUtil;
-import lombok.val;
 import org.hibernate.Session;
 
 import java.time.*;
@@ -106,36 +105,6 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         session.close();
         projects.sort(Comparator.comparing(Project::getId));
         return projects;
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public void closeProject(Long projectId) {
-        final Session session = getSession();
-        session.beginTransaction();
-
-        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-
-        val instructorCriteriaQuery = criteriaBuilder.createCriteriaUpdate(Instructor.class);
-        final Root<Instructor> root = instructorCriteriaQuery.from(Instructor.class);
-
-        val carCriteriaUpdate = criteriaBuilder.createCriteriaUpdate(Car.class);
-        final Root<Car> toor = carCriteriaUpdate.from(Car.class);
-
-        instructorCriteriaQuery.set(root.get("status"), "FREE")
-                .set(root.get("projectId"), -1)
-                .where(criteriaBuilder.equal(root.get("projectId"), projectId));
-        session.createQuery(instructorCriteriaQuery).executeUpdate();
-
-        carCriteriaUpdate.set(toor.get("status"), "FREE")
-                .set(toor.get("projectId"), -1)
-                .where(criteriaBuilder.equal(toor.get("projectId"), projectId));
-        session.createQuery(carCriteriaUpdate).executeUpdate();
-
-        session.getTransaction().commit();
-        session.close();
     }
 
     /**

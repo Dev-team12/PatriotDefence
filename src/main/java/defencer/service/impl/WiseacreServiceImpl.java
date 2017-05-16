@@ -4,6 +4,8 @@ import defencer.dao.factory.DaoFactory;
 import defencer.data.CurrentUser;
 import defencer.model.*;
 import defencer.service.WiseacreService;
+import defencer.service.factory.ServiceFactory;
+import defencer.util.NotificationUtil;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -153,14 +155,11 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public void updateCurrentUser(Long userId, String status) throws SQLException {
-        DaoFactory.getWiseacreDao().updateCurrentUser(userId, status);
+    public void setWorksDays(Long userId, LocalDate startProject, LocalDate finishProject) throws SQLException {
         final WorkDay workDay = new WorkDay();
         workDay.setDateOfCreation(LocalDate.now());
         workDay.setInstructorId(userId);
-        final LocalDate projectDateStart = CurrentUser.getLink().getProjectDateStart();
-        final LocalDate projectDateFinish = CurrentUser.getLink().getProjectDateFinish();
-        workDay.setWorkDays(ChronoUnit.DAYS.between(projectDateStart, projectDateFinish));
+        workDay.setWorkDays(ChronoUnit.DAYS.between(startProject, finishProject));
         super.createEntity(workDay);
     }
 
@@ -223,5 +222,54 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
     @Override
     public void updateSchedule(CurrentUser currentUser, Schedule schedule) {
         DaoFactory.getWiseacreDao().updateSchedule(currentUser, schedule);
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void addNewDaysOff(Long userId, LocalDate from, LocalDate to, List<Schedule> myProjects) {
+        final DaysOff daysOff = new DaysOff();
+        daysOff.setInstructorId(userId);
+        daysOff.setDateFrom(from);
+        daysOff.setDateTo(to);
+        final List<Boolean> possibleToGo = possibleToGo(daysOff, myProjects);
+        if (possibleToGo.contains(false)) {
+            NotificationUtil.warningAlert("Wrong", "unfortunately you can't take a day off"
+                    + " because you have a project in this time", NotificationUtil.SHORT);
+            return;
+        }
+        saveDaysOff(daysOff);
+    }
+
+    /**
+     * Check that current instructors doesn't have a project in selected time.
+     */
+    private List<Boolean> possibleToGo(DaysOff daysOff, List<Schedule> myProjects) {
+        List<Boolean> possible = new LinkedList<>();
+        myProjects.forEach(s -> {
+            if ((s.getStartProject().isBefore(daysOff.getDateFrom())
+                    || s.getStartProject().isAfter(daysOff.getDateTo()))
+                    && (s.getFinishProject().isBefore(daysOff.getDateFrom())
+                    || s.getFinishProject().isAfter(daysOff.getDateTo()))
+                    && (!daysOff.getDateFrom().isAfter(s.getStartProject())
+                    || !daysOff.getDateFrom().isBefore(s.getFinishProject()))) {
+                possible.add(true);
+            } else {
+                possible.add(false);
+            }
+        });
+        return possible;
+    }
+
+    /**
+     * Whether Success add days off to database.
+     */
+    private void saveDaysOff(DaysOff daysOff) {
+        try {
+            ServiceFactory.getWiseacreService().createEntity(daysOff);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

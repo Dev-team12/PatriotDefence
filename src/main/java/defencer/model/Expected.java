@@ -38,7 +38,8 @@ public class Expected extends AbstractEntity implements Serializable {
     private LocalDate finishProject;
     @Column(name = "project_name", nullable = false)
     private String projectName;
-
+    @Column(name = "status", nullable = false)
+    private String status;
 
     public Expected(Long id, Long instructorId, LocalDate projectStart, LocalDate finishProject) {
         this.id = id;

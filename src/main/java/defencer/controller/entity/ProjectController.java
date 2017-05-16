@@ -131,34 +131,18 @@ public class ProjectController implements Initializable {
         final JFXButton btnAddInstructor = new JFXButton("Add Instructor");
         btnAddInstructor.getStyleClass().add("button-try-now");
 
-        final JFXButton btnCloseProject = new JFXButton("Close project");
-        btnCloseProject.getStyleClass().add("button-try-now");
-
         final int value = 10;
         nodeList.setSpacing(value);
         nodeList.addAnimatedNode(btnConfigureProject);
         nodeList.addAnimatedNode(btnAddInstructor);
         nodeList.addAnimatedNode(btnEditInstructor);
         nodeList.addAnimatedNode(btnAddCar);
-        nodeList.addAnimatedNode(btnCloseProject);
 
         btnAddInstructor.setOnAction(this::premierLeague);
         btnEditInstructor.setOnAction(this::editInstructors);
         btnAddCar.setOnAction(this::addCar);
-        btnCloseProject.setOnAction(e -> closeProject());
     }
 
-    /**
-     * Close project.
-     */
-    private void closeProject() {
-        final Project project = table.getSelectionModel().getSelectedItem();
-        if (project == null) {
-            return;
-        }
-        ServiceFactory.getProjectService().closeProject(project);
-        loadProjects();
-    }
 
     /**
      * Search project with given parameters.

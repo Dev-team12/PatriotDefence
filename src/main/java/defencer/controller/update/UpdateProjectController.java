@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import defencer.data.CurrentUser;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
 import javafx.collections.FXCollections;
@@ -31,6 +30,8 @@ public class UpdateProjectController implements Initializable {
     @FXML
     private JFXTextArea description;
     @FXML
+    private JFXTextArea expectedAndRefusal;
+    @FXML
     private JFXButton btnUpdate;
     @FXML
     private JFXButton btnCancel;
@@ -43,6 +44,7 @@ public class UpdateProjectController implements Initializable {
 
     private Long projectId;
     private LocalDate localDate;
+    private String author;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,7 +68,7 @@ public class UpdateProjectController implements Initializable {
         project.setDateFinish(dataTo.getValue());
         project.setPlace(place.getText());
         project.setDescription(description.getText());
-        project.setAuthor(CurrentUser.getLink().getFirstName());
+        project.setAuthor(author);
         project.setId(projectId);
         project.setDateOfCreation(localDate);
         update(project);
@@ -85,6 +87,15 @@ public class UpdateProjectController implements Initializable {
         dataTo.setValue(project.getDateFinish());
         projectId = project.getId();
         localDate = project.getDateOfCreation();
+        author = project.getAuthor();
+        expectedAndRefusal.setText("Expected: "
+                + "\n"
+                + project.getExpected()
+                + "\n"
+                + "\n"
+                + "Refusal: "
+                + "\n"
+                + project.getRefusal());
     }
 
     /**

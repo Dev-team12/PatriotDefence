@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXTextField;
 import defencer.data.CurrentUser;
 import defencer.model.*;
 import defencer.service.InstructorService;
+import defencer.service.WiseacreService;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
@@ -60,6 +61,8 @@ public class UserProfileController implements Initializable {
     private TableColumn<Project, LocalDate> myStartDate;
     @FXML
     private TableColumn<Project, String> myProjectName;
+    @FXML
+    private TableColumn<Project, String> status;
     @FXML
     private ImageView userImage;
     @FXML
@@ -133,17 +136,10 @@ public class UserProfileController implements Initializable {
         if (dateBusyFrom.getValue() == null || dateBusyTo.getValue() == null) {
             return;
         }
-        final DaysOff daysOff = new DaysOff();
-        daysOff.setDateFrom(dateBusyFrom.getValue());
-        daysOff.setDateTo(dateBusyTo.getValue());
-        daysOff.setInstructorId(CurrentUser.getLink().getId());
+        ServiceFactory.getWiseacreService()
+                .addNewDaysOff(CurrentUser.getLink().getId(), dateBusyFrom.getValue(), dateBusyTo.getValue(), tableMyProjects.getItems());
         dateBusyFrom.setValue(null);
         dateBusyTo.setValue(null);
-        try {
-            ServiceFactory.getWiseacreService().createEntity(daysOff);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         loadTableDaysOff();
     }
 
@@ -172,6 +168,7 @@ public class UserProfileController implements Initializable {
         myProjectName.setCellValueFactory(new PropertyValueFactory<>("projectName"));
         myStartDate.setCellValueFactory(new PropertyValueFactory<>("startProject"));
         myFinishDate.setCellValueFactory(new PropertyValueFactory<>("finishProject"));
+        status.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
     /**
@@ -211,7 +208,7 @@ public class UserProfileController implements Initializable {
      */
     private void disagree() {
         final Schedule schedule = tableMyProjects.getSelectionModel().getSelectedItem();
-        if (schedule == null) {
+        if (schedule == null || "Confirmed".equals(schedule.getStatus())) {
             return;
         }
         ServiceFactory.getWiseacreService().deleteSelectedInstructors(CurrentUser.getLink().getId(), schedule.getProjectId());
@@ -224,10 +221,16 @@ public class UserProfileController implements Initializable {
      */
     private void agree() {
         final Schedule schedule = tableMyProjects.getSelectionModel().getSelectedItem();
-        if (schedule == null) {
+        if (schedule == null || "Confirmed".equals(schedule.getStatus())) {
             return;
         }
-        ServiceFactory.getWiseacreService().updateSchedule(CurrentUser.getLink(), schedule);
+        final WiseacreService wiseacreService = ServiceFactory.getWiseacreService();
+        wiseacreService.updateSchedule(CurrentUser.getLink(), schedule);
+        try {
+            wiseacreService.setWorksDays(CurrentUser.getLink().getId(), schedule.getStartProject(), schedule.getFinishProject());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         loadTableMyProject();
     }
 
