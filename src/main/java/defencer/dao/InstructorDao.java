@@ -47,4 +47,9 @@ public interface InstructorDao extends CrudDao<Instructor, Long> {
      * @return list of projects for current user.
      */
     List<Schedule> getMyProject(Long userId);
+
+    /**
+     * Change password for current user.
+     */
+    void changePassword(Long userId, String password);
 }

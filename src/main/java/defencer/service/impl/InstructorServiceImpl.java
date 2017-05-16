@@ -72,7 +72,7 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      */
     @Override
     public void configureProject(List<Instructor> instructors, Project project) {
-        ServiceFactory.getWiseacreService().updateSchedule(instructors, project);
+        ServiceFactory.getWiseacreService().updateExpected(instructors, project);
 
         CurrentUser.refresh(CurrentUser.getLink().getEmail());
 
@@ -89,11 +89,20 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
     }
 
     /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void changePassword(Long userId, String password) {
+        DaoFactory.getInstructorDao().changePassword(userId, password);
+    }
+
+    /**
      * Send notifications to instructors.
      */
     private Runnable mailSender(List<Instructor> instructors, Project project) {
         final StringBuffer stringBuffer = new StringBuffer();
         instructors.forEach(s -> stringBuffer.append(s.getFirstLastName()));
+        stringBuffer.append(project.getInstructors()).append(" ").append(project.getExpected());
         project.setInstructors(stringBuffer.toString());
         EmailBuilder<Instructor> emailBuilder = new InviteProjectBuilderImpl();
         final EmailService emailService = ServiceFactory.getEmailService();

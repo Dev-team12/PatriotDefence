@@ -48,4 +48,11 @@ public class Schedule extends AbstractEntity implements Serializable {
         this.id = id;
         this.instructorId = instructorId;
     }
+
+    public Schedule(Long id, Long instructorId, LocalDate startProject, LocalDate finishProject) {
+        this.id = id;
+        this.instructorId = instructorId;
+        this.startProject = startProject;
+        this.finishProject = finishProject;
+    }
 }

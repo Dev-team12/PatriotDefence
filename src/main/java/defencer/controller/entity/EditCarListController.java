@@ -65,7 +65,6 @@ public class EditCarListController implements Initializable {
         final String value = comboSelectCar.getValue();
         freeCar.forEach(s -> {
             if (s.getCarName().equals(value)) {
-                s.setStatus("BUSY");
                 try {
                     ServiceFactory.getWiseacreService().updateEntity(s);
                 } catch (SQLException e) {

@@ -1,5 +1,6 @@
 package defencer.dao;
 
+import defencer.data.CurrentUser;
 import defencer.model.*;
 
 import java.sql.SQLException;
@@ -24,7 +25,7 @@ public interface WiseacreDao {
     /**
      * @return list of free {@link Instructor} for project.
      */
-    List<Instructor> getFreeInstructors();
+    List<Instructor> getFreeInstructors(Project project);
 
     /**
      * @return map with project's name and times how often they were created for last months.
@@ -105,20 +106,18 @@ public interface WiseacreDao {
     void deleteSelectedCar(Long carId);
 
     /**
-     * Set status FREE to instructors if project was deleted.
-     *
-     * @param projectId is project's id.
-     */
-    void setFreeStatusForInstructorsByProjectId(Long projectId);
-
-    /**
      * @param instructorId is instructor for who method get days off.
      * @return list of days off.
      */
     List<DaysOff> getDaysOff(Long instructorId);
 
     /**
-     * Update schedule by set instructor's id in project with given project id.
+     * Update expected by set instructor's id in project with given project id.
      */
-    void updateSchedule(List<Instructor> instructors, Project project);
+    void updateExpected(List<Instructor> instructors, Project project);
+
+    /**
+     * Update schedule by set instructor's id.
+     */
+    void updateSchedule(CurrentUser currentUser, Schedule schedule);
 }

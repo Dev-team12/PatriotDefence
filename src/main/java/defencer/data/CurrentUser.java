@@ -52,7 +52,6 @@ public class CurrentUser extends AbstractEntity {
         data.put("lastName", currentUser.getLastName());
         data.put("phoneNumber", currentUser.getPhone());
         data.put("email", currentUser.getEmail());
-        data.put("status", currentUser.getStatus());
         data.put("role", currentUser.getRole());
     }
 

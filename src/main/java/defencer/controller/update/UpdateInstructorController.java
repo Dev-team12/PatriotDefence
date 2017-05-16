@@ -67,7 +67,6 @@ public class UpdateInstructorController implements Initializable{
         instructor.setQualification(qualification.getText());
         instructor.setId(instructorId);
         instructor.setRole(role.getValue());
-        instructor.setStatus(status);
         instructor.setVideoPath(videoPath);
         instructor.setPassword(password);
         update(instructor);
@@ -85,7 +84,6 @@ public class UpdateInstructorController implements Initializable{
         qualification.setText(instructor.getQualification());
         role.setValue(instructor.getRole());
         instructorId = instructor.getId();
-        status = instructor.getStatus();
         videoPath = instructor.getVideoPath();
         password = instructor.getPassword();
     }

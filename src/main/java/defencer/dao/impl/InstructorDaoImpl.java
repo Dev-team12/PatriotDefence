@@ -1,6 +1,7 @@
 package defencer.dao.impl;
 
 import defencer.dao.InstructorDao;
+import defencer.model.Expected;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.model.Schedule;
@@ -123,14 +124,49 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
         Session session = getSession();
         session.beginTransaction();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        val scheduleCriteriaQuery = criteriaBuilder.createQuery(Schedule.class);
-        Root<Schedule> root = scheduleCriteriaQuery.from(Schedule.class);
-        scheduleCriteriaQuery.select(root)
+        val expectedCriteriaQuery = criteriaBuilder.createQuery(Expected.class);
+        Root<Expected> root = expectedCriteriaQuery.from(Expected.class);
+        expectedCriteriaQuery.select(root)
                 .where(criteriaBuilder.equal(root.get("instructorId"), userId));
-        List<Schedule> myProject = session.createQuery(scheduleCriteriaQuery).getResultList();
+        List<Expected> myProject = session.createQuery(expectedCriteriaQuery).getResultList();
+
+        val query = criteriaBuilder.createQuery(Schedule.class);
+        final Root<Schedule> toor = query.from(Schedule.class);
+        query.select(toor)
+                .where(criteriaBuilder.equal(root.get("instructorId"), userId));
+        final List<Schedule> schedules = session.createQuery(query).getResultList();
         session.getTransaction().commit();
         session.close();
-        return myProject;
+        myProject.forEach(s -> {
+            final Schedule schedule = new Schedule();
+            schedule.setProjectId(s.getProjectId());
+            schedule.setProjectName(s.getProjectName());
+            schedule.setStartProject(s.getProjectStart());
+            schedule.setFinishProject(s.getFinishProject());
+            schedule.setInstructorId(s.getInstructorId());
+            schedule.setInstructorName(s.getInstructorNames());
+            schedules.add(schedule);
+        });
+        return schedules;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void changePassword(Long userId, String password) {
+        final Session session = getSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Instructor.class);
+        final Root<Instructor> root = criteriaUpdate.from(Instructor.class);
+        criteriaUpdate.set(root.get("password"), password)
+                .where(criteriaBuilder.equal(root.get("id"), userId));
+        session.createQuery(criteriaUpdate).executeUpdate();
+
+        session.getTransaction().commit();
+        session.close();
     }
 
     /**

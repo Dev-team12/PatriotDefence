@@ -215,7 +215,6 @@ public class AdminDashboardController implements Initializable {
         }
         final Car car = new Car();
         car.setCarName(txtCar.getText());
-        car.setStatus("FREE");
         try {
             ServiceFactory.getWiseacreService().createCar(car);
         } catch (SQLException e) {

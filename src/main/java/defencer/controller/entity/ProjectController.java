@@ -8,6 +8,7 @@ import defencer.controller.CalendarController;
 import defencer.controller.PremierLeagueController;
 import defencer.controller.update.UpdateProjectController;
 import defencer.data.ControllersDataFactory;
+import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
@@ -65,6 +66,8 @@ public class ProjectController implements Initializable {
     private TableColumn<Project, String> author;
     @FXML
     private TableColumn<Project, String> refusal;
+    @FXML
+    private TableColumn<Project, String> expected;
     @FXML
     private JFXComboBox<String> comboProject;
     @FXML
@@ -181,11 +184,16 @@ public class ProjectController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);
             return;
         }
+        final List<Instructor> freeInstructors = getFreeInstructors(project);
+        if (freeInstructors.isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "All instructors are busy", NotificationUtil.SHORT);
+            return;
+        }
         final FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/PremierLeague.fxml"));
         Parent parent = fxmlLoader.load();
         PremierLeagueController premierLeagueController = fxmlLoader.getController();
-        premierLeagueController.loadProjectDetails(project);
+        premierLeagueController.loadProjectDetails(project, freeInstructors);
 
         final Stage stage = new Stage();
         Scene value = new Scene(parent);
@@ -212,6 +220,7 @@ public class ProjectController implements Initializable {
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         author.setCellValueFactory(new PropertyValueFactory<>("author"));
         refusal.setCellValueFactory(new PropertyValueFactory<>("refusal"));
+        expected.setCellValueFactory(new PropertyValueFactory<>("expected"));
     }
 
     /**
@@ -353,7 +362,6 @@ public class ProjectController implements Initializable {
         try {
             ServiceFactory.getProjectService().deleteEntity(project);
             loadProjects();
-            ServiceFactory.getWiseacreService().setFreeStatusForInstructorsByProjectId(project.getId());
         } catch (Exception e) {
             NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }
@@ -366,12 +374,12 @@ public class ProjectController implements Initializable {
         return ServiceFactory.getWiseacreService().getAvailableProject();
     }
 
-//    /**
-//     * @return free instructor's name for project.
-//     */
-//    private List<Instructor> getFreeInstructors() {
-//        return ServiceFactory.getWiseacreService().getFreeInstructors(project.getId());
-//    }
+    /**
+     * @return free instructor's name for project.
+     */
+    private List<Instructor> getFreeInstructors(Project project) {
+        return ServiceFactory.getWiseacreService().getFreeInstructors(project);
+    }
 
     /**
      * Preparing pdf report for project in table.

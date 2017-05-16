@@ -42,10 +42,9 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public List<Instructor> getFreeInstructors() {
-        return DaoFactory.getWiseacreDao().getFreeInstructors();
+    public List<Instructor> getFreeInstructors(Project project) {
+        return DaoFactory.getWiseacreDao().getFreeInstructors(project);
     }
-
     /**
      * {@inheritDoc}.
      */
@@ -206,14 +205,6 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public void setFreeStatusForInstructorsByProjectId(Long projectId) {
-        DaoFactory.getWiseacreDao().setFreeStatusForInstructorsByProjectId(projectId);
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
     public List<DaysOff> getDaysOff(Long instructorId) {
         return DaoFactory.getWiseacreDao().getDaysOff(instructorId);
     }
@@ -222,7 +213,15 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public void updateSchedule(List<Instructor> instructors, Project project) {
-        DaoFactory.getWiseacreDao().updateSchedule(instructors, project);
+    public void updateExpected(List<Instructor> instructors, Project project) {
+        DaoFactory.getWiseacreDao().updateExpected(instructors, project);
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void updateSchedule(CurrentUser currentUser, Schedule schedule) {
+        DaoFactory.getWiseacreDao().updateSchedule(currentUser, schedule);
     }
 }

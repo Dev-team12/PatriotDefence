@@ -10,7 +10,7 @@
             prefWidth="1264.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="defencer.controller.home.AdminDashboardController">
     <Text fx:id="totalInstructors" layoutX="31.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0"
-          text="Total instructors: " AnchorPane.bottomAnchor="452.4140625" AnchorPane.leftAnchor="31.0"
+          text="Total employee: " AnchorPane.bottomAnchor="452.4140625" AnchorPane.leftAnchor="31.0"
           AnchorPane.rightAnchor="749.01513671875" AnchorPane.topAnchor="22.564453125">
         <font>
             <Font size="17.0"/>

@@ -28,7 +28,7 @@
                styleClass="button-try-now" text="Delete" AnchorPane.leftAnchor="536.0"/>
     <JFXButton fx:id="btnAddOneMore" layoutX="444.0" layoutY="17.0" prefHeight="27.0" prefWidth="75.0"
                styleClass="button-try-now" text="Add" AnchorPane.leftAnchor="444.0"/>
-    <JFXDatePicker fx:id="datePeriod" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="160.0"
+    <JFXDatePicker fx:id="datePeriod" defaultColor="blue" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="160.0"
                    promptText="Period" AnchorPane.leftAnchor="14.0"/>
     <JFXComboBox fx:id="comboProject" layoutX="191.0" layoutY="14.0" prefHeight="27.0" prefWidth="133.0"
                  promptText="Project" AnchorPane.leftAnchor="191.0"/>

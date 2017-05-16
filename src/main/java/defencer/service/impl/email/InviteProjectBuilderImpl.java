@@ -43,7 +43,7 @@ public class InviteProjectBuilderImpl extends EmailBuilderImpl<Instructor> {
                 + "Description: "
                 + project.getDescription()
                 + "\n"
-                + "Full list of instructors: "
+                + "List of instructors: "
                 + "\n"
                 + project.getInstructors()
                 + "\n"

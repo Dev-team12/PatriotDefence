@@ -148,10 +148,6 @@ public class InstructorController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select instructor firstly", NotificationUtil.SHORT);
             return;
         }
-        if (!"FREE".equals(instructor.getStatus())) {
-            NotificationUtil.warningAlert("Warning", "Unfortunately you can't this user because he has a project", NotificationUtil.SHORT);
-            return;
-        }
         try {
             ServiceFactory.getInstructorService().deleteEntity(instructor);
             observableInstructors.clear();

@@ -16,11 +16,6 @@ public interface ProjectDao extends CrudDao<Project, Long> {
     List<Project> getProjectForGivenPeriod(Long defaultPeriod);
 
     /**
-     * @param projectId for instructor and car.
-     */
-    void saveId(Long projectId);
-
-    /**
      * @return list of project with parameters search.
      */
     List<Project> getFindProject(Long periodInDays, String projectName);
