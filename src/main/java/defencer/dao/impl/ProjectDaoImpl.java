@@ -54,6 +54,9 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         final CriteriaQuery<Expected> expectedCriteriaQuery = criteriaBuilder.createQuery(Expected.class);
         final Root<Expected> from = expectedCriteriaQuery.from(Expected.class);
 
+        final CriteriaQuery<ScheduleCar> carCriteriaQuery = criteriaBuilder.createQuery(ScheduleCar.class);
+        final Root<ScheduleCar> free = carCriteriaQuery.from(ScheduleCar.class);
+
         final StringBuilder stringBuilder = new StringBuilder();
         projects.forEach(s -> {
             scheduleCriteriaQuery.multiselect(toor.get("id"), toor.get("instructorName"))
@@ -77,6 +80,13 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
             final List<Expected> expecteds = session.createQuery(expectedCriteriaQuery).getResultList();
             expecteds.forEach(f -> stringBuilder.append(f.getInstructorNames()).append(" "));
             s.setExpected(stringBuilder.toString());
+            stringBuilder.setLength(0);
+
+            carCriteriaQuery.select(free)
+                    .where(criteriaBuilder.equal(free.get("projectId"), s.getId()));
+            final List<ScheduleCar> cars = session.createQuery(carCriteriaQuery).getResultList();
+            cars.forEach(c -> stringBuilder.append(c.getCarName()).append(" "));
+            s.setCars(stringBuilder.toString());
             stringBuilder.setLength(0);
         });
     }

@@ -82,7 +82,7 @@ public interface WiseacreDao {
      * @param projectId is project's id.
      * @return list of car that were selected before.
      */
-    List<Car> getCurrentCar(Long projectId);
+    List<ScheduleCar> getCurrentCar(Long projectId);
 
     /**
      * Delete instructor who was selected before.
@@ -96,7 +96,7 @@ public interface WiseacreDao {
      *
      * @param carId id car's id.
      */
-    void deleteSelectedCar(Long carId);
+    void deleteSelectedCar(Long projectId, Long carId);
 
     /**
      * @param instructorId is instructor for who method get days off.

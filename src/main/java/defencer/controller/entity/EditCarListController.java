@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import defencer.model.Car;
 import defencer.model.Project;
+import defencer.model.ScheduleCar;
 import defencer.service.factory.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,9 +29,9 @@ public class EditCarListController implements Initializable {
     @FXML
     private AnchorPane root;
     @FXML
-    private TableView<Car> tableCars;
+    private TableView<ScheduleCar> tableCars;
     @FXML
-    private TableColumn<Car, String> carName;
+    private TableColumn<ScheduleCar, String> carName;
     @FXML
     private JFXComboBox<String> comboSelectCar;
     @FXML
@@ -42,18 +43,12 @@ public class EditCarListController implements Initializable {
 
     private List<Car> freeCars;
     private Project project;
-    private ObservableList<Car> observableCar = FXCollections.observableArrayList();
+    private ObservableList<ScheduleCar> observableCar = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         loadCarTable();
-
         btnOk.setOnAction(e -> root.getScene().getWindow().hide());
-
-        comboSelectCar.setItems(FXCollections
-                .observableArrayList(getFreeCars()));
-
         btnAdd.setOnAction(e -> addCar());
         btnDelete.setOnAction(e -> delete());
     }
@@ -65,11 +60,7 @@ public class EditCarListController implements Initializable {
         final String value = comboSelectCar.getValue();
         freeCars.forEach(s -> {
             if (s.getCarName().equals(value)) {
-                try {
-                    ServiceFactory.getWiseacreService().updateEntity(s);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                ServiceFactory.getWiseacreService().updateScheduleCar(project, s);
             }
         });
         loadCars(project, freeCars);
@@ -84,12 +75,14 @@ public class EditCarListController implements Initializable {
         observableCar.clear();
         observableCar.addAll(getCurrentCar(project.getId()));
         tableCars.setItems(observableCar);
+        comboSelectCar.setItems(FXCollections
+                .observableArrayList(getFreeCars()));
     }
 
     /**
      * @return list of cars that were selected before.
      */
-    private List<Car> getCurrentCar(Long projectId) {
+    private List<ScheduleCar> getCurrentCar(Long projectId) {
         return ServiceFactory.getWiseacreService().getCurrentCar(projectId);
     }
 
@@ -113,12 +106,12 @@ public class EditCarListController implements Initializable {
      * Delete selected car that was selected in project before.
      */
     private void delete() {
-        final Car car = tableCars.getSelectionModel().getSelectedItem();
+        ScheduleCar car = tableCars.getSelectionModel().getSelectedItem();
         if (car == null) {
             return;
         }
         tableCars.getItems().remove(car);
-        ServiceFactory.getWiseacreService().deleteSelectedCar(car.getId());
+        ServiceFactory.getWiseacreService().deleteSelectedCar(project.getId(), car.getId());
         loadCars(project, freeCars);
     }
 }

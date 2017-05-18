@@ -180,7 +180,7 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public List<Car> getCurrentCar(Long projectId) {
+    public List<ScheduleCar> getCurrentCar(Long projectId) {
         return DaoFactory.getWiseacreDao().getCurrentCar(projectId);
     }
 
@@ -196,8 +196,8 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public void deleteSelectedCar(Long carId) {
-        DaoFactory.getWiseacreDao().deleteSelectedCar(carId);
+    public void deleteSelectedCar(Long projectId, Long carId) {
+        DaoFactory.getWiseacreDao().deleteSelectedCar(projectId, carId);
     }
 
     /**
@@ -240,6 +240,24 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
             return;
         }
         saveDaysOff(daysOff);
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void updateScheduleCar(Project project, Car car) {
+        final ScheduleCar scheduleCar = new ScheduleCar();
+        scheduleCar.setCarId(car.getId());
+        scheduleCar.setCarName(car.getCarName());
+        scheduleCar.setProjectId(project.getId());
+        scheduleCar.setProjectStart(project.getDateStart());
+        scheduleCar.setProjectFinish(project.getDateFinish());
+        try {
+            createEntity(scheduleCar);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
