@@ -1,4 +1,4 @@
-package defencer.service.builder;
+package defencer.service.builder.pdf;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;

@@ -1,4 +1,4 @@
-package defencer.service.builder;
+package defencer.service.builder.pdf;
 
 import static com.itextpdf.text.FontFactory.*;
 
@@ -51,7 +51,7 @@ public class ProjectReportBuilder {
         final int colorB = 166;
         PdfPTable table = new PdfPTableBuilder(tableColumnNum, DEFAULT_TABLE_WIDTH, DEFAULT_TABLE_SPACING)
                 .addPdfPCells(new BaseColor(colorR, colorG, colorB), getFont(HELVETICA_BOLD),
-                        "Project name", "Place", "Start Date", "Finish Date", "Instructors", "Author", "Created")
+                        "Project name", "Place", "Start Date", "Finish Date", "Instructors", "Cars", "Author", "Created")
                 .build();
         projects
                 .forEach(s -> {
@@ -60,6 +60,7 @@ public class ProjectReportBuilder {
                     table.addCell(s.getDateStart().toString());
                     table.addCell(s.getDateFinish().toString());
                     table.addCell(s.getInstructors());
+                    table.addCell(s.getCars());
                     table.addCell(s.getAuthor());
                     table.addCell(s.getDateOfCreation().toString());
                 });
