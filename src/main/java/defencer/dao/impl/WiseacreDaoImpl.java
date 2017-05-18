@@ -114,19 +114,6 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         return availableProjects;
     }
 
-   /* public static void main(String[] args) {
-
-        final WiseacreDaoImpl wiseacreDao = new WiseacreDaoImpl();
-        final Project project = new Project();
-        project.setDateStart(LocalDate.of(2017, 5, 24));
-        project.setDateFinish(LocalDate.of(2017, 5, 26));
-        List<Car> freeCar = wiseacreDao.getFreeCar(project);
-        freeCar.forEach(s -> System.out.println(s.getCarName()));
-//        final List<Instructor> freeInstructors = wiseacreDao.getFreeInstructors(project);
-
-//        freeInstructors.forEach(s -> System.out.println(s.getFirstName()));
-    }*/
-
     /**
      * {@inheritDoc}.
      */
