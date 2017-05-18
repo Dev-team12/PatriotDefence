@@ -95,7 +95,12 @@ public class UpdateProjectController implements Initializable {
                 + "\n"
                 + "Refusal: "
                 + "\n"
-                + project.getRefusal());
+                + project.getRefusal()
+                + "\n"
+                + "\n"
+                + "Cars: "
+                + "\n"
+                + project.getCars());
     }
 
     /**

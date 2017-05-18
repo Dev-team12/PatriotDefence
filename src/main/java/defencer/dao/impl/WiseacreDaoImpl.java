@@ -5,7 +5,6 @@ import defencer.data.CurrentUser;
 import defencer.model.*;
 import defencer.model.enums.Role;
 import defencer.util.HibernateUtil;
-import lombok.experimental.var;
 import lombok.val;
 import org.hibernate.Session;
 
@@ -28,7 +27,7 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
      * {@inheritDoc}.
      */
     @Override
-    public List<Car> getFreeCar(Project project ) {
+    public List<Car> getFreeCar(Project project) {
         final Session session = getCurrentSession();
         session.beginTransaction();
 
@@ -43,9 +42,9 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         carCriteriaQuery.multiselect(toor.get("id"));
         List<Car> cars = session.createQuery(carCriteriaQuery).getResultList();
 
-        scheduleCars.forEach(s -> System.out.println(s.getProjectStart() + " " + s.getProjectFinish()));
-
         Set<Long> freeCars = new HashSet<>();
+        Set<Long> busyCars = new HashSet<>();
+        Set<Long> absoluteFreeCars = new HashSet<>();
         scheduleCars.forEach(s -> {
             if ((project.getDateStart().isBefore(s.getProjectStart())
                     || project.getDateStart().isAfter(s.getProjectFinish()))
@@ -54,20 +53,24 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
                     && (!s.getProjectStart().isAfter(project.getDateStart())
                     || !s.getProjectStart().isBefore(project.getDateFinish()))) {
                 freeCars.add(s.getCarId());
+            } else {
+                busyCars.add(s.getCarId());
             }
         });
 
-        System.out.println(freeCars);
-        scheduleCars.forEach(s -> System.out.println("schedule: " + s.getCarId()));
+        freeCars.forEach(s -> {
+            if (!busyCars.contains(s)) {
+                absoluteFreeCars.add(s);
+            }
+        });
+
         cars.forEach(s -> scheduleCars.forEach(v -> {
-            System.out.println(s.getId() + " " + v.getCarId());
             if (s.getId().equals(v.getCarId())) {
                 s.setId(-1L);
             }
         }));
-        cars.forEach(s -> System.out.println("car: " + s.getId()));
 
-        freeCars.forEach(s -> {
+        absoluteFreeCars.forEach(s -> {
             Car car = new Car();
             car.setId(s);
             cars.add(car);
@@ -111,7 +114,7 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         return availableProjects;
     }
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
 
         final WiseacreDaoImpl wiseacreDao = new WiseacreDaoImpl();
         final Project project = new Project();
@@ -122,7 +125,7 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
 //        final List<Instructor> freeInstructors = wiseacreDao.getFreeInstructors(project);
 
 //        freeInstructors.forEach(s -> System.out.println(s.getFirstName()));
-    }
+    }*/
 
     /**
      * {@inheritDoc}.

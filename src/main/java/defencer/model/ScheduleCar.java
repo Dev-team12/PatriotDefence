@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OptimisticLockType;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import javax.persistence.*;
 
 /**
  * @author Igor Hnes on 17.05.17.
