@@ -213,9 +213,22 @@ public class ApprenticeController implements Initializable {
     /**
      * Preparing pdf report for instructor in table.
      */
-    @SneakyThrows
     private void pdfReport() {
-        NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+        if (table.getItems().isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+            return;
+        }
         ServiceFactory.getPdfService().apprenticeReport(table.getItems());
+    }
+
+    /**
+     * Preparing excel report for apprentice in table.
+     */
+    private void excelReport() {
+        if (table.getItems().isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+            return;
+        }
+        ServiceFactory.getExcelService().apprenticeReport(table.getItems());
     }
 }

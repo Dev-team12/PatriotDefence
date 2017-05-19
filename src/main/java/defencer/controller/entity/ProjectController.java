@@ -374,10 +374,23 @@ public class ProjectController implements Initializable {
     /**
      * Preparing pdf report for project in table.
      */
-    @SneakyThrows
     private void pdfReport() {
-        NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+        if (table.getItems().isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+            return;
+        }
         ServiceFactory.getPdfService().projectReport(table.getItems());
+    }
+
+    /**
+     * Preparing excel report for project in table.
+     */
+    private void excelReport() {
+        if (table.getItems().isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+            return;
+        }
+        ServiceFactory.getExcelService().projectReport(table.getItems());
     }
 
     /**

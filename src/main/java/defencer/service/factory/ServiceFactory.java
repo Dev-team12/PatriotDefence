@@ -58,4 +58,11 @@ public class ServiceFactory {
     public static PdfService getPdfService() {
         return new PdfServiceImpl();
     }
+
+    /**
+     * @return instance of {@link ExcelService}.
+     */
+    public static ExcelService getExcelService() {
+        return new ExcelServiceImpl();
+    }
 }

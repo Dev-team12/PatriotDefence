@@ -51,7 +51,7 @@ public class ProjectReportBuilder {
         final int colorB = 166;
         PdfPTable table = new PdfPTableBuilder(tableColumnNum, DEFAULT_TABLE_WIDTH, DEFAULT_TABLE_SPACING)
                 .addPdfPCells(new BaseColor(colorR, colorG, colorB), getFont(HELVETICA_BOLD),
-                        "Project name", "Place", "Start Date", "Finish Date", "Instructors", "Cars", "Author", "Created")
+                        "Project name", "Place", "Start date", "Finish date", "Instructors", "Cars", "Author", "Created")
                 .build();
         projects
                 .forEach(s -> {

@@ -190,9 +190,22 @@ public class InstructorController implements Initializable {
     /**
      * Preparing pdf report for instructor in table.
      */
-    @SneakyThrows
     private void pdfReport() {
-        NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+        if (table.getItems().isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+            return;
+        }
         ServiceFactory.getPdfService().instructorReport(table.getItems());
+    }
+
+    /**
+     * Preparing excel report for instructor in table.
+     */
+    private void excelReport() {
+        if (table.getItems().isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+            return;
+        }
+        ServiceFactory.getExcelService().instructorReport(table.getItems());
     }
 }
