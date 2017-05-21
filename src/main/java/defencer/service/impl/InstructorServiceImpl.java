@@ -13,6 +13,7 @@ import defencer.service.SmsService;
 import defencer.service.factory.ServiceFactory;
 import defencer.service.impl.email.ConfirmBuilderImpl;
 import defencer.service.impl.email.InviteProjectBuilderImpl;
+import defencer.util.NotificationUtil;
 import lombok.val;
 import org.apache.commons.lang.RandomStringUtils;
 
@@ -34,8 +35,11 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
     @Override
     public Instructor createEntity(Instructor instructor) throws SQLException {
         if (!this.emailAvailable(instructor)) {
+//            NotificationUtil.warningAlert("Warning", "Supplied email is already taken: " + instructor.getEmail(), NotificationUtil.SHORT);
+//            return null;
             throw new EntityAlreadyExistsException("Supplied email is already taken: " + instructor.getEmail());
         }
+
         val instructorPassword = RandomStringUtils.randomAlphanumeric(PASSWORD_LENGTH);
         EmailBuilder<Instructor> emailBuilder = new ConfirmBuilderImpl();
         instructor.setPassword(instructorPassword);

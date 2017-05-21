@@ -126,7 +126,7 @@ public class CalendarController implements Initializable {
             appointmentImplLocal.withStartLocalDateTime(LocalDateTime.of(start, timeStart))
                     .withEndLocalDateTime(LocalDateTime.of(end, timeEnd))
                     .withWholeDay(true)
-                    .withSummary(s.getName())
+                    .withSummary(s.getNameId())
                     .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group" + new Random().nextInt(COUNT_OF_GROUPS)));
 
             agenda.appointments().addAll(appointmentImplLocal);
