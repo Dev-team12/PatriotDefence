@@ -106,6 +106,16 @@
             <artifactId>spring-security-crypto</artifactId>
             <version>3.1.0.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.cathive.fx</groupId>
+            <artifactId>fx-gravatar</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>2.4.4.5</version>
+        </dependency>
     </dependencies>
 
     <build>

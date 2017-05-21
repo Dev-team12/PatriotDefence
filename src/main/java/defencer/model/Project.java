@@ -41,10 +41,19 @@ public class Project extends AbstractEntity implements Serializable {
     private String instructors;
     @Column(name = "cars")
     private String cars;
+    @Column(name = "refusal")
+    private String refusal;
 
     public Project(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Project(Long id, String name, LocalDate dateStart, LocalDate dateFinish) {
+        this.id = id;
+        this.name = name;
+        this.dateStart = dateStart;
+        this.dateFinish = dateFinish;
     }
 
     public String getNameId() {

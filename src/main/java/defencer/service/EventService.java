@@ -7,5 +7,8 @@ import defencer.model.Event;
  */
 public interface EventService extends CrudService<Event, Long> {
 
+    /**
+     * Add new event to calendar.
+     */
     void addEvent(Event event);
 }

@@ -10,7 +10,9 @@ import java.sql.SQLException;
  */
 public class EventServiceImpl extends CrudServiceImpl<Event> implements EventService {
 
-
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public void addEvent(Event event) {
         try {

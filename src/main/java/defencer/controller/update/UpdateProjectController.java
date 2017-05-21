@@ -75,6 +75,7 @@ public class UpdateProjectController implements Initializable {
 
     /**
      * @param project is selected {@link Project} for set in edit form.
+     *
      */
     public void editCurrentProject(Project project) {
         projectName.setValue(project.getName());

@@ -6,6 +6,7 @@ package defencer.model.enums;
 public class Role {
 
     public static final String CHIEF_OFFICER = "Chief Officer";
-    public static final String COORDINATOR = "Chief Officer";
-    public static final String INSTRUCTOR = "Chief Officer";
+    public static final String COORDINATOR = "Coordinator";
+    public static final String INSTRUCTOR = "Instructor";
+    public static final String OFFICE_MANAGER = "Office manager";
 }

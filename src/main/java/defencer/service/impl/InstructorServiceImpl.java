@@ -5,6 +5,7 @@ import defencer.data.CurrentUser;
 import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.Schedule;
 import defencer.service.EmailBuilder;
 import defencer.service.EmailService;
 import defencer.service.InstructorService;
@@ -34,13 +35,11 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
         if (!this.emailAvailable(instructor)) {
             throw new EntityAlreadyExistsException("Supplied email is already taken: " + instructor.getEmail());
         }
+        val instructorPassword = RandomStringUtils.randomAlphanumeric(PASSWORD_LENGTH);
         EmailBuilder<Instructor> emailBuilder = new ConfirmBuilderImpl();
+        instructor.setPassword(instructorPassword);
         val message = emailBuilder.buildMessage(instructor);
         ServiceFactory.getEmailService().sendMessage(message);
-        val instructorPassword = RandomStringUtils.randomAlphanumeric(PASSWORD_LENGTH);
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        final String encode = encoder.encode(instructorPassword);
-        instructor.setPassword(instructorPassword);
         return super.createEntity(instructor);
     }
 
@@ -73,28 +72,20 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      */
     @Override
     public void configureProject(List<Instructor> instructors, Project project) {
-        Runnable runnable = () -> instructors.forEach(s -> {
-            s.setProjectId(project.getId());
-            s.setStatus("EXPECTED");
-            try {
-                ServiceFactory.getInstructorService().updateEntity(s);
-//                ServiceFactory.getProjectService().updateEntity(project);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
+        ServiceFactory.getWiseacreService().updateSchedule(instructors, project);
 
-        final Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         CurrentUser.refresh(CurrentUser.getLink().getEmail());
 
         final Thread email = new Thread(mailSender(instructors, project));
         email.start();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public List<Schedule> getMyProject(Long userId) {
+        return DaoFactory.getInstructorDao().getMyProject(userId);
     }
 
     /**

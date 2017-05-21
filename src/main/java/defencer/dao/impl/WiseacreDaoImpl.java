@@ -1,7 +1,9 @@
 package defencer.dao.impl;
 
 import defencer.dao.WiseacreDao;
+import defencer.data.CurrentUser;
 import defencer.model.*;
+import defencer.model.enums.Role;
 import defencer.util.HibernateUtil;
 import lombok.val;
 import org.hibernate.Session;
@@ -9,10 +11,7 @@ import org.hibernate.Session;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 
 /**
  * Implementation of {@link WiseacreDao} interface.
@@ -68,8 +67,10 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         final CriteriaQuery<Instructor> criteriaQuery = criteriaBuilder.createQuery(Instructor.class);
         final Root<Instructor> root = criteriaQuery.from(Instructor.class);
         criteriaQuery.select(root)
-                .where(criteriaBuilder.equal(root.get("status"), "FREE"));
+                .where(criteriaBuilder.equal(root.get("status"), "FREE"),
+                        criteriaBuilder.in(root.get("role")).value(Role.INSTRUCTOR).value(Role.COORDINATOR));
         final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
+
         session.getTransaction().commit();
         session.close();
         return instructorList;
@@ -119,7 +120,7 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         final CriteriaQuery<Instructor> criteriaQuery = criteriaBuilder.createQuery(Instructor.class);
         final Root<Instructor> root = criteriaQuery.from(Instructor.class);
         criteriaQuery.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"))
-                .where(criteriaBuilder.isNotNull(root.get("projectId")));
+                .where(criteriaBuilder.in(root.get("role")).value(Role.INSTRUCTOR).value(Role.COORDINATOR));
         final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
 
         val workCriteriaBuilder = session.getCriteriaBuilder();
@@ -288,15 +289,15 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
      * {@inheritDoc}.
      */
     @Override
-    public List<Instructor> getCurrentInstructors(Long projectId) throws SQLException {
+    public List<Schedule> getCurrentInstructors(Long projectId) throws SQLException {
         final Session session = getCurrentSession();
         session.beginTransaction();
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        final CriteriaQuery<Instructor> criteriaBuilderQuery = criteriaBuilder.createQuery(Instructor.class);
-        final Root<Instructor> root = criteriaBuilderQuery.from(Instructor.class);
+        val criteriaBuilderQuery = criteriaBuilder.createQuery(Schedule.class);
+        Root<Schedule> root = criteriaBuilderQuery.from(Schedule.class);
         criteriaBuilderQuery.select(root)
                 .where(criteriaBuilder.equal(root.get("projectId"), projectId));
-        final List<Instructor> instructors = session.createQuery(criteriaBuilderQuery).getResultList();
+        final List<Schedule> instructors = session.createQuery(criteriaBuilderQuery).getResultList();
         session.getTransaction().commit();
         session.close();
         return instructors;
@@ -324,15 +325,22 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
      * {@inheritDoc}.
      */
     @Override
-    public void deleteSelectedInstructors(Long instructorId) {
+    public void deleteSelectedInstructors(Long instructorId, Long projectId) {
         final Session session = getCurrentSession();
         session.beginTransaction();
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        val criteriaUpdateQuery = criteriaBuilder.createCriteriaUpdate(Instructor.class);
-        final Root<Instructor> root = criteriaUpdateQuery.from(Instructor.class);
-        criteriaUpdateQuery.set(root.get("status"), "FREE").set(root.get("projectId"), -1)
-                .where(criteriaBuilder.equal(root.get("id"), instructorId));
-        session.createQuery(criteriaUpdateQuery).executeUpdate();
+        val criteriaDelete = criteriaBuilder.createCriteriaDelete(Schedule.class);
+        Root<Schedule> root = criteriaDelete.from(Schedule.class);
+        criteriaDelete.where(criteriaBuilder.equal(root.get("instructorId"), instructorId),
+                criteriaBuilder.equal(root.get("projectId"), projectId));
+        session.createQuery(criteriaDelete).executeUpdate();
+
+        final CriteriaUpdate<Project> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Project.class);
+        final Root<Project> toor = criteriaUpdate.from(Project.class);
+        criteriaUpdate.set(toor.get("refusal"), CurrentUser.getLink().getFirstName() + " " + CurrentUser.getLink().getLastName())
+                .where(criteriaBuilder.equal(toor.get("id"), projectId));
+        session.createQuery(criteriaUpdate).executeUpdate();
+
         session.getTransaction().commit();
         session.close();
     }
@@ -387,6 +395,29 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
         session.getTransaction().commit();
         session.close();
         return daysOffList;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void updateSchedule(List<Instructor> instructors, Project project) {
+        Session session = getCurrentSession();
+        session.beginTransaction();
+
+        Schedule schedule = new Schedule();
+        schedule.setProjectName(project.getNameId());
+        schedule.setStartProject(project.getDateStart());
+        schedule.setFinishProject(project.getDateFinish());
+        schedule.setProjectId(project.getId());
+
+        instructors.forEach(s -> {
+            schedule.setInstructorId(s.getId());
+            schedule.setInstructorName(s.getFirstLastName());
+            save(schedule);
+        });
+        session.getTransaction().commit();
+        session.close();
     }
 
     /**

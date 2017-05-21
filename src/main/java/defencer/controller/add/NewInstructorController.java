@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Instructor;
+import defencer.model.enums.Role;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
@@ -44,7 +45,7 @@ public class NewInstructorController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         role.setItems(FXCollections
-                .observableArrayList("Chief Officer", "Coordinator", "Instructor"));
+                .observableArrayList(Role.CHIEF_OFFICER, Role.COORDINATOR, Role.INSTRUCTOR, Role.OFFICE_MANAGER));
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
 
         btnAddInstructor.setOnAction(e -> prepareAdding());

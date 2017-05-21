@@ -1,5 +1,7 @@
 package defencer.controller;
 
+import com.cathive.fx.gravatar.GravatarUrlBuilder;
+import com.cathive.fx.gravatar.Rating;
 import com.jfoenix.controls.JFXButton;
 import defencer.data.ControllersDataFactory;
 import defencer.data.CurrentUser;
@@ -8,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -35,10 +38,24 @@ public class DrawerActivityController implements Initializable {
     private JFXButton calendarButton;
     @FXML
     private ImageView logoutButton;
-
+    @FXML
+    private ImageView imageUserProfile;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        final GravatarUrlBuilder gravatarUrlBuilder = GravatarUrlBuilder.create();
+        final int size = 269;
+        final URL build = gravatarUrlBuilder.email(CurrentUser.getLink().getEmail())
+                .rating(Rating.GENERAL_AUDIENCES)
+                .size(size)
+                .build();
+
+        final Image value = new Image(build.toExternalForm(), true);
+        imageUserProfile.setImage(value);
+        imageUserProfile.setPreserveRatio(true);
+        imageUserProfile.setSmooth(true);
+        imageUserProfile.setCache(true);
 
         apprenticeButton.setOnMouseClicked(click -> mouseClickButton(apprenticeButton));
 
@@ -52,7 +69,6 @@ public class DrawerActivityController implements Initializable {
 
         logoutButton.setOnMouseClicked(click -> logout());
     }
-
 
     /**
      * It is using for handling click at drawer.

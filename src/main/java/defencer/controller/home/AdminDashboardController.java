@@ -2,8 +2,10 @@ package defencer.controller.home;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import defencer.data.CurrentUser;
 import defencer.model.AvailableProject;
 import defencer.model.Car;
+import defencer.model.enums.Role;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
@@ -203,6 +205,10 @@ public class AdminDashboardController implements Initializable {
      * Create new car.
      */
     private void createCar() {
+        if (!Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())) {
+            NotificationUtil.warningAlert("Wrong", "Only Chief officer can do this", NotificationUtil.SHORT);
+            return;
+        }
         if ("".equals(txtCar.getText())) {
             NotificationUtil.warningAlert("Wrong", "Please enter name", NotificationUtil.SHORT);
             return;
@@ -225,6 +231,10 @@ public class AdminDashboardController implements Initializable {
      * Create new Available project.
      */
     private void createProject() {
+        if (!Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())) {
+            NotificationUtil.warningAlert("Wrong", "Only Chief officer can do this", NotificationUtil.SHORT);
+            return;
+        }
         if ("".equals(txtProject.getText())) {
             NotificationUtil.warningAlert("Wrong", "Please enter name", NotificationUtil.SHORT);
             return;
@@ -247,6 +257,10 @@ public class AdminDashboardController implements Initializable {
      */
     private void deleteCar() {
         final Car car = tableCar.getSelectionModel().getSelectedItem();
+        if (!Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())) {
+            NotificationUtil.warningAlert("Wrong", "Only Chief officer can do this", NotificationUtil.SHORT);
+            return;
+        }
         if (car == null) {
             NotificationUtil.warningAlert("Warning", "Select car first", NotificationUtil.SHORT);
             return;
@@ -265,6 +279,10 @@ public class AdminDashboardController implements Initializable {
      * Delete selected project.
      */
     private void deleteProject() {
+        if (!Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())) {
+            NotificationUtil.warningAlert("Wrong", "Only Chief officer can do this", NotificationUtil.SHORT);
+            return;
+        }
         final AvailableProject project = tableProject.getSelectionModel().getSelectedItem();
         if (project == null) {
             NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);

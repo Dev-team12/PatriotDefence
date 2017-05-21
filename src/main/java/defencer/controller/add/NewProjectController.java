@@ -61,7 +61,6 @@ public class NewProjectController implements Initializable {
      * Prepare {@link Project} to creating.
      */
     private void prepareAdding() {
-
         if (validatorFields()) {
             if (!checkPeriod()) {
                 NotificationUtil.warningAlert("Warning", "You can't create the project in less than 5 days from today", NotificationUtil.SHORT);
@@ -73,7 +72,7 @@ public class NewProjectController implements Initializable {
             project.setDateFinish(dataTo.getValue());
             project.setPlace(place.getText());
             project.setDescription(description.getText());
-            project.setAuthor(CurrentUser.getLink().getFirstName() + " " + CurrentUser.getLink().getLastName());
+            project.setAuthor(CurrentUser.getLink().getFirstName() + CurrentUser.getLink().getLastName());
             project.setDateOfCreation(LocalDate.now());
             create(project);
             root.getScene().getWindow().hide();

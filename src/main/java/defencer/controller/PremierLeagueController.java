@@ -21,10 +21,7 @@ import javafx.scene.text.Text;
 
 import java.io.File;
 import java.net.URL;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Igor Gnes on 4/22/17.
@@ -43,14 +40,6 @@ public class PremierLeagueController implements Initializable {
     private Text txtDateFinish;
     @FXML
     private Text txtAuthor;
-    @FXML
-    private Text txtDescription;
-    @FXML
-    private Text txtEmail;
-    @FXML
-    private Text txtPhone;
-    @FXML
-    private Text txtQualification;
     @FXML
     private Text txtLastName;
     @FXML
@@ -77,8 +66,6 @@ public class PremierLeagueController implements Initializable {
     private Set<Instructor> instructorSet = new HashSet<>();
     private Project project;
     private int counter;
-    private final int sleepFirst = 100;
-    private final int sleep = 250;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -112,9 +99,7 @@ public class PremierLeagueController implements Initializable {
         if (counter >= freeInstructors.size() || counter < 0) {
             counter = 0;
         }
-        final Runnable runnable = loadInstructorDetails(freeInstructors.get(counter));
-        final Thread thread = new Thread(runnable);
-        thread.start();
+        loadInstructorDetails(freeInstructors.get(counter));
     }
 
     /**
@@ -141,9 +126,11 @@ public class PremierLeagueController implements Initializable {
      * Delete selected instructor.
      */
     private void deleteSelectedInstructor() {
-        final Instructor selectedItem = tableInstructors.getSelectionModel().getSelectedItem();
-        final ObservableList<Instructor> items = tableInstructors.getItems();
-        items.remove(selectedItem);
+//        final Instructor instructor = tableInstructors.getSelectionModel().getSelectedItem();
+//        ServiceFactory.getWiseacreService().deleteSelectedInstructors(instructor.getId(), project.getId());
+//        updateTableWithCurrentInstructors();
+        final Instructor instructor = tableInstructors.getSelectionModel().getSelectedItem();
+        tableInstructors.getItems().remove(instructor);
     }
 
     /**
@@ -156,18 +143,28 @@ public class PremierLeagueController implements Initializable {
         txtDateStart.setText("DateStart: " + project.getDateStart());
         txtDateFinish.setText("DateFinish: " + project.getDateFinish());
         txtAuthor.setText("Author: " + project.getAuthor());
-        txtDescription.setText("Description: " + project.getDescription());
-
-        instructorSet.addAll(getCurrentInstructors(project.getId()));
-        observableInstructors.addAll(instructorSet);
-        tableInstructors.setItems(observableInstructors);
+//        updateTableWithCurrentInstructors();
+//        instructorSet.addAll(getCurrentInstructors(project.getId()));
+//        observableInstructors.addAll(instructorSet);
+//        tableInstructors.setItems(observableInstructors);
     }
 
     /**
      * Configured table.
      */
     private void insertInstructorTable() {
-        instructors.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        instructors.setCellValueFactory(new PropertyValueFactory<>("firstLastName"));
+    }
+
+    /**
+     * Update current instructors table.
+     */
+    private void updateTableWithCurrentInstructors() {
+        observableInstructors.clear();
+        instructorSet.clear();
+//        instructorSet.addAll(getCurrentInstructors(project.getId()));
+        observableInstructors.addAll(instructorSet);
+        tableInstructors.setItems(observableInstructors);
     }
 
     /**
@@ -185,43 +182,9 @@ public class PremierLeagueController implements Initializable {
      *
      * @param instructor is selected instructor.
      */
-    private Runnable loadInstructorDetails(Instructor instructor) {
-        return () -> {
-            try {
-                Thread.sleep(sleepFirst);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            txtFirstName.setText("First name: " + instructor.getFirstName());
-
-            try {
-                Thread.sleep(sleep);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            txtLastName.setText("Last name: " + instructor.getLastName());
-
-            try {
-                Thread.sleep(sleep);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            txtQualification.setText("Qualification: " + instructor.getQualification());
-
-            try {
-                Thread.sleep(sleep);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            txtPhone.setText("Phone: " + instructor.getPhone());
-
-            try {
-                Thread.sleep(sleep);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            txtEmail.setText("Email: " + instructor.getEmail());
-        };
+    private void loadInstructorDetails(Instructor instructor) {
+        txtFirstName.setText("First name: " + instructor.getFirstName());
+        txtLastName.setText("Last name: " + instructor.getLastName());
     }
 
     /**
@@ -249,22 +212,30 @@ public class PremierLeagueController implements Initializable {
     private void clearTxt() {
         txtFirstName.setText("");
         txtLastName.setText("");
-        txtQualification.setText("");
-        txtPhone.setText("");
-        txtEmail.setText("");
     }
+
+//    /**
+//     * @return list of instructors who were selected before.
+//     */
+//    private List<Instructor> getCurrentInstructors(Long projectId) {
+//        final List<Schedule> instructors = ServiceFactory.getWiseacreService().getCurrentInstructors(projectId);
+//        List<Instructor> currentList = new LinkedList<>();
+//        instructors.forEach(s -> {
+//            val instructor = new Instructor();
+//            instructor.setProjectId(projectId);
+//            instructor.setId(s.getInstructorId());
+//            instructor.setFirstName(s.getInstructorName());
+//            instructor.setLastName("");
+//            currentList.add(instructor);
+//        });
+//        return currentList;
+//    }
+
 
     /**
      * @return free instructor's name for project.
      */
     private List<Instructor> getFreeInstructors() {
         return ServiceFactory.getWiseacreService().getFreeInstructors();
-    }
-
-    /**
-     * @return list of instructors who were selected before.
-     */
-    private List<Instructor> getCurrentInstructors(Long projectId) {
-        return ServiceFactory.getWiseacreService().getCurrentInstructors(projectId);
     }
 }

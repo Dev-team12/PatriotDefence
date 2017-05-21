@@ -2,7 +2,6 @@ package defencer.data;
 
 import defencer.model.AbstractEntity;
 import defencer.model.Instructor;
-import defencer.model.Project;
 import defencer.service.factory.ServiceFactory;
 import lombok.Getter;
 
@@ -47,17 +46,7 @@ public class CurrentUser extends AbstractEntity {
      */
     private void downloadData(String email) {
         final Instructor currentUser = ServiceFactory.getWiseacreService().getCurrentUser(email);
-        Project projectByInstructor = ServiceFactory.getInstructorService().findProjectByInstructor(currentUser.getProjectId());
-        if (projectByInstructor == null) {
-            projectByInstructor = new Project();
-            projectByInstructor.setName("none");
-            projectByInstructor.setDateStart(LocalDate.now());
-            projectByInstructor.setDateFinish(LocalDate.now());
-            projectByInstructor.setPlace("-");
-            projectByInstructor.setAuthor("-");
-            projectByInstructor.setDescription("-");
 
-        }
         data.put("id", currentUser.getId());
         data.put("firstName", currentUser.getFirstName());
         data.put("lastName", currentUser.getLastName());
@@ -65,15 +54,6 @@ public class CurrentUser extends AbstractEntity {
         data.put("email", currentUser.getEmail());
         data.put("status", currentUser.getStatus());
         data.put("role", currentUser.getRole());
-
-
-        data.put("projectId", projectByInstructor.getId());
-        data.put("getNameId", projectByInstructor.getNameId());
-        data.put("dateStart", projectByInstructor.getDateStart());
-        data.put("dateFinish", projectByInstructor.getDateFinish());
-        data.put("place", projectByInstructor.getPlace());
-        data.put("author", projectByInstructor.getAuthor());
-        data.put("description", projectByInstructor.getDescription());
     }
 
 
@@ -89,9 +69,6 @@ public class CurrentUser extends AbstractEntity {
         instructor.setLastName((String) data.get("lastName"));
         instructor.setEmail((String) data.get("email"));
         instructor.setPhone((String) data.get("phoneNumber"));
-
-        System.out.println("firstName:" + data.get("firstName") + ";lastName:" + data.get("lastName")
-                + ";email:" + data.get("email") + ";phoneNumber:" + data.get("phoneNumber"));
 
         try {
             ServiceFactory.getInstructorService().updateEntity(instructor);

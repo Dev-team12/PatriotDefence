@@ -1,14 +1,16 @@
 package defencer.controller.entity;
 
 import com.jfoenix.controls.JFXButton;
+import defencer.controller.AskFormController;
+import defencer.controller.MainActivityController;
 import defencer.controller.update.UpdateInstructorController;
+import defencer.data.ControllersDataFactory;
 import defencer.data.CurrentUser;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,6 +28,7 @@ import jfxtras.scene.control.ImageViewButton;
 import lombok.SneakyThrows;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -69,13 +72,16 @@ public class InstructorController implements Initializable {
 
         loadInstructors();
 
-        btnAddOneMore.setOnAction(this::newInstructor);
+        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
+        mainActivityController.showSmartToolbar();
 
-        btnDelete.setOnAction(e -> deleteInstructor());
+        mainActivityController.getAddAction().setOnMouseClicked(this::newInstructor);
+        mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteInstructor());
+        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadInstructors());
+        mainActivityController.getEditAction().setVisible(false);
+        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
+       // mainActivityController.getEditAction().setVisible(false);
 
-        btnUpdate.setOnMouseClicked(e -> loadInstructors());
-
-        btnPdfReport.setOnAction(e -> pdfReport());
 
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
@@ -148,11 +154,38 @@ public class InstructorController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select instructor firstly", NotificationUtil.SHORT);
             return;
         }
+        if (!"FREE".equals(instructor.getStatus())) {
+            NotificationUtil.warningAlert("Warning", "Unfortunately you can't this user because he has a project", NotificationUtil.SHORT);
+            return;
+        }
 
         try {
-            ServiceFactory.getInstructorService().deleteEntity(instructor);
-            observableInstructors.clear();
-            loadInstructors();
+            final FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/askForm.fxml"));
+            Parent parent = fxmlLoader.load();
+
+            final Stage stage = new Stage();
+            Scene value = new Scene(parent);
+            value.getStylesheets().add("css/main.css");
+            stage.setScene(value);
+            stage.initModality(Modality.WINDOW_MODAL);
+            Window window = table.getScene().getWindow();
+            stage.initOwner(window);
+            stage.show();
+
+            stage.setOnHiding(event -> {
+                if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
+
+                    try {
+                        ServiceFactory.getInstructorService().deleteEntity(instructor);
+                    } catch (SQLException e) {
+                        NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
+                    }
+                    observableInstructors.clear();
+                    loadInstructors();
+                }
+            });
+
         } catch (Exception e) {
             NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }
@@ -167,11 +200,10 @@ public class InstructorController implements Initializable {
 
     /**
      * Open new page to add one more instructor.
-     *
      * {@link SneakyThrows} here because i am totally sure that path to fxml is correct.
      */
     @SneakyThrows
-    private void newInstructor(ActionEvent event) {
+    private void newInstructor(MouseEvent event) {
         final FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/entity/add/NewInstructor.fxml"));
         Parent parent = fxmlLoader.load();

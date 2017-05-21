@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
@@ -43,7 +44,23 @@ public class MainActivityController implements Initializable {
     @FXML
     private JFXButton btnLogout;
     @FXML
-    private ImageView add;
+    @Getter
+    private ImageView addAction;
+    @FXML
+    @Getter
+    private ImageView deleteAction;
+    @FXML
+    @Getter
+    private ImageView editAction;
+    @FXML
+    @Getter
+    private ImageView updateAction;
+    @FXML
+    @Getter
+    private ImageView settingsAction;
+    @FXML
+    @Getter
+    private ImageView pdfExportAction;
 
 
     @Override
@@ -51,7 +68,10 @@ public class MainActivityController implements Initializable {
 
         Map<String, Object> data = new HashMap<>();
         data.put("class", this);
-       // data.put("add", add);
+
+        hideSmartToolbar();
+
+        closeDrawer();
 
         if (ControllersDataFactory.getLink().get(this.getClass()) == null) {
             ControllersDataFactory.getLink().add(this.getClass(), data);
@@ -94,7 +114,6 @@ public class MainActivityController implements Initializable {
             }
 
         });
-
 
         btnLogout.setOnAction(e -> {
             logout();
@@ -160,5 +179,33 @@ public class MainActivityController implements Initializable {
         transition.play();
         //transition.setRate(1.0);
         //transition.play();
+    }
+
+
+    /**
+     * Showing all components of smart toolbar.
+     */
+    public void showSmartToolbar() {
+
+        addAction.setVisible(true);
+        deleteAction.setVisible(true);
+        editAction.setVisible(true);
+        updateAction.setVisible(true);
+        pdfExportAction.setVisible(true);
+        settingsAction.setVisible(true);
+    }
+
+
+    /**
+     * Hiding all components of smart toolbar.
+     */
+    public void hideSmartToolbar() {
+
+        addAction.setVisible(false);
+        deleteAction.setVisible(false);
+        editAction.setVisible(false);
+        updateAction.setVisible(false);
+        pdfExportAction.setVisible(false);
+        settingsAction.setVisible(false);
     }
 }

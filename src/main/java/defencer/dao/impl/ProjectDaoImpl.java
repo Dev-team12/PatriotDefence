@@ -4,6 +4,7 @@ import defencer.dao.ProjectDao;
 import defencer.model.Car;
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.Schedule;
 import defencer.util.HibernateUtil;
 import lombok.val;
 import org.hibernate.Session;
@@ -37,15 +38,7 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
                 .where(criteriaBuilder
                         .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(1)));
         final List<Project> projects = session.createQuery(projectCriteriaQuery).getResultList();
-        final List<Instructor> instructorInProject = getInstructorInProject(session);
-        final List<Car> carInProject = getCarInProject(session);
-        projects.forEach(s -> {
-            s.setInstructors("");
-            s.setCars("");
-        });
-        setInstructorsIntoProject(projects, instructorInProject);
-        setCarsIntoProject(projects, carInProject);
-
+        setInstructorsIntoProject(projects, criteriaBuilder, session);
         session.getTransaction().commit();
         session.close();
         projects.sort(Comparator.comparing(Project::getId));
@@ -55,27 +48,19 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
     /**
      * Update instructors in project.
      */
-    private void setInstructorsIntoProject(List<Project> projects, List<Instructor> instructors) {
-        StringBuilder builder = new StringBuilder();
-        projects.forEach(project -> instructors.forEach(instructor -> {
-            if (project.getId().equals(instructor.getProjectId())) {
-                builder.append(instructor.getFirstLastName());
-                project.setInstructors(builder.toString());
-            }
-        }));
-    }
-
-    /**
-     * Update cars in project.
-     */
-    private void setCarsIntoProject(List<Project> projects, List<Car> cars) {
-        StringBuilder builder = new StringBuilder();
-        projects.forEach(project -> cars.forEach(car -> {
-            if (project.getId().equals(car.getProjectId())) {
-                builder.append(car.getCarName()).append(" ");
-                project.setCars(builder.toString());
-            }
-        }));
+    private void setInstructorsIntoProject(List<Project> projects, CriteriaBuilder criteriaBuilder, Session session) {
+        final CriteriaQuery<Schedule> scheduleCriteriaQuery = criteriaBuilder.createQuery(Schedule.class);
+        final Root<Schedule> toor = scheduleCriteriaQuery.from(Schedule.class);
+        final StringBuilder stringBuilder = new StringBuilder();
+        projects.forEach(s -> {
+            scheduleCriteriaQuery.multiselect(toor.get("id"), toor.get("instructorName"))
+                    .where(criteriaBuilder.equal(toor
+                            .get("projectId"), s.getId()));
+            final List<Schedule> schedules = session.createQuery(scheduleCriteriaQuery).getResultList();
+            schedules.forEach(e -> stringBuilder.append(e.getInstructorName()));
+            s.setInstructors(stringBuilder.toString());
+            stringBuilder.setLength(0);
+        });
     }
 
     @Override
@@ -102,19 +87,9 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
                                 .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(1)),
                         criteriaBuilder.equal(root.get("name"), projectName));
         final List<Project> projects = session.createQuery(projectCriteriaQuery).getResultList();
-
-        final List<Instructor> instructorInProject = getInstructorInProject(session);
-        final List<Car> carInProject = getCarInProject(session);
-        projects.forEach(s -> {
-            s.setInstructors("");
-            s.setCars("");
-        });
-        setInstructorsIntoProject(projects, instructorInProject);
-        setCarsIntoProject(projects, carInProject);
-
+        setInstructorsIntoProject(projects, criteriaBuilder, session);
         session.getTransaction().commit();
         session.close();
-
         projects.sort(Comparator.comparing(Project::getId));
         return projects;
     }
@@ -158,7 +133,7 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         final CriteriaQuery<Instructor> criteriaBuilderQuery = criteriaBuilder.createQuery(Instructor.class);
         final Root<Instructor> root = criteriaBuilderQuery.from(Instructor.class);
         criteriaBuilderQuery.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"), root.get("projectId"))
-                .where(criteriaBuilder.notEqual(root.get("projectId"), -1), root.get("projectId").isNotNull());
+                .where(criteriaBuilder.notEqual(root.get("projectId"), -1), root.get("projectId").isNotNull(), root.get("projectId").isNotNull());
         return session.createQuery(criteriaBuilderQuery).getResultList();
     }
 
@@ -171,7 +146,7 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         final CriteriaQuery<Car> criteriaBuilderQuery = criteriaBuilder.createQuery(Car.class);
         final Root<Car> root = criteriaBuilderQuery.from(Car.class);
         criteriaBuilderQuery.select(root)
-                .where(criteriaBuilder.notEqual(root.get("projectId"), -1), root.get("projectId").isNotNull());
+                .where(criteriaBuilder.notEqual(root.get("projectId"), -1), root.get("projectId").isNotNull(), root.get("projectId").isNotNull());
         return session.createQuery(criteriaBuilderQuery).getResultList();
     }
 

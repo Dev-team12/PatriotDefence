@@ -3,11 +3,14 @@ package defencer.dao.impl;
 import defencer.dao.InstructorDao;
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.Schedule;
 import defencer.model.enums.Role;
 import defencer.util.HibernateUtil;
+import lombok.val;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.util.Comparator;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -90,9 +93,13 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
         final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
         session.getTransaction().commit();
         session.close();
+        instructorList.sort(Comparator.comparing(Instructor::getRole));
         return instructorList;
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public List<Instructor> findAdmins() {
         final Session session = getSession();
@@ -106,6 +113,24 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
         session.getTransaction().commit();
         session.close();
         return admins;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public List<Schedule> getMyProject(Long userId) {
+        Session session = getSession();
+        session.beginTransaction();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val scheduleCriteriaQuery = criteriaBuilder.createQuery(Schedule.class);
+        Root<Schedule> root = scheduleCriteriaQuery.from(Schedule.class);
+        scheduleCriteriaQuery.select(root)
+                .where(criteriaBuilder.equal(root.get("instructorId"), userId));
+        List<Schedule> myProject = session.createQuery(scheduleCriteriaQuery).getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return myProject;
     }
 
     /**

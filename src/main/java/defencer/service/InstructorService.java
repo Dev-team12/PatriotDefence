@@ -2,6 +2,7 @@ package defencer.service;
 
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.Schedule;
 
 import java.util.List;
 
@@ -33,7 +34,12 @@ public interface InstructorService extends CrudService<Instructor, Long> {
      * Configured project and send notifications to selected instructors.
      *
      * @param instructors is list of selected instructors.
-     * @param project is selected project
+     * @param project     is selected project
      */
     void configureProject(List<Instructor> instructors, Project project);
+
+    /**
+     * @return list of projects for current user.
+     */
+    List<Schedule> getMyProject(Long userId);
 }

@@ -45,6 +45,6 @@
             </ImageView>
         </AnchorPane>
     </GridPane>
-    <JFXButton fx:id="btnAddEvent" layoutX="323.0" layoutY="6.0" prefHeight="27.0" prefWidth="87.0"
+    <JFXButton fx:id="btnAddEvent" layoutX="323.0" layoutY="6.0" prefHeight="27.0" prefWidth="90.0"
                styleClass="button-try-now" text="New Event"/>
 </AnchorPane>

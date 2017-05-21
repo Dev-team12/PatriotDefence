@@ -69,8 +69,8 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
         final ProjectTimes projectTimes = new ProjectTimes();
         projectTimes.setDateOfCreation(LocalDate.now());
         projectTimes.setProjectName(alreadyCreatedProject.getName());
-        new WiseacreDaoImpl().save(projectTimes);
-
+        WiseacreDaoImpl wiseacreDao = new WiseacreDaoImpl();
+        wiseacreDao.save(projectTimes);
         final List<Instructor> admins = findAdmins();
         final Thread thread = new Thread(mailSenderCreatedProject(admins, project));
         thread.start();

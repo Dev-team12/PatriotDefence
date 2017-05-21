@@ -1,6 +1,9 @@
 package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
+import defencer.data.ControllersDataFactory;
+import defencer.start.AppManager;
+import defencer.util.InternetConnectionCheckerUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,12 +34,21 @@ public class IsNoInternetConnectionController implements Initializable {
      */
     @SneakyThrows
     private void tryNow() {
-        final Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/drawerMain.fxml"));
-        primaryStage.setTitle("Patriot Defence");
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        scene.getStylesheets().add("css/main.css");
-        primaryStage.show();
+
+        if (InternetConnectionCheckerUtil.checkConnection()) {
+
+            Stage stage = (Stage) ControllersDataFactory.getLink().get(AppManager.class, "stage");
+
+            Parent root = FXMLLoader.load(getClass().getResource("/waiting.fxml"));
+            Scene scene = new Scene(root);
+            stage.hide();
+            stage.setScene(scene);
+            scene.getStylesheets().add("css/main.css");
+            stage.show();
+
+            InternetConnectionCheckerUtil internetConnectionCheckerUtil = new InternetConnectionCheckerUtil();
+            internetConnectionCheckerUtil.start();
+
+        }
     }
 }

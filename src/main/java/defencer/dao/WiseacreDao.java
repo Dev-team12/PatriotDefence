@@ -1,9 +1,6 @@
 package defencer.dao;
 
-import defencer.model.AvailableProject;
-import defencer.model.Car;
-import defencer.model.DaysOff;
-import defencer.model.Instructor;
+import defencer.model.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -85,7 +82,7 @@ public interface WiseacreDao {
      * @param projectId is project's id.
      * @return list of instructors who were selected before.
      */
-    List<Instructor> getCurrentInstructors(Long projectId) throws SQLException;
+    List<Schedule> getCurrentInstructors(Long projectId) throws SQLException;
 
     /**
      * @param projectId is project's id.
@@ -98,7 +95,7 @@ public interface WiseacreDao {
      *
      * @param instructorId id instructor's id.
      */
-    void deleteSelectedInstructors(Long instructorId);
+    void deleteSelectedInstructors(Long instructorId, Long projectId);
 
     /**
      * Delete car that was selected before.
@@ -119,4 +116,9 @@ public interface WiseacreDao {
      * @return list of days off.
      */
     List<DaysOff> getDaysOff(Long instructorId);
+
+    /**
+     * Update schedule by set instructor's id in project with given project id.
+     */
+    void updateSchedule(List<Instructor> instructors, Project project);
 }

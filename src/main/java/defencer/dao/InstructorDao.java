@@ -2,6 +2,7 @@ package defencer.dao;
 
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.Schedule;
 
 import java.util.List;
 
@@ -41,4 +42,9 @@ public interface InstructorDao extends CrudDao<Instructor, Long> {
      * @return list of instructor who has role Chief Officer.
      */
     List<Instructor> findAdmins();
+
+    /**
+     * @return list of projects for current user.
+     */
+    List<Schedule> getMyProject(Long userId);
 }

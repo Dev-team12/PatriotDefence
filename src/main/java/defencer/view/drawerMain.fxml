@@ -1,50 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="750.0" prefWidth="1357.0" style="-fx-background-color: white;" stylesheets="/css/main.css"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="defencer.controller.MainActivityController">
-   <AnchorPane fx:id="currentLayout" layoutX="-1.0" layoutY="55.0" prefHeight="695.0" prefWidth="1357.0"
-               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-               AnchorPane.topAnchor="55.0"/>
-   <JFXDrawer fx:id="drawer" defaultDrawerSize="500.0" direction="LEFT" layoutY="56.0" maxHeight="695.0"
-              prefHeight="695.0" prefWidth="230.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="56.0"/>
-   <JFXToolbar layoutX="-1.0" layoutY="2.0" prefHeight="55.0" prefWidth="911.0" style="-fx-background-color: #3F51B5;"
-               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <left>
-         <AnchorPane prefHeight="55.0" prefWidth="213.0" BorderPane.alignment="CENTER">
-            <JFXHamburger fx:id="hamburger" layoutY="13.0" prefHeight="30.0" prefWidth="64.0">
-               <cursor>
-                  <Cursor fx:constant="HAND"/>
-               </cursor>
-            </JFXHamburger>
-            <JFXButton fx:id="btbDashboard" layoutX="99.0" layoutY="5.0" prefHeight="46.0" prefWidth="102.0"
-                       text="Home" textFill="WHITE">
-               <font>
-                  <Font size="23.0"/>
-               </font>
-            </JFXButton>
-         </AnchorPane>
-      </left>
-      <center>
-         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Patriot Defence" BorderPane.alignment="CENTER">
-            <font>
-               <Font size="32.0"/>
-            </font>
-         </Text>
-      </center>
-      <right>
-         <JFXButton fx:id="btnLogout" prefHeight="46.0" prefWidth="197.0" text="logout" textFill="WHITE"
-                    BorderPane.alignment="CENTER">
-            <font>
-               <Font size="23.0"/>
-            </font>
-         </JFXButton>
-      </right>
-   </JFXToolbar>
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1357.0" style="-fx-background-color: white;" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.MainActivityController">
+   <children>
+      <AnchorPane fx:id="currentLayout" layoutX="-1.0" layoutY="86.0" prefHeight="664.0" prefWidth="1357.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="86.0" />
+      <JFXDrawer fx:id="drawer" defaultDrawerSize="500.0" direction="LEFT" layoutY="56.0" maxHeight="695.0" prefHeight="695.0" prefWidth="230.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="56.0" />
+      <JFXToolbar layoutX="-1.0" layoutY="2.0" prefHeight="55.0" prefWidth="911.0" style="-fx-background-color: #3F51B5;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <AnchorPane prefHeight="56.0" prefWidth="346.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXHamburger fx:id="hamburger" layoutY="13.0" prefHeight="30.0" prefWidth="64.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXHamburger>
+                  <JFXButton fx:id="btbDashboard" layoutX="64.0" layoutY="3.0" prefHeight="46.0" prefWidth="102.0" text="Home" textFill="WHITE">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fx:id="addAction" fitHeight="56.0" fitWidth="56.0" layoutX="170.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="/image/smart_toolbar/add.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="editAction" fitHeight="56.0" fitWidth="56.0" layoutX="216.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="/image/smart_toolbar/edite.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="deleteAction" fitHeight="50.0" fitWidth="60.0" layoutX="262.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="/image/smart_toolbar/delete.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="updateAction" fitHeight="50.0" fitWidth="50.0" layoutX="303.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="/image/smart_toolbar/reload.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </left>
+         <center>
+            <GridPane prefHeight="56.0" prefWidth="260.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="56.0" prefWidth="200.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="290.0" minWidth="290.0" prefWidth="290.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="56.0" prefWidth="200.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Patriot Defencer" textFill="WHITE" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+         </center>
+         <right>
+            <AnchorPane layoutX="50.0" layoutY="50.0" prefHeight="57.0" prefWidth="212.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXButton fx:id="btnLogout" layoutX="67.0" layoutY="4.0" prefHeight="49.0" prefWidth="132.0" text="logout" textFill="WHITE">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fx:id="settingsAction" fitHeight="50.0" fitWidth="50.0" layoutX="33.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="/image/smart_toolbar/settings.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="pdfExportAction" fitHeight="50.0" fitWidth="50.0" layoutX="-11.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="/image/smart_toolbar/file-pdf.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </right>
+      </JFXToolbar>
+   </children>
 </AnchorPane>
