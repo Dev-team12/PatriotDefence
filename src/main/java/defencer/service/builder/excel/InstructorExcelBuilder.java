@@ -32,7 +32,7 @@ public class InstructorExcelBuilder {
                 new FileOutputStream(file.getFile());
 
         final XSSFSheet sheet = sheets.createSheet("Instructor in Patriot Defence");
-        final XSSFRow projectDetails = sheet.createRow(FIFTH_CELL);
+        final XSSFRow projectDetails = sheet.createRow(FIRST_CELL);
         projectDetails.createCell(FIRST_CELL).setCellValue("First Name");
         projectDetails.createCell(SECOND_CELL).setCellValue("Last name");
         projectDetails.createCell(THIRD_CELL).setCellValue("Email");
@@ -42,7 +42,7 @@ public class InstructorExcelBuilder {
 
         instructors.forEach(s -> {
             final XSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
-            row.createCell(FIFTH_CELL).setCellValue(s.getFirstName());
+            row.createCell(FIRST_CELL).setCellValue(s.getFirstName());
             row.createCell(SECOND_CELL).setCellValue(s.getLastName());
             row.createCell(THIRD_CELL).setCellValue(s.getEmail());
             row.createCell(FOURTH_CELL).setCellValue(s.getPhone());

@@ -113,4 +113,9 @@ public interface WiseacreDao {
      * Update schedule by set instructor's id.
      */
     void updateSchedule(CurrentUser currentUser, Schedule schedule);
+
+    /**
+     * Get days off statistic for instructors.
+     */
+    Map<String, Long> getDaysOffStatistic();
 }

@@ -261,6 +261,14 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
     }
 
     /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public Map<String, Long> getDaysOffStatistic() {
+        return DaoFactory.getWiseacreDao().getDaysOffStatistic();
+    }
+
+    /**
      * Check that current instructors doesn't have a project in selected time.
      */
     private List<Boolean> possibleToGo(DaysOff daysOff, List<Schedule> myProjects) {

@@ -10,14 +10,23 @@ import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import lombok.SneakyThrows;
 import lombok.val;
 
 import java.net.URL;
@@ -46,6 +55,8 @@ public class AdminDashboardController implements Initializable {
     @FXML
     private JFXButton btnCreateProject;
     @FXML
+    private JFXButton btnGetDaysOff;
+    @FXML
     private JFXTextField txtProject;
     @FXML
     private JFXTextField txtCar;
@@ -61,6 +72,8 @@ public class AdminDashboardController implements Initializable {
     private Text projectForMonths;
     @FXML
     private Text apprenticeForMonths;
+    @FXML
+    private Text txtBalance;
 
     private ObservableList<AvailableProject> observableProject = FXCollections.observableArrayList();
     private ObservableList<Car> observableCar = FXCollections.observableArrayList();
@@ -79,6 +92,7 @@ public class AdminDashboardController implements Initializable {
         btnCreateProject.setOnAction(e -> createProject());
         btnDeleteProject.setOnAction(s -> deleteProject());
         btnDeleteCar.setOnAction(s -> deleteCar());
+        btnGetDaysOff.setOnAction(this::daysOffStatistic);
     }
 
     /**
@@ -127,6 +141,14 @@ public class AdminDashboardController implements Initializable {
         totalApprentice.setText("Total Apprentice: " + getTotalApprentice());
         projectForMonths.setText("Projects for months: " + getProjectForLastMonths());
         apprenticeForMonths.setText("Apprentice for months: " + getApprenticeForLastMonths());
+        txtBalance.setText("Balance for sms: " + getSmsBalance());
+    }
+
+    /**
+     * @return sms balance.
+     */
+    private String getSmsBalance() {
+        return ServiceFactory.getSmsService().getBalance();
     }
 
     /**
@@ -295,5 +317,24 @@ public class AdminDashboardController implements Initializable {
         }
         observableProject.clear();
         loadDataForProject();
+    }
+
+    /**
+     * Show bar chart with instructor days off.
+     */
+    @SneakyThrows
+    private void daysOffStatistic(ActionEvent event) {
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/DaysOffStatistics.fxml"));
+        final Parent parent = fxmlLoader.load();
+        final Stage stage = new Stage();
+        stage.setTitle("Patriot Defence");
+        Scene value = new Scene(parent);
+        value.getStylesheets().add("css/main.css");
+        stage.setScene(value);
+        stage.initModality(Modality.WINDOW_MODAL);
+        Window window = ((Node) event.getSource()).getScene().getWindow();
+        stage.initOwner(window);
+        stage.show();
     }
 }

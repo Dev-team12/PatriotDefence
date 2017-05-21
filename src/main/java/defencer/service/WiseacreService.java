@@ -154,4 +154,9 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
      * Update schedule car by set to there project and car id.
      */
     void updateScheduleCar(Project project, Car car);
+
+    /**
+     * Get days off statistic for instructors.
+     */
+    Map<String, Long> getDaysOffStatistic();
 }

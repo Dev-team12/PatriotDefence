@@ -8,7 +8,7 @@ import defencer.model.Project;
  */
 public class PdfReportBuilder extends EmailBuilderImpl<CurrentUser> {
 
-    private static final String PDF_REPORT = "PDF report";
+    private static final String REPORT = "Report";
 
     @Override
     String getMessageRecipient(CurrentUser user) {
@@ -17,7 +17,7 @@ public class PdfReportBuilder extends EmailBuilderImpl<CurrentUser> {
 
     @Override
     String getMessageSubject() {
-        return PDF_REPORT;
+        return REPORT;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class PdfReportBuilder extends EmailBuilderImpl<CurrentUser> {
                 + " "
                 + user.getLastName()
                 + "\n"
-                + "Please download your pdf report"
+                + "Please download your doc report"
                 + "\n"
                 + "Have a nice day -)"
                 + "\n"

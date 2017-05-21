@@ -1,6 +1,7 @@
 package defencer.controller.entity;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXNodesList;
 import defencer.controller.update.UpdateInstructorController;
 import defencer.data.CurrentUser;
 import defencer.model.Instructor;
@@ -59,7 +60,9 @@ public class InstructorController implements Initializable {
     @FXML
     private ImageViewButton btnUpdate;
     @FXML
-    private JFXButton btnPdfReport;
+    private JFXButton btnReport;
+    @FXML
+    private JFXNodesList nodeList;
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
 
@@ -75,13 +78,34 @@ public class InstructorController implements Initializable {
 
         btnUpdate.setOnMouseClicked(e -> loadInstructors());
 
-        btnPdfReport.setOnAction(e -> pdfReport());
-
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
                 editInstructor(event);
             }
         });
+        instructorExport();
+    }
+
+    /**
+     * Pdf and Excel export.
+     */
+    private void instructorExport() {
+
+        btnReport.setButtonType(JFXButton.ButtonType.RAISED);
+
+        final JFXButton btnPdfExport = new JFXButton("PDF export");
+        btnPdfExport.getStyleClass().add("button-try-now");
+        final JFXButton btnExcelExport = new JFXButton("EXCEL export");
+        btnExcelExport.getStyleClass().add("button-try-now");
+
+        final int value = 10;
+        nodeList.setSpacing(value);
+        nodeList.addAnimatedNode(btnReport);
+        nodeList.addAnimatedNode(btnPdfExport);
+        nodeList.addAnimatedNode(btnExcelExport);
+
+        btnPdfExport.setOnAction(e -> pdfReport());
+        btnExcelExport.setOnAction(e -> excelReport());
     }
 
     /**

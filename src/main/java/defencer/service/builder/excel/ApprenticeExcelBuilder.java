@@ -32,8 +32,8 @@ public class ApprenticeExcelBuilder {
                 new FileOutputStream(file.getFile());
 
         final XSSFSheet sheet = sheets.createSheet("Apprentice in Patriot Defence");
-        final XSSFRow projectDetails = sheet.createRow(FIFTH_CELL);
-        projectDetails.createCell(FIFTH_CELL).setCellValue("Name");
+        final XSSFRow projectDetails = sheet.createRow(FIRST_CELL);
+        projectDetails.createCell(FIRST_CELL).setCellValue("Name");
         projectDetails.createCell(SECOND_CELL).setCellValue("Email");
         projectDetails.createCell(THIRD_CELL).setCellValue("Phone");
         projectDetails.createCell(FOURTH_CELL).setCellValue("Project name");

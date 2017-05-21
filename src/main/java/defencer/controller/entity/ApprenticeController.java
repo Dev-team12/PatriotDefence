@@ -3,6 +3,7 @@ package defencer.controller.entity;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXNodesList;
 import defencer.controller.update.UpdateApprenticeController;
 import defencer.model.Apprentice;
 import defencer.service.factory.ServiceFactory;
@@ -38,6 +39,8 @@ import java.util.ResourceBundle;
 public class ApprenticeController implements Initializable {
 
     @FXML
+    private JFXNodesList nodeList;
+    @FXML
     private TableView<Apprentice> table;
     @FXML
     private TableColumn<Apprentice, String> name;
@@ -58,7 +61,7 @@ public class ApprenticeController implements Initializable {
     @FXML
     private JFXButton btnDelete;
     @FXML
-    private JFXButton btnPdfExport;
+    private JFXButton btnExport;
     @FXML
     private ImageViewButton btnUpdate;
     @FXML
@@ -84,13 +87,35 @@ public class ApprenticeController implements Initializable {
 
         btnFind.setOnAction(e -> search());
 
-        btnPdfExport.setOnAction(e -> pdfReport());
-
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
                 editApprentice(event);
             }
         });
+        apprenticeExport();
+    }
+
+
+    /**
+     * Pdf and Excel export.
+     */
+    private void apprenticeExport() {
+
+        btnExport.setButtonType(JFXButton.ButtonType.RAISED);
+
+        final JFXButton btnPdfExport = new JFXButton("PDF export");
+        btnPdfExport.getStyleClass().add("button-try-now");
+        final JFXButton btnExcelExport = new JFXButton("EXCEL export");
+        btnExcelExport.getStyleClass().add("button-try-now");
+
+        final int value = 10;
+        nodeList.setSpacing(value);
+        nodeList.addAnimatedNode(btnExport);
+        nodeList.addAnimatedNode(btnPdfExport);
+        nodeList.addAnimatedNode(btnExcelExport);
+
+        btnPdfExport.setOnAction(e -> pdfReport());
+        btnExcelExport.setOnAction(e -> excelReport());
     }
 
     /**

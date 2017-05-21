@@ -10,6 +10,7 @@ import org.hibernate.Session;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 import javax.persistence.criteria.*;
@@ -22,6 +23,7 @@ import javax.persistence.criteria.*;
 public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements WiseacreDao {
 
     private Long workDay = 0L;
+    private Long daysOff = 0L;
 
     /**
      * {@inheritDoc}.
@@ -334,7 +336,7 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
     }
 
     /**
-     * 1* {@inheritDoc}.
+     * {@inheritDoc}.
      */
     @Override
     public int getTotalApprentice() {
@@ -560,6 +562,38 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
 
         session.getTransaction().commit();
         session.close();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public Map<String, Long> getDaysOffStatistic() {
+        final Session session = getCurrentSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val daysOffCriteriaQuery = criteriaBuilder.createQuery(DaysOff.class);
+        final Root<DaysOff> root = daysOffCriteriaQuery.from(DaysOff.class);
+
+        final CriteriaQuery<Instructor> criteriaQuery = criteriaBuilder.createQuery(Instructor.class);
+        final Root<Instructor> toor = criteriaQuery.from(Instructor.class);
+        criteriaQuery.multiselect(toor.get("id"), toor.get("firstName"), toor.get("lastName"))
+                .where(criteriaBuilder.in(toor.get("role")).value(Role.INSTRUCTOR).value(Role.COORDINATOR));
+        final List<Instructor> instructorList = session.createQuery(criteriaQuery).getResultList();
+
+        Map<String, Long> instructorStatistic = new HashMap<>();
+        instructorList.forEach(s -> {
+            daysOffCriteriaQuery.select(root)
+                    .where(criteriaBuilder.equal(root.get("instructorId"), s.getId()));
+            final List<DaysOff> resultList = session.createQuery(daysOffCriteriaQuery).getResultList();
+            resultList.forEach(b -> daysOff += ChronoUnit.DAYS.between(b.getDateFrom(), b.getDateTo()));
+            instructorStatistic.put(s.getFirstName(), daysOff);
+            daysOff = 0L;
+        });
+
+        System.out.println(instructorStatistic);
+        return instructorStatistic;
     }
 
     /**

@@ -46,8 +46,6 @@ import java.util.ResourceBundle;
 public class ProjectController implements Initializable {
 
     @FXML
-    private JFXButton btnPdfExport;
-    @FXML
     private TableView<Project> table;
     @FXML
     private TableColumn<Project, String> name;
@@ -80,7 +78,11 @@ public class ProjectController implements Initializable {
     @FXML
     private JFXButton btnConfigureProject;
     @FXML
+    private JFXButton btnExport;
+    @FXML
     private JFXNodesList nodeList;
+    @FXML
+    private JFXNodesList nodeListExport;
     @FXML
     private ImageViewButton btnUpdate;
     @FXML
@@ -111,9 +113,31 @@ public class ProjectController implements Initializable {
             }
         });
 
-        btnPdfExport.setOnAction(e -> pdfReport());
-
+        projectReport();
         projectConfigure();
+    }
+
+    /**
+     * Report project excel and pdf.
+     */
+    private void projectReport() {
+
+        btnExport.setButtonType(JFXButton.ButtonType.RAISED);
+
+        final JFXButton btnPdfExport = new JFXButton("PDF export");
+        btnPdfExport.getStyleClass().add("button-try-now");
+
+        final JFXButton btnExcelExport = new JFXButton("Excel export");
+        btnExcelExport.getStyleClass().add("button-try-now");
+
+        final int value = 10;
+        nodeListExport.setSpacing(value);
+        nodeListExport.addAnimatedNode(btnExport);
+        nodeListExport.addAnimatedNode(btnPdfExport);
+        nodeListExport.addAnimatedNode(btnExcelExport);
+
+        btnPdfExport.setOnAction(e -> pdfReport());
+        btnExcelExport.setOnAction(e -> excelReport());
     }
 
     /**

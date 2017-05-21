@@ -9,6 +9,7 @@ import defencer.model.Schedule;
 import defencer.service.EmailBuilder;
 import defencer.service.EmailService;
 import defencer.service.InstructorService;
+import defencer.service.SmsService;
 import defencer.service.factory.ServiceFactory;
 import defencer.service.impl.email.ConfirmBuilderImpl;
 import defencer.service.impl.email.InviteProjectBuilderImpl;
@@ -78,6 +79,9 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
 
         final Thread email = new Thread(mailSender(instructors, project));
         email.start();
+
+        final Thread sms = new Thread(smsSender(instructors, project));
+        sms.start();
     }
 
     /**
@@ -97,7 +101,7 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
     }
 
     /**
-     * Send notifications to instructors.
+     * Send notifications to instructors by email.
      */
     private Runnable mailSender(List<Instructor> instructors, Project project) {
         final StringBuffer stringBuffer = new StringBuffer();
@@ -110,6 +114,17 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
                 .buildMessageForProject(s, project)));
     }
 
+    /**
+     * Send notifications to instructors by sms.
+     */
+    private Runnable smsSender(List<Instructor> instructors, Project project) {
+        final StringBuffer stringBuffer = new StringBuffer();
+        instructors.forEach(s -> stringBuffer.append(s.getFirstLastName()));
+        stringBuffer.append(project.getInstructors()).append(" ").append(project.getExpected());
+        project.setInstructors(stringBuffer.toString());
+        final SmsService smsService = ServiceFactory.getSmsService();
+        return () -> instructors.forEach(s -> smsService.send(s.getPhone(), s, project));
+    }
     /**
      * Checks if supplied email is already in the database.
      *
