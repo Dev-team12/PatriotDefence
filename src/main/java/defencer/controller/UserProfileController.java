@@ -90,6 +90,8 @@ public class UserProfileController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        CurrentUser.getLink().refresh(CurrentUser.getLink().getEmail());
+
         final GravatarUrlBuilder gravatarUrlBuilder = GravatarUrlBuilder.create();
         final int size = 262;
         final URL build = gravatarUrlBuilder.email(CurrentUser.getLink().getEmail())

@@ -22,6 +22,9 @@ import java.util.ResourceBundle;
  */
 public class NewInstructorController implements Initializable {
 
+    private static final int MAX_NUMBER_LENGTH = 10;
+    private static final int TEMP_LENGTH = 1;
+
     @FXML
     private AnchorPane root;
     @FXML
@@ -59,7 +62,7 @@ public class NewInstructorController implements Initializable {
         if (role.getValue() != null && !role.getValue().equals("")
                 && firstName.getText().length() != 0
                 && email.getText().length() != 0
-                && phone.getText().length() != 0
+                && phone.getText().length() != 0 && phone.getText().length() == MAX_NUMBER_LENGTH && phone.getText().substring(0, TEMP_LENGTH).equals("0") && isOnlyNumber(phone.getText())
                 && qualification.getText().length() != 0) {
 
             final Instructor instructor = new Instructor();
@@ -74,6 +77,19 @@ public class NewInstructorController implements Initializable {
 
         } else {
             NotificationUtil.errorAlert("Error", "Form isn't filled right.", NotificationUtil.LONG);
+        }
+    }
+
+
+    /**
+     * Checking does data consist only from numbers.
+     */
+    private boolean isOnlyNumber(String data) {
+        try {
+            Integer.parseInt(data);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 

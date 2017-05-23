@@ -4,13 +4,15 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXNodesList;
+import defencer.controller.AskFormController;
+import defencer.controller.MainActivityController;
 import defencer.controller.update.UpdateApprenticeController;
+import defencer.data.ControllersDataFactory;
 import defencer.model.Apprentice;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -79,11 +81,14 @@ public class ApprenticeController implements Initializable {
                 .observableArrayList(getProjectName()));
         comboProject.setValue("");
 
-        btnAddOneMore.setOnAction(this::newApprentice);
+        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
+        mainActivityController.showSmartToolbar();
 
-        btnDelete.setOnAction(e -> deleteApprentice());
-
-        btnUpdate.setOnMouseClicked(e -> loadApprentice());
+        mainActivityController.getAddAction().setOnMouseClicked(this::newApprentice);
+        mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteApprentice());
+        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadApprentice());
+        mainActivityController.getEditAction().setVisible(false);
+        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
 
         btnFind.setOnAction(e -> search());
 
@@ -92,6 +97,7 @@ public class ApprenticeController implements Initializable {
                 editApprentice(event);
             }
         });
+
         apprenticeExport();
     }
 
@@ -158,7 +164,7 @@ public class ApprenticeController implements Initializable {
      * {@link SneakyThrows} here because i am totally sure that path to fxml id correct.
      */
     @SneakyThrows
-    private void newApprentice(ActionEvent event) {
+    private void newApprentice(MouseEvent event) {
         final FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/entity/add/NewApprentice.fxml"));
         Parent parent = fxmlLoader.load();
@@ -219,10 +225,34 @@ public class ApprenticeController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select apprentice firstly", NotificationUtil.SHORT);
             return;
         }
+
         try {
-            ServiceFactory.getApprenticeService().deleteEntity(apprentice);
-            observableApprentices.clear();
-            loadApprentice();
+            final FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/askForm.fxml"));
+            Parent parent = fxmlLoader.load();
+
+            final Stage stage = new Stage();
+            Scene value = new Scene(parent);
+            value.getStylesheets().add("css/main.css");
+            stage.setScene(value);
+            stage.initModality(Modality.WINDOW_MODAL);
+            Window window = table.getScene().getWindow();
+            stage.initOwner(window);
+            stage.show();
+
+            stage.setOnHiding(event -> {
+                if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
+
+                    try {
+                        ServiceFactory.getApprenticeService().deleteEntity(apprentice);
+                        observableApprentices.clear();
+                        loadApprentice();
+                    } catch (Exception e) {
+                        NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
+                    }
+                }
+            });
+
         } catch (Exception e) {
             NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }

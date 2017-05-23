@@ -1,9 +1,12 @@
 package defencer.controller;
 
 import com.jfoenix.controls.JFXButton;
+import defencer.data.ControllersDataFactory;
 import defencer.hibernate.HibernateQueryBuilder;
 import defencer.hibernate.HibernateService;
+import defencer.model.DaysOff;
 import defencer.model.Event;
+import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.util.NotificationUtil;
 import javafx.fxml.FXML;
@@ -49,7 +52,12 @@ public class CalendarController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        btnAddEvent.setOnMouseClicked(this::addEvent);
+        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
+        mainActivityController.hideSmartToolbar();
+
+        mainActivityController.getAddAction().setVisible(true);
+        mainActivityController.getAddAction().setOnMouseClicked(this::addEvent);
+
         factoryInitialization();
         weekButtonsInitialization();
     }
@@ -60,6 +68,7 @@ public class CalendarController implements Initializable {
     private void factoryInitialization() {
         addEventOnView(downloadEvents());
         addProjectOnView(downloadProjects());
+        addDaysOffOnView(downloadDaysOff());
     }
 
     /**
@@ -69,6 +78,7 @@ public class CalendarController implements Initializable {
         agenda.appointments().clear();
         addEventOnView(downloadEvents());
         addProjectOnView(downloadProjects());
+        addDaysOffOnView(downloadDaysOff());
     }
 
     /**
@@ -88,21 +98,26 @@ public class CalendarController implements Initializable {
     }
 
     /**
+     * Downloading events from database.
+     */
+    private List<DaysOff> downloadDaysOff() {
+        HibernateQueryBuilder hibernateQueryBuilder = new HibernateQueryBuilder(HibernateQueryBuilder.SELECT_QUERY, DaysOff.class);
+        return (List<DaysOff>) HibernateService.executeQuery(hibernateQueryBuilder);
+    }
+
+    /**
      * Add events to calendar.
      */
     private void addEventOnView(List<Event> events) {
 
-        LocalTime timeStart = LocalTime.MIN;
-        LocalTime timeEnd = LocalTime.MAX;
-
         events.forEach(s -> {
-            LocalDate start = s.getDate();
 
             Agenda.AppointmentImplLocal appointmentImplLocal = new Agenda.AppointmentImplLocal();
 
-            appointmentImplLocal.withStartLocalDateTime(LocalDateTime.of(start, timeStart))
-                    .withWholeDay(true)
+
+            appointmentImplLocal
                     .withSummary(s.getName())
+                    .withStartLocalDateTime(s.getDate())
                     .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group" + new Random().nextInt(COUNT_OF_GROUPS)));
 
             agenda.appointments().addAll(appointmentImplLocal);
@@ -110,7 +125,39 @@ public class CalendarController implements Initializable {
     }
 
     /**
-     * Add project to calendar.
+     * Add DaysOff to calendar.
+     */
+    private void addDaysOffOnView(List<DaysOff> daysOff) {
+
+        LocalTime timeStart = LocalTime.MIN;
+        LocalTime timeEnd = LocalTime.MAX;
+
+        daysOff.forEach(s -> {
+
+            System.out.println(s.getInstructorId());
+
+            LocalDate start = s.getDateFrom();
+            LocalDate end = s.getDateTo();
+
+            HibernateQueryBuilder hibernateQueryBuilder = new HibernateQueryBuilder(HibernateQueryBuilder.SELECT_QUERY, Instructor.class);
+            hibernateQueryBuilder.with(HibernateQueryBuilder.ID_FIELD, s.getInstructorId());
+
+            Instructor instructor = (Instructor) HibernateService.executeQuery(hibernateQueryBuilder).get(0);
+
+            Agenda.AppointmentImplLocal appointmentImplLocal = new Agenda.AppointmentImplLocal();
+
+            appointmentImplLocal.withStartLocalDateTime(LocalDateTime.of(start, timeStart))
+                    .withEndLocalDateTime(LocalDateTime.of(end, timeEnd))
+                    .withWholeDay(true)
+                    .withSummary(instructor.getFirstName() + " " + instructor.getLastName() + "(" + instructor.getEmail() + ")")
+                    .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group" + new Random().nextInt(COUNT_OF_GROUPS)));
+
+            agenda.appointments().addAll(appointmentImplLocal);
+        });
+    }
+
+    /**
+     * Add Project to calendar.
      */
     private void addProjectOnView(List<Project> projects) {
 
@@ -132,6 +179,8 @@ public class CalendarController implements Initializable {
             agenda.appointments().addAll(appointmentImplLocal);
         });
     }
+
+
 
     /**
      * Initialization of week buttons.

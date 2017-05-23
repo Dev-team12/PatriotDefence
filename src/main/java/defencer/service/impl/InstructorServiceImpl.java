@@ -13,7 +13,7 @@ import defencer.service.SmsService;
 import defencer.service.factory.ServiceFactory;
 import defencer.service.impl.email.ConfirmBuilderImpl;
 import defencer.service.impl.email.InviteProjectBuilderImpl;
-import defencer.util.NotificationUtil;
+import defencer.util.telegram.TelegramUtil;
 import lombok.val;
 import org.apache.commons.lang.RandomStringUtils;
 
@@ -80,6 +80,8 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
         ServiceFactory.getWiseacreService().updateExpected(instructors, project);
 
         CurrentUser.refresh(CurrentUser.getLink().getEmail());
+
+        TelegramUtil.getLink().alertAboutProject(instructors, project);
 
         final Thread email = new Thread(mailSender(instructors, project));
         email.start();

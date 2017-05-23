@@ -3,6 +3,7 @@ package defencer.controller.add;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTimePicker;
 import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Event;
 import defencer.service.factory.ServiceFactory;
@@ -14,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 /**
@@ -27,6 +29,8 @@ public class NewEventController implements Initializable {
     private JFXTextField name;
     @FXML
     private JFXDatePicker date;
+    @FXML
+    private JFXTimePicker time;
     @FXML
     private JFXButton btnAddEvent;
     @FXML
@@ -44,10 +48,14 @@ public class NewEventController implements Initializable {
      */
     private void addEvent(MouseEvent mouseEvent) {
         if (name.getText() != null && name.getText().length() != 0
-                && date.getValue() != null) {
+                && date.getValue() != null
+                && time.getValue() != null) {
             final Event event = new Event();
             event.setName(name.getText());
-            event.setDate(date.getValue());
+
+            LocalDateTime localDateTime = LocalDateTime.of(date.getValue(), time.getValue());
+            event.setDate(localDateTime);
+
             create(event);
             toor.getScene().getWindow().hide();
         } else {

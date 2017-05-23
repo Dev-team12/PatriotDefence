@@ -49,4 +49,11 @@ public class PreLoaderUtil extends Thread {
         }
         return preLoaderUtil;
     }
+
+
+    public static PreLoaderUtil restart() {
+        preLoaderUtil = null;
+
+        return getLink();
+    }
 }

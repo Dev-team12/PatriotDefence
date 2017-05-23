@@ -38,6 +38,8 @@ public class Instructor extends AbstractEntity implements Serializable {
     private String password;
     @Column(name = "video_path")
     private String videoPath;
+    @Column(name = "telegram_id")
+    private Long telegramId;
 
     public Instructor(Long id, String firstName, String lastName) {
         this.id = id;
