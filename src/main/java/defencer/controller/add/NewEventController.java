@@ -47,7 +47,6 @@ public class NewEventController implements Initializable {
                 && date.getValue() != null) {
             final Event event = new Event();
             event.setName(name.getText());
-            event.setDate(date.getValue());
             create(event);
             toor.getScene().getWindow().hide();
         } else {

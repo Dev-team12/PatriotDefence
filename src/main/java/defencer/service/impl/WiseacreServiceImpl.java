@@ -3,9 +3,13 @@ package defencer.service.impl;
 import defencer.dao.factory.DaoFactory;
 import defencer.data.CurrentUser;
 import defencer.model.*;
+import defencer.service.CryptoService;
 import defencer.service.WiseacreService;
+import defencer.service.cryptography.CryptoCar;
+import defencer.service.cryptography.CryptoInstructor;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
+import lombok.val;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -26,7 +30,9 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      */
     @Override
     public List<Car> getFreeCar(Project project) {
-        return DaoFactory.getWiseacreDao().getFreeCar(project);
+        final List<Car> encryptedCars = DaoFactory.getWiseacreDao().getFreeCar(project);
+        CryptoService<Car> cryptoService = new CryptoCar();
+        return cryptoService.decryptEntityList(encryptedCars);
     }
 
     /**
@@ -45,8 +51,11 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      */
     @Override
     public List<Instructor> getFreeInstructors(Project project) {
-        return DaoFactory.getWiseacreDao().getFreeInstructors(project);
+        CryptoService<Instructor> cryptoService = new CryptoInstructor();
+        val decryptedInstructors = DaoFactory.getWiseacreDao().getFreeInstructors(project);
+        return cryptoService.decryptEntityList(decryptedInstructors);
     }
+
     /**
      * {@inheritDoc}.
      */
@@ -100,7 +109,9 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      */
     @Override
     public List<Car> getCarForAdminDashboard() {
-        return DaoFactory.getWiseacreDao().getCarForAdminDashboard();
+        final List<Car> encryptedCars = DaoFactory.getWiseacreDao().getCarForAdminDashboard();
+        CryptoService<Car> cryptoService = new CryptoCar();
+        return cryptoService.decryptEntityList(encryptedCars);
     }
 
     /**
@@ -115,8 +126,11 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public void createCar(Car car) throws SQLException {
-        super.createEntity(car);
+    public void createCar(String carName) throws SQLException {
+        final Car car = new Car();
+        car.setCarName(carName);
+        CryptoService<Car> cryptoService = new CryptoCar();
+        super.createEntity(cryptoService.encryptEntity(car));
     }
 
     /**

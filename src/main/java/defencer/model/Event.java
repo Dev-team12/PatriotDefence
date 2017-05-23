@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OptimisticLockType;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.*;
 
 
@@ -29,6 +29,6 @@ public class Event extends AbstractEntity implements Serializable {
     private Long id;
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "date", nullable = false)
-    private LocalDate date;
+    @Column(name = "date_and_time", nullable = false)
+    private LocalDateTime dateTime;
 }

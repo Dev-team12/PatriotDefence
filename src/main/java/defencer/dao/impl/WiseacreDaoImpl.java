@@ -4,6 +4,8 @@ import defencer.dao.WiseacreDao;
 import defencer.data.CurrentUser;
 import defencer.model.*;
 import defencer.model.enums.Role;
+import defencer.service.CryptoService;
+import defencer.service.cryptography.CryptoProject;
 import defencer.util.HibernateUtil;
 import lombok.val;
 import org.hibernate.Session;
@@ -264,10 +266,10 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
 
         final Root<Project> root = criteriaQuery.from(Project.class);
         criteriaQuery.multiselect(root.get("id"), root.get("name"));
-        final List<Project> projects = session.createQuery(criteriaQuery
+        final List<Project> encryptProjects = session.createQuery(criteriaQuery
                 .where(criteriaBuilder.between(root.get("dateOfCreation"), LocalDate.now()
                         .minusMonths(1), LocalDate.now().plusDays(1)))).getResultList();
-
+        final List<Project> projects = decrypt(encryptProjects);
         val timesCriteriaBuilder = session.getCriteriaBuilder();
         final CriteriaQuery<ProjectTimes> timesDayCriteriaQuery = timesCriteriaBuilder
                 .createQuery(ProjectTimes.class);
@@ -283,6 +285,11 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
             projectStatistic.put(s.getName(), resultList.size());
         });
         return projectStatistic;
+    }
+
+    private List<Project> decrypt(List<Project> projects) {
+        CryptoService<Project> cryptoService = new CryptoProject();
+        return cryptoService.decryptEntityList(projects);
     }
 
     /**

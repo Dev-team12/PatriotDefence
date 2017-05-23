@@ -235,12 +235,9 @@ public class AdminDashboardController implements Initializable {
             NotificationUtil.warningAlert("Wrong", "Please enter name", NotificationUtil.SHORT);
             return;
         }
-        final Car car = new Car();
-        car.setCarName(txtCar.getText());
         try {
-            ServiceFactory.getWiseacreService().createCar(car);
+            ServiceFactory.getWiseacreService().createCar(txtCar.getText());
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
             NotificationUtil.warningAlert("Error", e.getMessage(), NotificationUtil.SHORT);
         }
         txtCar.clear();

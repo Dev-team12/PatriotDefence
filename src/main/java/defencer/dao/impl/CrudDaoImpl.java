@@ -6,9 +6,6 @@ import defencer.util.HibernateUtil;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 
-import java.sql.SQLException;
-import java.util.List;
-
 /**
  * Basic implementation of {@link CrudDao} interface.
  *
@@ -29,15 +26,6 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
         session.getTransaction().commit();
         session.close();
         return entity;
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public T findOne(Long id) {
-        final Session session = getSession();
-        return null;
     }
 
     /**
@@ -72,12 +60,6 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
         session.getTransaction().commit();
         session.close();
         return entity;
-    }
-
-    @Override
-    public List<T> searchEntity(String param, String value) throws SQLException {
-        final Session session = getSession();
-        return null;
     }
 
     /**

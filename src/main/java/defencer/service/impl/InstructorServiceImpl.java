@@ -44,6 +44,7 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
         return super.createEntity(instructor);
     }
 
+
     /**
      * {@inheritDoc}.
      */

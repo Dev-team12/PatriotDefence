@@ -64,6 +64,9 @@ public class ApprenticeDaoImpl extends CrudDaoImpl<Apprentice> implements Appren
         return apprenticeList;
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public Apprentice findByEmail(String email) {
         final Session session = getSession();

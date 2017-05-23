@@ -96,7 +96,7 @@ public class CalendarController implements Initializable {
         LocalTime timeEnd = LocalTime.MAX;
 
         events.forEach(s -> {
-            LocalDate start = s.getDate();
+            LocalDate start = LocalDate.now();
 
             Agenda.AppointmentImplLocal appointmentImplLocal = new Agenda.AppointmentImplLocal();
 

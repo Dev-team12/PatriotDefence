@@ -6,7 +6,6 @@ import defencer.model.AbstractEntity;
 import defencer.service.CrudService;
 
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * Basic implementation of {@link CrudService} interface.
@@ -41,13 +40,5 @@ public class CrudServiceImpl<T extends AbstractEntity> implements CrudService<T,
     @Override
     public T updateEntity(T entity) throws SQLException {
         return crudDao.update(entity);
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public List<T> searchEntity(String param, String value) throws SQLException {
-        return crudDao.searchEntity(param, value);
     }
 }

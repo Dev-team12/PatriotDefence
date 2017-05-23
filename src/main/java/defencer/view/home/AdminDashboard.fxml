@@ -70,6 +70,9 @@
     </TableView>
     <JFXButton fx:id="btnDeleteCar" layoutX="1090.0" layoutY="508.0" prefHeight="27.0" prefWidth="167.0" styleClass="button-try-now" text="Delete" />
     <JFXButton fx:id="btnDeleteProject" layoutX="22.0" layoutY="508.0" prefHeight="27.0" prefWidth="161.0" styleClass="button-try-now" text="Delete" />
-   <JFXButton fx:id="btnGetDaysOff" styleClass="button-try-now" layoutX="1159.0" layoutY="20.0" text="Get days off" />
-   <Text fx:id="txtBalance" layoutX="990.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Balance for sms" />
+   <JFXButton fx:id="btnGetDaysOff" layoutX="1159.0" layoutY="20.0" styleClass="button-try-now" text="Get days off" />
+   <Text fx:id="txtBalance" layoutX="965.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Balance for sms">
+      <font>
+         <Font size="16.0" />
+      </font></Text>
 </AnchorPane>
