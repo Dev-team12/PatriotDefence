@@ -44,7 +44,7 @@ public class NewEventController implements Initializable {
     }
 
     /**
-     * Add new Event.
+     * Add new event.
      */
     private void addEvent(MouseEvent mouseEvent) {
         if (name.getText() != null && name.getText().length() != 0

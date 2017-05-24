@@ -27,7 +27,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import lombok.SneakyThrows;
-import lombok.val;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -235,12 +234,9 @@ public class AdminDashboardController implements Initializable {
             NotificationUtil.warningAlert("Wrong", "Please enter name", NotificationUtil.SHORT);
             return;
         }
-        final Car car = new Car();
-        car.setCarName(txtCar.getText());
         try {
-            ServiceFactory.getWiseacreService().createCar(car);
+            ServiceFactory.getWiseacreService().createCar(txtCar.getText());
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
             NotificationUtil.warningAlert("Error", e.getMessage(), NotificationUtil.SHORT);
         }
         txtCar.clear();
@@ -260,10 +256,8 @@ public class AdminDashboardController implements Initializable {
             NotificationUtil.warningAlert("Wrong", "Please enter name", NotificationUtil.SHORT);
             return;
         }
-        val availableProject = new AvailableProject();
-        availableProject.setProjectName(txtProject.getText());
         try {
-            ServiceFactory.getWiseacreService().createProject(availableProject);
+            ServiceFactory.getWiseacreService().createProject(txtProject.getText());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             NotificationUtil.warningAlert("Error", e.getMessage(), NotificationUtil.SHORT);

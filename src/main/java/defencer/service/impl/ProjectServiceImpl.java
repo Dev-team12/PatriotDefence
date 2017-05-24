@@ -5,9 +5,11 @@ import defencer.dao.impl.WiseacreDaoImpl;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.model.ProjectTimes;
+import defencer.service.CryptoService;
 import defencer.service.EmailBuilder;
 import defencer.service.EmailService;
 import defencer.service.ProjectService;
+import defencer.service.cryptography.CryptoProject;
 import defencer.service.factory.ServiceFactory;
 import defencer.service.impl.email.AdminReportCreatedProjectBuilder;
 
@@ -29,7 +31,9 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
      */
     @Override
     public List<Project> findByPeriod() {
-        return DaoFactory.getProjectDao().getProjectForGivenPeriod(DEFAULT_PERIOD);
+        final CryptoService<Project> cryptoService = new CryptoProject();
+        final List<Project> projects = DaoFactory.getProjectDao().getProjectForGivenPeriod(DEFAULT_PERIOD);
+        return cryptoService.decryptEntityList(projects);
     }
 
     /**
@@ -37,7 +41,9 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
      */
     @Override
     public List<Project> getFindProject(Long periodInDays, String projectName) {
-        return DaoFactory.getProjectDao().getFindProject(periodInDays, projectName);
+        final CryptoService<Project> cryptoService = new CryptoProject();
+        final List<Project> projectsList = DaoFactory.getProjectDao().getFindProject(periodInDays, projectName);
+        return cryptoService.decryptEntityList(projectsList);
     }
 
     /**
@@ -45,15 +51,18 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
      */
     @Override
     public Project createEntity(Project project) throws SQLException {
-        final Project alreadyCreatedProject = super.createEntity(project);
         final ProjectTimes projectTimes = new ProjectTimes();
         projectTimes.setDateOfCreation(LocalDate.now());
-        projectTimes.setProjectName(alreadyCreatedProject.getName());
+        projectTimes.setProjectName(project.getName());
         WiseacreDaoImpl wiseacreDao = new WiseacreDaoImpl();
         wiseacreDao.save(projectTimes);
+        final CryptoService<Project> cryptoService = new CryptoProject();
+        final Project encryptProject = cryptoService.encryptEntity(project);
+        final Project alreadyCreatedProject = super.createEntity(encryptProject);
         final List<Instructor> admins = findAdmins();
         final Thread thread = new Thread(mailSenderCreatedProject(admins, project));
         thread.start();
+
         return alreadyCreatedProject;
     }
 

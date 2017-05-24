@@ -69,11 +69,9 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
     List<AvailableProject> getProjectForAdminDashboard();
 
     /**
-     * Create the given car.
-     *
-     * @param car going to be create.
+     * Create new car with given name.
      */
-    void createCar(Car car) throws SQLException;
+    void createCar(String carName) throws SQLException;
 
     /**
      * Delete the given car.
@@ -84,10 +82,8 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
 
     /**
      * Create the given car.
-     *
-     * @param car going to be create.
      */
-    void createProject(AvailableProject car) throws SQLException;
+    void createProject(String projectName) throws SQLException;
 
     /**
      * Delete the given project.

@@ -3,9 +3,11 @@ package defencer.controller.update;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import defencer.data.CurrentUser;
 import defencer.model.Instructor;
 import defencer.model.enums.Role;
 import defencer.service.factory.ServiceFactory;
+import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -60,6 +62,10 @@ public class UpdateInstructorController implements Initializable{
      * Prepare {@link Instructor} to updating.
      */
     private void prepareUpdating() {
+        if (!Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())) {
+            NotificationUtil.warningAlert("Warning", "for chief officer only", NotificationUtil.SHORT);
+            return;
+        }
         final Instructor instructor = new Instructor();
         instructor.setFirstName(firstName.getText());
         instructor.setLastName(lastName.getText());
