@@ -47,7 +47,6 @@ class TelegramBot extends TelegramLongPollingBot {
                     break;
             }
 
-
             try {
                 sendMessage(message);
             } catch (TelegramApiException e) {

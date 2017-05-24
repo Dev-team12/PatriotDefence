@@ -1,6 +1,5 @@
 package defencer.controller;
 
-import com.jfoenix.controls.JFXButton;
 import defencer.data.ControllersDataFactory;
 import defencer.hibernate.HibernateQueryBuilder;
 import defencer.hibernate.HibernateService;
@@ -15,7 +14,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -44,8 +42,6 @@ public class CalendarController implements Initializable {
     private GridPane leftSide;
     @FXML
     private GridPane rightSide;
-    @FXML
-    private JFXButton btnAddEvent;
 
     private static final int COUNT_OF_GROUPS = 10;
 
@@ -55,9 +51,8 @@ public class CalendarController implements Initializable {
         MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
         mainActivityController.hideSmartToolbar();
 
-        mainActivityController.getAddAction().setVisible(true);
-        mainActivityController.getAddAction().setOnMouseClicked(this::addEvent);
-
+        mainActivityController.getBtnAddEvent().setVisible(true);
+        mainActivityController.getBtnAddEvent().setOnMouseClicked(e -> addEvent());
         factoryInitialization();
         weekButtonsInitialization();
     }
@@ -114,7 +109,6 @@ public class CalendarController implements Initializable {
 
             Agenda.AppointmentImplLocal appointmentImplLocal = new Agenda.AppointmentImplLocal();
 
-
             appointmentImplLocal
                     .withSummary(s.getName())
                     .withStartLocalDateTime(s.getDate())
@@ -134,8 +128,6 @@ public class CalendarController implements Initializable {
 
         daysOff.forEach(s -> {
 
-            System.out.println(s.getInstructorId());
-
             LocalDate start = s.getDateFrom();
             LocalDate end = s.getDateTo();
 
@@ -149,7 +141,7 @@ public class CalendarController implements Initializable {
             appointmentImplLocal.withStartLocalDateTime(LocalDateTime.of(start, timeStart))
                     .withEndLocalDateTime(LocalDateTime.of(end, timeEnd))
                     .withWholeDay(true)
-                    .withSummary(instructor.getFirstName() + " " + instructor.getLastName() + "(" + instructor.getEmail() + ")")
+                    .withSummary("Day off for " + instructor.getFirstLastName())
                     .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group" + new Random().nextInt(COUNT_OF_GROUPS)));
 
             agenda.appointments().addAll(appointmentImplLocal);
@@ -179,8 +171,6 @@ public class CalendarController implements Initializable {
             agenda.appointments().addAll(appointmentImplLocal);
         });
     }
-
-
 
     /**
      * Initialization of week buttons.
@@ -228,7 +218,7 @@ public class CalendarController implements Initializable {
     /**
      * Call window for creating new Event.
      */
-    private void addEvent(MouseEvent mouseEvent) {
+    private void addEvent() {
         try {
             final FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/entity/add/NewEvent.fxml"));
@@ -239,7 +229,7 @@ public class CalendarController implements Initializable {
             value.getStylesheets().add("css/main.css");
             stage.setScene(value);
             stage.initModality(Modality.WINDOW_MODAL);
-            Window window = btnAddEvent.getScene().getWindow();
+            Window window = rightSide.getScene().getWindow();
             stage.initOwner(window);
             stage.show();
 

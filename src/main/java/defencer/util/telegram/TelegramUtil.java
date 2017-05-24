@@ -15,18 +15,12 @@ import java.util.List;
  */
 public class TelegramUtil {
 
-    private static TelegramUtil telegramUtil = null;
+    private static TelegramUtil telegramUtil;
 
-    private TelegramBot telegramBot = null;
+    private TelegramBot telegramBot;
 
     private TelegramUtil() {
         telegramBot = new TelegramBot();
-    }
-
-    public static void main(String[] args) {
-        TelegramUtil telegramUtil = new TelegramUtil();
-        telegramUtil.start();
-
     }
 
     /**
@@ -65,14 +59,51 @@ public class TelegramUtil {
         for (Instructor instructor : instructors) {
 
             SendMessage messageObject = new SendMessage()
-                    .setText("You are using " + project.getNameId())
+                    .setText(buildMessage(instructor, project))
                     .setChatId(instructor.getTelegramId());
-
             try {
                 telegramBot.sendMessage(messageObject);
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Build message for given instructor.
+     */
+    private String buildMessage(Instructor instructor, Project project) {
+        return "Dear "
+                + instructor.getFirstName()
+                + " "
+                + instructor.getLastName()
+                + " you were invited on course from Patriot Defence."
+                + "\n"
+                + "Project: "
+                + project.getNameId()
+                + "\n"
+                + "Start Date: "
+                + project.getDateStart()
+                + " Finish Date: "
+                + project.getDateFinish()
+                + "\n"
+                + "Place: "
+                + project.getPlace()
+                + "\n"
+                + "Description: "
+                + project.getDescription()
+                + "\n"
+                + "List of instructors: "
+                + "\n"
+                + project.getInstructors()
+                + "\n"
+                + "Author of project "
+                + project.getAuthor()
+                + "\n"
+                + "Please confirm participation."
+                + "\n"
+                + "Have a nice day -)"
+                + "\n"
+                + "Your Patriot Defence!!!";
     }
 }

@@ -3,7 +3,6 @@ package defencer.controller.entity;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXNodesList;
 import defencer.controller.AskFormController;
 import defencer.controller.MainActivityController;
 import defencer.controller.update.UpdateApprenticeController;
@@ -26,7 +25,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import jfxtras.scene.control.ImageViewButton;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -40,8 +38,6 @@ import java.util.ResourceBundle;
  */
 public class ApprenticeController implements Initializable {
 
-    @FXML
-    private JFXNodesList nodeList;
     @FXML
     private TableView<Apprentice> table;
     @FXML
@@ -57,15 +53,7 @@ public class ApprenticeController implements Initializable {
     @FXML
     private JFXComboBox<String> comboProject;
     @FXML
-    private JFXButton btnAddOneMore;
-    @FXML
     private JFXButton btnFind;
-    @FXML
-    private JFXButton btnDelete;
-    @FXML
-    private JFXButton btnExport;
-    @FXML
-    private ImageViewButton btnUpdate;
     @FXML
     private JFXDatePicker datePeriod;
 
@@ -87,8 +75,9 @@ public class ApprenticeController implements Initializable {
         mainActivityController.getAddAction().setOnMouseClicked(this::newApprentice);
         mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteApprentice());
         mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadApprentice());
-        mainActivityController.getEditAction().setVisible(false);
+        mainActivityController.getBtnAddEvent().setVisible(false);
         mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
+        mainActivityController.getBtnExcel().setOnMouseClicked(e -> excelReport());
 
         btnFind.setOnAction(e -> search());
 
@@ -97,31 +86,6 @@ public class ApprenticeController implements Initializable {
                 editApprentice(event);
             }
         });
-
-        apprenticeExport();
-    }
-
-
-    /**
-     * Pdf and Excel export.
-     */
-    private void apprenticeExport() {
-
-        btnExport.setButtonType(JFXButton.ButtonType.RAISED);
-
-        final JFXButton btnPdfExport = new JFXButton("PDF export");
-        btnPdfExport.getStyleClass().add("button-try-now");
-        final JFXButton btnExcelExport = new JFXButton("EXCEL export");
-        btnExcelExport.getStyleClass().add("button-try-now");
-
-        final int value = 10;
-        nodeList.setSpacing(value);
-        nodeList.addAnimatedNode(btnExport);
-        nodeList.addAnimatedNode(btnPdfExport);
-        nodeList.addAnimatedNode(btnExcelExport);
-
-        btnPdfExport.setOnAction(e -> pdfReport());
-        btnExcelExport.setOnAction(e -> excelReport());
     }
 
     /**

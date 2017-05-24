@@ -17,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -112,6 +113,7 @@ public class LoginController implements Initializable {
         final Stage stage = new Stage();
         Scene scene = new Scene(root);
         scene.getStylesheets().add("css/main.css");
+        stage.getIcons().add(new Image("/image/onlyukielogo.png"));
         stage.setScene(scene);
         stage.show();
 

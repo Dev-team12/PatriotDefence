@@ -18,6 +18,7 @@ import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
+import jfxtras.scene.control.ImageViewButton;
 
 import java.io.File;
 import java.net.URL;
@@ -49,7 +50,7 @@ public class PremierLeagueController implements Initializable {
     @FXML
     private TableColumn<Instructor, String> instructors;
     @FXML
-    private JFXButton btnAdd;
+    private ImageViewButton btnAdd;
     @FXML
     private JFXButton btnFinish;
     @FXML
@@ -57,9 +58,9 @@ public class PremierLeagueController implements Initializable {
     @FXML
     private MediaView leagueInstructors;
     @FXML
-    private JFXButton btnNext;
+    private ImageViewButton btnNext;
     @FXML
-    private JFXButton btnPrevious;
+    private ImageViewButton btnPrevious;
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
     private List<Instructor> freeInstructors;
@@ -69,9 +70,9 @@ public class PremierLeagueController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        btnNext.setOnAction(e -> nextInstructor());
-        btnPrevious.setOnAction(e -> previousInstructor());
-        btnAdd.setOnAction(e -> addInstructor());
+        btnNext.setOnMouseClicked(e -> nextInstructor());
+        btnPrevious.setOnMouseClicked(e -> previousInstructor());
+        btnAdd.setOnMouseClicked(e -> addInstructor());
         btnDelete.setOnAction(s -> deleteSelectedInstructor());
         btnFinish.setOnAction(s -> finish());
     }

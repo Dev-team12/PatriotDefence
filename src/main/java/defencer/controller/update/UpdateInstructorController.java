@@ -38,9 +38,10 @@ public class UpdateInstructorController implements Initializable{
     private JFXTextField qualification;
     @FXML
     private JFXComboBox<String> role;
+    @FXML
+    private JFXTextField txtTelegramId;
 
     private Long instructorId;
-    private String status;
     private String videoPath;
     private String password;
 
@@ -69,6 +70,7 @@ public class UpdateInstructorController implements Initializable{
         instructor.setRole(role.getValue());
         instructor.setVideoPath(videoPath);
         instructor.setPassword(password);
+        instructor.setTelegramId(Long.valueOf(txtTelegramId.getText()));
         update(instructor);
         root.getScene().getWindow().hide();
     }
@@ -86,6 +88,12 @@ public class UpdateInstructorController implements Initializable{
         instructorId = instructor.getId();
         videoPath = instructor.getVideoPath();
         password = instructor.getPassword();
+        txtTelegramId.setText(String.valueOf(instructor.getTelegramId()));
+        if (instructor.getTelegramId() == null) {
+            txtTelegramId.setText("");
+            return;
+        }
+        txtTelegramId.setText(String.valueOf(instructor.getTelegramId()));
     }
 
     /**

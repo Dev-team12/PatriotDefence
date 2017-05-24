@@ -8,10 +8,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<?import jfxtras.scene.control.ImageViewButton?>
-<?import javafx.scene.image.Image?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0" prefWidth="1305.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.entity.ProjectController">
-    <TableView fx:id="table" layoutY="50.0" prefHeight="524.0" prefWidth="961.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+    <TableView fx:id="table" layoutY="47.0" prefHeight="572.0" prefWidth="1305.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="47.0">
         <columns>
             <TableColumn fx:id="name" prefWidth="113.0" text="Name" />
             <TableColumn fx:id="dateStart" prefWidth="101.0" text="Start Date" />
@@ -28,16 +26,9 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
     </TableView>
-    <JFXComboBox fx:id="comboProject" layoutX="189.0" layoutY="14.0" prefHeight="27.0" prefWidth="133.0" promptText="Project" AnchorPane.leftAnchor="189.0" />
-    <JFXButton fx:id="btnFind" layoutX="350.0" layoutY="14.0" prefHeight="27.0" prefWidth="74.0" styleClass="button-try-now" text="Search" AnchorPane.leftAnchor="350.0" />
-    <JFXButton fx:id="btnAddOneMore" layoutX="452.0" layoutY="14.0" prefHeight="27.0" prefWidth="74.0" styleClass="button-try-now" text="Add" />
-    <JFXButton fx:id="btnDelete" layoutX="537.0" layoutY="14.0" prefHeight="27.0" prefWidth="74.0" styleClass="button-try-now" text="Delete" AnchorPane.leftAnchor="537.0" />
-    <JFXDatePicker fx:id="dateFind" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="160.0" promptText="Date" />
-    <ImageViewButton fx:id="btnUpdate" fitHeight="33.0" fitWidth="34.0" layoutX="624.0" layoutY="11.0">
-        <Image url="/image/refresh.png" />
-    </ImageViewButton>
-    <JFXButton fx:id="btnExport" layoutX="689.0" layoutY="14.0" prefHeight="30.0" prefWidth="74.0" styleClass="button-try-now" text="Export" />
-    <JFXButton fx:id="btnConfigureProject" layoutX="780.0" layoutY="14.0" styleClass="button-try-now" text="Configure project" />
-    <JFXNodesList fx:id="nodeList" layoutX="780.0" layoutY="14.0" prefHeight="27.0" prefWidth="133.0" />
-   <JFXNodesList fx:id="nodeListExport" layoutX="664.0" layoutY="15.0" prefHeight="27.0" prefWidth="122.0" />
+    <JFXComboBox fx:id="comboProject" layoutX="185.0" layoutY="10.0" prefHeight="27.0" prefWidth="133.0" promptText="Project" AnchorPane.leftAnchor="185.0" />
+    <JFXButton fx:id="btnFind" layoutX="349.0" layoutY="10.0" prefHeight="27.0" prefWidth="74.0" styleClass="button-try-now" text="Search" AnchorPane.leftAnchor="349.0" />
+    <JFXDatePicker fx:id="dateFind" layoutX="8.0" layoutY="9.0" prefHeight="27.0" prefWidth="160.0" promptText="Date" />
+    <JFXButton fx:id="btnConfigureProject" layoutX="440.0" layoutY="10.0" styleClass="button-try-now" text="Configure project" />
+    <JFXNodesList fx:id="nodeList" layoutX="438.0" layoutY="9.0" prefHeight="27.0" prefWidth="133.0" />
 </AnchorPane>

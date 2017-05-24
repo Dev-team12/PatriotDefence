@@ -4,7 +4,6 @@
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane fx:id="root" fx:controller="defencer.controller.ChangePasswordController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="194.0"
             prefWidth="234.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <JFXPasswordField fx:id="txtOldPassword" focusTraversable="false" layoutX="15.0" layoutY="37.0" maxWidth="205.0" minWidth="205.0"

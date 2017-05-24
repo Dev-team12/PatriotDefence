@@ -1,7 +1,5 @@
 package defencer.controller.entity;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXNodesList;
 import defencer.controller.AskFormController;
 import defencer.controller.MainActivityController;
 import defencer.controller.update.UpdateInstructorController;
@@ -25,7 +23,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import jfxtras.scene.control.ImageViewButton;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -53,19 +50,9 @@ public class InstructorController implements Initializable {
     @FXML
     private TableColumn<Instructor, String> qualification;
     @FXML
-    private TableColumn<Instructor, String> status;
+    private TableColumn<Instructor, String> telegramId;
     @FXML
     private TableColumn<Instructor, String> role;
-    @FXML
-    private JFXButton btnAddOneMore;
-    @FXML
-    private JFXButton btnDelete;
-    @FXML
-    private ImageViewButton btnUpdate;
-    @FXML
-    private JFXButton btnReport;
-    @FXML
-    private JFXNodesList nodeList;
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
 
@@ -81,40 +68,15 @@ public class InstructorController implements Initializable {
         mainActivityController.getAddAction().setOnMouseClicked(this::newInstructor);
         mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteInstructor());
         mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadInstructors());
-        mainActivityController.getEditAction().setVisible(false);
-        mainActivityController.getSettingsAction().setVisible(false);
+        mainActivityController.getBtnAddEvent().setVisible(false);
         mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
-
+        mainActivityController.getBtnExcel().setOnMouseClicked(e -> excelReport());
 
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
                 editInstructor(event);
             }
         });
-
-        instructorExport();
-    }
-
-    /**
-     * Pdf and Excel export.
-     */
-    private void instructorExport() {
-
-        btnReport.setButtonType(JFXButton.ButtonType.RAISED);
-
-        final JFXButton btnPdfExport = new JFXButton("PDF export");
-        btnPdfExport.getStyleClass().add("button-try-now");
-        final JFXButton btnExcelExport = new JFXButton("EXCEL export");
-        btnExcelExport.getStyleClass().add("button-try-now");
-
-        final int value = 10;
-        nodeList.setSpacing(value);
-        nodeList.addAnimatedNode(btnReport);
-        nodeList.addAnimatedNode(btnPdfExport);
-        nodeList.addAnimatedNode(btnExcelExport);
-
-        btnPdfExport.setOnAction(e -> pdfReport());
-        btnExcelExport.setOnAction(e -> excelReport());
     }
 
     /**
@@ -168,7 +130,7 @@ public class InstructorController implements Initializable {
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
         phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         qualification.setCellValueFactory(new PropertyValueFactory<>("qualification"));
-        status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        telegramId.setCellValueFactory(new PropertyValueFactory<>("telegramId"));
         role.setCellValueFactory(new PropertyValueFactory<>("role"));
     }
 

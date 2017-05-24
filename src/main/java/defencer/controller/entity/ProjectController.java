@@ -31,7 +31,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import jfxtras.scene.control.ImageViewButton;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
@@ -73,21 +72,11 @@ public class ProjectController implements Initializable {
     @FXML
     private JFXComboBox<String> comboProject;
     @FXML
-    private JFXButton btnAddOneMore;
-    @FXML
     private JFXButton btnFind;
-    @FXML
-    private JFXButton btnDelete;
     @FXML
     private JFXButton btnConfigureProject;
     @FXML
-    private JFXButton btnExport;
-    @FXML
     private JFXNodesList nodeList;
-    @FXML
-    private JFXNodesList nodeListExport;
-    @FXML
-    private ImageViewButton btnUpdate;
     @FXML
     private JFXDatePicker dateFind;
 
@@ -111,8 +100,9 @@ public class ProjectController implements Initializable {
         mainActivityController.getAddAction().setOnMouseClicked(this::newProject);
         mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteProject());
         mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadProjects());
-        mainActivityController.getEditAction().setVisible(false);
+        mainActivityController.getBtnAddEvent().setVisible(false);
         mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
+        mainActivityController.getBtnExcel().setOnMouseClicked(e -> excelReport());
 
         btnFind.setOnAction(e -> search());
 
@@ -123,29 +113,6 @@ public class ProjectController implements Initializable {
         });
 
         projectConfigure();
-    }
-
-    /**
-     * Report project excel and pdf.
-     */
-    private void projectReport() {
-
-        btnExport.setButtonType(JFXButton.ButtonType.RAISED);
-
-        final JFXButton btnPdfExport = new JFXButton("PDF export");
-        btnPdfExport.getStyleClass().add("button-try-now");
-
-        final JFXButton btnExcelExport = new JFXButton("Excel export");
-        btnExcelExport.getStyleClass().add("button-try-now");
-
-        final int value = 10;
-        nodeListExport.setSpacing(value);
-        nodeListExport.addAnimatedNode(btnExport);
-        nodeListExport.addAnimatedNode(btnPdfExport);
-        nodeListExport.addAnimatedNode(btnExcelExport);
-
-        btnPdfExport.setOnAction(e -> pdfReport());
-        btnExcelExport.setOnAction(e -> excelReport());
     }
 
     /**

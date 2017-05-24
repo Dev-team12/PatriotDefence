@@ -5,6 +5,7 @@ import com.cathive.fx.gravatar.Rating;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import defencer.data.ControllersDataFactory;
 import defencer.data.CurrentUser;
 import defencer.model.*;
 import defencer.service.InstructorService;
@@ -104,6 +105,9 @@ public class UserProfileController implements Initializable {
         insertTables();
         loadTableDaysOff();
         loadTableMyProject();
+
+        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
+        mainActivityController.hideSmartToolbar();
 
         btnSetDaysBusy.setOnAction(e -> newDayOff());
         btnDeleteDayOff.setOnAction(e -> deleteDayOff());

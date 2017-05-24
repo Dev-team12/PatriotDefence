@@ -148,7 +148,7 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
             schedule.setStatus(s.getStatus());
             schedules.add(schedule);
         });
-        schedules.sort(Comparator.comparing(Schedule::getStartProject));
+        schedules.sort(Comparator.comparing(Schedule::getProjectId).reversed());
         return schedules;
     }
 
