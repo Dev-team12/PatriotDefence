@@ -18,4 +18,11 @@ public interface ProjectService extends CrudService<Project, Long> {
      * @return list of project with parameters search.
      */
     List<Project> getFindProject(Long periodInDays, String projectName);
+
+    /**
+     * Delete project with given id.
+     *
+     * @param projectId is given project's id
+     */
+    void deleteProject(Long projectId);
 }

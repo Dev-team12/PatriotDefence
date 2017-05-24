@@ -160,12 +160,7 @@ public class InstructorController implements Initializable {
 
             stage.setOnHiding(event -> {
                 if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
-
-                    try {
-                        ServiceFactory.getInstructorService().deleteEntity(instructor);
-                    } catch (SQLException e) {
-                        NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
-                    }
+                    ServiceFactory.getInstructorService().deleteInstructor(instructor.getId());
                     observableInstructors.clear();
                     loadInstructors();
                 }

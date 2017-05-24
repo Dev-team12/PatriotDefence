@@ -208,7 +208,7 @@ public class ApprenticeController implements Initializable {
                 if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
 
                     try {
-                        ServiceFactory.getApprenticeService().deleteEntity(apprentice);
+                        ServiceFactory.getApprenticeService().deleteApprenticeById(apprentice.getId());
                         observableApprentices.clear();
                         loadApprentice();
                     } catch (Exception e) {

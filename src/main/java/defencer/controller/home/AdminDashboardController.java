@@ -2,6 +2,8 @@ package defencer.controller.home;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import defencer.controller.MainActivityController;
+import defencer.data.ControllersDataFactory;
 import defencer.data.CurrentUser;
 import defencer.model.AvailableProject;
 import defencer.model.Car;
@@ -86,6 +88,9 @@ public class AdminDashboardController implements Initializable {
         configureTitles();
         configureWorkDay();
         configureProject();
+
+        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
+        mainActivityController.hideSmartToolbar();
 
         btnAddCar.setOnAction(s -> createCar());
         btnCreateProject.setOnAction(e -> createProject());

@@ -3,6 +3,7 @@ package defencer.dao.impl;
 import defencer.dao.ProjectDao;
 import defencer.model.*;
 import defencer.util.HibernateUtil;
+import lombok.val;
 import org.hibernate.Session;
 
 import java.time.*;
@@ -115,6 +116,25 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         session.close();
         projects.sort(Comparator.comparing(Project::getId));
         return projects;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void deleteProject(Long projectId) {
+        final Session session = getSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val criteriaDelete = criteriaBuilder.createCriteriaDelete(Project.class);
+        final Root<Project> root = criteriaDelete.from(Project.class);
+
+        criteriaDelete.where(criteriaBuilder.equal(root.get("id"), projectId));
+        session.createQuery(criteriaDelete).executeUpdate();
+
+        session.getTransaction().commit();
+        session.close();
     }
 
     /**

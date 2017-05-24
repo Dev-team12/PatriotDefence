@@ -24,12 +24,6 @@ public class CryptoInstructor extends CryptoServiceImpl implements CryptoService
         PublicKey key = generatePublicKey();
         cipher.init(Cipher.ENCRYPT_MODE, key);
 
-        instructor.setFirstName(new String(Base64.getEncoder()
-                .encode(cipher.doFinal(instructor.getFirstName().getBytes()))));
-
-        instructor.setLastName(new String(Base64.getEncoder()
-                .encode(cipher.doFinal(instructor.getLastName().getBytes()))));
-
         instructor.setQualification(new String(Base64.getEncoder()
                 .encode(cipher.doFinal(instructor.getQualification().getBytes()))));
 
@@ -42,8 +36,10 @@ public class CryptoInstructor extends CryptoServiceImpl implements CryptoService
         instructor.setEmail(new String(Base64.getEncoder()
                 .encode(cipher.doFinal(instructor.getEmail().getBytes()))));
 
-        instructor.setVideoPath(new String(Base64.getEncoder()
-                .encode(cipher.doFinal(instructor.getVideoPath().getBytes()))));
+        if (instructor.getVideoPath() != null) {
+            instructor.setVideoPath(new String(Base64.getEncoder()
+                    .encode(cipher.doFinal(instructor.getVideoPath().getBytes()))));
+        }
 
         return instructor;
     }
@@ -54,13 +50,13 @@ public class CryptoInstructor extends CryptoServiceImpl implements CryptoService
     @Override
     public Instructor decryptEntity(Instructor instructor) {
         try {
-            instructor.setFirstName(decryption(instructor.getFirstName()));
-            instructor.setLastName(decryption(instructor.getLastName()));
             instructor.setQualification(decryption(instructor.getQualification()));
             instructor.setPhone(decryption(instructor.getPhone()));
             instructor.setPassword(decryption(instructor.getPassword()));
             instructor.setEmail(decryption(instructor.getEmail()));
-            instructor.setVideoPath(decryption(instructor.getVideoPath()));
+            if (instructor.getVideoPath() != null) {
+                instructor.setVideoPath(decryption(instructor.getVideoPath()));
+            }
         } catch (Exception e) {
             return instructor;
         }
@@ -74,21 +70,21 @@ public class CryptoInstructor extends CryptoServiceImpl implements CryptoService
     public List<Instructor> decryptEntityList(List<Instructor> instructors) {
         for (Instructor instructor : instructors) {
             try {
-                instructor.setFirstName(decryption(instructor.getFirstName()));
-                instructor.setLastName(decryption(instructor.getLastName()));
                 instructor.setQualification(decryption(instructor.getQualification()));
                 instructor.setPhone(decryption(instructor.getPhone()));
                 instructor.setPassword(decryption(instructor.getPassword()));
                 instructor.setEmail(decryption(instructor.getEmail()));
-                instructor.setVideoPath(decryption(instructor.getVideoPath()));
+                if (instructor.getVideoPath() != null) {
+                    instructor.setVideoPath(decryption(instructor.getVideoPath()));
+                }
             } catch (Exception e) {
-                instructor.setFirstName(instructor.getFirstName());
-                instructor.setLastName(instructor.getLastName());
                 instructor.setQualification(instructor.getQualification());
                 instructor.setPhone(instructor.getPhone());
                 instructor.setPassword(instructor.getPassword());
                 instructor.setEmail(instructor.getEmail());
-                instructor.setVideoPath(instructor.getVideoPath());
+                if (instructor.getVideoPath() != null) {
+                    instructor.setVideoPath(instructor.getVideoPath());
+                }
             }
         }
         return instructors;

@@ -1,10 +1,7 @@
 package defencer.dao.impl;
 
 import defencer.dao.InstructorDao;
-import defencer.model.Expected;
-import defencer.model.Instructor;
-import defencer.model.Project;
-import defencer.model.Schedule;
+import defencer.model.*;
 import defencer.model.enums.Role;
 import defencer.util.HibernateUtil;
 import lombok.val;
@@ -166,6 +163,25 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
         criteriaUpdate.set(root.get("password"), password)
                 .where(criteriaBuilder.equal(root.get("id"), userId));
         session.createQuery(criteriaUpdate).executeUpdate();
+
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void deleteInstructor(Long instructorId) {
+        final Session session = getSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val criteriaDelete = criteriaBuilder.createCriteriaDelete(Instructor.class);
+        final Root<Instructor> root = criteriaDelete.from(Instructor.class);
+
+        criteriaDelete.where(criteriaBuilder.equal(root.get("id"), instructorId));
+        session.createQuery(criteriaDelete).executeUpdate();
 
         session.getTransaction().commit();
         session.close();

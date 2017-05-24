@@ -25,4 +25,11 @@ public interface ApprenticeService extends CrudService<Apprentice, Long> {
      * @return instructor with given email.
      */
     Apprentice findByEmail(String email);
+
+    /**
+     * Delete apprentice with given id.
+     *
+     * @param id is given apprentice's id
+     */
+    void deleteApprenticeById(Long id);
 }

@@ -12,12 +12,6 @@ import java.util.List;
 public interface InstructorService extends CrudService<Instructor, Long> {
 
     /**
-     * @param id instructor's id in database, must not be {@literal null}
-     * @return project with given instructor.
-     */
-    Project findProjectByInstructor(Long id);
-
-    /**
      * @param email instructor's email address.
      *
      * @return instructor with given email.
@@ -47,4 +41,11 @@ public interface InstructorService extends CrudService<Instructor, Long> {
      * Change password for current user.
      */
     void changePassword(Long userId, String password);
+
+    /**
+     * Delete instructor with given id.
+     *
+     * @param instructorId is given instructor's id
+     */
+    void deleteInstructor(Long instructorId);
 }

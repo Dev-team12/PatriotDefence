@@ -3,6 +3,7 @@ package defencer.dao.impl;
 import defencer.dao.ApprenticeDao;
 import defencer.model.Apprentice;
 import defencer.util.HibernateUtil;
+import lombok.val;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -83,6 +85,25 @@ public class ApprenticeDaoImpl extends CrudDaoImpl<Apprentice> implements Appren
         session.getTransaction().commit();
         session.close();
         return apprentice;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void deleteApprenticeById(Long apprenticeId) {
+        final Session session = getSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val criteriaDelete = criteriaBuilder.createCriteriaDelete(Apprentice.class);
+        final Root<Apprentice> root = criteriaDelete.from(Apprentice.class);
+
+        criteriaDelete.where(criteriaBuilder.equal(root.get("id"), apprenticeId));
+        session.createQuery(criteriaDelete).executeUpdate();
+
+        session.getTransaction().commit();
+        session.close();
     }
 
     /**

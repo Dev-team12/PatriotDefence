@@ -364,12 +364,7 @@ public class ProjectController implements Initializable {
 
             stage.setOnHiding(event -> {
                 if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
-
-                    try {
-                        ServiceFactory.getProjectService().deleteEntity(project);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    ServiceFactory.getProjectService().deleteProject(project.getId());
                     loadProjects();
                 }
             });

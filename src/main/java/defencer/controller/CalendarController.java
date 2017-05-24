@@ -1,9 +1,11 @@
 package defencer.controller;
 
-import com.jfoenix.controls.JFXButton;
+import defencer.data.ControllersDataFactory;
 import defencer.hibernate.HibernateQueryBuilder;
 import defencer.hibernate.HibernateService;
+import defencer.model.DaysOff;
 import defencer.model.Event;
+import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.util.NotificationUtil;
 import javafx.fxml.FXML;
@@ -12,7 +14,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -41,8 +42,6 @@ public class CalendarController implements Initializable {
     private GridPane leftSide;
     @FXML
     private GridPane rightSide;
-    @FXML
-    private JFXButton btnAddEvent;
 
     private static final int COUNT_OF_GROUPS = 10;
 

@@ -57,14 +57,16 @@ public class TelegramUtil {
     public void alertAboutProject(List<Instructor> instructors, Project project) {
 
         for (Instructor instructor : instructors) {
-
-            SendMessage messageObject = new SendMessage()
-                    .setText(buildMessage(instructor, project))
-                    .setChatId(instructor.getTelegramId());
+            SendMessage messageObject = new SendMessage();
+            if (instructor.getTelegramId() != null) {
+                messageObject
+                        .setText(buildMessage(instructor, project))
+                        .setChatId(instructor.getTelegramId());
+            }
             try {
                 telegramBot.sendMessage(messageObject);
             } catch (TelegramApiException e) {
-                e.printStackTrace();
+                // NON
             }
         }
     }

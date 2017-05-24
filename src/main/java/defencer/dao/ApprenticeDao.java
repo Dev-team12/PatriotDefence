@@ -26,4 +26,11 @@ public interface ApprenticeDao {
      * @return {@link Apprentice} entity associated with provided email, or {@literal null} if none found.
      */
     Apprentice findByEmail(String email);
+
+    /**
+     * Delete apprentice with given id.
+     *
+     * @param id is given apprentice's id
+     */
+    void deleteApprenticeById(Long id);
 }

@@ -192,7 +192,7 @@ public class MainActivityController implements Initializable {
     /**
      * Hiding all components of smart toolbar.
      */
-    void hideSmartToolbar() {
+    public void hideSmartToolbar() {
 
         addAction.setVisible(false);
         deleteAction.setVisible(false);

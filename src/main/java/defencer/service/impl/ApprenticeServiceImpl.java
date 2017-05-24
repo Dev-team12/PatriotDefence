@@ -61,6 +61,13 @@ public class ApprenticeServiceImpl extends CrudServiceImpl<Apprentice> implement
         return cryptoService.decryptEntity(apprentice);
     }
 
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void deleteApprenticeById(Long id) {
+        DaoFactory.getApprenticeDao().deleteApprenticeById(id);
+    }
 
     /**
      * Checks if supplied email is already in the database.

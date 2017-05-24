@@ -7,6 +7,7 @@ import defencer.service.CryptoService;
 import defencer.service.WiseacreService;
 import defencer.service.cryptography.CryptoCar;
 import defencer.service.cryptography.CryptoInstructor;
+import defencer.service.cryptography.CryptoProject;
 import defencer.service.cryptography.CryptoProjectTypes;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
@@ -235,7 +236,9 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      */
     @Override
     public void updateExpected(List<Instructor> instructors, Project project) {
-        DaoFactory.getWiseacreDao().updateExpected(instructors, project);
+        CryptoService<Project> cryptoServiceProject = new CryptoProject();
+        final Project encryptProject = cryptoServiceProject.encryptEntity(project);
+        DaoFactory.getWiseacreDao().updateExpected(instructors, encryptProject);
     }
 
     /**

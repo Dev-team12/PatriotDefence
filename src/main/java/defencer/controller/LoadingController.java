@@ -35,7 +35,6 @@ public class LoadingController implements Initializable {
         task.setOnSucceeded(event -> toNextLayout());
     }
 
-
     /**
      * Task for new thread.
      */

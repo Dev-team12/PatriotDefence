@@ -6,10 +6,9 @@ import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.model.Schedule;
-import defencer.service.EmailBuilder;
-import defencer.service.EmailService;
-import defencer.service.InstructorService;
-import defencer.service.SmsService;
+import defencer.service.*;
+import defencer.service.cryptography.CryptoInstructor;
+import defencer.service.cryptography.CryptoProject;
 import defencer.service.factory.ServiceFactory;
 import defencer.service.impl.email.ConfirmBuilderImpl;
 import defencer.service.impl.email.InviteProjectBuilderImpl;
@@ -18,6 +17,7 @@ import lombok.val;
 import org.apache.commons.lang.RandomStringUtils;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -35,8 +35,6 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
     @Override
     public Instructor createEntity(Instructor instructor) throws SQLException {
         if (!this.emailAvailable(instructor)) {
-//            NotificationUtil.warningAlert("Warning", "Supplied email is already taken: " + instructor.getEmail(), NotificationUtil.SHORT);
-//            return null;
             throw new EntityAlreadyExistsException("Supplied email is already taken: " + instructor.getEmail());
         }
 
@@ -45,16 +43,8 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
         instructor.setPassword(instructorPassword);
         val message = emailBuilder.buildMessage(instructor);
         ServiceFactory.getEmailService().sendMessage(message);
-        return super.createEntity(instructor);
-    }
-
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public Project findProjectByInstructor(Long id) {
-        return DaoFactory.getInstructorDao().findProjectByInstructor(id);
+        CryptoService<Instructor> cryptoService = new CryptoInstructor();
+        return super.createEntity(cryptoService.encryptEntity(instructor));
     }
 
     /**
@@ -62,7 +52,9 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      */
     @Override
     public Instructor findByEmail(String email) {
-        return DaoFactory.getInstructorDao().findByEmail(email);
+        final Instructor instructor = DaoFactory.getInstructorDao().findByEmail(email);
+        CryptoService<Instructor> cryptoService = new CryptoInstructor();
+        return cryptoService.decryptEntity(instructor);
     }
 
     /**
@@ -70,7 +62,9 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      */
     @Override
     public List<Instructor> getInstructors() {
-        return DaoFactory.getInstructorDao().getInstructors();
+        final List<Instructor> instructors = DaoFactory.getInstructorDao().getInstructors();
+        CryptoService<Instructor> cryptoService = new CryptoInstructor();
+        return cryptoService.decryptEntityList(instructors);
     }
 
     /**
@@ -78,9 +72,9 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      */
     @Override
     public void configureProject(List<Instructor> instructors, Project project) {
-        ServiceFactory.getWiseacreService().updateExpected(instructors, project);
-
         CurrentUser.refresh(CurrentUser.getLink().getEmail());
+
+        ServiceFactory.getWiseacreService().updateExpected(instructors, project);
 
         TelegramUtil.getLink().alertAboutProject(instructors, project);
 
@@ -104,7 +98,17 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      */
     @Override
     public void changePassword(Long userId, String password) {
-        DaoFactory.getInstructorDao().changePassword(userId, password);
+        CryptoService<Instructor> cryptoService = new CryptoInstructor();
+        final String encryptedPassword = cryptoService.encryptSimpleText(password);
+        DaoFactory.getInstructorDao().changePassword(userId, encryptedPassword);
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void deleteInstructor(Long instructorId) {
+        DaoFactory.getInstructorDao().deleteInstructor(instructorId);
     }
 
     /**

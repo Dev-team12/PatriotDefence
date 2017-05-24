@@ -9,6 +9,7 @@ import defencer.service.CryptoService;
 import defencer.service.EmailBuilder;
 import defencer.service.EmailService;
 import defencer.service.ProjectService;
+import defencer.service.cryptography.CryptoInstructor;
 import defencer.service.cryptography.CryptoProject;
 import defencer.service.factory.ServiceFactory;
 import defencer.service.impl.email.AdminReportCreatedProjectBuilder;
@@ -50,6 +51,14 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
      * {@inheritDoc}.
      */
     @Override
+    public void deleteProject(Long projectId) {
+        DaoFactory.getProjectDao().deleteProject(projectId);
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
     public Project createEntity(Project project) throws SQLException {
         final ProjectTimes projectTimes = new ProjectTimes();
         projectTimes.setDateOfCreation(LocalDate.now());
@@ -70,7 +79,8 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
      * @return list of instructors who has role Chief Officer.
      */
     private List<Instructor> findAdmins() {
-        return DaoFactory.getInstructorDao().findAdmins();
+        CryptoService<Instructor> cryptoService = new CryptoInstructor();
+        return cryptoService.decryptEntityList(DaoFactory.getInstructorDao().findAdmins());
     }
 
     /**
