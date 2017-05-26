@@ -6,6 +6,7 @@ import defencer.controller.update.UpdateInstructorController;
 import defencer.data.ControllersDataFactory;
 import defencer.data.CurrentUser;
 import defencer.model.Instructor;
+import defencer.model.enums.Role;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
@@ -26,7 +27,6 @@ import javafx.stage.Window;
 import lombok.SneakyThrows;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -59,24 +59,32 @@ public class InstructorController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         insertTableInstructors();
-
         loadInstructors();
-
-        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
-        mainActivityController.showSmartToolbar();
-
-        mainActivityController.getAddAction().setOnMouseClicked(this::newInstructor);
-        mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteInstructor());
-        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadInstructors());
-        mainActivityController.getBtnAddEvent().setVisible(false);
-        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
-        mainActivityController.getBtnExcel().setOnMouseClicked(e -> excelReport());
-
+        showSmartBar();
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
                 editInstructor(event);
             }
         });
+    }
+
+    /**
+     * Showing smart bar with image buttons add, delete, update.
+     */
+    private void showSmartBar() {
+        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
+        mainActivityController.showSmartToolbar();
+        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadInstructors());
+        mainActivityController.getBtnAddEvent().setVisible(false);
+        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
+        mainActivityController.getBtnExcel().setOnMouseClicked(e -> excelReport());
+        if (!Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())) {
+            mainActivityController.getAddAction().setVisible(false);
+            mainActivityController.getDeleteAction().setVisible(false);
+        } else {
+            mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteInstructor());
+            mainActivityController.getAddAction().setOnMouseClicked(this::newInstructor);
+        }
     }
 
     /**
@@ -143,7 +151,10 @@ public class InstructorController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select instructor firstly", NotificationUtil.SHORT);
             return;
         }
-
+        if (instructor.getEmail().equals(CurrentUser.getLink().getEmail())) {
+            NotificationUtil.warningAlert("Warning", "Sorry, you can't delete yourself ", NotificationUtil.SHORT);
+            return;
+        }
         try {
             final FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/askForm.fxml"));

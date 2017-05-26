@@ -8,7 +8,6 @@ import defencer.model.Project;
 import defencer.model.Schedule;
 import defencer.service.*;
 import defencer.service.cryptography.CryptoInstructor;
-import defencer.service.cryptography.CryptoProject;
 import defencer.service.factory.ServiceFactory;
 import defencer.service.impl.email.ConfirmBuilderImpl;
 import defencer.service.impl.email.InviteProjectBuilderImpl;
@@ -17,7 +16,6 @@ import lombok.val;
 import org.apache.commons.lang.RandomStringUtils;
 
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -76,7 +74,8 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
 
         ServiceFactory.getWiseacreService().updateExpected(instructors, project);
 
-        TelegramUtil.getLink().alertAboutProject(instructors, project);
+        final Thread thread = new Thread(telegramSender(instructors, project));
+        thread.start();
 
         final Thread email = new Thread(mailSender(instructors, project));
         email.start();
@@ -136,6 +135,15 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
         final SmsService smsService = ServiceFactory.getSmsService();
         return () -> instructors.forEach(s -> smsService.send(s.getPhone(), s, project));
     }
+
+    /**
+     * Send notifications to instructors via telegram.
+     */
+    private Runnable telegramSender(List<Instructor> instructors, Project project) {
+        final TelegramUtil telegram = TelegramUtil.getLink();
+        return () -> telegram.alertAboutProject(instructors, project);
+    }
+
     /**
      * Checks if supplied email is already in the database.
      *

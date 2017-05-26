@@ -607,6 +607,25 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
      * {@inheritDoc}.
      */
     @Override
+    public void deleteCar(Long carId) {
+        final Session session = getCurrentSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val criteriaDelete = criteriaBuilder.createCriteriaDelete(Car.class);
+        final Root<Car> root = criteriaDelete.from(Car.class);
+
+        criteriaDelete.where(criteriaBuilder.equal(root.get("id"), carId));
+        session.createQuery(criteriaDelete).executeUpdate();
+
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
     public void updateExpected(List<Instructor> instructors, Project project) {
         Session session = getCurrentSession();
         session.beginTransaction();

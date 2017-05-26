@@ -4,10 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.service.CryptoService;
-import defencer.service.cryptography.CryptoInstructor;
 import defencer.service.cryptography.CryptoProject;
 import defencer.service.factory.ServiceFactory;
 import javafx.collections.FXCollections;
@@ -16,7 +14,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -110,18 +107,15 @@ public class UpdateProjectController implements Initializable {
 
     /**
      * @param project going to be update.
-     *
-     * @return already updated {@link Project}.
      */
-    private Project update(Project project) {
+    private void update(Project project) {
         try {
             CryptoService<Project> cryptoService = new CryptoProject();
-            return ServiceFactory.getProjectService()
+            ServiceFactory.getProjectService()
                     .updateEntity(cryptoService.encryptEntity(project));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
     /**

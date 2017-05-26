@@ -10,9 +10,11 @@ import defencer.controller.MainActivityController;
 import defencer.controller.PremierLeagueController;
 import defencer.controller.update.UpdateProjectController;
 import defencer.data.ControllersDataFactory;
+import defencer.data.CurrentUser;
 import defencer.model.Car;
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.enums.Role;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
@@ -35,7 +37,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -80,39 +81,44 @@ public class ProjectController implements Initializable {
     @FXML
     private JFXDatePicker dateFind;
 
-
     private ObservableList<Project> observableProjects = FXCollections.observableArrayList();
     private static final Long DEFAULT_PERIOD = 30L;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         insertProjectTable();
         loadProjects();
         comboProject.setItems(FXCollections
                 .observableArrayList(getProjectName()));
         comboProject.setValue("");
-
-
-        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
-        mainActivityController.showSmartToolbar();
-
-        mainActivityController.getAddAction().setOnMouseClicked(this::newProject);
-        mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteProject());
-        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadProjects());
-        mainActivityController.getBtnAddEvent().setVisible(false);
-        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
-        mainActivityController.getBtnExcel().setOnMouseClicked(e -> excelReport());
-
         btnFind.setOnAction(e -> search());
-
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
                 editProject(event);
             }
         });
-
         projectConfigure();
+        showSmartBar();
+    }
+
+    /**
+     * Showing smart bar with image buttons add, delete, update.
+     */
+    private void showSmartBar() {
+        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
+        mainActivityController.showSmartToolbar();
+
+        mainActivityController.getAddAction().setOnMouseClicked(this::newProject);
+        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadProjects());
+        mainActivityController.getBtnAddEvent().setVisible(false);
+        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
+        mainActivityController.getBtnExcel().setOnMouseClicked(e -> excelReport());
+
+        if (!Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())) {
+            mainActivityController.getDeleteAction().setVisible(false);
+        } else {
+            mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteProject());
+        }
     }
 
     /**

@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -112,5 +111,4 @@ public class ApprenticeDaoImpl extends CrudDaoImpl<Apprentice> implements Appren
     private Session getSession() {
         return HibernateUtil.getSessionFactory().openSession();
     }
-
 }

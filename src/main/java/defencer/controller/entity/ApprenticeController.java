@@ -7,7 +7,9 @@ import defencer.controller.AskFormController;
 import defencer.controller.MainActivityController;
 import defencer.controller.update.UpdateApprenticeController;
 import defencer.data.ControllersDataFactory;
+import defencer.data.CurrentUser;
 import defencer.model.Apprentice;
+import defencer.model.enums.Role;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
@@ -64,28 +66,36 @@ public class ApprenticeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         insertApprenticeTable();
         loadApprentice();
-
+        showSmartBar();
         comboProject.setItems(FXCollections
                 .observableArrayList(getProjectName()));
         comboProject.setValue("");
-
-        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
-        mainActivityController.showSmartToolbar();
-
-        mainActivityController.getAddAction().setOnMouseClicked(this::newApprentice);
-        mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteApprentice());
-        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadApprentice());
-        mainActivityController.getBtnAddEvent().setVisible(false);
-        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
-        mainActivityController.getBtnExcel().setOnMouseClicked(e -> excelReport());
-
         btnFind.setOnAction(e -> search());
-
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
                 editApprentice(event);
             }
         });
+    }
+
+    /**
+     * Showing smart bar with image buttons add, delete, update.
+     */
+    private void showSmartBar() {
+        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
+        mainActivityController.showSmartToolbar();
+
+        mainActivityController.getAddAction().setOnMouseClicked(this::newApprentice);
+        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadApprentice());
+        mainActivityController.getBtnAddEvent().setVisible(false);
+        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
+        mainActivityController.getBtnExcel().setOnMouseClicked(e -> excelReport());
+
+        if (!Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())) {
+            mainActivityController.getDeleteAction().setVisible(false);
+        } else {
+            mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteApprentice());
+        }
     }
 
     /**

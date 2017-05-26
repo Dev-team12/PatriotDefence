@@ -11,12 +11,6 @@ public class CryptoUntil {
 
     private final int keyLength = 1024;
 
-    public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
-
-        final CryptoUntil cryptoUntil = new CryptoUntil();
-        cryptoUntil.getKeys();
-    }
-
     /**
      * Generate a private key RSA.
      */

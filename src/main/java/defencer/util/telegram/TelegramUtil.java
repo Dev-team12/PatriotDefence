@@ -29,8 +29,6 @@ public class TelegramUtil {
     public void start() {
         ApiContextInitializer.init();
 
-        HibernateUtil.getSessionFactory();
-
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
         try {
@@ -98,6 +96,8 @@ public class TelegramUtil {
                 + "List of instructors: "
                 + "\n"
                 + project.getInstructors()
+                + "\n"
+                + project.getExpected()
                 + "\n"
                 + "Author of project "
                 + project.getAuthor()

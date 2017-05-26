@@ -47,6 +47,8 @@ public class InviteProjectBuilderImpl extends EmailBuilderImpl<Instructor> {
                 + "\n"
                 + project.getInstructors()
                 + "\n"
+                + project.getExpected()
+                + "\n"
                 + "Author of project "
                 + project.getAuthor()
                 + "\n"

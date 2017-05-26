@@ -127,11 +127,23 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         session.beginTransaction();
 
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        val criteriaDelete = criteriaBuilder.createCriteriaDelete(Project.class);
-        final Root<Project> root = criteriaDelete.from(Project.class);
+        val projectDelete = criteriaBuilder.createCriteriaDelete(Project.class);
+        final Root<Project> project = projectDelete.from(Project.class);
 
-        criteriaDelete.where(criteriaBuilder.equal(root.get("id"), projectId));
-        session.createQuery(criteriaDelete).executeUpdate();
+        val expectedDelete = criteriaBuilder.createCriteriaDelete(Expected.class);
+        val refusalDelete = criteriaBuilder.createCriteriaDelete(Refusal.class);
+
+        final Root<Expected> expected = expectedDelete.from(Expected.class);
+        final Root<Refusal> refusal = refusalDelete.from(Refusal.class);
+
+        projectDelete.where(criteriaBuilder.equal(project.get("id"), projectId));
+        session.createQuery(projectDelete).executeUpdate();
+
+        expectedDelete.where(criteriaBuilder.equal(expected.get("projectId"), project));
+        session.createQuery(expectedDelete).executeUpdate();
+
+        refusalDelete.where(criteriaBuilder.equal(refusal.get("projectId"), project));
+        session.createQuery(refusalDelete).executeUpdate();
 
         session.getTransaction().commit();
         session.close();

@@ -74,11 +74,11 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
     void createCar(String carName) throws SQLException;
 
     /**
-     * Delete the given car.
+     * Delete car with given id.
      *
-     * @param entity going to be delete.
+     * @param carId is car's unique id.
      */
-    void deleteCar(Car entity) throws SQLException;
+    void deleteCar(Long carId) throws SQLException;
 
     /**
      * Create the given car.

@@ -286,7 +286,7 @@ public class AdminDashboardController implements Initializable {
             return;
         }
         try {
-            ServiceFactory.getWiseacreService().deleteCar(car);
+            ServiceFactory.getWiseacreService().deleteCar(car.getId());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             NotificationUtil.warningAlert("Error", e.getMessage(), NotificationUtil.SHORT);

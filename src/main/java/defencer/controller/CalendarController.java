@@ -214,7 +214,6 @@ public class CalendarController implements Initializable {
         nextWeek.setOnMouseClicked(event -> agenda.setDisplayedLocalDateTime(agenda.getDisplayedLocalDateTime().plusWeeks(1L)));
     }
 
-
     /**
      * Call window for creating new Event.
      */

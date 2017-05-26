@@ -118,4 +118,11 @@ public interface WiseacreDao {
      * Get days off statistic for instructors.
      */
     Map<String, Long> getDaysOffStatistic();
+
+    /**
+     * Delete car with given id.
+     *
+     * @param carId is car's id.
+     */
+    void deleteCar(Long carId);
 }

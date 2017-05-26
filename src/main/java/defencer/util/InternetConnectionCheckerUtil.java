@@ -71,16 +71,13 @@ public class InternetConnectionCheckerUtil {
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
             } catch (IOException e) {
-                System.out.println(e.toString());
-
                 e.printStackTrace();
             }
             HibernateUtil.shutdown();
 
-            NotificationUtil.errorAlert("Error", "No internet connection.", NotificationUtil.SHORT);
+            NotificationUtil.errorAlert("Error", "There is no internet connection.", NotificationUtil.SHORT);
         });
     }
-
 
     /**
      * Starting of util.
@@ -94,7 +91,7 @@ public class InternetConnectionCheckerUtil {
      * Checking of existing internet connection.
      */
     public static boolean checkConnection() {
-        InetAddress in = null;
+        InetAddress in;
 
         try {
             in = InetAddress.getByName(urlForCheck.getHost());

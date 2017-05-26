@@ -7,8 +7,6 @@ import defencer.service.CryptoService;
 import defencer.service.WiseacreService;
 import defencer.service.cryptography.CryptoCar;
 import defencer.service.cryptography.CryptoInstructor;
-import defencer.service.cryptography.CryptoProject;
-import defencer.service.cryptography.CryptoProjectTypes;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import lombok.val;
@@ -121,9 +119,7 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      */
     @Override
     public List<AvailableProject> getProjectForAdminDashboard() {
-        val encryptedProject = DaoFactory.getWiseacreDao().getProjectForAdminDashboard();
-        CryptoService<AvailableProject> cryptoService = new CryptoProjectTypes();
-        return cryptoService.decryptEntityList(encryptedProject);
+        return DaoFactory.getWiseacreDao().getProjectForAdminDashboard();
     }
 
     /**
@@ -141,8 +137,8 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public void deleteCar(Car car) throws SQLException {
-        super.deleteEntity(car);
+    public void deleteCar(Long carId) throws SQLException {
+        DaoFactory.getWiseacreDao().deleteCar(carId);
     }
 
     /**
@@ -152,8 +148,7 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
     public void createProject(String projectName) throws SQLException {
         final AvailableProject availableProject = new AvailableProject();
         availableProject.setProjectName(projectName);
-        CryptoService<AvailableProject> cryptoService = new CryptoProjectTypes();
-        super.createEntity(cryptoService.encryptEntity(availableProject));
+        super.createEntity(availableProject);
     }
 
     /**
@@ -236,9 +231,7 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      */
     @Override
     public void updateExpected(List<Instructor> instructors, Project project) {
-        CryptoService<Project> cryptoServiceProject = new CryptoProject();
-        final Project encryptProject = cryptoServiceProject.encryptEntity(project);
-        DaoFactory.getWiseacreDao().updateExpected(instructors, encryptProject);
+        DaoFactory.getWiseacreDao().updateExpected(instructors, project);
     }
 
     /**
