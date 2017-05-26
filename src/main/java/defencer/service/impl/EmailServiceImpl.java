@@ -44,6 +44,6 @@ public class EmailServiceImpl implements EmailService {
         val messageHelper = emailBuilder.buildMessageWithAttachment(CurrentUser.getLink(), mimeMessage);
         messageHelper.addAttachment(file.getFilename(), file);
         emailConfig.mailSender().send(mimeMessage);
-        NotificationUtil.warningAlert("Success", CurrentUser.getLink().getFirstName() + " please check your email to see pdf doc.", NotificationUtil.SHORT);
+        NotificationUtil.warningAlert("Success", CurrentUser.getLink().getFirstName() + " please check your email to see your report doc.", NotificationUtil.SHORT);
     }
 }

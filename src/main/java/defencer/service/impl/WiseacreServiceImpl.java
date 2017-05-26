@@ -3,7 +3,13 @@ package defencer.service.impl;
 import defencer.dao.factory.DaoFactory;
 import defencer.data.CurrentUser;
 import defencer.model.*;
+import defencer.service.CryptoService;
 import defencer.service.WiseacreService;
+import defencer.service.cryptography.CryptoCar;
+import defencer.service.cryptography.CryptoInstructor;
+import defencer.service.factory.ServiceFactory;
+import defencer.util.NotificationUtil;
+import lombok.val;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -23,8 +29,10 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public List<Car> getFreeCar() {
-        return DaoFactory.getWiseacreDao().getFreeCar();
+    public List<Car> getFreeCar(Project project) {
+        final List<Car> encryptedCars = DaoFactory.getWiseacreDao().getFreeCar(project);
+        CryptoService<Car> cryptoService = new CryptoCar();
+        return cryptoService.decryptEntityList(encryptedCars);
     }
 
     /**
@@ -42,8 +50,10 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public List<Instructor> getFreeInstructors() {
-        return DaoFactory.getWiseacreDao().getFreeInstructors();
+    public List<Instructor> getFreeInstructors(Project project) {
+        CryptoService<Instructor> cryptoService = new CryptoInstructor();
+        val decryptedInstructors = DaoFactory.getWiseacreDao().getFreeInstructors(project);
+        return cryptoService.decryptEntityList(decryptedInstructors);
     }
 
     /**
@@ -99,7 +109,9 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      */
     @Override
     public List<Car> getCarForAdminDashboard() {
-        return DaoFactory.getWiseacreDao().getCarForAdminDashboard();
+        final List<Car> encryptedCars = DaoFactory.getWiseacreDao().getCarForAdminDashboard();
+        CryptoService<Car> cryptoService = new CryptoCar();
+        return cryptoService.decryptEntityList(encryptedCars);
     }
 
     /**
@@ -114,24 +126,29 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public void createCar(Car car) throws SQLException {
-        super.createEntity(car);
+    public void createCar(String carName) throws SQLException {
+        final Car car = new Car();
+        car.setCarName(carName);
+        CryptoService<Car> cryptoService = new CryptoCar();
+        super.createEntity(cryptoService.encryptEntity(car));
     }
 
     /**
      * {@inheritDoc}.
      */
     @Override
-    public void deleteCar(Car car) throws SQLException {
-        super.deleteEntity(car);
+    public void deleteCar(Long carId) throws SQLException {
+        DaoFactory.getWiseacreDao().deleteCar(carId);
     }
 
     /**
      * {@inheritDoc}.
      */
     @Override
-    public void createProject(AvailableProject project) throws SQLException {
-        super.createEntity(project);
+    public void createProject(String projectName) throws SQLException {
+        final AvailableProject availableProject = new AvailableProject();
+        availableProject.setProjectName(projectName);
+        super.createEntity(availableProject);
     }
 
     /**
@@ -147,21 +164,20 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      */
     @Override
     public Instructor getCurrentUser(String email) {
-        return DaoFactory.getWiseacreDao().getCurrentUser(email);
+        CryptoService<Instructor> cryptoService = new CryptoInstructor();
+        final Instructor currentUser = DaoFactory.getWiseacreDao().getCurrentUser(email);
+        return cryptoService.decryptEntity(currentUser);
     }
 
     /**
      * {@inheritDoc}.
      */
     @Override
-    public void updateCurrentUser(Long userId, String status) throws SQLException {
-        DaoFactory.getWiseacreDao().updateCurrentUser(userId, status);
+    public void setWorksDays(Long userId, LocalDate startProject, LocalDate finishProject) throws SQLException {
         final WorkDay workDay = new WorkDay();
         workDay.setDateOfCreation(LocalDate.now());
         workDay.setInstructorId(userId);
-        final LocalDate projectDateStart = CurrentUser.getLink().getProjectDateStart();
-        final LocalDate projectDateFinish = CurrentUser.getLink().getProjectDateFinish();
-        workDay.setWorkDays(ChronoUnit.DAYS.between(projectDateStart, projectDateFinish));
+        workDay.setWorkDays(ChronoUnit.DAYS.between(startProject, finishProject));
         super.createEntity(workDay);
     }
 
@@ -182,7 +198,7 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public List<Car> getCurrentCar(Long projectId) {
+    public List<ScheduleCar> getCurrentCar(Long projectId) {
         return DaoFactory.getWiseacreDao().getCurrentCar(projectId);
     }
 
@@ -198,16 +214,8 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
      * {@inheritDoc}.
      */
     @Override
-    public void deleteSelectedCar(Long carId) {
-        DaoFactory.getWiseacreDao().deleteSelectedCar(carId);
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public void setFreeStatusForInstructorsByProjectId(Long projectId) {
-        DaoFactory.getWiseacreDao().setFreeStatusForInstructorsByProjectId(projectId);
+    public void deleteSelectedCar(Long projectId, Long carId) {
+        DaoFactory.getWiseacreDao().deleteSelectedCar(projectId, carId);
     }
 
     /**
@@ -216,6 +224,97 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
     @Override
     public List<DaysOff> getDaysOff(Long instructorId) {
         return DaoFactory.getWiseacreDao().getDaysOff(instructorId);
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void updateExpected(List<Instructor> instructors, Project project) {
+        DaoFactory.getWiseacreDao().updateExpected(instructors, project);
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void updateSchedule(CurrentUser currentUser, Schedule schedule) {
+        DaoFactory.getWiseacreDao().updateSchedule(currentUser, schedule);
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void addNewDaysOff(Long userId, LocalDate from, LocalDate to, List<Schedule> myProjects) {
+        final DaysOff daysOff = new DaysOff();
+        daysOff.setInstructorId(userId);
+        daysOff.setDateFrom(from);
+        daysOff.setDateTo(to);
+        final List<Boolean> possibleToGo = possibleToGo(daysOff, myProjects);
+        if (possibleToGo.contains(false)) {
+            NotificationUtil.warningAlert("Wrong", "unfortunately you can't take a day off"
+                    + " because you have a project in this time", NotificationUtil.SHORT);
+            return;
+        }
+        saveDaysOff(daysOff);
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void updateScheduleCar(Project project, Car car) {
+        final ScheduleCar scheduleCar = new ScheduleCar();
+        scheduleCar.setCarId(car.getId());
+        scheduleCar.setCarName(car.getCarName());
+        scheduleCar.setProjectId(project.getId());
+        scheduleCar.setProjectStart(project.getDateStart());
+        scheduleCar.setProjectFinish(project.getDateFinish());
+        try {
+            createEntity(scheduleCar);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public Map<String, Long> getDaysOffStatistic() {
+        return DaoFactory.getWiseacreDao().getDaysOffStatistic();
+    }
+
+    /**
+     * Check that current instructors doesn't have a project in selected time.
+     */
+    private List<Boolean> possibleToGo(DaysOff daysOff, List<Schedule> myProjects) {
+        List<Boolean> possible = new LinkedList<>();
+        myProjects.forEach(s -> {
+            if ((s.getStartProject().isBefore(daysOff.getDateFrom())
+                    || s.getStartProject().isAfter(daysOff.getDateTo()))
+                    && (s.getFinishProject().isBefore(daysOff.getDateFrom())
+                    || s.getFinishProject().isAfter(daysOff.getDateTo()))
+                    && (!daysOff.getDateFrom().isAfter(s.getStartProject())
+                    || !daysOff.getDateFrom().isBefore(s.getFinishProject()))) {
+                possible.add(true);
+            } else {
+                possible.add(false);
+            }
+        });
+        return possible;
+    }
+
+    /**
+     * Whether Success add days off to database.
+     */
+    private void saveDaysOff(DaysOff daysOff) {
+        try {
+            ServiceFactory.getWiseacreService().createEntity(daysOff);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

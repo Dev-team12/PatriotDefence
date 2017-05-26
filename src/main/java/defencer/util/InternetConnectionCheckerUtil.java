@@ -20,13 +20,15 @@ public class InternetConnectionCheckerUtil {
 
     private static URL urlForCheck;
 
-    private static final Long WAITING = 5000L;
+    public static final Long WAITING = 5000L;
     private static final int REACHABLE_WAITING = 1000;
+    private static final Integer MAX_COUNT_OF_FALSE_ANSWERS = 3;
 
     private static Task<Void> noInternetTask;
 
 
     public InternetConnectionCheckerUtil() {
+
         try {
             urlForCheck = new URL("http://www.google.com");
         } catch (MalformedURLException e) {
@@ -36,9 +38,16 @@ public class InternetConnectionCheckerUtil {
         noInternetTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
+
+                Integer countOfFalseAnswers = 0;
+
                 while (true) {
                     if (!checkConnection()) {
-                        break;
+                        countOfFalseAnswers++;
+
+                        if (countOfFalseAnswers.equals(MAX_COUNT_OF_FALSE_ANSWERS)) {
+                            break;
+                        }
                     }
 
                     try {
@@ -60,20 +69,15 @@ public class InternetConnectionCheckerUtil {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/IsNoInternetConnection.fxml"));
                 Scene scene = new Scene(root);
-                stage.hide();
                 stage.setScene(scene);
-                stage.show();
             } catch (IOException e) {
-                System.out.println(e.toString());
-
                 e.printStackTrace();
             }
             HibernateUtil.shutdown();
 
-            NotificationUtil.errorAlert("Error", "No internet connection.", NotificationUtil.SHORT);
+            NotificationUtil.errorAlert("Error", "There is no internet connection.", NotificationUtil.SHORT);
         });
     }
-
 
     /**
      * Starting of util.
@@ -87,7 +91,7 @@ public class InternetConnectionCheckerUtil {
      * Checking of existing internet connection.
      */
     public static boolean checkConnection() {
-        InetAddress in = null;
+        InetAddress in;
 
         try {
             in = InetAddress.getByName(urlForCheck.getHost());
@@ -95,9 +99,8 @@ public class InternetConnectionCheckerUtil {
             return in.isReachable(REACHABLE_WAITING);
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
-
-        throw new NullPointerException();
     }
 
 }

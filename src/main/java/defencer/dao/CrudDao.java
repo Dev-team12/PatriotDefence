@@ -1,8 +1,6 @@
 package defencer.dao;
 
 import java.io.Serializable;
-import java.sql.SQLException;
-import java.util.List;
 
 /**
  * @param <T> is given entity.
@@ -18,14 +16,6 @@ public interface CrudDao<T, ID extends Serializable> {
      * @return saved entity.
      */
     T save(T entity);
-
-    /**
-     * Searching entity by its id.
-     *
-     * @param id must not be null.
-     * @return found entity by his id in database or {@literal null} if none found.
-     */
-    T findOne(ID id);
 
     /**
      * Deletes entity with given id.
@@ -49,10 +39,4 @@ public interface CrudDao<T, ID extends Serializable> {
      * @return updated entity.
      */
     T update(T entity);
-
-    /**
-     * @return list of found entity by given param and value.
-     * @throws SQLException if were found none.
-     */
-    List<T> searchEntity(String param, String value) throws SQLException;
 }

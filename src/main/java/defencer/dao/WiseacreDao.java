@@ -1,5 +1,6 @@
 package defencer.dao;
 
+import defencer.data.CurrentUser;
 import defencer.model.*;
 
 import java.sql.SQLException;
@@ -14,7 +15,7 @@ public interface WiseacreDao {
     /**
      * @return list of free {@link Car} for project.
      */
-    List<Car> getFreeCar();
+    List<Car> getFreeCar(Project project);
 
     /**
      * @return list of available {@link AvailableProject}.
@@ -24,7 +25,7 @@ public interface WiseacreDao {
     /**
      * @return list of free {@link Instructor} for project.
      */
-    List<Instructor> getFreeInstructors();
+    List<Instructor> getFreeInstructors(Project project);
 
     /**
      * @return map with project's name and times how often they were created for last months.
@@ -72,13 +73,6 @@ public interface WiseacreDao {
     Instructor getCurrentUser(String email);
 
     /**
-     * @param userId is current user's userId.
-     * @param status is new status for instructor.
-     * @throws SQLException if can't update.
-     */
-    void updateCurrentUser(Long userId, String status) throws SQLException;
-
-    /**
      * @param projectId is project's id.
      * @return list of instructors who were selected before.
      */
@@ -88,7 +82,7 @@ public interface WiseacreDao {
      * @param projectId is project's id.
      * @return list of car that were selected before.
      */
-    List<Car> getCurrentCar(Long projectId);
+    List<ScheduleCar> getCurrentCar(Long projectId);
 
     /**
      * Delete instructor who was selected before.
@@ -102,14 +96,7 @@ public interface WiseacreDao {
      *
      * @param carId id car's id.
      */
-    void deleteSelectedCar(Long carId);
-
-    /**
-     * Set status FREE to instructors if project was deleted.
-     *
-     * @param projectId is project's id.
-     */
-    void setFreeStatusForInstructorsByProjectId(Long projectId);
+    void deleteSelectedCar(Long projectId, Long carId);
 
     /**
      * @param instructorId is instructor for who method get days off.
@@ -118,7 +105,24 @@ public interface WiseacreDao {
     List<DaysOff> getDaysOff(Long instructorId);
 
     /**
-     * Update schedule by set instructor's id in project with given project id.
+     * Update expected by set instructor's id in project with given project id.
      */
-    void updateSchedule(List<Instructor> instructors, Project project);
+    void updateExpected(List<Instructor> instructors, Project project);
+
+    /**
+     * Update schedule by set instructor's id.
+     */
+    void updateSchedule(CurrentUser currentUser, Schedule schedule);
+
+    /**
+     * Get days off statistic for instructors.
+     */
+    Map<String, Long> getDaysOffStatistic();
+
+    /**
+     * Delete car with given id.
+     *
+     * @param carId is car's id.
+     */
+    void deleteCar(Long carId);
 }

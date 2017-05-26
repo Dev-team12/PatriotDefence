@@ -47,7 +47,6 @@ class TelegramBot extends TelegramLongPollingBot {
                     break;
             }
 
-
             try {
                 sendMessage(message);
             } catch (TelegramApiException e) {
@@ -104,15 +103,4 @@ class TelegramBot extends TelegramLongPollingBot {
         return "391523749:AAHukg7XkEAdVMyfQt-fTUaUANVMAIhEwUE";
     }
 
-    public void sendMessage(Long id,String message){
-        SendMessage messageObject = new SendMessage()
-                .setChatId(id)
-                .setText(message);
-
-        try {
-            sendMessage(messageObject);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -3,9 +3,11 @@ package defencer.controller.update;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import defencer.data.CurrentUser;
 import defencer.model.Instructor;
 import defencer.model.enums.Role;
 import defencer.service.factory.ServiceFactory;
+import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -38,9 +40,10 @@ public class UpdateInstructorController implements Initializable{
     private JFXTextField qualification;
     @FXML
     private JFXComboBox<String> role;
+    @FXML
+    private JFXTextField txtTelegramId;
 
     private Long instructorId;
-    private String status;
     private String videoPath;
     private String password;
 
@@ -59,6 +62,10 @@ public class UpdateInstructorController implements Initializable{
      * Prepare {@link Instructor} to updating.
      */
     private void prepareUpdating() {
+        if (!Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())) {
+            NotificationUtil.warningAlert("Warning", "for chief officer only", NotificationUtil.SHORT);
+            return;
+        }
         final Instructor instructor = new Instructor();
         instructor.setFirstName(firstName.getText());
         instructor.setLastName(lastName.getText());
@@ -67,9 +74,9 @@ public class UpdateInstructorController implements Initializable{
         instructor.setQualification(qualification.getText());
         instructor.setId(instructorId);
         instructor.setRole(role.getValue());
-        instructor.setStatus(status);
         instructor.setVideoPath(videoPath);
         instructor.setPassword(password);
+        instructor.setTelegramId(Long.valueOf(txtTelegramId.getText()));
         update(instructor);
         root.getScene().getWindow().hide();
     }
@@ -85,9 +92,14 @@ public class UpdateInstructorController implements Initializable{
         qualification.setText(instructor.getQualification());
         role.setValue(instructor.getRole());
         instructorId = instructor.getId();
-        status = instructor.getStatus();
         videoPath = instructor.getVideoPath();
         password = instructor.getPassword();
+        txtTelegramId.setText(String.valueOf(instructor.getTelegramId()));
+        if (instructor.getTelegramId() == null) {
+            txtTelegramId.setText("");
+            return;
+        }
+        txtTelegramId.setText(String.valueOf(instructor.getTelegramId()));
     }
 
     /**

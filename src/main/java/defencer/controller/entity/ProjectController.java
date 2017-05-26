@@ -10,7 +10,11 @@ import defencer.controller.MainActivityController;
 import defencer.controller.PremierLeagueController;
 import defencer.controller.update.UpdateProjectController;
 import defencer.data.ControllersDataFactory;
+import defencer.data.CurrentUser;
+import defencer.model.Car;
+import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.model.enums.Role;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
@@ -29,12 +33,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import jfxtras.scene.control.ImageViewButton;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -46,8 +48,6 @@ import java.util.ResourceBundle;
 @RequiredArgsConstructor
 public class ProjectController implements Initializable {
 
-    @FXML
-    private JFXButton btnPdfExport;
     @FXML
     private TableView<Project> table;
     @FXML
@@ -69,19 +69,15 @@ public class ProjectController implements Initializable {
     @FXML
     private TableColumn<Project, String> refusal;
     @FXML
+    private TableColumn<Project, String> expected;
+    @FXML
     private JFXComboBox<String> comboProject;
     @FXML
-    private JFXButton btnAddOneMore;
-    @FXML
     private JFXButton btnFind;
-    @FXML
-    private JFXButton btnDelete;
     @FXML
     private JFXButton btnConfigureProject;
     @FXML
     private JFXNodesList nodeList;
-    @FXML
-    private ImageViewButton btnUpdate;
     @FXML
     private JFXDatePicker dateFind;
 
@@ -95,26 +91,34 @@ public class ProjectController implements Initializable {
         comboProject.setItems(FXCollections
                 .observableArrayList(getProjectName()));
         comboProject.setValue("");
-
-
-        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
-        mainActivityController.showSmartToolbar();
-
-        mainActivityController.getAddAction().setOnMouseClicked(this::newProject);
-        mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteProject());
-        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadProjects());
-        mainActivityController.getEditAction().setVisible(false);
-        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
-
         btnFind.setOnAction(e -> search());
-
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
                 editProject(event);
             }
         });
-
         projectConfigure();
+        showSmartBar();
+    }
+
+    /**
+     * Showing smart bar with image buttons add, delete, update.
+     */
+    private void showSmartBar() {
+        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
+        mainActivityController.showSmartToolbar();
+
+        mainActivityController.getAddAction().setOnMouseClicked(this::newProject);
+        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadProjects());
+        mainActivityController.getBtnAddEvent().setVisible(false);
+        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
+        mainActivityController.getBtnExcel().setOnMouseClicked(e -> excelReport());
+
+        if (!Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())) {
+            mainActivityController.getDeleteAction().setVisible(false);
+        } else {
+            mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteProject());
+        }
     }
 
     /**
@@ -133,34 +137,18 @@ public class ProjectController implements Initializable {
         final JFXButton btnAddInstructor = new JFXButton("Add Instructor");
         btnAddInstructor.getStyleClass().add("button-try-now");
 
-        final JFXButton btnCloseProject = new JFXButton("Close project");
-        btnCloseProject.getStyleClass().add("button-try-now");
-
         final int value = 10;
         nodeList.setSpacing(value);
         nodeList.addAnimatedNode(btnConfigureProject);
         nodeList.addAnimatedNode(btnAddInstructor);
         nodeList.addAnimatedNode(btnEditInstructor);
         nodeList.addAnimatedNode(btnAddCar);
-        nodeList.addAnimatedNode(btnCloseProject);
 
         btnAddInstructor.setOnAction(this::premierLeague);
         btnEditInstructor.setOnAction(this::editInstructors);
         btnAddCar.setOnAction(this::addCar);
-        btnCloseProject.setOnAction(e -> closeProject());
     }
 
-    /**
-     * Close project.
-     */
-    private void closeProject() {
-        final Project project = table.getSelectionModel().getSelectedItem();
-        if (project == null) {
-            return;
-        }
-        ServiceFactory.getProjectService().closeProject(project);
-        loadProjects();
-    }
 
     /**
      * Search project with given parameters.
@@ -186,11 +174,16 @@ public class ProjectController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);
             return;
         }
+        final List<Instructor> freeInstructors = getFreeInstructors(project);
+        if (freeInstructors.isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "All instructors are busy", NotificationUtil.SHORT);
+            return;
+        }
         final FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/PremierLeague.fxml"));
         Parent parent = fxmlLoader.load();
         PremierLeagueController premierLeagueController = fxmlLoader.getController();
-        premierLeagueController.loadProjectDetails(project);
+        premierLeagueController.loadProjectDetails(project, freeInstructors);
 
         final Stage stage = new Stage();
         Scene value = new Scene(parent);
@@ -217,6 +210,7 @@ public class ProjectController implements Initializable {
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         author.setCellValueFactory(new PropertyValueFactory<>("author"));
         refusal.setCellValueFactory(new PropertyValueFactory<>("refusal"));
+        expected.setCellValueFactory(new PropertyValueFactory<>("expected"));
     }
 
     /**
@@ -320,11 +314,16 @@ public class ProjectController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select project first", NotificationUtil.SHORT);
             return;
         }
+        final List<Car> freeCars = getFreeCars(project);
+        if (freeCars.isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "All cars are busy", NotificationUtil.SHORT);
+            return;
+        }
         final FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/entity/EditCarList.fxml"));
         final Parent parent = fxmlLoader.load();
         EditCarListController editCarListController = fxmlLoader.getController();
-        editCarListController.loadCars(project);
+        editCarListController.loadCars(project, freeCars);
         final Stage stage = new Stage();
         stage.setTitle("Patriot Defence");
         Scene value = new Scene(parent);
@@ -371,21 +370,14 @@ public class ProjectController implements Initializable {
 
             stage.setOnHiding(event -> {
                 if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
-
-                    try {
-                        ServiceFactory.getProjectService().deleteEntity(project);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    ServiceFactory.getProjectService().deleteProject(project.getId());
                     loadProjects();
-                    ServiceFactory.getWiseacreService().setFreeStatusForInstructorsByProjectId(project.getId());
                 }
             });
 
         } catch (Exception e) {
             NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
         }
-
     }
 
     /**
@@ -395,13 +387,39 @@ public class ProjectController implements Initializable {
         return ServiceFactory.getWiseacreService().getAvailableProject();
     }
 
+    /**
+     * @return free instructor's name for project.
+     */
+    private List<Instructor> getFreeInstructors(Project project) {
+        return ServiceFactory.getWiseacreService().getFreeInstructors(project);
+    }
 
     /**
      * Preparing pdf report for project in table.
      */
-    @SneakyThrows
     private void pdfReport() {
-        NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+        if (table.getItems().isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+            return;
+        }
         ServiceFactory.getPdfService().projectReport(table.getItems());
+    }
+
+    /**
+     * Preparing excel report for project in table.
+     */
+    private void excelReport() {
+        if (table.getItems().isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+            return;
+        }
+        ServiceFactory.getExcelService().projectReport(table.getItems());
+    }
+
+    /**
+     * Get free cars.
+     */
+    private List<Car> getFreeCars(Project project) {
+        return ServiceFactory.getWiseacreService().getFreeCar(project);
     }
 }

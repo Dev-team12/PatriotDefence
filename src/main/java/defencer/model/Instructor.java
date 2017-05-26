@@ -32,16 +32,14 @@ public class Instructor extends AbstractEntity implements Serializable {
     private String role;
     @Column(name = "phone")
     private String phone;
-    @Column(name = "status")
-    private String status;
-    @Column(name = "telegramid")
-    private Long telegramID;
     @Column(name = "email")
     private String email;
     @Column(name = "password")
     private String password;
     @Column(name = "video_path")
     private String videoPath;
+    @Column(name = "telegram_id")
+    private Long telegramId;
 
     public Instructor(Long id, String firstName, String lastName) {
         this.id = id;
@@ -49,15 +47,18 @@ public class Instructor extends AbstractEntity implements Serializable {
         this.lastName = lastName;
     }
 
-    public Instructor(Long id, String firstName, String lastName, String qualification, String role, String phone, String status, String email) {
+    public Instructor(Long id, String firstName, String lastName, String qualification, String role, String phone, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.qualification = qualification;
         this.role = role;
         this.phone = phone;
-        this.status = status;
         this.email = email;
+    }
+
+    public Instructor(Long id) {
+        this.id = id;
     }
 
     public String getFirstLastName() {

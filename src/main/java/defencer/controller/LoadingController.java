@@ -1,12 +1,12 @@
 package defencer.controller;
 
+import com.jfoenix.controls.JFXSpinner;
 import defencer.util.PreLoaderUtil;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.ProgressIndicator;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 public class LoadingController implements Initializable {
 
     @FXML
-    private ProgressIndicator progressBar;
+    private JFXSpinner spinnerProgress;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -34,7 +34,6 @@ public class LoadingController implements Initializable {
         new Thread(task).start();
         task.setOnSucceeded(event -> toNextLayout());
     }
-
 
     /**
      * Task for new thread.
@@ -59,6 +58,6 @@ public class LoadingController implements Initializable {
     @SneakyThrows
     private void toNextLayout() {
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
-        progressBar.getScene().setRoot(root);
+        spinnerProgress.getScene().setRoot(root);
     }
 }

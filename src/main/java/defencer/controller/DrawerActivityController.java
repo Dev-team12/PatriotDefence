@@ -165,6 +165,7 @@ public class DrawerActivityController implements Initializable {
     @SneakyThrows
     private void logout() {
         CurrentUser.out();
+
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
         logoutButton.getScene().setRoot(root);
     }

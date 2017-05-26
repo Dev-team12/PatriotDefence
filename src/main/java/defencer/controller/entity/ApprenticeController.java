@@ -7,7 +7,9 @@ import defencer.controller.AskFormController;
 import defencer.controller.MainActivityController;
 import defencer.controller.update.UpdateApprenticeController;
 import defencer.data.ControllersDataFactory;
+import defencer.data.CurrentUser;
 import defencer.model.Apprentice;
+import defencer.model.enums.Role;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
@@ -25,7 +27,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import jfxtras.scene.control.ImageViewButton;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -38,7 +39,6 @@ import java.util.ResourceBundle;
  * @author Igor Gnes on 4/12/17.
  */
 public class ApprenticeController implements Initializable {
-
 
     @FXML
     private TableView<Apprentice> table;
@@ -55,15 +55,7 @@ public class ApprenticeController implements Initializable {
     @FXML
     private JFXComboBox<String> comboProject;
     @FXML
-    private JFXButton btnAddOneMore;
-    @FXML
     private JFXButton btnFind;
-    @FXML
-    private JFXButton btnDelete;
-    @FXML
-    private JFXButton btnPdfExport;
-    @FXML
-    private ImageViewButton btnUpdate;
     @FXML
     private JFXDatePicker datePeriod;
 
@@ -74,27 +66,36 @@ public class ApprenticeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         insertApprenticeTable();
         loadApprentice();
-
+        showSmartBar();
         comboProject.setItems(FXCollections
                 .observableArrayList(getProjectName()));
         comboProject.setValue("");
-
-        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
-        mainActivityController.showSmartToolbar();
-
-        mainActivityController.getAddAction().setOnMouseClicked(this::newApprentice);
-        mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteApprentice());
-        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadApprentice());
-        mainActivityController.getEditAction().setVisible(false);
-        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
-
         btnFind.setOnAction(e -> search());
-
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
                 editApprentice(event);
             }
         });
+    }
+
+    /**
+     * Showing smart bar with image buttons add, delete, update.
+     */
+    private void showSmartBar() {
+        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
+        mainActivityController.showSmartToolbar();
+
+        mainActivityController.getAddAction().setOnMouseClicked(this::newApprentice);
+        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadApprentice());
+        mainActivityController.getBtnAddEvent().setVisible(false);
+        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
+        mainActivityController.getBtnExcel().setOnMouseClicked(e -> excelReport());
+
+        if (!Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())) {
+            mainActivityController.getDeleteAction().setVisible(false);
+        } else {
+            mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteApprentice());
+        }
     }
 
     /**
@@ -217,7 +218,7 @@ public class ApprenticeController implements Initializable {
                 if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
 
                     try {
-                        ServiceFactory.getApprenticeService().deleteEntity(apprentice);
+                        ServiceFactory.getApprenticeService().deleteApprenticeById(apprentice.getId());
                         observableApprentices.clear();
                         loadApprentice();
                     } catch (Exception e) {
@@ -241,9 +242,22 @@ public class ApprenticeController implements Initializable {
     /**
      * Preparing pdf report for instructor in table.
      */
-    @SneakyThrows
     private void pdfReport() {
-        NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+        if (table.getItems().isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+            return;
+        }
         ServiceFactory.getPdfService().apprenticeReport(table.getItems());
+    }
+
+    /**
+     * Preparing excel report for apprentice in table.
+     */
+    private void excelReport() {
+        if (table.getItems().isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+            return;
+        }
+        ServiceFactory.getExcelService().apprenticeReport(table.getItems());
     }
 }

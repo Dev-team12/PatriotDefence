@@ -32,8 +32,6 @@ import java.util.ResourceBundle;
 public class MainActivityController implements Initializable {
 
     @FXML
-    private AnchorPane root;
-    @FXML
     private JFXDrawer drawer;
     @FXML
     private AnchorPane currentLayout;
@@ -51,16 +49,16 @@ public class MainActivityController implements Initializable {
     private ImageView deleteAction;
     @FXML
     @Getter
-    private ImageView editAction;
+    private ImageView btnAddEvent;
     @FXML
     @Getter
     private ImageView updateAction;
     @FXML
     @Getter
-    private ImageView settingsAction;
-    @FXML
-    @Getter
     private ImageView pdfExportAction;
+    @Getter
+    @FXML
+    private ImageView btnExcel;
 
 
     @Override
@@ -104,9 +102,6 @@ public class MainActivityController implements Initializable {
         transition.setRate(-1);
         hamburger.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> {
 
-            //transition.setRate(transition.getRate() *-1);
-            // transition.play();
-
             if (drawer.isShown()) {
                 closeDrawer();
             } else {
@@ -120,7 +115,6 @@ public class MainActivityController implements Initializable {
             currentLayout.getScene().getWindow().hide();
         });
     }
-
 
     /**
      * Logout from system.
@@ -156,7 +150,7 @@ public class MainActivityController implements Initializable {
     /**
      * Closing drawer.
      */
-    public void closeDrawer() {
+    void closeDrawer() {
         drawer.close();
         drawer.toBack();
 
@@ -169,7 +163,7 @@ public class MainActivityController implements Initializable {
     /**
      * Opening drawer.
      */
-    public void openDrawer() {
+    private void openDrawer() {
 
         drawer.toFront();
         drawer.open();
@@ -189,12 +183,11 @@ public class MainActivityController implements Initializable {
 
         addAction.setVisible(true);
         deleteAction.setVisible(true);
-        editAction.setVisible(true);
         updateAction.setVisible(true);
         pdfExportAction.setVisible(true);
-        settingsAction.setVisible(true);
+        btnExcel.setVisible(true);
+        btnAddEvent.setVisible(true);
     }
-
 
     /**
      * Hiding all components of smart toolbar.
@@ -203,9 +196,9 @@ public class MainActivityController implements Initializable {
 
         addAction.setVisible(false);
         deleteAction.setVisible(false);
-        editAction.setVisible(false);
         updateAction.setVisible(false);
         pdfExportAction.setVisible(false);
-        settingsAction.setVisible(false);
+        btnExcel.setVisible(false);
+        btnAddEvent.setVisible(false);
     }
 }

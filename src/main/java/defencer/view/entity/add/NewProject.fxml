@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="397.0" prefWidth="248.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="defencer.controller.add.NewProjectController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="397.0" prefWidth="248.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.add.NewProjectController">
    <Label layoutX="22.0" layoutY="14.0" text="Create new Project">
       <font>
-         <Font name="System Bold" size="13.0"/>
+         <Font name="System Bold" size="13.0" />
       </font>
    </Label>
-   <ImageView fitHeight="85.0" fitWidth="121.0" layoutX="159.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="/image/PatriotDefence.png"/>
+   <ImageView fitHeight="93.0" fitWidth="91.0" layoutX="153.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="/image/onlyukielogo.png" />
    </ImageView>
-   <JFXTextField fx:id="place" layoutX="11.0" layoutY="146.0" maxWidth="218.0" minWidth="218.0" prefHeight="31.0"
-                 prefWidth="218.0" promptText="Place"/>
-   <JFXTextArea fx:id="description" layoutX="11.0" layoutY="286.0" maxWidth="218.0" minWidth="197.0" prefHeight="50.0"
-                prefWidth="218.0" promptText="Description" wrapText="true"/>
-   <JFXButton fx:id="btnCreate" defaultButton="true" layoutX="166.0" layoutY="362.0" prefHeight="25.0" prefWidth="61.0"
-              styleClass="button-try-now" text="ok"/>
-   <JFXButton fx:id="btnCancel" layoutX="77.0" layoutY="362.0" styleClass="button-try-now" text="cancel"/>
-   <JFXDatePicker fx:id="dateFrom" layoutX="11.0" layoutY="197.0" prefHeight="27.0" prefWidth="227.0"
-                  promptText="Date from"/>
-   <JFXDatePicker fx:id="dataTo" layoutX="11.0" layoutY="240.0" prefHeight="27.0" prefWidth="227.0" promptText="Date to"/>
-   <JFXComboBox fx:id="projectName" layoutX="12.0" layoutY="103.0" prefHeight="31.0" prefWidth="218.0"
-                promptText="Name of project"/>
+   <JFXTextField fx:id="place" layoutX="11.0" layoutY="146.0" maxWidth="218.0" minWidth="218.0" prefHeight="31.0" prefWidth="218.0" promptText="Place" />
+   <JFXTextArea fx:id="description" layoutX="11.0" layoutY="286.0" maxWidth="218.0" minWidth="197.0" prefHeight="50.0" prefWidth="218.0" promptText="Description" wrapText="true" />
+   <JFXButton fx:id="btnCreate" defaultButton="true" layoutX="166.0" layoutY="362.0" prefHeight="25.0" prefWidth="61.0" styleClass="button-try-now" text="ok" />
+   <JFXButton fx:id="btnCancel" layoutX="77.0" layoutY="362.0" styleClass="button-try-now" text="cancel" />
+   <JFXDatePicker fx:id="dateFrom" layoutX="11.0" layoutY="197.0" prefHeight="27.0" prefWidth="227.0" promptText="Date from" />
+   <JFXDatePicker fx:id="dataTo" layoutX="11.0" layoutY="240.0" prefHeight="27.0" prefWidth="227.0" promptText="Date to" />
+   <JFXComboBox fx:id="projectName" layoutX="12.0" layoutY="103.0" prefHeight="31.0" prefWidth="218.0" promptText="Name of project" />
 </AnchorPane>

@@ -7,23 +7,29 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import defencer.data.ControllersDataFactory;
 import defencer.data.CurrentUser;
-import defencer.model.DaysOff;
-import defencer.model.Instructor;
-import defencer.model.Project;
-import defencer.model.Schedule;
+import defencer.model.*;
 import defencer.service.InstructorService;
+import defencer.service.WiseacreService;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -41,6 +47,8 @@ public class UserProfileController implements Initializable {
     @FXML
     private JFXButton btnCanNot;
     @FXML
+    private JFXButton btnChangePassword;
+    @FXML
     private TableView<Schedule> tableMyProjects;
     @FXML
     private TableView<DaysOff> tableDaysOff;
@@ -55,6 +63,8 @@ public class UserProfileController implements Initializable {
     @FXML
     private TableColumn<Project, String> myProjectName;
     @FXML
+    private TableColumn<Project, String> status;
+    @FXML
     private ImageView userImage;
     @FXML
     private JFXTextField firstName;
@@ -64,8 +74,6 @@ public class UserProfileController implements Initializable {
     private JFXTextField phone;
     @FXML
     private JFXTextField email;
-    @FXML
-    private Label status;
     @FXML
     private JFXButton btnSetDaysBusy;
     @FXML
@@ -80,9 +88,10 @@ public class UserProfileController implements Initializable {
     private ObservableList<DaysOff> observableDaysOff = FXCollections.observableArrayList();
     private ObservableList<Schedule> observableMyProject = FXCollections.observableArrayList();
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        CurrentUser.getLink().refresh(CurrentUser.getLink().getEmail());
 
         final GravatarUrlBuilder gravatarUrlBuilder = GravatarUrlBuilder.create();
         final int size = 262;
@@ -93,20 +102,19 @@ public class UserProfileController implements Initializable {
         userImage.setImage(new Image(build.toExternalForm(), true));
         factoryInitialization();
 
-        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
-        mainActivityController.hideSmartToolbar();
-
-
-
         insertTables();
         loadTableDaysOff();
         loadTableMyProject();
+
+        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
+        mainActivityController.hideSmartToolbar();
 
         btnSetDaysBusy.setOnAction(e -> newDayOff());
         btnDeleteDayOff.setOnAction(e -> deleteDayOff());
         btnUpdateProfile.setOnAction(s -> updateProfile());
         btnCanNot.setOnAction(e -> disagree());
         btnSure.setOnAction(e -> agree());
+        btnChangePassword.setOnAction(this::changePassword);
     }
 
     /**
@@ -134,17 +142,10 @@ public class UserProfileController implements Initializable {
         if (dateBusyFrom.getValue() == null || dateBusyTo.getValue() == null) {
             return;
         }
-        final DaysOff daysOff = new DaysOff();
-        daysOff.setDateFrom(dateBusyFrom.getValue());
-        daysOff.setDateTo(dateBusyTo.getValue());
-        daysOff.setInstructorId(CurrentUser.getLink().getId());
+        ServiceFactory.getWiseacreService()
+                .addNewDaysOff(CurrentUser.getLink().getId(), dateBusyFrom.getValue(), dateBusyTo.getValue(), tableMyProjects.getItems());
         dateBusyFrom.setValue(null);
         dateBusyTo.setValue(null);
-        try {
-            ServiceFactory.getWiseacreService().createEntity(daysOff);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         loadTableDaysOff();
     }
 
@@ -173,6 +174,7 @@ public class UserProfileController implements Initializable {
         myProjectName.setCellValueFactory(new PropertyValueFactory<>("projectName"));
         myStartDate.setCellValueFactory(new PropertyValueFactory<>("startProject"));
         myFinishDate.setCellValueFactory(new PropertyValueFactory<>("finishProject"));
+        status.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
     /**
@@ -211,7 +213,10 @@ public class UserProfileController implements Initializable {
      * Set status free for instructor if he cat't take the project.
      */
     private void disagree() {
-        Schedule schedule = tableMyProjects.getSelectionModel().getSelectedItem();
+        final Schedule schedule = tableMyProjects.getSelectionModel().getSelectedItem();
+        if (schedule == null || "Confirmed".equals(schedule.getStatus())) {
+            return;
+        }
         ServiceFactory.getWiseacreService().deleteSelectedInstructors(CurrentUser.getLink().getId(), schedule.getProjectId());
         CurrentUser.refresh(CurrentUser.getLink().getEmail());
         loadTableMyProject();
@@ -221,17 +226,18 @@ public class UserProfileController implements Initializable {
      * Set status busy if instructor take the project.
      */
     private void agree() {
-        final CurrentUser currentUser = CurrentUser.getLink();
-        if (currentUser.getProjectId() == null) {
+        final Schedule schedule = tableMyProjects.getSelectionModel().getSelectedItem();
+        if (schedule == null || "Confirmed".equals(schedule.getStatus())) {
             return;
         }
+        final WiseacreService wiseacreService = ServiceFactory.getWiseacreService();
+        wiseacreService.updateSchedule(CurrentUser.getLink(), schedule);
         try {
-            ServiceFactory.getWiseacreService().updateCurrentUser(currentUser.getId(), "BUSY");
+            wiseacreService.setWorksDays(CurrentUser.getLink().getId(), schedule.getStartProject(), schedule.getFinishProject());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        CurrentUser.refresh(CurrentUser.getLink().getEmail());
-        factoryInitialization();
+        loadTableMyProject();
     }
 
     /**
@@ -239,20 +245,27 @@ public class UserProfileController implements Initializable {
      */
     private void factoryInitialization() {
         CurrentUser currentUser = CurrentUser.getLink();
-
         firstName.setText(currentUser.getFirstName());
         lastName.setText(currentUser.getLastName());
         phone.setText(currentUser.getPhoneNumber());
         email.setText(currentUser.getEmail());
-        status.setText(currentUser.getStatus());
-
-        initializeProject(currentUser);
     }
 
     /**
-     * @param currentUser for initialize project.
+     * Change password for current user.
      */
-    private void initializeProject(CurrentUser currentUser) {
-
+    @SneakyThrows
+    private void changePassword(ActionEvent event) {
+        final FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/NewPass.fxml"));
+        Parent parent = fxmlLoader.load();
+        final Stage stage = new Stage();
+        Scene value = new Scene(parent);
+        stage.setScene(value);
+        value.getStylesheets().add("css/main.css");
+        stage.initModality(Modality.WINDOW_MODAL);
+        Window window = ((Node) event.getSource()).getScene().getWindow();
+        stage.initOwner(window);
+        stage.show();
     }
 }

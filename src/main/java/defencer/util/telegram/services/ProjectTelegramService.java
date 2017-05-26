@@ -22,7 +22,6 @@ public class ProjectTelegramService {
      * Creating message with data of all projects.
      */
     public static SendMessage getAllProjects() {
-        SendMessage message = new SendMessage();
 
         List<Project> data = ServiceFactory.getProjectService().findByPeriod();
         List<List<InlineKeyboardButton>> allLines = new ArrayList<>();
@@ -39,8 +38,9 @@ public class ProjectTelegramService {
             row.add(keyboardButton);
             allLines.add(row);
         }
-
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+
+        SendMessage message = new SendMessage();
         message.setReplyMarkup(keyboardMarkup.setKeyboard(allLines));
         message.setText("->Projects");
 
@@ -53,9 +53,7 @@ public class ProjectTelegramService {
      */
     public static SendMessage findProject(String id) {
         Project project = getProject(id);
-        SendMessage message = new SendMessage();
 
-        List<List<InlineKeyboardButton>> allLines = new ArrayList<>();
         List<InlineKeyboardButton> row = new LinkedList<>();
 
         InlineKeyboardButton keyboardButton = new InlineKeyboardButton();
@@ -63,9 +61,11 @@ public class ProjectTelegramService {
         keyboardButton.setCallbackData("DataProject:" + project.getId());
         row.add(keyboardButton);
 
+        List<List<InlineKeyboardButton>> allLines = new ArrayList<>();
         allLines.add(row);
 
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        SendMessage message = new SendMessage();
         message.setReplyMarkup(keyboardMarkup.setKeyboard(allLines));
         message.setText("->Projects-->" + project.getName());
 
@@ -80,8 +80,6 @@ public class ProjectTelegramService {
 
         Project project = getProject(id);
 
-        SendMessage message = new SendMessage();
-
         String text = "->Projects-->" + project.getName() + "--->data\n";
         text += "Name:" + project.getNameId() + "\n";
         text += "Description:" + project.getDescription() + "\n";
@@ -91,6 +89,7 @@ public class ProjectTelegramService {
         text += "Author:" + project.getAuthor() + "\n";
         text += "Instructors:" + project.getInstructors() + "\n";
 
+        SendMessage message = new SendMessage();
         message.setText(text);
         return message;
     }

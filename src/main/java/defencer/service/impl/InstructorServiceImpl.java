@@ -6,12 +6,12 @@ import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.model.Schedule;
-import defencer.service.EmailBuilder;
-import defencer.service.EmailService;
-import defencer.service.InstructorService;
+import defencer.service.*;
+import defencer.service.cryptography.CryptoInstructor;
 import defencer.service.factory.ServiceFactory;
 import defencer.service.impl.email.ConfirmBuilderImpl;
 import defencer.service.impl.email.InviteProjectBuilderImpl;
+import defencer.util.telegram.TelegramUtil;
 import lombok.val;
 import org.apache.commons.lang.RandomStringUtils;
 
@@ -35,20 +35,14 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
         if (!this.emailAvailable(instructor)) {
             throw new EntityAlreadyExistsException("Supplied email is already taken: " + instructor.getEmail());
         }
+
         val instructorPassword = RandomStringUtils.randomAlphanumeric(PASSWORD_LENGTH);
         EmailBuilder<Instructor> emailBuilder = new ConfirmBuilderImpl();
         instructor.setPassword(instructorPassword);
         val message = emailBuilder.buildMessage(instructor);
         ServiceFactory.getEmailService().sendMessage(message);
-        return super.createEntity(instructor);
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public Project findProjectByInstructor(Long id) {
-        return DaoFactory.getInstructorDao().findProjectByInstructor(id);
+        CryptoService<Instructor> cryptoService = new CryptoInstructor();
+        return super.createEntity(cryptoService.encryptEntity(instructor));
     }
 
     /**
@@ -56,7 +50,9 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      */
     @Override
     public Instructor findByEmail(String email) {
-        return DaoFactory.getInstructorDao().findByEmail(email);
+        final Instructor instructor = DaoFactory.getInstructorDao().findByEmail(email);
+        CryptoService<Instructor> cryptoService = new CryptoInstructor();
+        return cryptoService.decryptEntity(instructor);
     }
 
     /**
@@ -64,7 +60,9 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      */
     @Override
     public List<Instructor> getInstructors() {
-        return DaoFactory.getInstructorDao().getInstructors();
+        final List<Instructor> instructors = DaoFactory.getInstructorDao().getInstructors();
+        CryptoService<Instructor> cryptoService = new CryptoInstructor();
+        return cryptoService.decryptEntityList(instructors);
     }
 
     /**
@@ -72,12 +70,18 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      */
     @Override
     public void configureProject(List<Instructor> instructors, Project project) {
-        ServiceFactory.getWiseacreService().updateSchedule(instructors, project);
-
         CurrentUser.refresh(CurrentUser.getLink().getEmail());
+
+        ServiceFactory.getWiseacreService().updateExpected(instructors, project);
+
+        final Thread thread = new Thread(telegramSender(instructors, project));
+        thread.start();
 
         final Thread email = new Thread(mailSender(instructors, project));
         email.start();
+
+        final Thread sms = new Thread(smsSender(instructors, project));
+        sms.start();
     }
 
     /**
@@ -89,16 +93,55 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
     }
 
     /**
-     * Send notifications to instructors.
+     * {@inheritDoc}.
+     */
+    @Override
+    public void changePassword(Long userId, String password) {
+        CryptoService<Instructor> cryptoService = new CryptoInstructor();
+        final String encryptedPassword = cryptoService.encryptSimpleText(password);
+        DaoFactory.getInstructorDao().changePassword(userId, encryptedPassword);
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void deleteInstructor(Long instructorId) {
+        DaoFactory.getInstructorDao().deleteInstructor(instructorId);
+    }
+
+    /**
+     * Send notifications to instructors by email.
      */
     private Runnable mailSender(List<Instructor> instructors, Project project) {
         final StringBuffer stringBuffer = new StringBuffer();
         instructors.forEach(s -> stringBuffer.append(s.getFirstLastName()));
+        stringBuffer.append(project.getInstructors()).append(" ").append(project.getExpected());
         project.setInstructors(stringBuffer.toString());
         EmailBuilder<Instructor> emailBuilder = new InviteProjectBuilderImpl();
         final EmailService emailService = ServiceFactory.getEmailService();
         return () -> instructors.forEach(s -> emailService.sendMessage(emailBuilder
                 .buildMessageForProject(s, project)));
+    }
+
+    /**
+     * Send notifications to instructors by sms.
+     */
+    private Runnable smsSender(List<Instructor> instructors, Project project) {
+        final StringBuffer stringBuffer = new StringBuffer();
+        instructors.forEach(s -> stringBuffer.append(s.getFirstLastName()));
+        stringBuffer.append(project.getInstructors()).append(" ").append(project.getExpected());
+        project.setInstructors(stringBuffer.toString());
+        final SmsService smsService = ServiceFactory.getSmsService();
+        return () -> instructors.forEach(s -> smsService.send(s.getPhone(), s, project));
+    }
+
+    /**
+     * Send notifications to instructors via telegram.
+     */
+    private Runnable telegramSender(List<Instructor> instructors, Project project) {
+        final TelegramUtil telegram = TelegramUtil.getLink();
+        return () -> telegram.alertAboutProject(instructors, project);
     }
 
     /**

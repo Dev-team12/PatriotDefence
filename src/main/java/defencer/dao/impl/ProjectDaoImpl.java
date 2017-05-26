@@ -1,10 +1,7 @@
 package defencer.dao.impl;
 
 import defencer.dao.ProjectDao;
-import defencer.model.Car;
-import defencer.model.Instructor;
-import defencer.model.Project;
-import defencer.model.Schedule;
+import defencer.model.*;
 import defencer.util.HibernateUtil;
 import lombok.val;
 import org.hibernate.Session;
@@ -38,7 +35,7 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
                 .where(criteriaBuilder
                         .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(1)));
         final List<Project> projects = session.createQuery(projectCriteriaQuery).getResultList();
-        setInstructorsIntoProject(projects, criteriaBuilder, session);
+        configureProject(projects, criteriaBuilder, session);
         session.getTransaction().commit();
         session.close();
         projects.sort(Comparator.comparing(Project::getId));
@@ -48,24 +45,51 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
     /**
      * Update instructors in project.
      */
-    private void setInstructorsIntoProject(List<Project> projects, CriteriaBuilder criteriaBuilder, Session session) {
+    private void configureProject(List<Project> projects, CriteriaBuilder criteriaBuilder, Session session) {
         final CriteriaQuery<Schedule> scheduleCriteriaQuery = criteriaBuilder.createQuery(Schedule.class);
         final Root<Schedule> toor = scheduleCriteriaQuery.from(Schedule.class);
+
+        final CriteriaQuery<Refusal> query = criteriaBuilder.createQuery(Refusal.class);
+        final Root<Refusal> root = query.from(Refusal.class);
+
+        final CriteriaQuery<Expected> expectedCriteriaQuery = criteriaBuilder.createQuery(Expected.class);
+        final Root<Expected> from = expectedCriteriaQuery.from(Expected.class);
+
+        final CriteriaQuery<ScheduleCar> carCriteriaQuery = criteriaBuilder.createQuery(ScheduleCar.class);
+        final Root<ScheduleCar> free = carCriteriaQuery.from(ScheduleCar.class);
+
         final StringBuilder stringBuilder = new StringBuilder();
         projects.forEach(s -> {
             scheduleCriteriaQuery.multiselect(toor.get("id"), toor.get("instructorName"))
                     .where(criteriaBuilder.equal(toor
                             .get("projectId"), s.getId()));
             final List<Schedule> schedules = session.createQuery(scheduleCriteriaQuery).getResultList();
-            schedules.forEach(e -> stringBuilder.append(e.getInstructorName()));
+            schedules.forEach(e -> stringBuilder.append(e.getInstructorName()).append(" "));
             s.setInstructors(stringBuilder.toString());
             stringBuilder.setLength(0);
+
+            query.select(root).where(criteriaBuilder.equal(root
+                    .get("projectId"), s.getId()));
+
+            final List<Refusal> refusals = session.createQuery(query).getResultList();
+            refusals.forEach(a -> stringBuilder.append(a.getInstructorNames()).append(" "));
+            s.setRefusal(stringBuilder.toString());
+            stringBuilder.setLength(0);
+
+            expectedCriteriaQuery.select(from)
+                    .where(criteriaBuilder.equal(from.get("projectId"), s.getId()));
+            final List<Expected> expecteds = session.createQuery(expectedCriteriaQuery).getResultList();
+            expecteds.forEach(f -> stringBuilder.append(f.getInstructorNames()).append(" "));
+            s.setExpected(stringBuilder.toString());
+            stringBuilder.setLength(0);
+
+            carCriteriaQuery.select(free)
+                    .where(criteriaBuilder.equal(free.get("projectId"), s.getId()));
+            final List<ScheduleCar> cars = session.createQuery(carCriteriaQuery).getResultList();
+            cars.forEach(c -> stringBuilder.append(c.getCarName()).append(" "));
+            s.setCars(stringBuilder.toString());
+            stringBuilder.setLength(0);
         });
-    }
-
-    @Override
-    public void saveId(Long projectId) {
-
     }
 
     /**
@@ -87,7 +111,7 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
                                 .between(root.get("dateOfCreation"), localDate, LocalDate.now().plusDays(1)),
                         criteriaBuilder.equal(root.get("name"), projectName));
         final List<Project> projects = session.createQuery(projectCriteriaQuery).getResultList();
-        setInstructorsIntoProject(projects, criteriaBuilder, session);
+        configureProject(projects, criteriaBuilder, session);
         session.getTransaction().commit();
         session.close();
         projects.sort(Comparator.comparing(Project::getId));
@@ -98,56 +122,31 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
      * {@inheritDoc}.
      */
     @Override
-    public void closeProject(Long projectId) {
+    public void deleteProject(Long projectId) {
         final Session session = getSession();
         session.beginTransaction();
 
         final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val projectDelete = criteriaBuilder.createCriteriaDelete(Project.class);
+        final Root<Project> project = projectDelete.from(Project.class);
 
-        val instructorCriteriaQuery = criteriaBuilder.createCriteriaUpdate(Instructor.class);
-        final Root<Instructor> root = instructorCriteriaQuery.from(Instructor.class);
+        val expectedDelete = criteriaBuilder.createCriteriaDelete(Expected.class);
+        val refusalDelete = criteriaBuilder.createCriteriaDelete(Refusal.class);
 
-        val carCriteriaUpdate = criteriaBuilder.createCriteriaUpdate(Car.class);
-        final Root<Car> toor = carCriteriaUpdate.from(Car.class);
+        final Root<Expected> expected = expectedDelete.from(Expected.class);
+        final Root<Refusal> refusal = refusalDelete.from(Refusal.class);
 
-        instructorCriteriaQuery.set(root.get("status"), "FREE")
-                .set(root.get("projectId"), -1)
-                .where(criteriaBuilder.equal(root.get("projectId"), projectId));
-        session.createQuery(instructorCriteriaQuery).executeUpdate();
+        projectDelete.where(criteriaBuilder.equal(project.get("id"), projectId));
+        session.createQuery(projectDelete).executeUpdate();
 
-        carCriteriaUpdate.set(toor.get("status"), "FREE")
-                .set(toor.get("projectId"), -1)
-                .where(criteriaBuilder.equal(toor.get("projectId"), projectId));
-        session.createQuery(carCriteriaUpdate).executeUpdate();
+        expectedDelete.where(criteriaBuilder.equal(expected.get("projectId"), project));
+        session.createQuery(expectedDelete).executeUpdate();
+
+        refusalDelete.where(criteriaBuilder.equal(refusal.get("projectId"), project));
+        session.createQuery(refusalDelete).executeUpdate();
 
         session.getTransaction().commit();
         session.close();
-    }
-
-    /**
-     * Get instructors with given project id.
-     */
-    private List<Instructor> getInstructorInProject(Session session) {
-
-        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        final CriteriaQuery<Instructor> criteriaBuilderQuery = criteriaBuilder.createQuery(Instructor.class);
-        final Root<Instructor> root = criteriaBuilderQuery.from(Instructor.class);
-        criteriaBuilderQuery.multiselect(root.get("id"), root.get("firstName"), root.get("lastName"), root.get("projectId"))
-                .where(criteriaBuilder.notEqual(root.get("projectId"), -1), root.get("projectId").isNotNull(), root.get("projectId").isNotNull());
-        return session.createQuery(criteriaBuilderQuery).getResultList();
-    }
-
-    /**
-     * Get instructors with given project id.
-     */
-    private List<Car> getCarInProject(Session session) {
-
-        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        final CriteriaQuery<Car> criteriaBuilderQuery = criteriaBuilder.createQuery(Car.class);
-        final Root<Car> root = criteriaBuilderQuery.from(Car.class);
-        criteriaBuilderQuery.select(root)
-                .where(criteriaBuilder.notEqual(root.get("projectId"), -1), root.get("projectId").isNotNull(), root.get("projectId").isNotNull());
-        return session.createQuery(criteriaBuilderQuery).getResultList();
     }
 
     /**

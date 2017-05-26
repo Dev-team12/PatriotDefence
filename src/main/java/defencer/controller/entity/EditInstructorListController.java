@@ -68,12 +68,6 @@ public class EditInstructorListController implements Initializable {
             e.printStackTrace();
         }
 
-//        final Instructor instructor = tableCurrentInstructors.getSelectionModel().getSelectedItem();
-//        if (instructor == null) {
-//            return;
-//        }
-//        tableCurrentInstructors.getItems().remove(instructor);
-//        ServiceFactory.getWiseacreService().deleteSelectedInstructors(instructor.getId());
         loadInstructors(project);
     }
 

@@ -1,12 +1,12 @@
 package defencer.controller.entity;
 
-import com.jfoenix.controls.JFXButton;
 import defencer.controller.AskFormController;
 import defencer.controller.MainActivityController;
 import defencer.controller.update.UpdateInstructorController;
 import defencer.data.ControllersDataFactory;
 import defencer.data.CurrentUser;
 import defencer.model.Instructor;
+import defencer.model.enums.Role;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.collections.FXCollections;
@@ -24,11 +24,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import jfxtras.scene.control.ImageViewButton;
 import lombok.SneakyThrows;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -52,42 +50,41 @@ public class InstructorController implements Initializable {
     @FXML
     private TableColumn<Instructor, String> qualification;
     @FXML
-    private TableColumn<Instructor, String> status;
+    private TableColumn<Instructor, String> telegramId;
     @FXML
     private TableColumn<Instructor, String> role;
-    @FXML
-    private JFXButton btnAddOneMore;
-    @FXML
-    private JFXButton btnDelete;
-    @FXML
-    private ImageViewButton btnUpdate;
-    @FXML
-    private JFXButton btnPdfReport;
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         insertTableInstructors();
-
         loadInstructors();
-
-        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
-        mainActivityController.showSmartToolbar();
-
-        mainActivityController.getAddAction().setOnMouseClicked(this::newInstructor);
-        mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteInstructor());
-        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadInstructors());
-        mainActivityController.getEditAction().setVisible(false);
-        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
-       // mainActivityController.getEditAction().setVisible(false);
-
-
+        showSmartBar();
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {
                 editInstructor(event);
             }
         });
+    }
+
+    /**
+     * Showing smart bar with image buttons add, delete, update.
+     */
+    private void showSmartBar() {
+        MainActivityController mainActivityController = (MainActivityController) ControllersDataFactory.getLink().get(MainActivityController.class, "class");
+        mainActivityController.showSmartToolbar();
+        mainActivityController.getUpdateAction().setOnMouseClicked(e -> loadInstructors());
+        mainActivityController.getBtnAddEvent().setVisible(false);
+        mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
+        mainActivityController.getBtnExcel().setOnMouseClicked(e -> excelReport());
+        if (!Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())) {
+            mainActivityController.getAddAction().setVisible(false);
+            mainActivityController.getDeleteAction().setVisible(false);
+        } else {
+            mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteInstructor());
+            mainActivityController.getAddAction().setOnMouseClicked(this::newInstructor);
+        }
     }
 
     /**
@@ -141,7 +138,7 @@ public class InstructorController implements Initializable {
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
         phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         qualification.setCellValueFactory(new PropertyValueFactory<>("qualification"));
-        status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        telegramId.setCellValueFactory(new PropertyValueFactory<>("telegramId"));
         role.setCellValueFactory(new PropertyValueFactory<>("role"));
     }
 
@@ -154,11 +151,10 @@ public class InstructorController implements Initializable {
             NotificationUtil.warningAlert("Warning", "Select instructor firstly", NotificationUtil.SHORT);
             return;
         }
-        if (!"FREE".equals(instructor.getStatus())) {
-            NotificationUtil.warningAlert("Warning", "Unfortunately you can't this user because he has a project", NotificationUtil.SHORT);
+        if (instructor.getEmail().equals(CurrentUser.getLink().getEmail())) {
+            NotificationUtil.warningAlert("Warning", "Sorry, you can't delete yourself ", NotificationUtil.SHORT);
             return;
         }
-
         try {
             final FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/askForm.fxml"));
@@ -175,12 +171,7 @@ public class InstructorController implements Initializable {
 
             stage.setOnHiding(event -> {
                 if ((boolean) ControllersDataFactory.getLink().get(AskFormController.class, "isDelete")) {
-
-                    try {
-                        ServiceFactory.getInstructorService().deleteEntity(instructor);
-                    } catch (SQLException e) {
-                        NotificationUtil.errorAlert("Error", "Can't delete", NotificationUtil.SHORT);
-                    }
+                    ServiceFactory.getInstructorService().deleteInstructor(instructor.getId());
                     observableInstructors.clear();
                     loadInstructors();
                 }
@@ -223,9 +214,22 @@ public class InstructorController implements Initializable {
     /**
      * Preparing pdf report for instructor in table.
      */
-    @SneakyThrows
     private void pdfReport() {
-        NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+        if (table.getItems().isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+            return;
+        }
         ServiceFactory.getPdfService().instructorReport(table.getItems());
+    }
+
+    /**
+     * Preparing excel report for instructor in table.
+     */
+    private void excelReport() {
+        if (table.getItems().isEmpty()) {
+            NotificationUtil.warningAlert("Warning", "Nothing to export", NotificationUtil.SHORT);
+            return;
+        }
+        ServiceFactory.getExcelService().instructorReport(table.getItems());
     }
 }

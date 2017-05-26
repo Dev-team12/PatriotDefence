@@ -22,8 +22,11 @@ import java.util.ResourceBundle;
  */
 public class NewInstructorController implements Initializable {
 
+    private static final int MAX_NUMBER_LENGTH = 10;
+    private static final int TEMP_LENGTH = 1;
     @FXML
     private AnchorPane root;
+
     @FXML
     private JFXButton btnAddInstructor;
     @FXML
@@ -38,6 +41,8 @@ public class NewInstructorController implements Initializable {
     private JFXTextField phone;
     @FXML
     private JFXTextField qualification;
+    @FXML
+    private JFXTextField telegramId;
     @FXML
     private JFXComboBox<String> role;
 
@@ -59,7 +64,10 @@ public class NewInstructorController implements Initializable {
         if (role.getValue() != null && !role.getValue().equals("")
                 && firstName.getText().length() != 0
                 && email.getText().length() != 0
-                && phone.getText().length() != 0
+                && phone.getText().length() != 0 && phone.getText().length() == MAX_NUMBER_LENGTH
+                && phone.getText().substring(0, TEMP_LENGTH).equals("0")
+                && isOnlyNumber(phone.getText())
+                && isOnlyNumber(telegramId.getText())
                 && qualification.getText().length() != 0) {
 
             final Instructor instructor = new Instructor();
@@ -69,25 +77,26 @@ public class NewInstructorController implements Initializable {
             instructor.setPhone(phone.getText());
             instructor.setQualification(qualification.getText());
             instructor.setRole(role.getValue());
-            instructor.setStatus("FREE");
+            instructor.setTelegramId(Long.valueOf(telegramId.getText()));
             create(instructor);
             root.getScene().getWindow().hide();
 
         } else {
-            NotificationUtil.errorAlert("Error", "Form isn't filled right.", NotificationUtil.LONG);
+            NotificationUtil.warningAlert("Warning", "Form isn't filled right", NotificationUtil.LONG);
         }
     }
 
+
     /**
-     * Clear form fields after adding.
+     * Checking does data consist only from numbers.
      */
-    private void clear() {
-        firstName.clear();
-        lastName.clear();
-        email.clear();
-        phone.clear();
-        qualification.clear();
-        role.setPromptText("Role");
+    private boolean isOnlyNumber(String data) {
+        try {
+            Integer.parseInt(data);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -98,7 +107,6 @@ public class NewInstructorController implements Initializable {
         try {
             return ServiceFactory.getInstructorService().createEntity(instructor);
         } catch (SQLException | EntityAlreadyExistsException e) {
-            System.out.println(e.getMessage());
             NotificationUtil.warningAlert("Error", e.getMessage(), NotificationUtil.SHORT);
         }
         return null;

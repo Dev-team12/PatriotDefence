@@ -1,4 +1,4 @@
-package defencer.service.builder;
+package defencer.service.builder.pdf;
 
 import static com.itextpdf.text.FontFactory.*;
 

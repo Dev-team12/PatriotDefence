@@ -4,6 +4,8 @@ import defencer.dao.factory.DaoFactory;
 import defencer.exception.entity.EntityAlreadyExistsException;
 import defencer.model.Apprentice;
 import defencer.service.ApprenticeService;
+import defencer.service.CryptoService;
+import defencer.service.cryptography.CryptoApprentice;
 import lombok.val;
 
 import java.sql.SQLException;
@@ -24,7 +26,9 @@ public class ApprenticeServiceImpl extends CrudServiceImpl<Apprentice> implement
         if (!this.emailAvailable(apprentice)) {
             throw new EntityAlreadyExistsException("Supplied email is already taken: " + apprentice.getEmail());
         }
-        return super.createEntity(apprentice);
+        CryptoService<Apprentice> cryptoService = new CryptoApprentice();
+        final Apprentice encryptApprentice = cryptoService.encryptEntity(apprentice);
+        return super.createEntity(encryptApprentice);
     }
 
     /**
@@ -32,7 +36,9 @@ public class ApprenticeServiceImpl extends CrudServiceImpl<Apprentice> implement
      */
     @Override
     public List<Apprentice> findByPeriod(Long period, String projectName) {
-        return DaoFactory.getApprenticeDao().findByPeriod(period, projectName);
+        val encryptApprentice = DaoFactory.getApprenticeDao().findByPeriod(period, projectName);
+        CryptoService<Apprentice> cryptoService = new CryptoApprentice();
+        return cryptoService.decryptEntityList(encryptApprentice);
     }
 
     /**
@@ -40,7 +46,9 @@ public class ApprenticeServiceImpl extends CrudServiceImpl<Apprentice> implement
      */
     @Override
     public List<Apprentice> getApprenticeLastMonths() {
-        return DaoFactory.getApprenticeDao().getApprentice();
+        final List<Apprentice> encryptApprentice = DaoFactory.getApprenticeDao().getApprentice();
+        CryptoService<Apprentice> cryptoService = new CryptoApprentice();
+        return cryptoService.decryptEntityList(encryptApprentice);
     }
 
     /**
@@ -48,9 +56,18 @@ public class ApprenticeServiceImpl extends CrudServiceImpl<Apprentice> implement
      */
     @Override
     public Apprentice findByEmail(String email) {
-        return DaoFactory.getApprenticeDao().findByEmail(email);
+        CryptoService<Apprentice> cryptoService = new CryptoApprentice();
+        final Apprentice apprentice = DaoFactory.getApprenticeDao().findByEmail(email);
+        return cryptoService.decryptEntity(apprentice);
     }
 
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void deleteApprenticeById(Long id) {
+        DaoFactory.getApprenticeDao().deleteApprenticeById(id);
+    }
 
     /**
      * Checks if supplied email is already in the database.

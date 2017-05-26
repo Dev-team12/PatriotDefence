@@ -1,4 +1,4 @@
-package defencer.service.builder;
+package defencer.service.builder.pdf;
 
 import static com.itextpdf.text.FontFactory.*;
 
@@ -25,13 +25,7 @@ public class ProjectReportBuilder {
 
         projects.sort(Comparator.comparing(Project::getDateOfCreation));
 
-        final int countNewLine = 8;
-        final float imgLogoX = 450f;
-        final float imgLogoY = 700f;
-
         return new ReportDocumentBuilder(document)
-                .addImage(Image.getInstance(getClass().getClassLoader().getResource("image/PatriotDefencePDF.jpg")), imgLogoX, imgLogoY)
-                .addNewLine(countNewLine)
                 .addParagraph(new Paragraph("Project in Patriot Defence"), Paragraph.ALIGN_CENTER)
                 .addLineSeparator(new LineSeparator())
                 .addParagraph(new Paragraph("Statistics of created project in period from " + projects.get(0).getDateOfCreation()
@@ -45,13 +39,13 @@ public class ProjectReportBuilder {
      */
     private PdfPTable getTableWithCountRequestsByPeriod(List<Project> projects) throws DocumentException {
 
-        final int tableColumnNum = 7;
+        final int tableColumnNum = 8;
         final int colorR = 185;
         final int colorG = 247;
         final int colorB = 166;
         PdfPTable table = new PdfPTableBuilder(tableColumnNum, DEFAULT_TABLE_WIDTH, DEFAULT_TABLE_SPACING)
                 .addPdfPCells(new BaseColor(colorR, colorG, colorB), getFont(HELVETICA_BOLD),
-                        "Project name", "Place", "Start Date", "Finish Date", "Instructors", "Author", "Created")
+                        "Project name", "Place", "Start date", "Finish date", "Instructor", "Cars", "Author", "Created")
                 .build();
         projects
                 .forEach(s -> {
@@ -60,6 +54,7 @@ public class ProjectReportBuilder {
                     table.addCell(s.getDateStart().toString());
                     table.addCell(s.getDateFinish().toString());
                     table.addCell(s.getInstructors());
+                    table.addCell(s.getCars());
                     table.addCell(s.getAuthor());
                     table.addCell(s.getDateOfCreation().toString());
                 });

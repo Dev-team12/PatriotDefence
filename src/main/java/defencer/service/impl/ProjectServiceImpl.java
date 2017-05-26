@@ -5,11 +5,13 @@ import defencer.dao.impl.WiseacreDaoImpl;
 import defencer.model.Instructor;
 import defencer.model.Project;
 import defencer.model.ProjectTimes;
+import defencer.service.CryptoService;
 import defencer.service.EmailBuilder;
 import defencer.service.EmailService;
 import defencer.service.ProjectService;
+import defencer.service.cryptography.CryptoInstructor;
+import defencer.service.cryptography.CryptoProject;
 import defencer.service.factory.ServiceFactory;
-import defencer.service.impl.email.AdminReportClosedProjectBuilder;
 import defencer.service.impl.email.AdminReportCreatedProjectBuilder;
 
 import java.sql.SQLException;
@@ -30,7 +32,9 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
      */
     @Override
     public List<Project> findByPeriod() {
-        return DaoFactory.getProjectDao().getProjectForGivenPeriod(DEFAULT_PERIOD);
+        final CryptoService<Project> cryptoService = new CryptoProject();
+        final List<Project> projects = DaoFactory.getProjectDao().getProjectForGivenPeriod(DEFAULT_PERIOD);
+        return cryptoService.decryptEntityList(projects);
     }
 
     /**
@@ -38,26 +42,17 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
      */
     @Override
     public List<Project> getFindProject(Long periodInDays, String projectName) {
-        return DaoFactory.getProjectDao().getFindProject(periodInDays, projectName);
+        final CryptoService<Project> cryptoService = new CryptoProject();
+        final List<Project> projectsList = DaoFactory.getProjectDao().getFindProject(periodInDays, projectName);
+        return cryptoService.decryptEntityList(projectsList);
     }
 
     /**
      * {@inheritDoc}.
      */
     @Override
-    public void closeProject(Project project) {
-        DaoFactory.getProjectDao().closeProject(project.getId());
-        try {
-            project.setCars("");
-            project.setInstructors("");
-            ServiceFactory.getProjectService().updateEntity(project);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        final List<Instructor> admins = findAdmins();
-        final Thread thread = new Thread(mailSenderClosedProject(admins, project));
-        thread.start();
+    public void deleteProject(Long projectId) {
+        DaoFactory.getProjectDao().deleteProject(projectId);
     }
 
     /**
@@ -65,15 +60,18 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
      */
     @Override
     public Project createEntity(Project project) throws SQLException {
-        final Project alreadyCreatedProject = super.createEntity(project);
         final ProjectTimes projectTimes = new ProjectTimes();
         projectTimes.setDateOfCreation(LocalDate.now());
-        projectTimes.setProjectName(alreadyCreatedProject.getName());
+        projectTimes.setProjectName(project.getName());
         WiseacreDaoImpl wiseacreDao = new WiseacreDaoImpl();
         wiseacreDao.save(projectTimes);
+        final CryptoService<Project> cryptoService = new CryptoProject();
+        final Project encryptProject = cryptoService.encryptEntity(project);
+        final Project alreadyCreatedProject = super.createEntity(encryptProject);
         final List<Instructor> admins = findAdmins();
         final Thread thread = new Thread(mailSenderCreatedProject(admins, project));
         thread.start();
+
         return alreadyCreatedProject;
     }
 
@@ -81,7 +79,8 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
      * @return list of instructors who has role Chief Officer.
      */
     private List<Instructor> findAdmins() {
-        return DaoFactory.getInstructorDao().findAdmins();
+        CryptoService<Instructor> cryptoService = new CryptoInstructor();
+        return cryptoService.decryptEntityList(DaoFactory.getInstructorDao().findAdmins());
     }
 
     /**
@@ -89,16 +88,6 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
      */
     private Runnable mailSenderCreatedProject(List<Instructor> instructors, Project project) {
         EmailBuilder<Instructor> emailBuilder = new AdminReportCreatedProjectBuilder();
-        final EmailService emailService = ServiceFactory.getEmailService();
-        return () -> instructors.forEach(s -> emailService.sendMessage(emailBuilder
-                .buildMessageForProject(s, project)));
-    }
-
-    /**
-     * Send report about closed project to admin.
-     */
-    private Runnable mailSenderClosedProject(List<Instructor> instructors, Project project) {
-        EmailBuilder<Instructor> emailBuilder = new AdminReportClosedProjectBuilder();
         final EmailService emailService = ServiceFactory.getEmailService();
         return () -> instructors.forEach(s -> emailService.sendMessage(emailBuilder
                 .buildMessageForProject(s, project)));

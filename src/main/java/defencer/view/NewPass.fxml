@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root" fx:controller="defencer.controller.ChangePasswordController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="194.0"
+            prefWidth="234.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <JFXPasswordField fx:id="txtOldPassword" focusTraversable="false" layoutX="15.0" layoutY="37.0" maxWidth="205.0" minWidth="205.0"
+                     prefHeight="31.0" prefWidth="205.0" promptText="old password"/>
+   <JFXPasswordField fx:id="txtNewPassword" focusTraversable="false" layoutX="15.0" layoutY="77.0" prefWidth="205.0"
+                     promptText="new password"/>
+   <JFXPasswordField fx:id="txtConfirmPassword" focusTraversable="false" layoutX="15.0" layoutY="117.0" prefWidth="205.0"
+                     promptText="confirm password"/>
+   <JFXButton fx:id="btnChange" layoutX="138.0" layoutY="153.0" prefHeight="27.0" prefWidth="70.0"
+              style="-fx-background-color: #00C853;" text="change" textFill="white"/>
+   <JFXButton fx:id="btnCancel" layoutX="48.0" layoutY="153.0" prefHeight="27.0" prefWidth="70.0"
+              style="-fx-background-color: #F44336;" text="cancel" textFill="WHITE"/>
+   <Text layoutX="59.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Change password"/>
+</AnchorPane>

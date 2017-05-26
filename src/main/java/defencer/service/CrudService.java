@@ -2,7 +2,6 @@ package defencer.service;
 
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * @param <T> is given entity.
@@ -31,10 +30,4 @@ public interface CrudService<T, ID extends Serializable> {
      * @param entity must not be {@literal null}.
      */
     T updateEntity(T entity) throws SQLException;
-
-    /**
-     * @return list of found entity by given param and value.
-     * @throws SQLException if were found none.
-     */
-    List<T> searchEntity(String param, String value) throws SQLException;
 }

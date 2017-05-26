@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -48,9 +47,7 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
          <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="14.0" layoutY="27.0" pickOnBounds="true"
                     preserveRatio="true">
-            <image>
-               <Image url="/image/logo/account.png"/>
-            </image>
+            <Image url="/image/logo/account.png"/>
          </ImageView>
          <JFXTextField fx:id="lastName" layoutX="49.0" layoutY="24.0" prefHeight="35.0" prefWidth="256.0"
                        text="Hnes">
@@ -72,12 +69,10 @@
          </Label>
          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="13.0" layoutY="33.0" pickOnBounds="true"
                     preserveRatio="true">
-            <image>
-               <Image url="/image/logo/email.png"/>
-            </image>
+            <Image url="/image/logo/email.png"/>
          </ImageView>
-         <JFXTextField fx:id="email" layoutX="50.0" layoutY="29.0" prefHeight="35.0" prefWidth="256.0"
-                       text="joyukr.net@ukr.net">
+         <JFXTextField fx:id="email" layoutX="50.0" layoutY="29.0" maxWidth="334.0" minWidth="334.0"
+                       prefHeight="51.0" prefWidth="334.0" text="joyukr.net@ukr.net">
             <font>
                <Font size="24.0"/>
             </font>
@@ -91,9 +86,7 @@
          </Label>
          <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="14.0" layoutY="27.0" pickOnBounds="true"
                     preserveRatio="true">
-            <image>
-               <Image url="/image/logo/phone.png"/>
-            </image>
+            <Image url="/image/logo/phone.png"/>
          </ImageView>
          <JFXTextField fx:id="phone" layoutX="45.0" layoutY="23.0" text="934875397">
             <font>
@@ -102,16 +95,8 @@
          </JFXTextField>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
-         <Label layoutX="14.0" text="Status">
-            <font>
-               <Font size="20.0"/>
-            </font>
-         </Label>
-         <Label fx:id="status" layoutX="18.0" layoutY="26.0" prefHeight="30.0" prefWidth="145.0" text="FREE">
-            <font>
-               <Font size="20.0"/>
-            </font>
-         </Label>
+         <JFXButton fx:id="btnChangePassword" layoutX="16.0" layoutY="28.0" prefHeight="27.0" prefWidth="153.0"
+                    style="-fx-background-color: #00C853;" text="Change password" textFill="white"/>
       </AnchorPane>
    </GridPane>
    <AnchorPane layoutX="15.0" layoutY="14.0" prefHeight="316.0" prefWidth="256.0" AnchorPane.leftAnchor="15.0"
@@ -143,25 +128,26 @@
          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
       </columnResizePolicy>
    </TableView>
-   <Text layoutX="203.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project table:">
+   <Text layoutX="199.0" layoutY="347.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project table:">
       <font>
          <Font size="23.0"/>
       </font>
    </Text>
    <JFXButton fx:id="btnDeleteDayOff" layoutX="986.0" layoutY="325.0" prefHeight="27.0" prefWidth="70.0"
               style="-fx-background-color: #F44336;" text="Delete" textFill="WHITE"/>
-   <TableView fx:id="tableMyProjects" layoutX="18.0" layoutY="358.0" prefHeight="210.0" prefWidth="526.0">
+   <TableView fx:id="tableMyProjects" layoutX="18.0" layoutY="358.0" prefHeight="210.0" prefWidth="556.0">
       <columns>
          <TableColumn fx:id="myProjectName" prefWidth="75.0" text="Project name"/>
          <TableColumn fx:id="myStartDate" prefWidth="75.0" text="Start date"/>
          <TableColumn fx:id="myFinishDate" prefWidth="75.0" text="Finish date"/>
+         <TableColumn fx:id="status" prefWidth="75.0" text="Status"/>
       </columns>
       <columnResizePolicy>
          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
       </columnResizePolicy>
    </TableView>
-   <JFXButton fx:id="btnCanNot" layoutX="472.0" layoutY="326.0" prefHeight="27.0" prefWidth="70.0"
+   <JFXButton fx:id="btnCanNot" layoutX="501.0" layoutY="326.0" prefHeight="27.0" prefWidth="70.0"
               style="-fx-background-color: #F44336;" text="can't" textFill="WHITE"/>
-   <JFXButton fx:id="btnSure" layoutX="383.0" layoutY="326.0" prefHeight="27.0" prefWidth="70.0"
+   <JFXButton fx:id="btnSure" layoutX="412.0" layoutY="326.0" prefHeight="27.0" prefWidth="70.0"
               style="-fx-background-color: #00C853;" text="sure" textFill="white"/>
 </AnchorPane>

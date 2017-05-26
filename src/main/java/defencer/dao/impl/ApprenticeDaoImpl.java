@@ -3,6 +3,7 @@ package defencer.dao.impl;
 import defencer.dao.ApprenticeDao;
 import defencer.model.Apprentice;
 import defencer.util.HibernateUtil;
+import lombok.val;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -64,6 +65,9 @@ public class ApprenticeDaoImpl extends CrudDaoImpl<Apprentice> implements Appren
         return apprenticeList;
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public Apprentice findByEmail(String email) {
         final Session session = getSession();
@@ -83,10 +87,28 @@ public class ApprenticeDaoImpl extends CrudDaoImpl<Apprentice> implements Appren
     }
 
     /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public void deleteApprenticeById(Long apprenticeId) {
+        final Session session = getSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val criteriaDelete = criteriaBuilder.createCriteriaDelete(Apprentice.class);
+        final Root<Apprentice> root = criteriaDelete.from(Apprentice.class);
+
+        criteriaDelete.where(criteriaBuilder.equal(root.get("id"), apprenticeId));
+        session.createQuery(criteriaDelete).executeUpdate();
+
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    /**
      * @return {@link Session} for next steps.
      */
     private Session getSession() {
         return HibernateUtil.getSessionFactory().openSession();
     }
-
 }

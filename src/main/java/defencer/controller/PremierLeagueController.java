@@ -18,6 +18,7 @@ import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
+import jfxtras.scene.control.ImageViewButton;
 
 import java.io.File;
 import java.net.URL;
@@ -49,7 +50,7 @@ public class PremierLeagueController implements Initializable {
     @FXML
     private TableColumn<Instructor, String> instructors;
     @FXML
-    private JFXButton btnAdd;
+    private ImageViewButton btnAdd;
     @FXML
     private JFXButton btnFinish;
     @FXML
@@ -57,9 +58,9 @@ public class PremierLeagueController implements Initializable {
     @FXML
     private MediaView leagueInstructors;
     @FXML
-    private JFXButton btnNext;
+    private ImageViewButton btnNext;
     @FXML
-    private JFXButton btnPrevious;
+    private ImageViewButton btnPrevious;
 
     private ObservableList<Instructor> observableInstructors = FXCollections.observableArrayList();
     private List<Instructor> freeInstructors;
@@ -69,15 +70,17 @@ public class PremierLeagueController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        freeInstructors = getFreeInstructors();
+        btnNext.setOnMouseClicked(e -> nextInstructor());
+        btnPrevious.setOnMouseClicked(e -> previousInstructor());
+        btnAdd.setOnMouseClicked(e -> addInstructor());
+        btnDelete.setOnAction(s -> deleteSelectedInstructor());
+        btnFinish.setOnAction(s -> finish());
+    }
+
+    private void firstThing() {
         insertInstructorTable();
         loadThread();
         play(freeInstructors.get(counter).getVideoPath());
-        btnNext.setOnAction(e -> nextInstructor());
-        btnPrevious.setOnAction(e -> previousInstructor());
-        btnAdd.setOnAction(e -> addInstructor());
-        btnDelete.setOnAction(s -> deleteSelectedInstructor());
-        btnFinish.setOnAction(s -> finish());
     }
 
     /**
@@ -126,9 +129,6 @@ public class PremierLeagueController implements Initializable {
      * Delete selected instructor.
      */
     private void deleteSelectedInstructor() {
-//        final Instructor instructor = tableInstructors.getSelectionModel().getSelectedItem();
-//        ServiceFactory.getWiseacreService().deleteSelectedInstructors(instructor.getId(), project.getId());
-//        updateTableWithCurrentInstructors();
         final Instructor instructor = tableInstructors.getSelectionModel().getSelectedItem();
         tableInstructors.getItems().remove(instructor);
     }
@@ -136,17 +136,15 @@ public class PremierLeagueController implements Initializable {
     /**
      * Load project details.
      */
-    public void loadProjectDetails(Project project) {
+    public void loadProjectDetails(Project project, List<Instructor> freeInstructors) {
         this.project = project;
+        this.freeInstructors = freeInstructors;
         txtProjectName.setText("ProjectName: " + project.getNameId());
         txtPlace.setText("Place: " + project.getPlace());
         txtDateStart.setText("DateStart: " + project.getDateStart());
         txtDateFinish.setText("DateFinish: " + project.getDateFinish());
         txtAuthor.setText("Author: " + project.getAuthor());
-//        updateTableWithCurrentInstructors();
-//        instructorSet.addAll(getCurrentInstructors(project.getId()));
-//        observableInstructors.addAll(instructorSet);
-//        tableInstructors.setItems(observableInstructors);
+        firstThing();
     }
 
     /**
@@ -154,17 +152,6 @@ public class PremierLeagueController implements Initializable {
      */
     private void insertInstructorTable() {
         instructors.setCellValueFactory(new PropertyValueFactory<>("firstLastName"));
-    }
-
-    /**
-     * Update current instructors table.
-     */
-    private void updateTableWithCurrentInstructors() {
-        observableInstructors.clear();
-        instructorSet.clear();
-//        instructorSet.addAll(getCurrentInstructors(project.getId()));
-        observableInstructors.addAll(instructorSet);
-        tableInstructors.setItems(observableInstructors);
     }
 
     /**
@@ -212,30 +199,5 @@ public class PremierLeagueController implements Initializable {
     private void clearTxt() {
         txtFirstName.setText("");
         txtLastName.setText("");
-    }
-
-//    /**
-//     * @return list of instructors who were selected before.
-//     */
-//    private List<Instructor> getCurrentInstructors(Long projectId) {
-//        final List<Schedule> instructors = ServiceFactory.getWiseacreService().getCurrentInstructors(projectId);
-//        List<Instructor> currentList = new LinkedList<>();
-//        instructors.forEach(s -> {
-//            val instructor = new Instructor();
-//            instructor.setProjectId(projectId);
-//            instructor.setId(s.getInstructorId());
-//            instructor.setFirstName(s.getInstructorName());
-//            instructor.setLastName("");
-//            currentList.add(instructor);
-//        });
-//        return currentList;
-//    }
-
-
-    /**
-     * @return free instructor's name for project.
-     */
-    private List<Instructor> getFreeInstructors() {
-        return ServiceFactory.getWiseacreService().getFreeInstructors();
     }
 }

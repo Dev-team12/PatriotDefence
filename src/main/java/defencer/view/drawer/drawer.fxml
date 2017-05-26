@@ -1,59 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0" prefWidth="266.0" style="-fx-background-color: #3F51B5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.DrawerActivityController">
-   <children>
-      <AnchorPane prefHeight="269.0" prefWidth="273.0">
-         <children>
-            <ImageView fx:id="imageUserProfile" blendMode="SRC_ATOP" fitHeight="269.0" fitWidth="266.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="/image/user.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="logoutButton" fitHeight="40.0" fitWidth="86.0" layoutX="173.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <JFXButton fx:id="profileButton" ellipsisString="" minHeight="60.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="230.0" text="Profile                " textFill="WHITE">
-         <font>
-            <Font size="32.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="instructorButton" ellipsisString="" minHeight="60.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="251.0" text="Employee      " textFill="WHITE">
-         <font>
-            <Font size="32.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="apprenticeButton" ellipsisString="" minHeight="60.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="258.0" text="Apprentice     " textFill="WHITE">
-         <font>
-            <Font size="32.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="projectButton" ellipsisString="" minHeight="60.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="230.0" text="Projects       " textFill="WHITE">
-         <font>
-            <Font size="32.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="calendarButton" ellipsisString="" minHeight="60.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="230.0" text="Calendar      " textFill="WHITE">
-         <font>
-            <Font size="32.0" />
-         </font>
-      </JFXButton>
-   </children>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0"
+      prefWidth="266.0" style="-fx-background-color: #3F51B5;" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="defencer.controller.DrawerActivityController">
+   <AnchorPane prefHeight="269.0" prefWidth="273.0">
+      <ImageView fx:id="imageUserProfile" blendMode="SRC_ATOP" fitHeight="269.0" fitWidth="266.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="/image/user.jpg"/>
+      </ImageView>
+      <ImageView fx:id="logoutButton" fitHeight="40.0" fitWidth="86.0" layoutX="173.0" layoutY="185.0"
+                 pickOnBounds="true" preserveRatio="true">
+         <cursor>
+            <Cursor fx:constant="HAND"/>
+         </cursor>
+      </ImageView>
+   </AnchorPane>
+   <JFXButton fx:id="profileButton" ellipsisString="" minHeight="60.0" mnemonicParsing="false" prefHeight="60.0"
+              prefWidth="230.0" text="Profile                " textFill="WHITE">
+      <font>
+         <Font size="32.0"/>
+      </font>
+   </JFXButton>
+   <JFXButton fx:id="instructorButton" ellipsisString="" minHeight="60.0" mnemonicParsing="false" prefHeight="60.0"
+              prefWidth="251.0" text="Employee      " textFill="WHITE">
+      <font>
+         <Font size="32.0"/>
+      </font>
+   </JFXButton>
+   <JFXButton fx:id="apprenticeButton" ellipsisString="" minHeight="60.0" mnemonicParsing="false" prefHeight="60.0"
+              prefWidth="258.0" text="Apprentices     " textFill="WHITE">
+      <font>
+         <Font size="32.0"/>
+      </font>
+   </JFXButton>
+   <JFXButton fx:id="projectButton" ellipsisString="" minHeight="60.0" mnemonicParsing="false" prefHeight="60.0"
+              prefWidth="230.0" text="Projects       " textFill="WHITE">
+      <font>
+         <Font size="32.0"/>
+      </font>
+   </JFXButton>
+   <JFXButton fx:id="calendarButton" ellipsisString="" minHeight="60.0" mnemonicParsing="false" prefHeight="60.0"
+              prefWidth="230.0" text="Calendar      " textFill="WHITE">
+      <font>
+         <Font size="32.0"/>
+      </font>
+   </JFXButton>
 </VBox>

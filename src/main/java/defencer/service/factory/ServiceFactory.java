@@ -2,6 +2,7 @@ package defencer.service.factory;
 
 import defencer.service.*;
 import defencer.service.impl.*;
+import defencer.service.impl.sms.SmsServiceImpl;
 
 /**
  * Own factory for service interface.
@@ -57,5 +58,19 @@ public class ServiceFactory {
      */
     public static PdfService getPdfService() {
         return new PdfServiceImpl();
+    }
+
+    /**
+     * @return instance of {@link ExcelService}.
+     */
+    public static ExcelService getExcelService() {
+        return new ExcelServiceImpl();
+    }
+
+    /**
+     * @return instance of {@link SmsService}.
+     */
+    public static SmsService getSmsService() {
+        return new SmsServiceImpl();
     }
 }

@@ -20,7 +20,9 @@ public interface ProjectService extends CrudService<Project, Long> {
     List<Project> getFindProject(Long periodInDays, String projectName);
 
     /**
-     * @param project is project that going to be closed.
+     * Delete project with given id.
+     *
+     * @param projectId is given project's id
      */
-    void closeProject(Project project);
+    void deleteProject(Long projectId);
 }

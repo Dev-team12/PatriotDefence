@@ -4,8 +4,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import defencer.data.CurrentUser;
 import defencer.model.Project;
+import defencer.service.CryptoService;
+import defencer.service.cryptography.CryptoProject;
 import defencer.service.factory.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -31,6 +32,8 @@ public class UpdateProjectController implements Initializable {
     @FXML
     private JFXTextArea description;
     @FXML
+    private JFXTextArea expectedAndRefusal;
+    @FXML
     private JFXButton btnUpdate;
     @FXML
     private JFXButton btnCancel;
@@ -43,6 +46,7 @@ public class UpdateProjectController implements Initializable {
 
     private Long projectId;
     private LocalDate localDate;
+    private String author;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,7 +70,7 @@ public class UpdateProjectController implements Initializable {
         project.setDateFinish(dataTo.getValue());
         project.setPlace(place.getText());
         project.setDescription(description.getText());
-        project.setAuthor(CurrentUser.getLink().getFirstName());
+        project.setAuthor(author);
         project.setId(projectId);
         project.setDateOfCreation(localDate);
         update(project);
@@ -85,20 +89,33 @@ public class UpdateProjectController implements Initializable {
         dataTo.setValue(project.getDateFinish());
         projectId = project.getId();
         localDate = project.getDateOfCreation();
+        author = project.getAuthor();
+        expectedAndRefusal.setText("Expected: "
+                + "\n"
+                + project.getExpected()
+                + "\n"
+                + "\n"
+                + "Refusal: "
+                + "\n"
+                + project.getRefusal()
+                + "\n"
+                + "\n"
+                + "Cars: "
+                + "\n"
+                + project.getCars());
     }
 
     /**
      * @param project going to be update.
-     *
-     * @return already updated {@link Project}.
      */
-    private Project update(Project project) {
+    private void update(Project project) {
         try {
-            return ServiceFactory.getProjectService().updateEntity(project);
+            CryptoService<Project> cryptoService = new CryptoProject();
+            ServiceFactory.getProjectService()
+                    .updateEntity(cryptoService.encryptEntity(project));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
     /**

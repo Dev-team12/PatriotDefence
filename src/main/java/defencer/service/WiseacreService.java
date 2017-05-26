@@ -1,8 +1,10 @@
 package defencer.service;
 
+import defencer.data.CurrentUser;
 import defencer.model.*;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +16,7 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
     /**
      * @return list of free car for project.
      */
-    List<Car> getFreeCar();
+    List<Car> getFreeCar(Project project);
 
     /**
      * @return list of available project.
@@ -24,7 +26,7 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
     /**
      * @return list of free instructors.
      */
-    List<Instructor> getFreeInstructors();
+    List<Instructor> getFreeInstructors(Project project);
 
     /**
      * @return map with project's name and times how often they were created.
@@ -67,25 +69,21 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
     List<AvailableProject> getProjectForAdminDashboard();
 
     /**
-     * Create the given car.
-     *
-     * @param car going to be create.
+     * Create new car with given name.
      */
-    void createCar(Car car) throws SQLException;
+    void createCar(String carName) throws SQLException;
 
     /**
-     * Delete the given car.
+     * Delete car with given id.
      *
-     * @param entity going to be delete.
+     * @param carId is car's unique id.
      */
-    void deleteCar(Car entity) throws SQLException;
+    void deleteCar(Long carId) throws SQLException;
 
     /**
      * Create the given car.
-     *
-     * @param car going to be create.
      */
-    void createProject(AvailableProject car) throws SQLException;
+    void createProject(String projectName) throws SQLException;
 
     /**
      * Delete the given project.
@@ -101,10 +99,9 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
 
     /**
      * @param userId is current user's userId.
-     * @param status is new status for instructor.
      * @throws SQLException if can't update.
      */
-    void updateCurrentUser(Long userId, String status) throws SQLException;
+    void setWorksDays(Long userId, LocalDate startProject, LocalDate finishProject) throws SQLException;
 
     /**
      * @param projectId is project's id.
@@ -116,7 +113,7 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
      * @param projectId is project's id.
      * @return list of car that were selected before.
      */
-    List<Car> getCurrentCar(Long projectId);
+    List<ScheduleCar> getCurrentCar(Long projectId);
 
     /**
      * Delete instructor who was selected before.
@@ -126,14 +123,7 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
     /**
      * Delete car that was selected before.
      */
-    void deleteSelectedCar(Long carId);
-
-    /**
-     * Set status FREE to instructors if project was deleted.
-     *
-     * @param projectId is project's id.
-     */
-    void setFreeStatusForInstructorsByProjectId(Long projectId);
+    void deleteSelectedCar(Long projectId, Long carId);
 
     /**
      * @param instructorId is instructor for who method get days off.
@@ -142,7 +132,27 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
     List<DaysOff> getDaysOff(Long instructorId);
 
     /**
-     * Update schedule by set instructor's id in project with given project id.
+     * Update expected by set instructor's id in project with given project id.
      */
-    void updateSchedule(List<Instructor> instructors, Project project);
+    void updateExpected(List<Instructor> instructors, Project project);
+
+    /**
+     * Update schedule by set instructor's id.
+     */
+    void updateSchedule(CurrentUser currentUser, Schedule schedule);
+
+    /**
+     * Add new days off for current user.
+     */
+    void addNewDaysOff(Long userId, LocalDate from, LocalDate to, List<Schedule> items);
+
+    /**
+     * Update schedule car by set to there project and car id.
+     */
+    void updateScheduleCar(Project project, Car car);
+
+    /**
+     * Get days off statistic for instructors.
+     */
+    Map<String, Long> getDaysOffStatistic();
 }

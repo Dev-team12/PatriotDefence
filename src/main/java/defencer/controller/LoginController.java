@@ -7,7 +7,6 @@ import defencer.data.CurrentUser;
 import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
 import defencer.util.HibernateUtil;
-import defencer.util.InternetConnectionCheckerUtil;
 import defencer.util.NotificationUtil;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -18,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,7 +34,6 @@ import java.util.function.BiPredicate;
  */
 public class LoginController implements Initializable {
 
-
     @FXML
     private AnchorPane rootLogin;
     @FXML
@@ -49,9 +48,8 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-
         txtUserEmail.setText("joyukr@ukr.net");
-        txtUserPassword.setText("IzCQcnXxB6m1");
+        txtUserPassword.setText("tinger");
         btnLogin.setOnAction(e -> login());
         linkRecoverPassword.setOnAction(this::recoverPassword);
     }
@@ -81,30 +79,25 @@ public class LoginController implements Initializable {
      */
     private void login() {
 
-        if (InternetConnectionCheckerUtil.checkConnection()) {
+        final Instructor instructor = ServiceFactory.getInstructorService().findByEmail(txtUserEmail.getText());
 
-            final Instructor instructor = ServiceFactory.getInstructorService().findByEmail(txtUserEmail.getText());
-
-            if (instructor == null || txtUserPassword == null) {
-                NotificationUtil.warningAlert("Wrong", "User not found", NotificationUtil.SHORT);
-                return;
-            }
-
-            BiPredicate<String, String> biPredicate = Object::equals;
-            final boolean test = biPredicate.test(instructor.getPassword(), txtUserPassword.getText());
-            if (!test) {
-                NotificationUtil.warningAlert("Wrong", "Password is wrong", NotificationUtil.SHORT);
-                return;
-            }
-
-            val thread = new Thread(setCurrentUser());
-            thread.start();
-
-            rootLogin.getScene().getWindow().hide();
-            authorization();
-        } else {
-            NotificationUtil.errorAlert("Error", "No internet connection.", NotificationUtil.SHORT);
+        if (instructor == null || txtUserPassword == null) {
+            NotificationUtil.warningAlert("Wrong", "user not found", NotificationUtil.SHORT);
+            return;
         }
+
+        BiPredicate<String, String> biPredicate = Object::equals;
+        final boolean test = biPredicate.test(instructor.getPassword(), txtUserPassword.getText());
+        if (!test) {
+            NotificationUtil.warningAlert("Wrong", "password is wrong", NotificationUtil.SHORT);
+            return;
+        }
+
+        val thread = new Thread(setCurrentUser());
+        thread.start();
+
+        rootLogin.getScene().getWindow().hide();
+        authorization();
     }
 
     private Runnable setCurrentUser() {
@@ -120,6 +113,7 @@ public class LoginController implements Initializable {
         final Stage stage = new Stage();
         Scene scene = new Scene(root);
         scene.getStylesheets().add("css/main.css");
+        stage.getIcons().add(new Image("/image/onlyukielogo.png"));
         stage.setScene(scene);
         stage.show();
 

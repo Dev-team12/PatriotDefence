@@ -24,7 +24,9 @@ public class Car extends AbstractEntity implements Serializable {
     private Long id;
     @Column(name = "name", nullable = false)
     private String carName;
-    @Column(name = "status")
-    private String status;
+
+    public Car(Long id) {
+        this.id = id;
+    }
 }
 
