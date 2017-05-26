@@ -2,7 +2,6 @@ package defencer.util.telegram;
 
 import defencer.model.Instructor;
 import defencer.model.Project;
-import defencer.util.HibernateUtil;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -16,7 +15,6 @@ import java.util.List;
 public class TelegramUtil {
 
     private static TelegramUtil telegramUtil;
-
     private TelegramBot telegramBot;
 
     private TelegramUtil() {
@@ -45,7 +43,6 @@ public class TelegramUtil {
         if (telegramUtil == null) {
             telegramUtil = new TelegramUtil();
         }
-
         return telegramUtil;
     }
 
