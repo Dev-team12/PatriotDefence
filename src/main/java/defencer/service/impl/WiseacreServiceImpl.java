@@ -316,12 +316,4 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
             e.printStackTrace();
         }
     }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public void updateSchedule(List<Instructor> instructors, Project project) {
-        DaoFactory.getWiseacreDao().updateSchedule(instructors, project);
-    }
 }
