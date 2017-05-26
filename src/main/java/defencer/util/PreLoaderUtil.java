@@ -24,9 +24,12 @@ public class PreLoaderUtil extends Thread {
         Task<Void> testTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                percents = 1.0 / 2;
-                final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-                sessionFactory.openSession();
+
+                if(InternetConnectionCheckerUtil.checkConnection()) {
+                    percents = 1.0 / 2;
+                    final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+                    sessionFactory.openSession();
+                }
                 percents = 1.0;
                 return null;
             }
