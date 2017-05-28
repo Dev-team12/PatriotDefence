@@ -20,7 +20,6 @@ class TelegramBot extends TelegramLongPollingBot {
         } else {
             inlineQueryHandler(update);
         }
-
     }
 
     /**

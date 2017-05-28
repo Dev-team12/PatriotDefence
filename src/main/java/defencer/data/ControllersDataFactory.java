@@ -9,7 +9,6 @@ import java.util.Map;
 public class ControllersDataFactory {
 
     private static ControllersDataFactory controllersDataFactory = null;
-
     private Map<Class, Map<String, Object>> controllersData = new HashMap<>();
 
     private ControllersDataFactory() {
@@ -47,7 +46,6 @@ public class ControllersDataFactory {
      * Does map contains data with suck key.
      */
     public boolean contains(Class key) {
-
         return controllersData.containsKey(key);
     }
 
@@ -75,5 +73,4 @@ public class ControllersDataFactory {
         }
         return controllersDataFactory;
     }
-
 }

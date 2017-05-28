@@ -125,4 +125,14 @@ public interface WiseacreDao {
      * @param carId is car's id.
      */
     void deleteCar(Long carId);
+
+    /**
+     * @return list of events for calendar.
+     */
+    List<Event> getEventsToCalendar();
+
+    /**
+     * @return list of days off for calendar.
+     */
+    List<DaysOff> getDaysOffToCalendar();
 }

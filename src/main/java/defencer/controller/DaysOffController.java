@@ -20,7 +20,6 @@ public class DaysOffController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         configure();
     }
 

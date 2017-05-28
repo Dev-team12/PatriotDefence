@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class HibernateService {
 
-
     /**
      * Executing query.
      */
@@ -27,7 +26,6 @@ public class HibernateService {
 
         return query.list();
     }
-
 
     /**
      * Executing query 4m HibernateQueryBuilder.

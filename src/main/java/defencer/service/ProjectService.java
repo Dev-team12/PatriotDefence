@@ -25,4 +25,9 @@ public interface ProjectService extends CrudService<Project, Long> {
      * @param projectId is given project's id
      */
     void deleteProject(Long projectId);
+
+    /**
+     * @return list of projects for calendar.
+     */
+    List<Project> getProjectsToCalendar();
 }

@@ -67,7 +67,7 @@ public class InternetConnectionCheckerUtil {
             System.out.println(stage);
 
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/IsNoInternetConnection.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/isNoInternetConnection.fxml"));
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
             } catch (IOException e) {
@@ -95,12 +95,10 @@ public class InternetConnectionCheckerUtil {
 
         try {
             in = InetAddress.getByName(urlForCheck.getHost());
-
             return in.isReachable(REACHABLE_WAITING);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("There is no internet connection");
             return false;
         }
     }
-
 }

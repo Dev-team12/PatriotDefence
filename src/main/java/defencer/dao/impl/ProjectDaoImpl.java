@@ -149,6 +149,24 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
         session.close();
     }
 
+    @Override
+    public List<Project> getProjectsToCalendar() {
+        final Session session = getSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val query = criteriaBuilder.createQuery(Project.class);
+        val root = query.from(Project.class);
+        query.select(root);
+
+        final List<Project> projects = session.createQuery(query).getResultList();
+
+        session.getTransaction().commit();
+        session.close();
+
+        return projects;
+    }
+
     /**
      * @return {@link Session} for next steps.
      */

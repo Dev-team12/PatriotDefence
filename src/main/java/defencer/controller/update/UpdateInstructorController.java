@@ -104,14 +104,12 @@ public class UpdateInstructorController implements Initializable{
 
     /**
      * @param instructor going to be update.
-     * @return already updated {@link Instructor}.
      */
-    private Instructor update(Instructor instructor) {
+    private void update(Instructor instructor) {
         try {
-            return ServiceFactory.getInstructorService().updateEntity(instructor);
+            ServiceFactory.getInstructorService().updateEntity(instructor);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
     }
 }

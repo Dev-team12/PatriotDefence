@@ -50,13 +50,9 @@ public class UpdateProjectController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
         projectName.setItems(FXCollections
                 .observableArrayList(getProjectName()));
-
         btnUpdate.setOnAction(e -> prepareUpdating());
-
         btnCancel.setOnAction(e -> root.getScene().getWindow().hide());
     }
 

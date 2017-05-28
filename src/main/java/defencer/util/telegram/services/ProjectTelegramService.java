@@ -17,7 +17,6 @@ import java.util.List;
  */
 public class ProjectTelegramService {
 
-
     /**
      * Creating message with data of all projects.
      */

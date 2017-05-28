@@ -5,8 +5,6 @@ import defencer.model.Instructor;
 import defencer.service.factory.ServiceFactory;
 import lombok.Getter;
 
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,35 +53,10 @@ public class CurrentUser extends AbstractEntity {
         data.put("role", currentUser.getRole());
     }
 
-
-    /**
-     * Save user at database.
-     */
-    public void save() {
-
-        busy = true;
-
-        final Instructor instructor = ServiceFactory.getInstructorService().findByEmail(CurrentUser.getLink().getEmail());
-        instructor.setFirstName((String) data.get("firstName"));
-        instructor.setLastName((String) data.get("lastName"));
-        instructor.setEmail((String) data.get("email"));
-        instructor.setPhone((String) data.get("phoneNumber"));
-
-        try {
-            ServiceFactory.getInstructorService().updateEntity(instructor);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        busy = false;
-    }
-
-
     public static void refresh(String email) {
         currentUser = null;
         newInstance(email);
     }
-
 
     public static void out() {
         currentUser = null;
@@ -97,42 +70,16 @@ public class CurrentUser extends AbstractEntity {
         return (String) data.get("firstName");
     }
 
-    public CurrentUser withFirstName(String firstName) {
-        data.put("firstName", firstName);
-        return this;
-    }
-
     public String getLastName() {
         return (String) data.get("lastName");
-    }
-
-    public CurrentUser withLastName(String lastName) {
-        data.put("lastName", lastName);
-        return this;
     }
 
     public String getPhoneNumber() {
         return (String) data.get("phoneNumber");
     }
 
-    public CurrentUser withPhoneNumber(String phoneNumber) {
-
-        data.put("phoneNumber", phoneNumber);
-        return this;
-    }
-
     public String getEmail() {
         return (String) data.get("email");
-    }
-
-    public CurrentUser withEmail(String email) {
-
-        data.put("email", email);
-        return this;
-    }
-
-    public String getStatus() {
-        return (String) data.get("status");
     }
 
     public String hasRole() {
@@ -141,29 +88,5 @@ public class CurrentUser extends AbstractEntity {
 
     public Long getProjectId() {
         return (Long) data.get("projectId");
-    }
-
-    public String getProjectNameId() {
-        return (String) data.get("getNameId");
-    }
-
-    public LocalDate getProjectDateStart() {
-        return (LocalDate) data.get("dateStart");
-    }
-
-    public LocalDate getProjectDateFinish() {
-        return (LocalDate) data.get("dateFinish");
-    }
-
-    public String getProjectPlace() {
-        return (String) data.get("place");
-    }
-
-    public String getProjectAuthor() {
-        return (String) data.get("author");
-    }
-
-    public String getProjectDescription() {
-        return (String) data.get("description");
     }
 }

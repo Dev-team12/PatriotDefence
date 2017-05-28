@@ -30,9 +30,7 @@ public class AppManager extends Application {
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(event -> {
-            if (HibernateUtil.getSessionFactory().isOpen()) {
-                HibernateUtil.shutdown();
-            }
+            HibernateUtil.shutdown();
             Platform.exit();
         });
 

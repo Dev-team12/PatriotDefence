@@ -21,11 +21,11 @@ public class ProjectReportBuilder {
     /**
      * Build project pdf document.
      */
-    public Document buildPdfDocument(Document document, List<Project> projects) throws Exception {
+    public void buildPdfDocument(Document document, List<Project> projects) throws Exception {
 
         projects.sort(Comparator.comparing(Project::getDateOfCreation));
 
-        return new ReportDocumentBuilder(document)
+        new ReportDocumentBuilder(document)
                 .addParagraph(new Paragraph("Project in Patriot Defence"), Paragraph.ALIGN_CENTER)
                 .addLineSeparator(new LineSeparator())
                 .addParagraph(new Paragraph("Statistics of created project in period from " + projects.get(0).getDateOfCreation()

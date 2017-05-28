@@ -626,6 +626,48 @@ public class WiseacreDaoImpl extends CrudDaoImpl<AbstractEntity> implements Wise
      * {@inheritDoc}.
      */
     @Override
+    public List<Event> getEventsToCalendar() {
+        final Session session = getCurrentSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val query = criteriaBuilder.createQuery(Event.class);
+        final Root<Event> root = query.from(Event.class);
+        query.select(root);
+
+        final List<Event> events = session.createQuery(query).getResultList();
+
+        session.getTransaction().commit();
+        session.close();
+
+        return events;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public List<DaysOff> getDaysOffToCalendar() {
+        final Session session = getCurrentSession();
+        session.beginTransaction();
+
+        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        val query = criteriaBuilder.createQuery(DaysOff.class);
+        final Root<DaysOff> root = query.from(DaysOff.class);
+        query.select(root);
+
+        final List<DaysOff> daysOffs = session.createQuery(query).getResultList();
+
+        session.getTransaction().commit();
+        session.close();
+
+        return daysOffs;
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
     public void updateExpected(List<Instructor> instructors, Project project) {
         Session session = getCurrentSession();
         session.beginTransaction();

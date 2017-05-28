@@ -93,17 +93,6 @@ public class NewProjectController implements Initializable {
     }
 
     /**
-     * Clear form fields after adding.
-     */
-    private void clear() {
-        projectName.setValue("Project name");
-        place.clear();
-        description.clear();
-        dateFrom.setPromptText("Date from");
-        dataTo.setPromptText("Date to");
-    }
-
-    /**
      * @param project going to be create.
      * @return already created {@link Project}.
      */

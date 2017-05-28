@@ -60,15 +60,11 @@ public class MainActivityController implements Initializable {
     @FXML
     private ImageView btnExcel;
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         Map<String, Object> data = new HashMap<>();
         data.put("class", this);
-
         hideSmartToolbar();
-
         closeDrawer();
 
         if (ControllersDataFactory.getLink().get(this.getClass()) == null) {
@@ -76,7 +72,6 @@ public class MainActivityController implements Initializable {
         } else {
             ControllersDataFactory.getLink().update(this.getClass(), data);
         }
-
         try {
             Pane adminDashboard = FXMLLoader.load(getClass().getResource("/home/AdminDashboard.fxml"));
             changeStageTo(adminDashboard);
@@ -86,8 +81,6 @@ public class MainActivityController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         btbDashboard.setOnMouseClicked(click -> {
             try {
                 Pane adminDashboard = FXMLLoader.load(getClass().getResource("/home/AdminDashboard.fxml"));
@@ -96,20 +89,15 @@ public class MainActivityController implements Initializable {
                 e.printStackTrace();
             }
         });
-
-
         HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburger);
         transition.setRate(-1);
         hamburger.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> {
-
             if (drawer.isShown()) {
                 closeDrawer();
             } else {
                 openDrawer();
             }
-
         });
-
         btnLogout.setOnAction(e -> {
             logout();
             currentLayout.getScene().getWindow().hide();
@@ -128,24 +116,19 @@ public class MainActivityController implements Initializable {
         stage.show();
     }
 
-
     /**
      * This method changes current stage to stage,that was given as input parameter.
      */
     private void changeStageTo(Pane pane) {
-
         if (currentLayout.getChildren().size() == 1) {
             currentLayout.getChildren().remove(0);
         }
-
         currentLayout.getChildren().add(pane);
-
         AnchorPane.setRightAnchor(pane, 0.0);
         AnchorPane.setLeftAnchor(pane, 0.0);
         AnchorPane.setBottomAnchor(pane, 0.0);
         AnchorPane.setTopAnchor(pane, 0.0);
     }
-
 
     /**
      * Closing drawer.
@@ -153,34 +136,26 @@ public class MainActivityController implements Initializable {
     void closeDrawer() {
         drawer.close();
         drawer.toBack();
-
         HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburger);
         transition.setRate(transition.getRate() * -1);
         transition.play();
     }
-
 
     /**
      * Opening drawer.
      */
     private void openDrawer() {
-
         drawer.toFront();
         drawer.open();
-
         HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburger);
         transition.setRate(transition.getRate() * -1);
         transition.play();
-        //transition.setRate(1.0);
-        //transition.play();
     }
-
 
     /**
      * Showing all components of smart toolbar.
      */
     public void showSmartToolbar() {
-
         addAction.setVisible(true);
         deleteAction.setVisible(true);
         updateAction.setVisible(true);
@@ -193,7 +168,6 @@ public class MainActivityController implements Initializable {
      * Hiding all components of smart toolbar.
      */
     public void hideSmartToolbar() {
-
         addAction.setVisible(false);
         deleteAction.setVisible(false);
         updateAction.setVisible(false);

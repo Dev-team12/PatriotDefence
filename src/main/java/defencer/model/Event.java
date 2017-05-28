@@ -31,5 +31,4 @@ public class Event extends AbstractEntity implements Serializable {
     private String name;
     @Column(name = "date_and_time", nullable = false)
     private LocalDateTime date;
-
 }

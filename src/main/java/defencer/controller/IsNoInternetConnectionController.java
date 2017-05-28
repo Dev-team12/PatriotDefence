@@ -29,9 +29,7 @@ public class IsNoInternetConnectionController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         btnTryNow.setOnAction(e -> tryNow());
-
         Task<Void> checkingTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -42,7 +40,6 @@ public class IsNoInternetConnectionController implements Initializable {
                         Thread.sleep(InternetConnectionCheckerUtil.WAITING);
                     }
                 }
-
                 return null;
             }
         };
@@ -87,7 +84,6 @@ public class IsNoInternetConnectionController implements Initializable {
 
             InternetConnectionCheckerUtil internetConnectionCheckerUtil = new InternetConnectionCheckerUtil();
             internetConnectionCheckerUtil.start();
-
         }
     }
 }

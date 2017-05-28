@@ -59,6 +59,14 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
      * {@inheritDoc}.
      */
     @Override
+    public List<Project> getProjectsToCalendar() {
+        return DaoFactory.getProjectDao().getProjectsToCalendar();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
     public Project createEntity(Project project) throws SQLException {
         final ProjectTimes projectTimes = new ProjectTimes();
         projectTimes.setDateOfCreation(LocalDate.now());

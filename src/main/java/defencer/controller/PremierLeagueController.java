@@ -77,6 +77,9 @@ public class PremierLeagueController implements Initializable {
         btnFinish.setOnAction(s -> finish());
     }
 
+    /**
+     * Do first thing in premier league.
+     */
     private void firstThing() {
         insertInstructorTable();
         loadThread();

@@ -24,9 +24,9 @@ public class NewInstructorController implements Initializable {
 
     private static final int MAX_NUMBER_LENGTH = 10;
     private static final int TEMP_LENGTH = 1;
+
     @FXML
     private AnchorPane root;
-
     @FXML
     private JFXButton btnAddInstructor;
     @FXML
@@ -86,7 +86,6 @@ public class NewInstructorController implements Initializable {
         }
     }
 
-
     /**
      * Checking does data consist only from numbers.
      */
@@ -101,14 +100,12 @@ public class NewInstructorController implements Initializable {
 
     /**
      * @param instructor going to be create.
-     * @return already created {@link Instructor}.
      */
-    private Instructor create(Instructor instructor) {
+    private void create(Instructor instructor) {
         try {
-            return ServiceFactory.getInstructorService().createEntity(instructor);
+            ServiceFactory.getInstructorService().createEntity(instructor);
         } catch (SQLException | EntityAlreadyExistsException e) {
             NotificationUtil.warningAlert("Error", e.getMessage(), NotificationUtil.SHORT);
         }
-        return null;
     }
 }

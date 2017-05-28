@@ -33,13 +33,6 @@ public class ServiceFactory {
     }
 
     /**
-     * @return instance of {@link EventService}.
-     */
-    public static EventService getEventService() {
-        return new EventServiceImpl();
-    }
-
-    /**
      * @return instance of {@link WiseacreService}.
      */
     public static WiseacreService getWiseacreService() {

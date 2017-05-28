@@ -41,7 +41,6 @@ public class UpdateApprenticeController implements Initializable {
     private Long apprenticeId;
     private LocalDate localDate;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

@@ -63,18 +63,15 @@ public class NewEventController implements Initializable {
         }
     }
 
-
     /**
      * Create new Event.
      */
     private void create(Event event) {
         try {
-            ServiceFactory.getEventService().createEntity(event);
+            ServiceFactory.getWiseacreService().createEntity(event);
         } catch (SQLException | EntityAlreadyExistsException e) {
             System.out.println(e.getMessage());
             NotificationUtil.warningAlert("Error", e.getMessage(), NotificationUtil.SHORT);
         }
     }
-
-
 }

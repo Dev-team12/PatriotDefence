@@ -26,4 +26,9 @@ public interface ProjectDao extends CrudDao<Project, Long> {
      * @param projectId is given project's id
      */
     void deleteProject(Long projectId);
+
+    /**
+     * @return list of projects for calendar.
+     */
+    List<Project> getProjectsToCalendar();
 }

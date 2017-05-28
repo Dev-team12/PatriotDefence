@@ -155,4 +155,14 @@ public interface WiseacreService extends CrudService<AbstractEntity, Long> {
      * Get days off statistic for instructors.
      */
     Map<String, Long> getDaysOffStatistic();
+
+    /**
+     * @return list of events for calendar.
+     */
+    List<Event> getEventsToCalendar();
+
+    /**
+     * @return list of days off for calendar.
+     */
+    List<DaysOff> getDaysOffToCalendar();
 }

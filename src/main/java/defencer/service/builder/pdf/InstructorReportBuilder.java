@@ -20,15 +20,9 @@ public class InstructorReportBuilder {
     /**
      * Build instructor pdf document.
      */
-    public Document buildPdfDocument(Document document, List<Instructor> instructors) throws Exception {
+    public void buildPdfDocument(Document document, List<Instructor> instructors) throws Exception {
 
-        final int countNewLine = 8;
-        final float imgLogoX = 450f;
-        final float imgLogoY = 700f;
-
-        return new ReportDocumentBuilder(document)
-                .addImage(Image.getInstance(getClass().getClassLoader().getResource("image/PatriotDefencePDF.jpg")), imgLogoX, imgLogoY)
-                .addNewLine(countNewLine)
+        new ReportDocumentBuilder(document)
                 .addParagraph(new Paragraph("Instructors in Patriot Defence"), Paragraph.ALIGN_CENTER)
                 .addLineSeparator(new LineSeparator())
                 .addTable(getTableWithCountRequestsByPeriod(instructors))

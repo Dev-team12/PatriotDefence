@@ -149,7 +149,6 @@ public class ProjectController implements Initializable {
         btnAddCar.setOnAction(this::addCar);
     }
 
-
     /**
      * Search project with given parameters.
      */

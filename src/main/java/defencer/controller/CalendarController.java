@@ -7,6 +7,7 @@ import defencer.model.DaysOff;
 import defencer.model.Event;
 import defencer.model.Instructor;
 import defencer.model.Project;
+import defencer.service.factory.ServiceFactory;
 import defencer.util.NotificationUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -80,24 +81,21 @@ public class CalendarController implements Initializable {
      * Downloading projects from database.
      */
     private List<Project> downloadProjects() {
-        HibernateQueryBuilder hibernateQueryBuilder = new HibernateQueryBuilder(HibernateQueryBuilder.SELECT_QUERY, Project.class);
-        return (List<Project>) HibernateService.executeQuery(hibernateQueryBuilder);
+        return ServiceFactory.getProjectService().getProjectsToCalendar();
     }
 
     /**
      * Downloading events from database.
      */
     private List<Event> downloadEvents() {
-        HibernateQueryBuilder hibernateQueryBuilder = new HibernateQueryBuilder(HibernateQueryBuilder.SELECT_QUERY, Event.class);
-        return (List<Event>) HibernateService.executeQuery(hibernateQueryBuilder);
+        return ServiceFactory.getWiseacreService().getEventsToCalendar();
     }
 
     /**
      * Downloading events from database.
      */
     private List<DaysOff> downloadDaysOff() {
-        HibernateQueryBuilder hibernateQueryBuilder = new HibernateQueryBuilder(HibernateQueryBuilder.SELECT_QUERY, DaysOff.class);
-        return (List<DaysOff>) HibernateService.executeQuery(hibernateQueryBuilder);
+        return ServiceFactory.getWiseacreService().getDaysOffToCalendar();
     }
 
     /**

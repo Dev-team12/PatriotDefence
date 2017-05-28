@@ -287,6 +287,22 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
     }
 
     /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public List<Event> getEventsToCalendar() {
+        return DaoFactory.getWiseacreDao().getEventsToCalendar();
+    }
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
+    public List<DaysOff> getDaysOffToCalendar() {
+        return DaoFactory.getWiseacreDao().getDaysOffToCalendar();
+    }
+
+    /**
      * Check that current instructors doesn't have a project in selected time.
      */
     private List<Boolean> possibleToGo(DaysOff daysOff, List<Schedule> myProjects) {
@@ -307,7 +323,7 @@ public class WiseacreServiceImpl extends CrudServiceImpl<AbstractEntity> impleme
     }
 
     /**
-     * Whether Success add days off to database.
+     * Whether success add days off to database.
      */
     private void saveDaysOff(DaysOff daysOff) {
         try {
