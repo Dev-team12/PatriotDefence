@@ -11,7 +11,6 @@ import defencer.service.cryptography.CryptoInstructor;
 import defencer.service.factory.ServiceFactory;
 import defencer.service.impl.email.ConfirmBuilderImpl;
 import defencer.service.impl.email.InviteProjectBuilderImpl;
-import defencer.util.telegram.TelegramUtil;
 import lombok.val;
 import org.apache.commons.lang.RandomStringUtils;
 
@@ -140,8 +139,8 @@ public class InstructorServiceImpl extends CrudServiceImpl<Instructor> implement
      * Send notifications to instructors via telegram.
      */
     private Runnable telegramSender(List<Instructor> instructors, Project project) {
-        final TelegramUtil telegram = TelegramUtil.getLink();
-        return () -> telegram.alertAboutProject(instructors, project);
+        final TelegramServiceImpl telegramService = new TelegramServiceImpl();
+        return () -> telegramService.send(instructors, project);
     }
 
     /**

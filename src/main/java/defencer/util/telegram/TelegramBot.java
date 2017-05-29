@@ -10,7 +10,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 /**
  * @author Nikita on 08.05.2017.
  */
-class TelegramBot extends TelegramLongPollingBot {
+public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
