@@ -25,14 +25,6 @@ public interface CrudDao<T, ID extends Serializable> {
     void delete(T entity);
 
     /**
-     * Check whether entity already exists.
-     * 
-     * @param id must not be {@literal null}.
-     * @return {@literal true} if entity already exists and return {@literal false} if not.
-     */
-    boolean exists(ID id);
-
-    /**
      * Updates a given entity.
      *
      * @param entity must not be {@literal null}.

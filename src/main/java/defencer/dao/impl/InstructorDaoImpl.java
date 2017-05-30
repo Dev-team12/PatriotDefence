@@ -47,40 +47,6 @@ public class InstructorDaoImpl extends CrudDaoImpl<Instructor> implements Instru
      * {@inheritDoc}.
      */
     @Override
-    public Instructor findByPhone(String phone) {
-        final Session session = getSession();
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
-    public Project findProjectByInstructor(Long id) {
-        final Session session = getSession();
-        session.beginTransaction();
-
-        final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        final CriteriaQuery<Project> projectCriteriaQuery = criteriaBuilder.createQuery(Project.class);
-        final Root<Project> root = projectCriteriaQuery.from(Project.class);
-        projectCriteriaQuery.select(root).where(criteriaBuilder.equal(root.get("id"), id));
-        final Project singleResult;
-        try {
-            singleResult = session.createQuery(projectCriteriaQuery).getSingleResult();
-        } catch (NoResultException e) {
-            session.close();
-            return null;
-        }
-
-        session.getTransaction().commit();
-        session.close();
-        return singleResult;
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
     public List<Instructor> getInstructors() {
         final Session session = getSession();
         session.beginTransaction();

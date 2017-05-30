@@ -44,15 +44,6 @@ public class CrudDaoImpl<T extends AbstractEntity> implements CrudDao<T, Long> {
      * {@inheritDoc}.
      */
     @Override
-    public boolean exists(Long id) {
-        final Session session = getSession();
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Override
     public T update(T entity) {
         final Session session = getSession();
         session.beginTransaction();

@@ -7,12 +7,6 @@ package defencer.hibernate;
 public class HibernateQueryBuilder {
 
     public static final String ID_FIELD = "id";
-    public static final String PROJECT_ID_FIELD = "project_id";
-    public static final String FIRST_NAME_FIELD = "first_name";
-    public static final String LAST_NAME_FIELD = "last_name";
-    public static final String EMAIL_FIELD = "email";
-    public static final String PHONE_FIELD = "phone";
-
     public static final int SELECT_QUERY = 1;
     public static final int INSERT_QUERY = 2;
     public static final int UPDATE_QUERY = 3;
@@ -20,7 +14,6 @@ public class HibernateQueryBuilder {
 
     private String query = "";
     private int currentQueryType;
-
 
     public HibernateQueryBuilder(int queryType, Class inputClass) {
 
@@ -56,8 +49,6 @@ public class HibernateQueryBuilder {
      * Add field with value.
      */
     public HibernateQueryBuilder with(String field, Object value) {
-
-        //System.out.println(currentQueryType);
 
         switch (currentQueryType) {
 

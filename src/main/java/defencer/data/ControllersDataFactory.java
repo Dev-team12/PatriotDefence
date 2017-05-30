@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class ControllersDataFactory {
 
-    private static ControllersDataFactory controllersDataFactory = null;
+    private static ControllersDataFactory controllersDataFactory;
     private Map<Class, Map<String, Object>> controllersData = new HashMap<>();
 
     private ControllersDataFactory() {
