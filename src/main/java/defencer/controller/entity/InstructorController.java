@@ -78,12 +78,13 @@ public class InstructorController implements Initializable {
         mainActivityController.getBtnAddEvent().setVisible(false);
         mainActivityController.getPdfExportAction().setOnMouseClicked(e -> pdfReport());
         mainActivityController.getBtnExcel().setOnMouseClicked(e -> excelReport());
-        if (!Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())) {
-            mainActivityController.getAddAction().setVisible(false);
-            mainActivityController.getDeleteAction().setVisible(false);
-        } else {
+        if (Role.CHIEF_OFFICER.equals(CurrentUser.getLink().hasRole())
+                || Role.COORDINATOR.equals(CurrentUser.getLink().hasRole())) {
             mainActivityController.getDeleteAction().setOnMouseClicked(e -> deleteInstructor());
             mainActivityController.getAddAction().setOnMouseClicked(this::newInstructor);
+        } else {
+            mainActivityController.getAddAction().setVisible(false);
+            mainActivityController.getDeleteAction().setVisible(false);
         }
     }
 

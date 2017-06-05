@@ -19,7 +19,7 @@ public class EmailConfig {
     @SneakyThrows
     public JavaMailSenderImpl mailSender() {
         final Properties properties = new Properties();
-        final String path = "src/main/resources/crypto_key.properties";
+        final String path = "src/main/resources/email_config.properties";
         final FileInputStream file = new FileInputStream(path);
         properties.load(file);
 

@@ -47,9 +47,6 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        txtUserEmail.setText("joyukr@ukr.net");
-        txtUserPassword.setText("tinger");
         btnLogin.setOnAction(e -> login());
         linkRecoverPassword.setOnAction(this::recoverPassword);
     }

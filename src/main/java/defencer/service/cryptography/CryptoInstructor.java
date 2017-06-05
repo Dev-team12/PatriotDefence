@@ -33,9 +33,6 @@ public class CryptoInstructor extends CryptoServiceImpl implements CryptoService
         instructor.setPassword(new String(Base64.getEncoder()
                 .encode(cipher.doFinal(instructor.getPassword().getBytes()))));
 
-        instructor.setEmail(new String(Base64.getEncoder()
-                .encode(cipher.doFinal(instructor.getEmail().getBytes()))));
-
         if (instructor.getVideoPath() != null) {
             instructor.setVideoPath(new String(Base64.getEncoder()
                     .encode(cipher.doFinal(instructor.getVideoPath().getBytes()))));
@@ -53,7 +50,6 @@ public class CryptoInstructor extends CryptoServiceImpl implements CryptoService
             instructor.setQualification(decryption(instructor.getQualification()));
             instructor.setPhone(decryption(instructor.getPhone()));
             instructor.setPassword(decryption(instructor.getPassword()));
-            instructor.setEmail(decryption(instructor.getEmail()));
             if (instructor.getVideoPath() != null) {
                 instructor.setVideoPath(decryption(instructor.getVideoPath()));
             }
@@ -73,7 +69,6 @@ public class CryptoInstructor extends CryptoServiceImpl implements CryptoService
                 instructor.setQualification(decryption(instructor.getQualification()));
                 instructor.setPhone(decryption(instructor.getPhone()));
                 instructor.setPassword(decryption(instructor.getPassword()));
-                instructor.setEmail(decryption(instructor.getEmail()));
                 if (instructor.getVideoPath() != null) {
                     instructor.setVideoPath(decryption(instructor.getVideoPath()));
                 }
@@ -81,7 +76,6 @@ public class CryptoInstructor extends CryptoServiceImpl implements CryptoService
                 instructor.setQualification(instructor.getQualification());
                 instructor.setPhone(instructor.getPhone());
                 instructor.setPassword(instructor.getPassword());
-                instructor.setEmail(instructor.getEmail());
                 if (instructor.getVideoPath() != null) {
                     instructor.setVideoPath(instructor.getVideoPath());
                 }

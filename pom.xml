@@ -177,12 +177,14 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>com.zenjava</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>8.7.0</version>
+                <version>8.8.3</version>
                 <configuration>
-                    <mainClass>start.AppManager</mainClass>
+                    <mainClass>defencer.start.AppManager</mainClass>
+                    <jfxMainAppJarName>Patriot Defence</jfxMainAppJarName>
                 </configuration>
             </plugin>
         </plugins>

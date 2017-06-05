@@ -173,4 +173,10 @@ public class ProjectDaoImpl extends CrudDaoImpl<Project> implements ProjectDao {
     private Session getSession() {
         return HibernateUtil.getSessionFactory().openSession();
     }
+
+    public static void main(String[] args) {
+
+        final ProjectDaoImpl projectDao = new ProjectDaoImpl();
+        projectDao.getProjectsToCalendar();
+    }
 }
